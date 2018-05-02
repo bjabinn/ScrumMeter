@@ -1,0 +1,86 @@
+<br>
+<br>
+<div class="row" id="infopro">
+  <div class="col-xs-12 col-sm-5 col-md-5">
+    Usuario:
+  </div>
+  <div class="col-xs-12 col-sm-5 col-md-5">
+    Fecha:
+  </div>
+  <div class="col-xs-12 col-sm-5 col-md-5">
+    <div class="form-horizontal">
+      <div class="form-group">
+        <label for="sel1">Proyecto:</label>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-xs-12 col-sm-3 col-md-3"></div>
+  <div class="col-xs-12 col-sm-3 col-md-3" id="infopro" routerLink="/nuevaevaluacion">
+    Ceremonias
+    <i class="arrow arrow-right"></i>
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3">
+
+    <div *ngIf="preguntasRespondidasCeremonias==numeroPreguntasCeremonias"><ngb-progressbar showValue="true" type="success" [value]="CalcularPorcentaje(preguntasRespondidasCeremonias, numeroPreguntasCeremonias)"></ngb-progressbar></div>
+    <div *ngIf="preguntasRespondidasCeremonias!=numeroPreguntasCeremonias"><ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(preguntasRespondidasCeremonias, numeroPreguntasCeremonias)"></ngb-progressbar></div>
+
+    <span class="title"> {{preguntasRespondidasCeremonias}} de {{numeroPreguntasCeremonias}} </span>
+
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3">
+    <img *ngIf="preguntasRespondidasCeremonias!=numeroPreguntasCeremonias && preguntasRespondidasCeremonias>0" src="../../assets/green_no.png" alt="ok">
+    <img *ngIf="preguntasRespondidasCeremonias==numeroPreguntasCeremonias" src="../../assets/green_si.png" alt="ok">
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-xs-12 col-sm-3 col-md-3"></div>
+  <div class="col-xs-12 col-sm-3 col-md-3" id="infopro" routerLink="/nuevaevaluacion">
+    Roles
+    <i class="arrow arrow-right"></i>
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3">
+
+    <div *ngIf="preguntasRespondidasRoles==numeroPreguntasRoles"><ngb-progressbar showValue="true" type="success" [value]="CalcularPorcentaje(preguntasRespondidasRoles, numeroPreguntasRoles)"></ngb-progressbar></div>
+    <div *ngIf="preguntasRespondidasRoles!=numeroPreguntasRoles"><ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(preguntasRespondidasRoles, numeroPreguntasRoles)"></ngb-progressbar></div>
+    <span class="title"> {{preguntasRespondidasRoles}} de {{numeroPreguntasRoles}}</span>
+
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3">
+    <img *ngIf="preguntasRespondidasRoles!=numeroPreguntasRoles && preguntasRespondidasRoles>0" src="../../assets/green_no.png" alt="ok">
+    <img *ngIf="preguntasRespondidasRoles==numeroPreguntasRoles" src="../../assets/green_si.png" alt="ok">
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-xs-12 col-sm-3 col-md-3"></div>
+  <div class="col-xs-12 col-sm-3 col-md-3" id="infopro" routerLink="/nuevaevaluacion">
+    Artefactos
+    <i class="arrow arrow-right"></i>
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3">
+
+    <div *ngIf="preguntasRespondidasArtefactos==numeroPreguntasArtefactos"><ngb-progressbar showValue="true" type="success" [value]="CalcularPorcentaje(preguntasRespondidasArtefactos, numeroPreguntasArtefactos)"></ngb-progressbar></div>
+    <div *ngIf="preguntasRespondidasArtefactos!=numeroPreguntasArtefactos"><ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(preguntasRespondidasArtefactos, numeroPreguntasArtefactos)"></ngb-progressbar></div>
+    <span class="title"> {{preguntasRespondidasArtefactos}} de {{numeroPreguntasArtefactos}}</span>
+
+
+
+
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3">
+    <img *ngIf="preguntasRespondidasArtefactos!=numeroPreguntasArtefactos && preguntasRespondidasArtefactos>0" src="../../assets/green_no.png" alt="ok">
+    <img *ngIf="preguntasRespondidasArtefactos==numeroPreguntasArtefactos" src="../../assets/green_si.png" alt="ok">
+  </div>
+</div>
+<!--Este Div es para hacer una comprobación sobre
+    la barra de progreso de preguntas respondidas-->
+<!--
+<div>
+    <button (click)="ProbarDinamico(true)">Aumentar</button> <br/><br/>
+    <button (click)="ProbarDinamico(false)">Disminuir</button>
+</div>
+-->
