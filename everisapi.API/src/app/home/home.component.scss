@@ -4,7 +4,7 @@
 .titulo {
   margin-left:20%;
   width: 310px;
-  height: 70px;
+  height: 50px;
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   color: #FFF;
@@ -29,25 +29,11 @@
   transform: translateY(10px);
 }
 
-#infopro {
+#infopro{
   border: 1px solid #99AD00;
   margin: 0 auto;
-  padding: 15px 15px;
   text-align: left;
-  max-width: 1000px;
-
-
-}
-
-#danger {
-  background-color: #d9534f;
-  border: 1px solid #989EA4;
-  color: #FFF;
-  margin: 0;
-  padding: 2px 0 0 12px;
-  position: -webkit-sticky;
-  position: sticky;
-  top: -1px;
+  max-width: 800px;
 }
 
 .textstyle{

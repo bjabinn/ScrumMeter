@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +27,7 @@ namespace everisapi.API.Controllers
 
         //Introduciendo la petición de la route devuelve todas las asignaciones y sus preguntas 
         [HttpGet()]
-        public IActionResult GetPreguntas()
+        public IActionResult GetAsignaciones()
         {
             try
             {
@@ -47,7 +47,7 @@ namespace everisapi.API.Controllers
 
         //Introduciendo la id de la asignacion devuelve una asignación especifica
         [HttpGet("{id}")]
-        public IActionResult GetPregunta(int id, bool IncluirPreguntas = false)
+        public IActionResult GetAsignacion(int id, bool IncluirPreguntas = false)
         {
             try {
                 //Recoge si existe la asignación si es asi la devuelve si no es así muestra un error

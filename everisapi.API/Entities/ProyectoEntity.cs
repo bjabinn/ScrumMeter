@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,6 +16,9 @@ namespace everisapi.API.Entities
         [Required]
         [MaxLength(50)]
         public string Nombre { get; set; }
+
+        [Required]
+        public DateTime Fecha { get; set; }
 
         public string UserNombre { get; set; }
         //AsignacionEntity esta relacionando la pregunta con la asignación

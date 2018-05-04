@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,8 +11,5 @@ namespace everisapi.API.Models
         [Required]
         [MaxLength(120)]
         public string Pregunta { get; set; }
-
-        [Required]
-        public bool Respuesta { get; set; }
     }
 }

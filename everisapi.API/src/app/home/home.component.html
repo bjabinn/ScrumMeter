@@ -11,18 +11,16 @@
   <div class="col-xs-12 col-sm-5 col-md-5">
 
       <div class="form-horizontal">
-        <div class="form-group">
-          <div class="input-group">
-           
-            <select class="form-control form-control-sm" *ngIf="ListaDeProyectos.length > 0">
-              <option *ngFor="let proyecto of ListaDeProyectos" (click)="SeleccionDeProyecto(proyecto)"><strong *ngIf=ComprobarProyectosAdmin(proyecto.id)>* </strong>{{proyecto.nombre}}</option>
-            </select>
-            <span *ngIf="ListaDeProyectos.length == 0" class="textstyledanger">
-              <br /> Sin proyectos disponibles
+          <div class="form-group">
+          <label for="sel1" class="textstyle">Proyecto:</label>
+          <select class="form-control form-control-sm" *ngIf="ListaDeProyectos.length > 0">
+              <option *ngFor="let proyecto of ListaDeProyectos" (click)="SeleccionDeProyecto(proyecto)">{{proyecto.nombre}}</option>
+          </select>
+          <span *ngIf="ListaDeProyectos.length == 0" class="textstyledanger">
+             <br/> Sin proyectos disponibles
             </span>
           </div>
-          </div>
-        </div>
+      </div>
       
   </div>
   <div class="col-xs-12 col-sm-5 col-md-5">
@@ -38,20 +36,20 @@
 
 
 <div class="row" >
-  <div class="col-xs-12 col-sm-12 col-md-2"></div>
-  <div class="col-xs-12 col-sm-12 col-md-4">
+  <div class="col-xs-12 col-sm-12 col-md-1"></div>
+  <div class="col-xs-12 col-sm-12 col-md-5">
     <div class="titulo" (click)="NuevaEvaluacion()">
-      <a>Nueva <br /> Evaluaci&oacute;n</a>
+      <a>Nueva Evaluaci&oacute;n</a>
     </div>
   </div>
 
 
   
-  <div class="col-xs-12 col-sm-12 col-md-4">
+  <div class="col-xs-12 col-sm-12 col-md-5">
    
     <div class="titulo" (click)="EvaluacionesAnteriores()" id="bajarmedia">
-        <a>Evaluaciones <br />Anteriores</a>
+        <a>Evaluaciones Anteriores</a>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12 col-md-2"></div>
+  <div class="col-xs-12 col-sm-12 col-md-1"></div>
 </div>

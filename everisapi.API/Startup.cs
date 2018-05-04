@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -36,8 +36,10 @@ namespace everisapi.API
 
             services.AddScoped<IAsignacionInfoRepository, AsignacionInfoRepository>();
             services.AddScoped<IUsersInfoRepository, UsersInfoRespository>();
+            services.AddScoped<ISectionsInfoRepository, SectionsInfoRepository>();
+            services.AddScoped<IRespuestasInfoRepository, RespuestasInfoRepository>();
 
-        }
+    }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
@@ -76,6 +78,9 @@ namespace everisapi.API
                 cfg.CreateMap<Models.ProyectoDto, Entities.ProyectoEntity>();
                 cfg.CreateMap<Models.RoleDto, Entities.RoleEntity>();
                 cfg.CreateMap<Models.User_RoleDto, Entities.User_RoleEntity>();
+                cfg.CreateMap<Models.SectionWithoutAreaDto, Entities.SectionEntity>();
+                cfg.CreateMap<Models.SectionDto, Entities.SectionEntity>();
+                cfg.CreateMap<Models.RespuestaDto, Entities.RespuestaEntity>();
             });
 
             //Incluimos todos los cors

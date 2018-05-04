@@ -4,6 +4,7 @@ import { Role } from './Role';
 import { Proyecto } from '../login/Proyecto';
 import { ProyectoService } from '../services/ProyectoService';
 import { Router } from "@angular/router";
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-home',
@@ -20,8 +21,10 @@ export class HomeComponent implements OnInit {
     public ProyectoSeleccionado:Proyecto;
     public NombreDeUsuario: string;
 
-  constructor(private _proyectoService: ProyectoService,
-            private _router: Router) {}
+  constructor(
+            private _proyectoService: ProyectoService,
+            private _router: Router,
+            private _appComponent: AppComponent) {}
 
   ngOnInit() {
     //Empezamos cargando el usuario en el componente mientras verificamos si esta logueado
@@ -109,19 +112,6 @@ export class HomeComponent implements OnInit {
         }
   }
 
-  //Distingue cuales de los proyectos son solo de este usuario administrador
-  public ComprobarProyectosAdmin(idProyecto: number){
-    //Si el id del proyecto esta incluido en la lista devuelve true si ninguno concuerda devuelve false
-    for (let num = 0; num < this.ListaDeProyectosAdmin.length; num++) {
-        if(this.ListaDeProyectosAdmin [num].id == idProyecto){
-            return true;
-        }
-    }
-
-    return false;
-      
-  }
-
   //Este metodo guarda el proyecto que a sido seleccionado en el front
   public SeleccionDeProyecto(ProyectoSeleccionado: Proyecto){
     this.ProyectoSeleccionado = ProyectoSeleccionado;
@@ -131,7 +121,10 @@ export class HomeComponent implements OnInit {
   //Guardara los datos en el service de almacenamiento
   public NuevaEvaluacion(){
 
-    if(this.ProyectoSeleccionado!=null && this.ProyectoSeleccionado!=undefined){
+    if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
+      console.log("entrando")
+      this._appComponent._storageDataService.UserProjectSelected = this.ProyectoSeleccionado;
+      console.log("antes")
         this._router.navigate(['/menunuevaevaluacion']);
     }else{
         this.ErrorMessage= "Seleccione un proyecto para realizar esta acción.";
@@ -141,7 +134,8 @@ export class HomeComponent implements OnInit {
 
   //Este metodo consulta las evaluaciones anteriores de este proyecto si esta seleccionado y existe
   public EvaluacionesAnteriores(){
-    if(this.ProyectoSeleccionado!=null && this.ProyectoSeleccionado!=undefined){
+    if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
+        this._appComponent._storageDataService.UserProjectSelected = this.ProyectoSeleccionado;
         this._router.navigate(['/evaluacionprevia']);
     }else{
         this.ErrorMessage= "Seleccione un proyecto para realizar esta acción.";

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,5 +33,9 @@ namespace everisapi.API.Entities
 
         public DbSet<User_RoleEntity> User_Roles { get; set; }
 
-    }
+        public DbSet<SectionEntity> Sections { get; set; }
+
+        public DbSet<RespuestaEntity> Respuestas { get; set; }
+
+  }
 }

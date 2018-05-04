@@ -8,4 +8,5 @@ export class StorageDataService{
     public UserProjectSelected: any = [];
     public UserData: User;
     public DataUnfinished: boolean = false;
+    public IdSection: number = 1;
 }

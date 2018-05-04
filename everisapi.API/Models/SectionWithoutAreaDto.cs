@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace everisapi.API.Models
 {
-    public class PreguntaDto
+    public class SectionWithoutAreaDto
     {
-        public int Id {get; set;}
+    public int Id { get; set; }
 
-        public string Pregunta { get; set; }
-
-    }
+    public string Nombre { get; set; }
+  }
 }

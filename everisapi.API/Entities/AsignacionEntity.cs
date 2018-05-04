@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,5 +19,11 @@ namespace everisapi.API.Entities
 
         public ICollection<PreguntaEntity> PreguntasDeAsignacion { get; set; }
         = new List<PreguntaEntity>();
-    }
+
+        public int SectionId { get; set; }
+        //SectionEntity esta relacionando la asignación con la section
+        //Mediante esta Foreign Key estamos relacionando SectionEntity con su Id
+        [ForeignKey("SectionId")]
+        public SectionEntity SectionEntity { get; set; }
+  }
 }

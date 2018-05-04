@@ -6,5 +6,6 @@ export class Proyecto{
     public totalpreguntas: number,
     public puntuacion: number,
     public fecha: string
+
 		){}
 }

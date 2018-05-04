@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +49,7 @@ namespace everisapi.API.Controllers
 
         //Introduciendo el nombre de usuario encuentra todos los datos de este si existe
         [HttpGet("{Nombre}")]
-        public IActionResult GetUser(String Nombre, bool IncluirProyectos = true)
+        public IActionResult GetUser(String Nombre, bool IncluirProyectos = false)
         {
             try
             {
@@ -101,10 +101,8 @@ namespace everisapi.API.Controllers
                     _logger.LogInformation("El usuario con nombre " + Nombre + " no pudo ser encontrado recogiendo roles.");
                     return NotFound();
                 }
-                _logger.LogInformation("pacopepe siguio");
                 //Recoge todos los roles para este usuario en específico
                 var RolesAsignados = _userInfoRepository.GetRolesUsuario(Usuario);
-                _logger.LogInformation("pacopepe2 " + RolesAsignados);
 
                 //Devolvera sus roles aunque esten vacios
                 var RolesResult = Mapper.Map<List<RoleDto>>(RolesAsignados);
