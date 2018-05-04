@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit {
                 }	
             );
         }else{
-            this.ErrorMessage="Introduzca todos los campos porfavor."
+            this.ErrorMessage="Introduzca todos los campos."
         }
     }
 
