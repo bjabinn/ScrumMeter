@@ -1,0 +1,47 @@
+<br>
+<br>
+<div class="row" id="infopro">
+  <div class="col-xs-12 col-sm-5 col-md-5">
+    Usuario: {{UserSelected}}
+  </div>
+  <div class="col-xs-12 col-sm-5 col-md-5">
+    Fecha: {{ProjectSelected.fecha}}
+  </div>
+  <div class="col-xs-12 col-sm-5 col-md-5">
+    <div class="form-horizontal">
+      <div class="form-group">
+        <label for="sel1">Proyecto: {{ProjectSelected.nombre}}</label>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="row" *ngFor="let section of ListaSections">
+  <div class="col-xs-12 col-sm-3 col-md-3"></div>
+  <div class="col-xs-12 col-sm-3 col-md-3" id="infopro" (click)="RedirectToAsignaciones(section.id)">
+    {{section.nombre}}
+    <i class="arrow arrow-right"></i>
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3">
+
+    <div *ngIf="preguntasRespondidasCeremonias==numeroPreguntasCeremonias"><ngb-progressbar showValue="true" type="success" [value]="CalcularPorcentaje(preguntasRespondidasCeremonias, numeroPreguntasCeremonias)"></ngb-progressbar></div>
+    <div *ngIf="preguntasRespondidasCeremonias!=numeroPreguntasCeremonias"><ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(preguntasRespondidasCeremonias, numeroPreguntasCeremonias)"></ngb-progressbar></div>
+
+    <span class="title"> {{preguntasRespondidasCeremonias}} de {{numeroPreguntasCeremonias}} </span>
+
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3">
+    <img *ngIf="preguntasRespondidasCeremonias!=numeroPreguntasCeremonias && preguntasRespondidasCeremonias>0" src="../../assets/green_no.png" alt="ok">
+    <img *ngIf="preguntasRespondidasCeremonias==numeroPreguntasCeremonias" src="../../assets/green_si.png" alt="ok">
+  </div>
+  <br/>
+</div>
+
+<!--Este Div es para hacer una comprobación sobre
+    la barra de progreso de preguntas respondidas-->
+<!--
+<div>
+    <button (click)="ProbarDinamico(true)">Aumentar</button> <br/><br/>
+    <button (click)="ProbarDinamico(false)">Disminuir</button>
+</div>
+-->
