@@ -18,7 +18,7 @@ namespace everisapi.API.Services
     AsignacionEntity GetAsignacionFromSection(SectionEntity section, int idAsignacion);
 
     //Devuelve el numero de preguntas de cada seccion y en un proyecto por id
-    int GetMaxRespuestaFromSection(int idSection, int idProyecto);
+    int GetNumPreguntasFromSection(int idSection, int idProyecto);
 
     //Devuelve el numero de preguntas respondidas de cada seccion y en un proyecto por id
     int GetRespuestasCorrectasFromSection(int idSection, int idProyecto);

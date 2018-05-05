@@ -16,7 +16,7 @@
   </div>
 </div>
 <br>
-<div class="row" *ngFor="let section of ListaSections">
+<div class="row" *ngFor="let section of ListaSections; let i = index">
   <div class="col-xs-12 col-sm-3 col-md-3"></div>
   <div class="col-xs-12 col-sm-3 col-md-3" id="infopro" (click)="RedirectToAsignaciones(section.id)">
     {{section.nombre}}
@@ -24,18 +24,18 @@
   </div>
   <div class="col-xs-12 col-sm-3 col-md-3">
 
-    <div *ngIf="preguntasRespondidasCeremonias==numeroPreguntasCeremonias"><ngb-progressbar showValue="true" type="success" [value]="CalcularPorcentaje(preguntasRespondidasCeremonias, numeroPreguntasCeremonias)"></ngb-progressbar></div>
-    <div *ngIf="preguntasRespondidasCeremonias!=numeroPreguntasCeremonias"><ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(preguntasRespondidasCeremonias, numeroPreguntasCeremonias)"></ngb-progressbar></div>
+    <ngb-progressbar showValue="true" type="success" [value]="CalcularPorcentaje(ListaNumRespuestas [i], ListaNumPreguntas [i])" *ngIf="ListaNumRespuestas [i]==ListaNumPreguntas [i] && ListaSections.length == ListaNumRespuestas.length"></ngb-progressbar>
+    <ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(ListaNumRespuestas [i], ListaNumPreguntas [i])" *ngIf="ListaNumRespuestas [i]!=ListaNumPreguntas [i] && ListaSections.length == ListaNumRespuestas.length"></ngb-progressbar>
+    <ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(0, ListaNumPreguntas [i])" *ngIf="ListaSections.length != ListaNumRespuestas.length"></ngb-progressbar>
 
-    <span class="title"> {{preguntasRespondidasCeremonias}} de {{numeroPreguntasCeremonias}} </span>
-
+    <span class="title"> {{ListaNumRespuestas [i]}} de {{ListaNumPreguntas [i]}} </span>
   </div>
   <div class="col-xs-12 col-sm-3 col-md-3">
-    <img *ngIf="preguntasRespondidasCeremonias!=numeroPreguntasCeremonias && preguntasRespondidasCeremonias>0" src="../../assets/green_no.png" alt="ok">
-    <img *ngIf="preguntasRespondidasCeremonias==numeroPreguntasCeremonias" src="../../assets/green_si.png" alt="ok">
+      <img *ngIf="ListaNumRespuestas [i]!=ListaNumPreguntas [i] && ListaNumRespuestas [i]>0" src="../../assets/green_no.png" alt="ok">
+      <img *ngIf="ListaNumRespuestas [i]==ListaNumPreguntas [i]" src="../../assets/green_si.png" alt="ok">
   </div>
-  <br/>
-</div>
+    <br />
+  </div>
 
 <!--Este Div es para hacer una comprobación sobre
     la barra de progreso de preguntas respondidas-->

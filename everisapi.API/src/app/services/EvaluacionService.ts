@@ -38,8 +38,22 @@ export class EvaluacionService {
       .catch(this.errorHandler);
   }
 
+  //Devuelve el numero de preguntas para cada sección segun que proyecto selecciones
+  getPreguntasSection(idSection, idProject) {
+    return this._http.get(this.url + 'sections/' + idSection + '/proyecto/' + idProject + "/preguntas")
+      .map((response: Response) => response.json())
+      .catch(this.errorHandler);
+  }
 
-  getPreguntasSection(id) {
+  //Devuelve el numero de respuestas correctas para cada sección segun que proyecto selecciones
+  getRespuestasSection(idSection, idProject) {
+    return this._http.get(this.url + 'sections/' + idSection + '/proyecto/' + idProject + "/respuestas")
+      .map((response: Response) => response.json())
+      .catch(this.errorHandler);
+  }
+
+  //Devuelve las preguntas para una asignación en especifico
+  getPreguntasArea(id) {
     return this._http.get(this.url + 'asignaciones/' + id + '/preguntas')
       .map((response: Response) => response.json())
       .catch(this.errorHandler);

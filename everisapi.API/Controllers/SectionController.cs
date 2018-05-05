@@ -18,7 +18,8 @@ namespace everisapi.API.Controllers
     private ISectionsInfoRepository _sectionInfoRepository;
 
     //Utilizamos el constructor para inicializar el logger
-    public SectionController(ILogger<SectionController> logger, ISectionsInfoRepository sectionInfoRepository)
+    public SectionController(ILogger<SectionController> logger,
+      ISectionsInfoRepository sectionInfoRepository)
     {
       _logger = logger;
       _sectionInfoRepository = sectionInfoRepository;
@@ -80,6 +81,64 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la section con id " + id + ": " + ex);
+        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+      }
+    }
+
+    //Recogemos el numero máximo de preguntas de esta section para un proyecto especifico
+    [HttpGet("{id}/proyecto/{idProyect}/preguntas")]
+    public IActionResult GetNumPreguntas(int id, int idProyect)
+    {
+
+      try
+      {
+        //Comprueba si existe la section y si existe manda un json con la información
+        //si no existe mandara un error 404 el error 500 aparecera si el servidor falla
+        SectionEntity sectionExist = _sectionInfoRepository.GetSection(id, true);
+        if (sectionExist == null)
+        {
+          _logger.LogInformation($"La section con id " + id + " no pudo ser encontrado.");
+          return NotFound();
+        }
+
+        //Recogemos un numero de preguntas por id y el id de proyecto
+        var NumeroPreguntasResult = _sectionInfoRepository.GetNumPreguntasFromSection(id, idProyect);
+
+        return Ok(NumeroPreguntasResult);
+
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir el número de preguntas para la section " + id + " y el proyecto " + idProyect + ": " + ex);
+        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+      }
+    }
+
+    //Recogemos el numero de respuestas positivas filtrado por id de proyecto y id de section
+    [HttpGet("{id}/proyecto/{idProyect}/respuestas")]
+    public IActionResult GetNumRespuestas(int id, int idProyect)
+    {
+
+      try
+      {
+        //Comprueba si existe la section y si existe manda un json con la información
+        //si no existe mandara un error 404 el error 500 aparecera si el servidor falla
+        SectionEntity sectionExist = _sectionInfoRepository.GetSection(id, true);
+        if (sectionExist == null)
+        {
+          _logger.LogInformation($"La section con id " + id + " no pudo ser encontrado.");
+          return NotFound();
+        }
+
+        //Recogemos un numero de preguntas por id y el id de proyecto
+        var NumeroRespuestasResult = _sectionInfoRepository.GetRespuestasCorrectasFromSection(id, idProyect);
+
+        return Ok(NumeroRespuestasResult);
+
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir el número de respuestas correctas para la section " + id + " y el proyecto " + idProyect + ": " + ex);
         return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
       }
     }

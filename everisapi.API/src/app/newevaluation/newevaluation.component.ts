@@ -30,7 +30,7 @@ export class NewevaluationComponent implements OnInit {
     private _respuestasService: RespuestasService,
     private _router: Router,
     private _appComponent: AppComponent) {
-    console.log
+
     var idSelected = this._appComponent._storageDataService.IdSection;
     //Recogemos el proyecto y el usuario si no coincide alguno lo redirigiremos
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
@@ -74,7 +74,7 @@ export class NewevaluationComponent implements OnInit {
 
   //Recoge todas las preguntas
   public getQuestions(id: number) {
-    this._evaluacionService.getPreguntasSection(id).subscribe(
+    this._evaluacionService.getPreguntasArea(id).subscribe(
       res => {
         if (res != null) {
           this.ListaPreguntas = res;
@@ -91,7 +91,7 @@ export class NewevaluationComponent implements OnInit {
 
   //Recoge todas las respuestas
   public getAnswers(idProyecto: number, idAsignacion: number) {
-    console.log("intentado para respuestas con id pro: ", idProyecto, "idAsignacion: ", idAsignacion)
+
     this._respuestasService.getRespuestasAsigProy(idProyecto, idAsignacion).subscribe(
       res => {
         if (res != null) {
