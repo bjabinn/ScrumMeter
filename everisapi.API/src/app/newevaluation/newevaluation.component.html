@@ -17,39 +17,47 @@
 </div>
 <br>
 
-  <div class="row">
-    <div class="col-xs-12 col-sm-2 col-md-3"></div>
-    <div class="col-xs-12 col-sm-8 col-md-6">
-      <h2>Módulo {{AreaAsignada.id}}: {{AreaAsignada.nombre}}</h2>
-    </div>
-    <div class="col-xs-12 col-sm-2 col-md-3"></div>
+<div class="row">
+  <div class="col-xs-12 col-sm-2 col-md-3"></div>
+  <div class="col-xs-12 col-sm-8 col-md-6">
+    <h2>Módulo {{AreaAsignada.id}}: {{AreaAsignada.nombre}}</h2>
   </div>
+  <div class="col-xs-12 col-sm-2 col-md-3"></div>
+</div>
+<br />
+<div class="row" id="preguntas" *ngFor="let preguntaDada of ListaPreguntas; let i = index">
+  <div class="col-xs-12 col-sm-3 col-md-3"></div>
+  <div class="col-xs-12 col-sm-5 col-md-5">
+    {{preguntaDada.id}}. {{preguntaDada.pregunta}}
+  </div>
+  <div class="col-xs-12 col-sm-1 col-md-1" id="switch" *ngIf="!ListaRespuestas [i].estado" (click)="ChangeEstadoDB(i)">
+    <div class="onoffswitch">
+      <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="{{preguntaDada.id}}">
+      <label class="onoffswitch-label" for="{{preguntaDada.id}}">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+      </label>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-1 col-md-1" id="switch" *ngIf="ListaRespuestas [i].estado" (click)="ChangeEstadoDB(i)">
+    <div class="onoffswitch">
+      <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="{{preguntaDada.id}}" checked>
+      <label class="onoffswitch-label" for="{{preguntaDada.id}}">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+      </label>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3"></div>
   <br />
-  <div class="row" id="preguntas" *ngFor="let preguntaDada of ListaPreguntas; let i = index">
-    <div class="col-xs-12 col-sm-3 col-md-3"></div>
-    <div class="col-xs-12 col-sm-5 col-md-5">
-      {{preguntaDada.id}}. {{preguntaDada.pregunta}}
-    </div>
-    <div class="col-xs-12 col-sm-1 col-md-1" id="switch" *ngIf="!ListaRespuestas [i].estado" (click)="ChangeEstadoDB(i)">
-      <div class="onoffswitch">
-        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="{{preguntaDada.id}}">
-        <label class="onoffswitch-label" for="{{preguntaDada.id}}">
-          <span class="onoffswitch-inner"></span>
-          <span class="onoffswitch-switch"></span>
-        </label>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-1 col-md-1" id="switch" *ngIf="ListaRespuestas [i].estado" (click)="ChangeEstadoDB(i)">
-      <div class="onoffswitch">
-        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="{{preguntaDada.id}}" checked>
-        <label class="onoffswitch-label" for="{{preguntaDada.id}}">
-          <span class="onoffswitch-inner"></span>
-          <span class="onoffswitch-switch"></span>
-        </label>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-3 col-md-3"></div>
-    <br />
-  </div>
+</div>
 
-<button (click)="NextPreviousButton(false)">Previous</button> {{PageNow}}/{{NumMax}}   <button (click)="NextPreviousButton(true)">Next</button>
+<div class="row">
+  <div class="col-xs-12  col-sm-12  col-md-5"> </div>
+  <div class="col-xs-12 col-sm-12 col-md-2">
+    <button type="button" class="previous round" (click)="NextPreviousButton(false)"> Anterior </button>
+    <strong>{{PageNow}}/{{NumMax}}</strong>
+    <button type="button" class="next round" (click)="NextPreviousButton(true)"> Siguiente </button>
+  </div>
+  <div class="col-xs-12 col-sm-12   col-md-5"> </div>
+</div>
