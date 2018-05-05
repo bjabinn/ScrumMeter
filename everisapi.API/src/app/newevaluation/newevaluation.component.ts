@@ -16,8 +16,8 @@ export class NewevaluationComponent implements OnInit {
   ListaAsignaciones: Array<Asignacion> = [];
   ListaPreguntas: Array<Pregunta> = [];
   ListaRespuestas: Array<Respuesta> = [];
-  NumMax: number = 0;
-  PageNow: number = 1;
+  NumMax: number = 5;
+  PageNow: number = 5;
   idProyect: number = 0;
   AreaAsignada: Asignacion = { 'id': 0, 'nombre': "undefined" };
 
@@ -50,6 +50,15 @@ export class NewevaluationComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  public disable(){
+    if (this.NumMax == this.PageNow) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   public getQuestions(id: number) {
@@ -108,4 +117,6 @@ export class NewevaluationComponent implements OnInit {
       this.getAnswers(this.idProyect, this.AreaAsignada.id);
     }
   }
+
+
 }

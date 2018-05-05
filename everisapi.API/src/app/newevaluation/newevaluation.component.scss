@@ -83,18 +83,21 @@
 .previous {
   background-color: #4CAF50;
   color: white;
-  padding: 20px 20px;
+  padding: 10px 10px;
   border: 1px solid #99AD00;
 }
 
 .next {
   background-color: #4CAF50;
   color: white;
-  padding: 20px 20px;
+  padding: 10px 10px;
   border: 1px solid #99AD00;
+
 }
 
-.round {
-  border-radius: 50%;
-  text-decoration: none;
+.round:hover {
+ 
+  background: rgba(0,0,0,0);
+  color: #3a7999;
+  box-shadow: inset 0 0 0 3px #3a7999;
 }

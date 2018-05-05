@@ -57,7 +57,7 @@
   <div class="col-xs-12 col-sm-12 col-md-2">
     <button type="button" class="previous round" (click)="NextPreviousButton(false)"> Anterior </button>
     <strong>{{PageNow}}/{{NumMax}}</strong>
-    <button type="button" class="next round" (click)="NextPreviousButton(true)"> Siguiente </button>
+    <button type="button" class="next round" [disabled]="disable()" (click)="NextPreviousButton(true)"> Siguiente </button>
   </div>
   <div class="col-xs-12 col-sm-12   col-md-5"> </div>
 </div>
