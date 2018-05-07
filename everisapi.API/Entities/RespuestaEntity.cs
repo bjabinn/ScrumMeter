@@ -21,8 +21,8 @@ namespace everisapi.API.Entities
     [ForeignKey("PreguntaId")]
     public PreguntaEntity PreguntaEntity { get; set; }
 
-    public int ProyectoId { get; set; }
-    [ForeignKey("ProyectoId")]
-    public ProyectoEntity ProyectoEntity { get; set; }
+    public int EvaluacionId { get; set; }
+    [ForeignKey("EvaluacionId")]
+    public EvaluacionEntity EvaluacionEntity { get; set; }
   }
 }

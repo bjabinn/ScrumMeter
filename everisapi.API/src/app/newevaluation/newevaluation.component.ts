@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EvaluacionService } from '../services/EvaluacionService';
+import { SectionService } from '../services/SectionService';
 import { RespuestasService } from '../services/RespuestasService';
 import { AppComponent } from '../app.component';
 import { Asignacion } from './Asignacion';
@@ -7,12 +7,13 @@ import { Pregunta } from './Pregunta';
 import { Proyecto } from '../login/Proyecto';
 import { Respuesta } from './Respuesta';
 import { Router } from "@angular/router";
+import { Evaluacion } from 'app/home/Evaluacion';
 
 @Component({
   selector: 'app-newevaluation',
   templateUrl: './newevaluation.component.html',
   styleUrls: ['./newevaluation.component.scss'],
-  providers: [EvaluacionService, RespuestasService]
+  providers: [SectionService, RespuestasService]
 })
 export class NewevaluationComponent implements OnInit {
   ListaAsignaciones: Array<Asignacion> = [];
@@ -20,13 +21,14 @@ export class NewevaluationComponent implements OnInit {
   ListaRespuestas: Array<Respuesta> = [];
   NumMax: number = 0;
   PageNow: number = 1;
-  Project: Proyecto = { 'id': 0, 'nombre': "undefined", 'usuario' : "undefined", 'totalpreguntas': 0, 'puntuacion': 0, 'fecha':"undefined"};
+  Project: Proyecto = null;
+  Evaluation: Evaluacion = null;
   AreaAsignada: Asignacion = { 'id': 0, 'nombre': "undefined" };
   UserName: string = "";
 
   //Recogemos todos los datos de la primera area segun su id y las colocamos en la lista
   constructor(
-    private _evaluacionService: EvaluacionService,
+    private _sectionService: SectionService,
     private _respuestasService: RespuestasService,
     private _router: Router,
     private _appComponent: AppComponent) {
@@ -34,13 +36,14 @@ export class NewevaluationComponent implements OnInit {
     var idSelected = this._appComponent._storageDataService.IdSection;
     //Recogemos el proyecto y el usuario si no coincide alguno lo redirigiremos
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
+    this.Evaluation = this._appComponent._storageDataService.Evaluacion;
 
     if (this._appComponent._storageDataService.UserData == undefined || this._appComponent._storageDataService.UserData == null) {
       this.UserName = localStorage.getItem("user");
       if (this.UserName == undefined || this.UserName == null || this.UserName == "") {
         this._router.navigate(['/login']);
       }
-      if (this.Project.id == null || this.Project.id == undefined) {
+      if (this.Project == null || this.Project == undefined || this.Evaluation == null || this.Evaluation == undefined) {
         this._router.navigate(['/home']);
       }
     } else {
@@ -48,7 +51,7 @@ export class NewevaluationComponent implements OnInit {
     }
 
     console.log("Seleccionaste la id de section: " + idSelected)
-    this._evaluacionService.getAsignacionesSection(idSelected).subscribe(
+    this._sectionService.getAsignacionesSection(idSelected).subscribe(
       res => {
         if (res != null) {
           this.ListaAsignaciones = res;
@@ -56,7 +59,7 @@ export class NewevaluationComponent implements OnInit {
           console.log("Asignaciones: ", this.ListaAsignaciones);
           this.AreaAsignada = this.ListaAsignaciones[0];
           this.getQuestions(this.ListaAsignaciones[0].id);
-          this.getAnswers(this.Project.id, this.AreaAsignada.id);
+          this.getAnswers(this.Evaluation.id, this.AreaAsignada.id);
         } else {
           console.log("Esto esta muy vacio");
         }
@@ -74,7 +77,7 @@ export class NewevaluationComponent implements OnInit {
 
   //Recoge todas las preguntas
   public getQuestions(id: number) {
-    this._evaluacionService.getPreguntasArea(id).subscribe(
+    this._sectionService.getPreguntasArea(id).subscribe(
       res => {
         if (res != null) {
           this.ListaPreguntas = res;
@@ -90,9 +93,9 @@ export class NewevaluationComponent implements OnInit {
   }
 
   //Recoge todas las respuestas
-  public getAnswers(idProyecto: number, idAsignacion: number) {
+  public getAnswers(idEvaluacion: number, idAsignacion: number) {
 
-    this._respuestasService.getRespuestasAsigProy(idProyecto, idAsignacion).subscribe(
+    this._respuestasService.getRespuestasAsigProy(idEvaluacion, idAsignacion).subscribe(
       res => {
         if (res != null) {
           this.ListaRespuestas = res;
@@ -138,12 +141,14 @@ export class NewevaluationComponent implements OnInit {
       this.AreaAsignada = this.ListaAsignaciones[this.PageNow];
       this.getAnswers(this.Project.id, this.AreaAsignada.id);
       this.PageNow++;
-    } else if ( this.PageNow > 1) {
+    } else if (!Option && this.PageNow > 1) {
       this.PageNow--;
       var CualToca = this.PageNow - 1;
       this.AreaAsignada = this.ListaAsignaciones[CualToca];
       this.getQuestions(this.ListaAsignaciones[CualToca].id);
       this.getAnswers(this.Project.id, this.AreaAsignada.id);
+    } else if (Option && this.PageNow == this.NumMax) {
+      this._router.navigate(['/menunuevaevaluacion']);
     }
   }
 }

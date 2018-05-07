@@ -15,10 +15,10 @@ namespace everisapi.API.Services
     RespuestaEntity GetRespuesta(int RespuestaId);
 
     //Devuelve todas las respuestas filtrada por proyecto y asignacion
-    IEnumerable<RespuestaEntity> GetRespuestasFromPregProy(int IdProyecto, int IdAsignacion);
+    IEnumerable<RespuestaEntity> GetRespuestasFromPregEval(int IdProyecto, int IdAsignacion);
 
     //Devuelve todas las respuestas filtrada por proyecto y pregunta
-    IEnumerable<RespuestaEntity> GetRespuestasFromAsigProy(int IdProyecto, int IdPregunta);
+    IEnumerable<RespuestaEntity> GetRespuestasFromAsigEval(int IdProyecto, int IdPregunta);
 
     //Update de una respuesta
     void UpdateRespuesta(bool Opcion, int RespuestaId);

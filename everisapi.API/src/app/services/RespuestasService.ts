@@ -20,9 +20,8 @@ export class RespuestasService {
 
 
   //Este metodo devuelve todas las respuestas de una asignacion en un proyecto
-  getRespuestasAsigProy(idProyecto: number, idAsignacion: number) {
-    console.log("Desde el servicio seria la url: " + this.url + 'respuestas/proyecto/' + idProyecto + '/asignacion/' + idAsignacion);
-    return this._http.get(this.url + 'respuestas/proyecto/' + idProyecto + '/asignacion/' + idAsignacion)
+  getRespuestasAsigProy(idEvaluacion: number, idAsignacion: number) {
+    return this._http.get(this.url + 'respuestas/evaluacion/' + idEvaluacion + '/asignacion/' + idAsignacion)
       .map((response: Response) => response.json())
       .catch(this.errorHandler);
   }
@@ -33,8 +32,7 @@ export class RespuestasService {
     let headers = new Headers({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
-
-    console.log("Desde el servicio: ", this.url + 'respuestas/' + id + '/change/' + change);
+    
     return this._http.put(this.url + 'respuestas/' + id + '/change/' + change, httpParams, { headers: headers })
       .map(res => console.log(res));
   }

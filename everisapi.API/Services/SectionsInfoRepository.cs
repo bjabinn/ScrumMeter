@@ -19,15 +19,15 @@ namespace everisapi.API.Services
     }
 
     //Devolvemos el numero de preguntas de la seccion filtrada por proyecto
-    public int GetNumPreguntasFromSection(int idSection, int idProyecto)
+    public int GetNumPreguntasFromSection(int idSection, int idEvaluacion)
     {
-      return _context.Respuestas.Where( r => r.ProyectoId == idProyecto && r.PreguntaEntity.AsignacionEntity.SectionId == idSection).Count();
+      return _context.Respuestas.Where( r => r.EvaluacionId == idEvaluacion && r.PreguntaEntity.AsignacionEntity.SectionId == idSection).Count();
     }
 
     //Devolvemos el numero de preguntas respondidas de la seccion filtrada por proyecto
-    public int GetRespuestasCorrectasFromSection(int idSection, int idProyecto)
+    public int GetRespuestasCorrectasFromSection(int idSection, int idEvaluacion)
     {
-      return _context.Respuestas.Where(r => r.ProyectoId == idProyecto && r.Estado == true && r.PreguntaEntity.AsignacionEntity.SectionId == idSection).Count();
+      return _context.Respuestas.Where(r => r.EvaluacionId == idEvaluacion && r.Estado == true && r.PreguntaEntity.AsignacionEntity.SectionId == idSection).Count();
     }
 
     //Devolvemos las asignaciones de una section

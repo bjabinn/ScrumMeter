@@ -29,16 +29,16 @@ namespace everisapi.API.Services
       return _context.Respuestas.ToList();
     }
 
-    //Introduciendo el id de proyecto y el id de pregunta te da la lista de respuestas
-    public IEnumerable<RespuestaEntity> GetRespuestasFromPregProy(int IdProyecto, int IdPregunta)
+    //Introduciendo el id de evaluacion y el id de pregunta te da la lista de respuestas
+    public IEnumerable<RespuestaEntity> GetRespuestasFromPregEval(int idEvaluacion, int IdPregunta)
     {
-      return _context.Respuestas.Where(r => r.PreguntaId == IdPregunta && r.ProyectoId == IdProyecto).ToList();
+      return _context.Respuestas.Where(r => r.PreguntaId == IdPregunta && r.EvaluacionId == idEvaluacion).ToList();
     }
 
-    //Introduciendo la id de asignacion y la id de proyecto sacaremos una lista con todas las respuestas
-    public IEnumerable<RespuestaEntity> GetRespuestasFromAsigProy(int IdProyecto, int IdAsignacion)
+    //Introduciendo la id de asignacion y la id de evaluacion sacaremos una lista con todas las respuestas
+    public IEnumerable<RespuestaEntity> GetRespuestasFromAsigEval(int idEvaluacion, int IdAsignacion)
     {
-      return _context.Respuestas.Where(r => r.PreguntaEntity.AsignacionId == IdAsignacion && r.ProyectoId == IdProyecto).ToList();
+      return _context.Respuestas.Where(r => r.PreguntaEntity.AsignacionId == IdAsignacion && r.EvaluacionId == idEvaluacion).ToList();
     }
 
     //Guarda todos los cambios en la base de datos

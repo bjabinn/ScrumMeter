@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -81,5 +81,13 @@ namespace everisapi.API.Services
             }
             return RolesEntregar;
         }
-    }
+
+        //Devuelve una lista con todos los datos del proyecto por su id
+        public ProyectoEntity GetFullProject(int id)
+        {
+           return _context.Proyectos.Include(p => p.Evaluaciones).
+                    ThenInclude(Evaluacion => Evaluacion.Respuestas).
+                    Where(p => p.Id == id).FirstOrDefault();
+        }
+  }
 }

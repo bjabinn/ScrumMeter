@@ -1,4 +1,4 @@
-﻿using everisapi.API.Models;
+using everisapi.API.Models;
 using everisapi.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using everisapi.API.Entities;
 
 namespace everisapi.API.Controllers
 {
@@ -109,5 +110,33 @@ namespace everisapi.API.Controllers
                 return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
             }
         }
+
+        [HttpGet("proyecto/{id}")]
+        public IActionResult GetProyecto( int id)
+        {
+            try
+            {
+
+                //Comprueba que el proyecto existe
+                ProyectoEntity proyectoDeUsuario = _usersInfoRepository.GetFullProject(id);
+
+                if (proyectoDeUsuario == null)
+                {
+                    _logger.LogInformation("El proyecto con id " + id + " no pudo ser encontrado.");
+                    return NotFound();
+                }
+
+                //Creamos un proyecto nuevo con los  datos estrictamente necesarios
+                var ProyectoEncontrado = Mapper.Map<ProyectoWithEvaluacionesDto>(proyectoDeUsuario);
+
+                return Ok(ProyectoEncontrado);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical("Se recogio un error al recibir la petición de proyecto de usuario con id " + id + ": " + ex);
+                return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+            }
+        }
+        
     }
 }

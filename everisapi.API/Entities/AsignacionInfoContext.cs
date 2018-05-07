@@ -23,6 +23,8 @@ namespace everisapi.API.Entities
 
         public DbSet<AsignacionEntity> Asignaciones { get; set; }
 
+        public DbSet<EvaluacionEntity> Evaluaciones { get; set; }
+
         public DbSet<PreguntaEntity> Preguntas { get; set; }
 
         public DbSet<UserEntity> Users { get; set; }

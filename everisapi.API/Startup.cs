@@ -38,6 +38,7 @@ namespace everisapi.API
             services.AddScoped<IUsersInfoRepository, UsersInfoRespository>();
             services.AddScoped<ISectionsInfoRepository, SectionsInfoRepository>();
             services.AddScoped<IRespuestasInfoRepository, RespuestasInfoRepository>();
+            services.AddScoped<IEvaluacionInfoRepository, EvaluacionInfoRepository>();
 
     }
 
@@ -69,6 +70,9 @@ namespace everisapi.API
             AutoMapper.Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<Models.AsignacionSinPreguntasDto, Entities.AsignacionEntity>();
+                cfg.CreateMap<Models.EvaluacionCreateUpdateDto, Entities.EvaluacionEntity>();
+                cfg.CreateMap<Models.EvaluacionesWithoutRespuestasDto, Entities.EvaluacionEntity>();
+                cfg.CreateMap<Models.EvaluacionDto, Entities.EvaluacionEntity>();
                 cfg.CreateMap<Models.AsignacionDto, Entities.AsignacionEntity>();
                 cfg.CreateMap<Models.PreguntaDto, Entities.PreguntaEntity>();
                 cfg.CreateMap<Models.PreguntaCreateDto, Entities.PreguntaEntity>();

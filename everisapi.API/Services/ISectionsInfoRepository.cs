@@ -17,11 +17,11 @@ namespace everisapi.API.Services
     //Devuelve todas las asignaciones del section
     AsignacionEntity GetAsignacionFromSection(SectionEntity section, int idAsignacion);
 
-    //Devuelve el numero de preguntas de cada seccion y en un proyecto por id
-    int GetNumPreguntasFromSection(int idSection, int idProyecto);
+    //Devuelve el numero de preguntas de cada seccion y en un evaluacion por id
+    int GetNumPreguntasFromSection(int idSection, int idEvaluacion);
 
-    //Devuelve el numero de preguntas respondidas de cada seccion y en un proyecto por id
-    int GetRespuestasCorrectasFromSection(int idSection, int idProyecto);
+    //Devuelve el numero de preguntas respondidas de cada seccion y en un evaluacion por id
+    int GetRespuestasCorrectasFromSection(int idSection, int idEvaluacion);
 
     //Devuelve todas las asignaciones de un sector
     IEnumerable<AsignacionEntity> GetAsignacionesFromSection(SectionEntity section);

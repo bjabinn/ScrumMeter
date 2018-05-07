@@ -20,6 +20,10 @@ namespace everisapi.API.Entities
         [Required]
         public DateTime Fecha { get; set; }
 
+
+        public ICollection<EvaluacionEntity> Evaluaciones { get; set; }
+        = new List<EvaluacionEntity>();
+
         public string UserNombre { get; set; }
         //AsignacionEntity esta relacionando la pregunta con la asignación
         //Mediante esta Foreign Key estamos relacionando AsignacionEntity con su Id

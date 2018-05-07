@@ -3,14 +3,17 @@ import { User } from '../login/User';
 import { Role } from './Role';
 import { Proyecto } from '../login/Proyecto';
 import { ProyectoService } from '../services/ProyectoService';
+import { EvaluacionService } from '../services/EvaluacionService';
 import { Router } from "@angular/router";
 import { AppComponent } from '../app.component';
+import { Evaluacion } from 'app/home/Evaluacion';
+import { EvaluacionCreate } from 'app/home/EvaluacionCreate';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [ProyectoService]
+  providers: [ProyectoService, EvaluacionService]
 })
 export class HomeComponent implements OnInit {
     public ErrorMessage: string = null;
@@ -23,6 +26,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
             private _proyectoService: ProyectoService,
+            private _evaluacionService: EvaluacionService,
             private _router: Router,
             private _appComponent: AppComponent) {}
 
@@ -108,7 +112,7 @@ export class HomeComponent implements OnInit {
                     }else if(error==500){
                         this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
                      }
-                })
+                });
         }
   }
 
@@ -117,15 +121,42 @@ export class HomeComponent implements OnInit {
     this.ProyectoSeleccionado = ProyectoSeleccionado;
   }
 
+  //Nos devuelve si una evaluacion esta incompleta en este proyecto 
+  public ProyectoIncompleto() {
+    this._evaluacionService.getIncompleteEvaluacionFromProject(this.ProyectoSeleccionado.id).subscribe(
+      res => {
+        //Si hay un proyecto sin finalizar lo guarda y lo carga
+        if (res != null) {
+          this._appComponent._storageDataService.Evaluacion = res;
+          this._router.navigate(['/menunuevaevaluacion']);
+        } else {
+          this.GuardarEvaluacion();
+        }
+      },
+      error => {
+        console.log("error incompleta evaluacion comprobacion");
+      });
+  }
+
+  //Este metodo crea una nueva evaluación y la manda para guardarla en la base de datos
+  public GuardarEvaluacion() {
+    var NuevaEvaluacion: EvaluacionCreate = { 'estado': false, 'proyectoid': this.ProyectoSeleccionado.id};
+    this._evaluacionService.addEvaluacion(NuevaEvaluacion).subscribe(
+      res => {
+        console.log(res);
+      },
+      error => {
+        console.log("Error al guardar la evaluación");
+      });
+  }
+
   //Este metodo comprueba si el proyecto seleccionado es correcto y si es así pasa al siguiente elemento
   //Guardara los datos en el service de almacenamiento
   public NuevaEvaluacion(){
 
     if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
-      console.log("entrando")
       this._appComponent._storageDataService.UserProjectSelected = this.ProyectoSeleccionado;
-      console.log("antes")
-        this._router.navigate(['/menunuevaevaluacion']);
+      this.ProyectoIncompleto();
     }else{
         this.ErrorMessage= "Seleccione un proyecto para realizar esta acción.";
     }

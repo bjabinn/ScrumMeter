@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { SectionService } from '../services/SectionService';
 import { EvaluacionService } from '../services/EvaluacionService';
+import { ProyectoService } from '../services/ProyectoService';
 import { AppComponent } from '../app.component';
 import { Section } from './Section';
 import { Router } from "@angular/router";
 import { Proyecto } from 'app/login/Proyecto';
-import { ProyectoService } from '../services/ProyectoService';
 import { async } from '@angular/core/testing';
+import { Evaluacion } from 'app/home/Evaluacion';
 
 @Component({
   selector: 'app-menunewevaluation',
   templateUrl: './menunewevaluation.component.html',
   styleUrls: ['./menunewevaluation.component.scss'],
-  providers: [EvaluacionService, ProyectoService]
+  providers: [SectionService, ProyectoService, EvaluacionService]
 })
 export class MenunewevaluationComponent implements OnInit {
 
@@ -20,13 +22,15 @@ export class MenunewevaluationComponent implements OnInit {
   public ListaNumPreguntas: Array<number> = [];
   public ListaNumRespuestas: Array<number> = [];
   public ProjectSelected: Proyecto;
+  public Evaluacion: Evaluacion = null;
   public UserSelected: string;
 
 
   constructor(
     private _proyectoService: ProyectoService,
-    private _evaluacionService: EvaluacionService,
+    private _sectionService: SectionService,
     private _router: Router,
+    private _evaluacionService: EvaluacionService,
     private _appComponent: AppComponent)
   {
 
@@ -34,10 +38,10 @@ export class MenunewevaluationComponent implements OnInit {
     //En caso de no estar logeado nos enviara devuelta al login
     //En caso de no tener asignado ningun proyecto nos enviara a home para que lo seleccionemos
     this.ProjectSelected = this._appComponent._storageDataService.UserProjectSelected;
-    console.log("encontramos que: ", this.ProjectSelected)
+    this.Evaluacion = this._appComponent._storageDataService.Evaluacion;
     if (!this._proyectoService.verificarUsuario()) {
       this._router.navigate(['/login']);
-    } else if (this.ProjectSelected == null || this.ProjectSelected == undefined) {
+    } else if (this.ProjectSelected == null || this.ProjectSelected == undefined || this.Evaluacion == null) {
       this._router.navigate(['/home']);
     }
 
@@ -46,12 +50,12 @@ export class MenunewevaluationComponent implements OnInit {
 
 
     //Recogemos todas las sections
-    this._evaluacionService.getSections().subscribe(
+    this._sectionService.getSections().subscribe(
       res => {
         if (res != null) {
           this.ListaSections = res;
           //Le damos la información
-          this.GetDataPreguntas(this.ListaSections[0].id, this.ProjectSelected.id);
+          this.GetDataPreguntas(this.ListaSections[0].id, this.Evaluacion.id);
         } else {
           this.ErrorMessage = "No esta disponible ninguna sección, contacte con el servicio tecnico porfavor.";
         }
@@ -82,10 +86,10 @@ export class MenunewevaluationComponent implements OnInit {
 
   //Este metodo nos permite recoger el número de preguntas y de respuestas para cada sección
   //Deberemos introducir una id de proyecto y la id de la sección
-  public GetDataPreguntas(idSection: number, idProject: number) {
+  public GetDataPreguntas(idSection: number, idEvaluacion: number) {
 
       //Recogemos el numero de preguntas
-      this._evaluacionService.getPreguntasSection(idSection, idProject).subscribe( 
+    this._sectionService.getPreguntasSection(idSection, idEvaluacion).subscribe( 
          res => {
           if (  res != null) {
             this.ListaNumPreguntas.push(res);
@@ -98,12 +102,12 @@ export class MenunewevaluationComponent implements OnInit {
         });
 
       //Recogemos el numero de respuestas
-      this._evaluacionService.getRespuestasSection(idSection, idProject).subscribe(
+    this._sectionService.getRespuestasSection(idSection, idEvaluacion).subscribe(
         res => {
          if ( res != null) {
            this.ListaNumRespuestas.push(res);
            if (idSection < this.ListaSections.length) {
-             this.GetDataPreguntas(this.ListaSections[idSection].id, idProject);
+             this.GetDataPreguntas(this.ListaSections[idSection].id, idEvaluacion);
            }
           } else {
             console.log("error respuestas1");
@@ -112,8 +116,19 @@ export class MenunewevaluationComponent implements OnInit {
         error => {
           console.log("error respuestas2");
         });
-    
+  }
 
+  //Este metodo guarda la evaluacion y cambia su estado como finalizado
+  public FinishEvaluation() {
+    this.Evaluacion.estado = true;
+    this._evaluacionService.updateEvaluacion(this.Evaluacion).subscribe(
+      res => {
+        console.log(res);
+        this._router.navigate(['/home']);
+      },
+      error => {
+        console.log("ocurrio un error en el update: ");
+      });
   }
 
 /*

@@ -69,13 +69,13 @@ namespace everisapi.API.Controllers
       }
     }
 
-    //Introduciendo la id del proyecto y la id de la pregunta
-    [HttpGet("proyecto/{idproyecto}/pregunta/{idpregunta}")]
-    public IActionResult GetSectionsDeProyectoYPregunta(int idproyecto, int idpregunta)
+    //Introduciendo la id del evaluacion y la id de la pregunta
+    [HttpGet("evaluacion/{idevaluacion}/pregunta/{idpregunta}")]
+    public IActionResult GetSectionsDeProyectoYPregunta(int idevaluacion, int idpregunta)
     {
       try
       {
-        var RespuestaEntities = _respuestasInfoRepository.GetRespuestasFromAsigProy( idproyecto, idpregunta);
+        var RespuestaEntities = _respuestasInfoRepository.GetRespuestasFromAsigEval(idevaluacion, idpregunta);
 
         var results = Mapper.Map<IEnumerable<RespuestaDto>>(RespuestaEntities);
 
@@ -85,18 +85,18 @@ namespace everisapi.API.Controllers
       }
       catch (Exception ex)
       {
-        _logger.LogCritical("Se recogio un error al recibir las respuestas con idproyecto " + idproyecto + " y idpregunta "+ idpregunta +" : " + ex);
+        _logger.LogCritical("Se recogio un error al recibir las respuestas con idevaluacion " + idevaluacion + " y idpregunta "+ idpregunta +" : " + ex);
         return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
       }
     }
 
-    //Introduciendo la id del proyecto y la id de la asignacion
-    [HttpGet("proyecto/{idproyecto}/asignacion/{idasignacion}")]
-    public IActionResult GetSectionsDeProyectoYAsignacion(int idproyecto, int idasignacion)
+    //Introduciendo la id del evaluacion y la id de la asignacion
+    [HttpGet("evaluacion/{idevaluacion}/asignacion/{idasignacion}")]
+    public IActionResult GetSectionsDeProyectoYAsignacion(int idevaluacion, int idasignacion)
     {
       try
       {
-        var RespuestaEntities = _respuestasInfoRepository.GetRespuestasFromAsigProy(idproyecto, idasignacion);
+        var RespuestaEntities = _respuestasInfoRepository.GetRespuestasFromAsigEval(idevaluacion, idasignacion);
 
         var results = Mapper.Map<IEnumerable<RespuestaDto>>(RespuestaEntities);
 
@@ -106,7 +106,7 @@ namespace everisapi.API.Controllers
       }
       catch (Exception ex)
       {
-        _logger.LogCritical("Se recogio un error al recibir las respuestas con idproyecto " + idproyecto + " y idasignacion " + idasignacion + " : " + ex);
+        _logger.LogCritical("Se recogio un error al recibir las respuestas con idevaluacion " + idevaluacion + " y idasignacion " + idasignacion + " : " + ex);
         return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
       }
     }
@@ -117,11 +117,6 @@ namespace everisapi.API.Controllers
     {
       try
       {
-        //Comprueba que los datos son correctos
-        if (CambioRespuesta == null)
-        {
-          return BadRequest();
-        }
 
         if (!ModelState.IsValid)
         {

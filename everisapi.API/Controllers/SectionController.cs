@@ -86,8 +86,8 @@ namespace everisapi.API.Controllers
     }
 
     //Recogemos el numero máximo de preguntas de esta section para un proyecto especifico
-    [HttpGet("{id}/proyecto/{idProyect}/preguntas")]
-    public IActionResult GetNumPreguntas(int id, int idProyect)
+    [HttpGet("{id}/evaluacion/{idevaluacion}/preguntas")]
+    public IActionResult GetNumPreguntas(int id, int idevaluacion)
     {
 
       try
@@ -102,21 +102,21 @@ namespace everisapi.API.Controllers
         }
 
         //Recogemos un numero de preguntas por id y el id de proyecto
-        var NumeroPreguntasResult = _sectionInfoRepository.GetNumPreguntasFromSection(id, idProyect);
+        var NumeroPreguntasResult = _sectionInfoRepository.GetNumPreguntasFromSection(id, idevaluacion);
 
         return Ok(NumeroPreguntasResult);
 
       }
       catch (Exception ex)
       {
-        _logger.LogCritical("Se recogio un error al recibir el número de preguntas para la section " + id + " y el proyecto " + idProyect + ": " + ex);
+        _logger.LogCritical("Se recogio un error al recibir el número de preguntas para la section " + id + " y la evaluación " + idevaluacion + ": " + ex);
         return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
       }
     }
 
     //Recogemos el numero de respuestas positivas filtrado por id de proyecto y id de section
-    [HttpGet("{id}/proyecto/{idProyect}/respuestas")]
-    public IActionResult GetNumRespuestas(int id, int idProyect)
+    [HttpGet("{id}/evaluacion/{idevaluacion}/respuestas")]
+    public IActionResult GetNumRespuestas(int id, int idevaluacion)
     {
 
       try
@@ -131,14 +131,14 @@ namespace everisapi.API.Controllers
         }
 
         //Recogemos un numero de preguntas por id y el id de proyecto
-        var NumeroRespuestasResult = _sectionInfoRepository.GetRespuestasCorrectasFromSection(id, idProyect);
+        var NumeroRespuestasResult = _sectionInfoRepository.GetRespuestasCorrectasFromSection(id, idevaluacion);
 
         return Ok(NumeroRespuestasResult);
 
       }
       catch (Exception ex)
       {
-        _logger.LogCritical("Se recogio un error al recibir el número de respuestas correctas para la section " + id + " y el proyecto " + idProyect + ": " + ex);
+        _logger.LogCritical("Se recogio un error al recibir el número de respuestas correctas para la section " + id + " y el evaluacion " + idevaluacion + ": " + ex);
         return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
       }
     }

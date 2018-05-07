@@ -44,4 +44,7 @@
     <br />
   </div>
 
-<button (click)="NextPreviousButton(false)">Previous</button> {{PageNow}}/{{NumMax}}   <button (click)="NextPreviousButton(true)">Next</button>
+<button (click)="NextPreviousButton(false)">Previous</button>
+{{PageNow}}/{{NumMax}}
+<button *ngIf="PageNow != NumMax" (click)="NextPreviousButton(true)">Next</button>
+<button *ngIf="PageNow == NumMax" (click)="NextPreviousButton(true)">Finish</button>
