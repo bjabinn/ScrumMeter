@@ -25,11 +25,11 @@
         </div>
       </div>
     </div>
-   
+
   </div>
   <div class="col-xs-12 col-sm-5 col-md-8">
     <div *ngIf="(ErrorMessage != null && ProyectoSeleccionado == null )" class="alert alert-danger" id="danger">
-      <strong>{{ErrorMessage}}</strong>    
+      <strong>{{ErrorMessage}}</strong>
     </div>
     <div *ngIf="(ProyectoSeleccionado != null )" class=" alert alert-success">
       <span class="textstyle">Proyecto Seleccionado:</span> {{ProyectoSeleccionado.nombre}}
@@ -37,6 +37,8 @@
   </div>
 </div>
 <br> <br>
+
+
 
 
 <div class="row">
@@ -57,3 +59,6 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-2"></div>
 </div>
+
+
+

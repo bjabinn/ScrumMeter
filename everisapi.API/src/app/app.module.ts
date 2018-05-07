@@ -13,6 +13,9 @@ import { MenunewevaluationComponent } from './menunewevaluation/menunewevaluatio
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PdfgeneratorComponent } from './pdfgenerator/pdfgenerator.component';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { CommonModule } from '@angular/common';
+
+
 
 @NgModule({
   declarations: [
@@ -21,7 +24,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     HomeComponent,
     NewevaluationComponent,
     PreviousevaluationComponent,
-    MenunewevaluationComponent,
+      MenunewevaluationComponent,
+   
     PdfgeneratorComponent
   ],
   imports: [
@@ -29,9 +33,12 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     FormsModule,
     routing,
     HttpModule,
-    ChartsModule,
+      ChartsModule,
+      CommonModule,
+    
     NgbModule.forRoot()
-  ],
+    ],
+    exports: [HomeComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

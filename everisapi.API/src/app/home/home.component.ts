@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ContentChild, TemplateRef } from '@angular/core';
 import { User } from '../login/User';
 import { Role } from './Role';
 import { Proyecto } from '../login/Proyecto';
 import { ProyectoService } from '../services/ProyectoService';
 import { Router } from "@angular/router";
 import { AppComponent } from '../app.component';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-home',
@@ -12,7 +14,8 @@ import { AppComponent } from '../app.component';
   styleUrls: ['./home.component.scss'],
   providers: [ProyectoService]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit  {
+  
     public ErrorMessage: string = null;
     public ListaDeProyectosAdmin:Array<Proyecto> = [];
     public ListaDeProyectos:Array<Proyecto> = [];
@@ -20,11 +23,17 @@ export class HomeComponent implements OnInit {
     public AdminOn = false;
     public ProyectoSeleccionado:Proyecto;
     public NombreDeUsuario: string;
+    
+
 
   constructor(
             private _proyectoService: ProyectoService,
-            private _router: Router,
-            private _appComponent: AppComponent) {}
+      private _router: Router,
+      
+           
+        private _appComponent: AppComponent) { }
+
+ 
 
   ngOnInit() {
     //Empezamos cargando el usuario en el componente mientras verificamos si esta logueado
@@ -140,6 +149,8 @@ export class HomeComponent implements OnInit {
     }else{
         this.ErrorMessage= "Seleccione un proyecto para realizar esta acción.";
     }
-  }
+    }
+
+    
 
 }
