@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../login/User';
-import { Role } from './Role';
-import { Proyecto } from '../login/Proyecto';
+import { User } from 'app/Models/User';
+import { Role } from 'app/Models/Role';
+import { Proyecto } from 'app/Models/Proyecto';
 import { ProyectoService } from '../services/ProyectoService';
 import { EvaluacionService } from '../services/EvaluacionService';
 import { Router } from "@angular/router";
 import { AppComponent } from '../app.component';
-import { Evaluacion } from 'app/home/Evaluacion';
-import { EvaluacionCreate } from 'app/home/EvaluacionCreate';
+import { Evaluacion } from 'app/Models/Evaluacion';
+import { EvaluacionCreate } from 'app/Models/EvaluacionCreate';
 
 @Component({
   selector: 'app-home',
@@ -119,6 +119,7 @@ export class HomeComponent implements OnInit {
   //Este metodo guarda el proyecto que a sido seleccionado en el front
   public SeleccionDeProyecto(ProyectoSeleccionado: Proyecto){
     this.ProyectoSeleccionado = ProyectoSeleccionado;
+    this._appComponent._storageDataService.UserProjectSelected = this.ProyectoSeleccionado;
   }
 
   //Nos devuelve si una evaluacion esta incompleta en este proyecto 
@@ -127,10 +128,14 @@ export class HomeComponent implements OnInit {
       res => {
         //Si hay un proyecto sin finalizar lo guarda y lo carga
         if (res != null) {
+
           this._appComponent._storageDataService.Evaluacion = res;
           this._router.navigate(['/menunuevaevaluacion']);
+
         } else {
+
           this.GuardarEvaluacion();
+
         }
       },
       error => {
@@ -143,7 +148,8 @@ export class HomeComponent implements OnInit {
     var NuevaEvaluacion: EvaluacionCreate = { 'estado': false, 'proyectoid': this.ProyectoSeleccionado.id};
     this._evaluacionService.addEvaluacion(NuevaEvaluacion).subscribe(
       res => {
-        console.log(res);
+        this._appComponent._storageDataService.Evaluacion = res;
+        this._router.navigate(['/menunuevaevaluacion']);
       },
       error => {
         console.log("Error al guardar la evaluación");
@@ -155,7 +161,6 @@ export class HomeComponent implements OnInit {
   public NuevaEvaluacion(){
 
     if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
-      this._appComponent._storageDataService.UserProjectSelected = this.ProyectoSeleccionado;
       this.ProyectoIncompleto();
     }else{
         this.ErrorMessage= "Seleccione un proyecto para realizar esta acción.";
@@ -166,7 +171,6 @@ export class HomeComponent implements OnInit {
   //Este metodo consulta las evaluaciones anteriores de este proyecto si esta seleccionado y existe
   public EvaluacionesAnteriores(){
     if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
-        this._appComponent._storageDataService.UserProjectSelected = this.ProyectoSeleccionado;
         this._router.navigate(['/evaluacionprevia']);
     }else{
         this.ErrorMessage= "Seleccione un proyecto para realizar esta acción.";

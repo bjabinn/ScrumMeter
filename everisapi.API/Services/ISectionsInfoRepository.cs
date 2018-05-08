@@ -1,4 +1,5 @@
 using everisapi.API.Entities;
+using everisapi.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,10 @@ namespace everisapi.API.Services
     //Devuelve un section
     SectionEntity GetSection(int id, bool IncluirAsignaciones);
 
-    //Devuelve todas las asignaciones del section
+    //Devuelve todos los sections con sus preguntas y respuestas para un proyecto
+    IEnumerable<SectionInfoDto> GetSectionsInfoFromEval(int idEvaluacion);
+
+    //Devuelve una de las asignaciones del section
     AsignacionEntity GetAsignacionFromSection(SectionEntity section, int idAsignacion);
 
     //Devuelve el numero de preguntas de cada seccion y en un evaluacion por id

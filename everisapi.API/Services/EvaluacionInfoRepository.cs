@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using everisapi.API.Entities;
+using everisapi.API.Models;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 
 namespace everisapi.API.Services
 {
@@ -32,8 +35,42 @@ namespace everisapi.API.Services
             }
         }
 
-        //Recoge todas las evaluaciones
-        public IEnumerable<EvaluacionEntity> GetEvaluaciones()
+    //Recoge una evaluación con datos de información de muchas tablas
+    public List<EvaluacionInfoDto> GetEvaluationInfo(int IdProject)
+    {
+      List<EvaluacionInfoDto> EvaluacionesInformativas = new List<EvaluacionInfoDto>();
+      var Evaluaciones = _context.Evaluaciones.Where(e => e.ProyectoId == IdProject).ToList();
+
+      //Encuentra la informacion de la evaluacion y lo introduce en un objeto
+      foreach (var evaluacion in Evaluaciones)
+      {
+        EvaluacionInfoDto EvaluacionInfo = _context.Respuestas.
+        Include(r => r.EvaluacionEntity).
+        ThenInclude(e => e.ProyectoEntity).
+        ThenInclude(p => p.UserEntity).
+        Where(e => e.EvaluacionId == evaluacion.Id)
+        .Select(r => new EvaluacionInfoDto
+        {
+          Id = r.EvaluacionEntity.Id,
+          Fecha = r.EvaluacionEntity.Fecha,
+          Estado = r.EvaluacionEntity.Estado,
+          Nombre = r.EvaluacionEntity.ProyectoEntity.Nombre,
+          UserNombre = r.EvaluacionEntity.ProyectoEntity.UserNombre
+        })
+          .FirstOrDefault<EvaluacionInfoDto>();
+        //Calcula el número de preguntas y el número de respuestas de esa evaluación
+        EvaluacionInfo.NPreguntas = _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id).Count();
+        EvaluacionInfo.NRespuestas = _context.Respuestas.Where(r => r.Estado == true && r.EvaluacionId == evaluacion.Id).Count();
+
+        //Añade el objeto en la lista
+        EvaluacionesInformativas.Add(EvaluacionInfo);
+      }
+      
+      return EvaluacionesInformativas;
+    }
+
+    //Recoge todas las evaluaciones
+    public IEnumerable<EvaluacionEntity> GetEvaluaciones()
         {
           return _context.Evaluaciones.ToList();
         }

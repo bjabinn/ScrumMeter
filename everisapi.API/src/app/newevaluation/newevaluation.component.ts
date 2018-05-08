@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { SectionService } from '../services/SectionService';
 import { RespuestasService } from '../services/RespuestasService';
 import { AppComponent } from '../app.component';
-import { Asignacion } from './Asignacion';
-import { Pregunta } from './Pregunta';
-import { Proyecto } from '../login/Proyecto';
-import { Respuesta } from './Respuesta';
+import { Asignacion } from 'app/Models/Asignacion';
+import { Pregunta } from 'app/Models/Pregunta';
+import { Proyecto } from 'app/Models/Proyecto';
+import { Respuesta } from 'app/Models/Respuesta';
 import { Router } from "@angular/router";
-import { Evaluacion } from 'app/home/Evaluacion';
+import { Evaluacion } from 'app/Models/Evaluacion';
 
 @Component({
   selector: 'app-newevaluation',
@@ -77,6 +77,7 @@ export class NewevaluationComponent implements OnInit {
 
   //Recoge todas las preguntas
   public getQuestions(id: number) {
+    console.log("investigar questions id:", id);
     this._sectionService.getPreguntasArea(id).subscribe(
       res => {
         if (res != null) {
@@ -94,7 +95,7 @@ export class NewevaluationComponent implements OnInit {
 
   //Recoge todas las respuestas
   public getAnswers(idEvaluacion: number, idAsignacion: number) {
-
+    console.log("investigar answer: ", idEvaluacion, " Asignacion: ", idAsignacion);
     this._respuestasService.getRespuestasAsigProy(idEvaluacion, idAsignacion).subscribe(
       res => {
         if (res != null) {
@@ -139,14 +140,14 @@ export class NewevaluationComponent implements OnInit {
     if (Option && this.PageNow < this.NumMax) {
       this.getQuestions(this.ListaAsignaciones[this.PageNow].id);
       this.AreaAsignada = this.ListaAsignaciones[this.PageNow];
-      this.getAnswers(this.Project.id, this.AreaAsignada.id);
+      this.getAnswers(this.Evaluation.id, this.AreaAsignada.id);
       this.PageNow++;
     } else if (!Option && this.PageNow > 1) {
       this.PageNow--;
       var CualToca = this.PageNow - 1;
       this.AreaAsignada = this.ListaAsignaciones[CualToca];
       this.getQuestions(this.ListaAsignaciones[CualToca].id);
-      this.getAnswers(this.Project.id, this.AreaAsignada.id);
+      this.getAnswers(this.Evaluation.id, this.AreaAsignada.id);
     } else if (Option && this.PageNow == this.NumMax) {
       this._router.navigate(['/menunuevaevaluacion']);
     }

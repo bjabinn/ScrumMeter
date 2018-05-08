@@ -52,6 +52,13 @@ export class SectionService {
       .catch(this.errorHandler);
   }
 
+  //Recoge todos los datos extendidos de una evaluación
+  getSectionInfo(idEvaluacion) {
+    return this._http.get(this.url + 'sections/evaluacion/' + idEvaluacion)
+      .map((response: Response) => response.json())
+      .catch(this.errorHandler);
+  }
+
   //Devuelve las preguntas para una asignación en especifico
   getPreguntasArea(id) {
     return this._http.get(this.url + 'asignaciones/' + id + '/preguntas')

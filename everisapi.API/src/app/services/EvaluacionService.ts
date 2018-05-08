@@ -6,8 +6,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { GLOBAL } from './global';
-import { Evaluacion } from 'app/home/Evaluacion';
-import { EvaluacionCreate } from 'app/home/EvaluacionCreate';
+import { Evaluacion } from 'app/Models/Evaluacion';
+import { EvaluacionCreate } from 'app/Models/EvaluacionCreate';
 
     @Injectable()
     export class EvaluacionService
@@ -34,6 +34,13 @@ import { EvaluacionCreate } from 'app/home/EvaluacionCreate';
           .catch(this.errorHandler);
       }
 
+      //Este metodo recoge una evaluacion con datos extendidos si existe mediante una id de evaluacion
+      getEvaluacionInfo(id) {
+        return this._http.get(this.url + 'evaluaciones/proyecto/' + id + '/info')
+          .map((response: Response) => response.json())
+          .catch(this.errorHandler);
+      }
+
       //Este metodo recoge una evaluacion de un proyecto si existe mediante una id de proyecto
       getEvaluacionFromProject(id) {
         return this._http.get(this.url + 'evaluaciones/proyecto/'+id)
@@ -56,7 +63,7 @@ import { EvaluacionCreate } from 'app/home/EvaluacionCreate';
         });
         console.log("hola", evaluacion)
         return this._http.post(this.url + 'evaluaciones', params, { headers: headers })
-          .map(res => res)
+          .map(res => res.json())
           .catch(this.errorHandler);
       }
 

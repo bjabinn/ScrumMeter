@@ -143,6 +143,32 @@ namespace everisapi.API.Controllers
       }
     }
 
+    //Recogemos la id de la sección y devuelve un objeto con información extendida
+    [HttpGet("evaluacion/{id}")]
+    public IActionResult GetDatosEvaluacionFromEval(int id)
+    {
+
+      try
+      {
+        //Comprueba si existe la section y si existe manda un json con la información
+        //si no existe mandara un error 404 el error 500 aparecera si el servidor falla
+        var SectionInfo = _sectionInfoRepository.GetSectionsInfoFromEval(id);
+        if (SectionInfo == null)
+        {
+          _logger.LogInformation($"La section con id de evaluación" + id + " no pudo ser encontrado.");
+          return NotFound();
+        }
+
+        return Ok(SectionInfo);
+
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir el número de respuestas correctas para la section  con la id de evaluación " + id + ": " + ex);
+        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+      }
+    }
+
     //Introduciendo el nombre del usuario recogemos todos sus roles
     [HttpGet("{id}/asignaciones")]
     public IActionResult GetAsignacionesFromSection(int id)

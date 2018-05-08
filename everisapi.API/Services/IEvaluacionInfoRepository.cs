@@ -1,4 +1,5 @@
 using everisapi.API.Entities;
+using everisapi.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,9 @@ namespace everisapi.API.Services
 
         //Devuelve una evaluación
         EvaluacionEntity GetEvaluacion(int IdEvaluacion, Boolean IncluirRespuestas);
+
+        //Devuelve información detallada de las evaluaciones
+        List<EvaluacionInfoDto> GetEvaluationInfo(int IdProject);
 
         //Devuelve todas las evaluaciones de un proyecto
         IEnumerable<EvaluacionEntity> GetEvaluacionesFromProject(int IdProject);

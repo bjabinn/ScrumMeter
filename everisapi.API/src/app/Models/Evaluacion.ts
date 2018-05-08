@@ -1,4 +1,4 @@
-import { Respuesta } from "app/newevaluation/Respuesta";
+import { Respuesta } from "./Respuesta";
 
 export class Evaluacion {
   constructor(

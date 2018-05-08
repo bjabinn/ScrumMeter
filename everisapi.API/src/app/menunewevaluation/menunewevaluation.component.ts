@@ -3,11 +3,11 @@ import { SectionService } from '../services/SectionService';
 import { EvaluacionService } from '../services/EvaluacionService';
 import { ProyectoService } from '../services/ProyectoService';
 import { AppComponent } from '../app.component';
-import { Section } from './Section';
+import { Section } from 'app/Models/Section';
 import { Router } from "@angular/router";
-import { Proyecto } from 'app/login/Proyecto';
+import { Proyecto } from 'app/Models/Proyecto';
 import { async } from '@angular/core/testing';
-import { Evaluacion } from 'app/home/Evaluacion';
+import { Evaluacion } from 'app/Models/Evaluacion';
 
 @Component({
   selector: 'app-menunewevaluation',
@@ -41,13 +41,11 @@ export class MenunewevaluationComponent implements OnInit {
     this.Evaluacion = this._appComponent._storageDataService.Evaluacion;
     if (!this._proyectoService.verificarUsuario()) {
       this._router.navigate(['/login']);
-    } else if (this.ProjectSelected == null || this.ProjectSelected == undefined || this.Evaluacion == null) {
+    } else if (this.ProjectSelected == null || this.ProjectSelected == undefined || this.Evaluacion == null || this.Evaluacion == undefined) {
       this._router.navigate(['/home']);
     }
-
     //Recogemos el nombre del usuario con el que nos logueamos
     this.UserSelected = this._proyectoService.UsuarioLogeado;
-
 
     //Recogemos todas las sections
     this._sectionService.getSections().subscribe(
@@ -61,9 +59,12 @@ export class MenunewevaluationComponent implements OnInit {
         }
       },
       error => {
-        this.ErrorMessage = "Ocurrio un error con el servidor, lo sentimos.";
+        this.ErrorMessage = "Ocurrio un error con el servidor, lo sentimos."+error;
       }
     );
+
+
+  
   }
 
   ngOnInit() {
@@ -87,7 +88,7 @@ export class MenunewevaluationComponent implements OnInit {
   //Este metodo nos permite recoger el número de preguntas y de respuestas para cada sección
   //Deberemos introducir una id de proyecto y la id de la sección
   public GetDataPreguntas(idSection: number, idEvaluacion: number) {
-
+    console.log("investigando: section-",idSection, " evaluacion-", idEvaluacion)
       //Recogemos el numero de preguntas
     this._sectionService.getPreguntasSection(idSection, idEvaluacion).subscribe( 
          res => {
@@ -123,11 +124,10 @@ export class MenunewevaluationComponent implements OnInit {
     this.Evaluacion.estado = true;
     this._evaluacionService.updateEvaluacion(this.Evaluacion).subscribe(
       res => {
-        console.log(res);
         this._router.navigate(['/home']);
       },
       error => {
-        console.log("ocurrio un error en el update: ");
+        console.log("ocurrio un error en el update: " + error);
       });
   }
 

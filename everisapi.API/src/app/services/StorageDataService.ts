@@ -1,7 +1,8 @@
 
 import { Injectable, Inject } from '@angular/core';
-import { User } from '../login/User'; 
-import { Evaluacion } from 'app/home/Evaluacion';
+import { User } from 'app/Models/User'; 
+import { Evaluacion } from 'app/Models/Evaluacion';
+import { EvaluacionInfo } from 'app/Models/EvaluacionInfo';
 
 @Injectable()
 export class StorageDataService{
@@ -11,4 +12,5 @@ export class StorageDataService{
     public DataUnfinished: boolean = false;
     public IdSection: number = 1;
     public Evaluacion: Evaluacion = null;
+    public EvaluacionToPDF: EvaluacionInfo = null;
 }

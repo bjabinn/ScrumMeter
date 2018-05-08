@@ -1,4 +1,5 @@
 using everisapi.API.Entities;
+using everisapi.API.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,35 @@ namespace everisapi.API.Services
     public int GetRespuestasCorrectasFromSection(int idSection, int idEvaluacion)
     {
       return _context.Respuestas.Where(r => r.EvaluacionId == idEvaluacion && r.Estado == true && r.PreguntaEntity.AsignacionEntity.SectionId == idSection).Count();
+    }
+
+    //Devuelve un objeto estado con información extendida
+    public IEnumerable<SectionInfoDto> GetSectionsInfoFromEval(int idEvaluacion)
+    {
+      //Recoge las respuestas de la evaluación
+      List<SectionInfoDto> ListadoSectionInformacion = new List<SectionInfoDto>();
+      var Respuestas = _context.Respuestas.
+        Include(r => r.PreguntaEntity).
+        ThenInclude(rp => rp.AsignacionEntity).
+        ThenInclude(rpa => rpa.SectionEntity).
+        Where( r => r.EvaluacionId == idEvaluacion).ToList();
+
+      //Saca las en que secciones estuvo en ese momento
+      var SectionsUtilizadas = Respuestas.Select(r => r.PreguntaEntity.AsignacionEntity.SectionEntity).Distinct().ToList();
+      
+
+      //Rellena los datos y los añade a la lista para cada sección
+      foreach (var section in SectionsUtilizadas)
+      {
+        SectionInfoDto SectionAdd = new SectionInfoDto();
+        SectionAdd.Id = section.Id;
+        SectionAdd.Nombre = section.Nombre;
+        SectionAdd.Preguntas = Respuestas.Where(r => r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).Count();
+        SectionAdd.Respuestas = Respuestas.Where(r => r.Estado && r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).Count();
+        ListadoSectionInformacion.Add(SectionAdd);
+      }
+
+      return ListadoSectionInformacion;
     }
 
     //Devolvemos las asignaciones de una section

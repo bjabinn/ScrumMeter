@@ -132,7 +132,7 @@ namespace everisapi.API
                             Id = 1,
                             Nombre="Proyecto Feria Huida",
                             Fecha = DateTime.Now,
-                            Evaluaciones = new List<EvaluacionEntity>()
+                            /*Evaluaciones = new List<EvaluacionEntity>()
                             {
                               new EvaluacionEntity()
                               {
@@ -146,7 +146,7 @@ namespace everisapi.API
                                 Fecha = DateTime.Now,
                                 Estado = true
                               },
-                            }
+                            }*/
                         },
                         new ProyectoEntity()
                         {

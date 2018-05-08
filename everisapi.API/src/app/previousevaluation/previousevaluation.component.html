@@ -3,17 +3,17 @@
 <div class="row" id="infopro">
 
   <div class="col-xs-12 col-sm-5 col-md-5">
-    Usuario:
+    Usuario: {{UserName}}
   </div>
   <div class="col-xs-12 col-sm-5 col-md-5">
-    Fecha:
+    Fecha: {{Project.fecha}}
   </div>
 
   <div class="col-xs-12 col-sm-5 col-md-5">
 
     <div class="form-horizontal">
       <div class="form-group">
-        <label for="sel1">Proyecto:</label>
+        <label for="sel1">Proyecto: {{Project.nombre}}</label>
 
       </div>
     </div>
@@ -59,19 +59,19 @@
           <tr class="filters">
             <th>
               <input type="text" class="form-control" placeholder="Fecha" disabled *ngIf="!clicked">
-              <input type="text" class="form-control" placeholder="Fecha" *ngIf="clicked" [(ngModel)]="ProyectoBuscado.fecha">
+              <input type="text" class="form-control" placeholder="Fecha" *ngIf="clicked" [(ngModel)]="EvaluacionBuscada.fecha">
             </th>
             <th>
               <input type="text" class="form-control" placeholder="Proyecto" disabled *ngIf="!clicked">
-              <input type="text" class="form-control" placeholder="Proyecto" *ngIf="clicked" [(ngModel)]="ProyectoBuscado.nombre">
+              <input type="text" class="form-control" placeholder="Proyecto" *ngIf="clicked" [(ngModel)]="EvaluacionBuscada.nombre">
             </th>
             <th>
               <input type="text" class="form-control" placeholder="Usuario" disabled *ngIf="!clicked">
-              <input type="text" class="form-control" placeholder="Usuario" *ngIf="clicked" [(ngModel)]="ProyectoBuscado.usuario">
+              <input type="text" class="form-control" placeholder="Usuario" *ngIf="clicked" [(ngModel)]="EvaluacionBuscada.usuario">
             </th>
             <th>
               <input type="text" class="form-control" placeholder="Puntuación" disabled *ngIf="!clicked">
-              <input type="text" class="form-control" placeholder="Puntuación" pattern="[0-9]{3}" *ngIf="clicked" [(ngModel)]="puntuacion">
+              <input type="text" class="form-control" placeholder="Puntuación" pattern="[0-9]{3}" *ngIf="clicked" [(ngModel)]="nrespuestas">
             </th>
             <th>
               <input type="text" class="form-control" placeholder="Estado" disabled>
@@ -82,19 +82,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let proyecto of Busqueda()">
-            <td>{{proyecto.fecha}}</td>
-            <td>{{proyecto.nombre}}</td>
-            <td>{{proyecto.usuario}}</td>
-            <td>{{proyecto.puntuacion}}/{{proyecto.totalpreguntas}}</td>
-            <td *ngIf="proyecto.puntuacion==proyecto.totalpreguntas"><img class="icons" src="../../assets/check.png" /></td>
-            <td *ngIf="proyecto.puntuacion!=proyecto.totalpreguntas"><img class="icons" src="../../assets/warning.png" /></td>
-            <td><button type="button" class="btn btn-danger" routerLink="/pdfgenerator">VER GRAFICA <span class="glyphicon glyphicon-save-file"><img class="icons" src="../../assets/pdfgenerate.png" /></span></button></td>
+          <tr *ngFor="let evaluacion of Busqueda()">
+            <td>{{evaluacion.fecha}}</td>
+            <td>{{evaluacion.nombre}}</td>
+            <td>{{evaluacion.userNombre}}</td>
+            <td>{{evaluacion.nRespuestas}}/{{evaluacion.nPreguntas}}</td>
+            <td *ngIf="evaluacion.estado"><img class="icons" src="../../assets/check.png" /></td>
+            <td *ngIf="!evaluacion.estado"><img class="icons" src="../../assets/warning.png" /></td>
+            <td><button type="button" class="btn btn-danger" (click)="SaveDataToPDF(evaluacion)">VER GRAFICA <span class="glyphicon glyphicon-save-file"><img class="icons" src="../../assets/pdfgenerate.png" /></span></button></td>
           </tr>
       
         </tbody>
       </table>
-      <p>{{fecha}}</p>
     </div>
   </div>
 </div>
