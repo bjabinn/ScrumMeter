@@ -1,4 +1,12 @@
 <br> <br>
+<div *ngIf="(ErrorMessage != null && ProyectoSeleccionado == null )" class="alert alert-danger" id="danger">
+  <strong>{{ErrorMessage}}</strong>
+</div>
+<div *ngIf="(ProyectoSeleccionado != null )" class=" alert alert-success">
+  <span class="textstyle">Proyecto Seleccionado:</span> {{ProyectoSeleccionado.nombre}}
+</div>
+
+
 <div class="row" id="infopro">
 
   <div class="col-xs-12 col-sm-5 col-md-6">
@@ -28,12 +36,7 @@
 
   </div>
   <div class="col-xs-12 col-sm-5 col-md-8">
-    <div *ngIf="(ErrorMessage != null && ProyectoSeleccionado == null )" class="alert alert-danger" id="danger">
-      <strong>{{ErrorMessage}}</strong>
-    </div>
-    <div *ngIf="(ProyectoSeleccionado != null )" class=" alert alert-success">
-      <span class="textstyle">Proyecto Seleccionado:</span> {{ProyectoSeleccionado.nombre}}
-    </div>
+
   </div>
 </div>
 <br> <br>
@@ -44,7 +47,7 @@
 <div class="row">
   //<div class="col-xs-12 col-sm-12 col-md-2"></div>
   <div class="col-xs-12 col-sm-12 col-md-4">
-    <div class="titulo" (click)="NuevaEvaluacion()">
+    <div class="titulo" (click)="showModal(content)">
       <a>Nueva <br />Evaluaci&oacute;n</a>
     </div>
   </div>
@@ -59,6 +62,30 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-2"></div>
 </div>
+
+
+
+
+<ng-template #content let-cl="close" let-di="dismiss">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">NUEVA EVALUACIÓN</h5> <button type="button" class="close" (click)="cl('Closed from Close button')">
+
+        <span aria-hidden="true">×</span>
+
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>¿Quieres continuar con la evaluación o empezar una nueva?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="NuevaEvaluacion()">Continuar</button>
+      <button type="button" class="btn btn-secondary" (click)="di('Dismissed from dismiss button')">Nueva</button>
+      <button type="button" class="btn btn-primary" (click)="cl('Closed from Close button')">Cancelar</button>
+    </div>
+  </div>
+</ng-template>
+
 
 
 

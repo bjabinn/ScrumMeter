@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PdfgeneratorComponent } from './pdfgenerator/pdfgenerator.component';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { CommonModule } from '@angular/common';
+ 
 
 
 

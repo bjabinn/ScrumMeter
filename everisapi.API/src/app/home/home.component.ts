@@ -6,6 +6,10 @@ import { ProyectoService } from '../services/ProyectoService';
 import { Router } from "@angular/router";
 import { AppComponent } from '../app.component';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @Component({
@@ -29,8 +33,7 @@ export class HomeComponent implements OnInit  {
   constructor(
             private _proyectoService: ProyectoService,
       private _router: Router,
-      
-           
+      private modalService: NgbModal,
         private _appComponent: AppComponent) { }
 
  
@@ -67,7 +70,14 @@ export class HomeComponent implements OnInit  {
             }else if(error==500){
                 this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
             }
-        });
+          });
+
+
+
+
+
+
+
   }
 
   //Metodo que asigna los proyectos por permisos y usuario
@@ -151,6 +161,23 @@ export class HomeComponent implements OnInit  {
     }
     }
 
-    
+
+  showModal(content) {
+    this.modalService.open(content).result.then(
+      (closeResult) => {
+        //modal close  
+        console.log("modal closed : ", closeResult);
+      }, (dismissReason) => {
+        //modal Dismiss  
+        if (dismissReason == ModalDismissReasons.ESC) {
+          console.log("modal dismissed when used pressed ESC button");
+        } else if (dismissReason == ModalDismissReasons.BACKDROP_CLICK) {
+          console.log("modal dismissed when used pressed backdrop");
+        } else {
+          console.log(dismissReason);
+        }
+      })
+  }  
+
 
 }

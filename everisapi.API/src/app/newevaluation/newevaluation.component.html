@@ -54,8 +54,8 @@
 
 <div class="wrapper">
   
-    <button type="button" class="previous round" (click)="NextPreviousButton(false)"> Anterior </button>
+    <button type="button" class="btn btn-outline-success" (click)="NextPreviousButton(false)"> Anterior </button>
     <strong>{{PageNow}}/{{NumMax}}</strong>
-    <button type="button" class="next round" [disabled]="disable()" (click)="NextPreviousButton(true)"> Siguiente </button>
+    <button type="button" class="btn btn-outline-success" [disabled]="disable()" (click)="NextPreviousButton(true)"> Siguiente </button>
   
 </div>
