@@ -31,11 +31,12 @@ export class PreviousevaluationComponent implements OnInit {
   ngOnInit() {
     this.Restablecer();
     //Datos de prueba
-    /*this.ListaDeEvaluaciones = [new EvaluacionInfo('TESCO', 'User', 100, 100, "12/11/2018", true),
-      new EvaluacionInfo( 'BSA', 'Admin', 65, 55, "24/10/2015", false),
-      new EvaluacionInfo( 'FacePalms', 'Admin', 100, 100, "09/03/2012", false),
-      new EvaluacionInfo('NextDay', 'User', 50, 32, "11/01/2016", true)];*/
+    /*this.ListaDeEvaluaciones = [new EvaluacionInfo( 1 ,'TESCO', 'User', 100, 100, "12/11/2018", true),
+      new EvaluacionInfo( 2, 'BSA', 'Admin', 65, 55, "24/10/2015", false),
+      new EvaluacionInfo( 3, 'FacePalms', 'Admin', 100, 100, "09/03/2012", false),
+      new EvaluacionInfo( 4, 'NextDay', 'User', 50, 32, "11/01/2016", true)];*/
 
+    //Recogemos los proyectos y realizamos comprobaciones
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
     if (this._appComponent._storageDataService.UserData == undefined || this._appComponent._storageDataService.UserData == null) {
       this.UserName = localStorage.getItem("user");
@@ -49,7 +50,7 @@ export class PreviousevaluationComponent implements OnInit {
       this.UserName = this._appComponent._storageDataService.UserData.nombre;
     }
 
-    console.log(this.Project.id);
+    //Recoge la información extendida necesaria para la lista de evaluaciones
     this._evaluacionService.getEvaluacionInfo(this.Project.id).subscribe(
       res => {
         this.ListaDeEvaluaciones = res;
@@ -116,7 +117,7 @@ export class PreviousevaluationComponent implements OnInit {
     this._router.navigate(['/pdfgenerator']);
   }
 
-
+  //Filtra por evaluaciones completas completas o ninguna
   public ChangeFiltro(estado: boolean) {
     this.FiltrarCompletados = estado;
   }

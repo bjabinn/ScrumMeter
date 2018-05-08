@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 import { Proyecto } from 'app/Models/Proyecto';
 import { async } from '@angular/core/testing';
 import { Evaluacion } from 'app/Models/Evaluacion';
+import { SectionInfo } from 'app/Models/SectionInfo';
 
 @Component({
   selector: 'app-menunewevaluation',
@@ -18,9 +19,7 @@ import { Evaluacion } from 'app/Models/Evaluacion';
 export class MenunewevaluationComponent implements OnInit {
 
   public ErrorMessage: string = null;
-  public ListaSections: Array<Section> = [];
-  public ListaNumPreguntas: Array<number> = [];
-  public ListaNumRespuestas: Array<number> = [];
+  public ListaDeDatos: Array<SectionInfo> = [];
   public ProjectSelected: Proyecto;
   public Evaluacion: Evaluacion = null;
   public UserSelected: string;
@@ -47,19 +46,13 @@ export class MenunewevaluationComponent implements OnInit {
     //Recogemos el nombre del usuario con el que nos logueamos
     this.UserSelected = this._proyectoService.UsuarioLogeado;
 
-    //Recogemos todas las sections
-    this._sectionService.getSections().subscribe(
+    //Recogemos todos los datos
+    this._sectionService.getSectionInfo(this.Evaluacion.id).subscribe(
       res => {
-        if (res != null) {
-          this.ListaSections = res;
-          //Le damos la información
-          this.GetDataPreguntas(this.ListaSections[0].id, this.Evaluacion.id);
-        } else {
-          this.ErrorMessage = "No esta disponible ninguna sección, contacte con el servicio tecnico porfavor.";
-        }
+        this.ListaDeDatos = res;
       },
       error => {
-        this.ErrorMessage = "Ocurrio un error con el servidor, lo sentimos."+error;
+        console.log("Error al recoger los datos.")
       }
     );
 
@@ -83,40 +76,6 @@ export class MenunewevaluationComponent implements OnInit {
   public RedirectToAsignaciones(id: number) {
     this._appComponent._storageDataService.IdSection = id;
     this._router.navigate(['/nuevaevaluacion']);
-  }
-
-  //Este metodo nos permite recoger el número de preguntas y de respuestas para cada sección
-  //Deberemos introducir una id de proyecto y la id de la sección
-  public GetDataPreguntas(idSection: number, idEvaluacion: number) {
-    console.log("investigando: section-",idSection, " evaluacion-", idEvaluacion)
-      //Recogemos el numero de preguntas
-    this._sectionService.getPreguntasSection(idSection, idEvaluacion).subscribe( 
-         res => {
-          if (  res != null) {
-            this.ListaNumPreguntas.push(res);
-          } else {
-            console.log("error preguntas1");
-          }
-        },
-        error => {
-          console.log("error preguntas2");
-        });
-
-      //Recogemos el numero de respuestas
-    this._sectionService.getRespuestasSection(idSection, idEvaluacion).subscribe(
-        res => {
-         if ( res != null) {
-           this.ListaNumRespuestas.push(res);
-           if (idSection < this.ListaSections.length) {
-             this.GetDataPreguntas(this.ListaSections[idSection].id, idEvaluacion);
-           }
-          } else {
-            console.log("error respuestas1");
-          }
-        },
-        error => {
-          console.log("error respuestas2");
-        });
   }
 
   //Este metodo guarda la evaluacion y cambia su estado como finalizado

@@ -16,23 +16,23 @@
   </div>
 </div>
 <br>
-<div class="row" *ngFor="let section of ListaSections; let i = index">
+<div class="row" *ngFor="let dato of ListaDeDatos">
   <div class="col-xs-12 col-sm-3 col-md-3"></div>
-  <div class="col-xs-12 col-sm-3 col-md-3" id="infopro" (click)="RedirectToAsignaciones(section.id)">
-    {{section.nombre}}
+  <div class="col-xs-12 col-sm-3 col-md-3" id="infopro" (click)="RedirectToAsignaciones(dato.id)">
+    {{dato.nombre}}
     <i class="arrow arrow-right"></i>
   </div>
   <div class="col-xs-12 col-sm-3 col-md-3">
 
-    <ngb-progressbar showValue="true" type="success" [value]="CalcularPorcentaje(ListaNumRespuestas [i], ListaNumPreguntas [i])" *ngIf="ListaNumRespuestas [i]==ListaNumPreguntas [i] && ListaSections.length == ListaNumRespuestas.length"></ngb-progressbar>
-    <ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(ListaNumRespuestas [i], ListaNumPreguntas [i])" *ngIf="ListaNumRespuestas [i]!=ListaNumPreguntas [i] && ListaSections.length == ListaNumRespuestas.length"></ngb-progressbar>
-    <ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(0, ListaNumPreguntas [i])" *ngIf="ListaSections.length != ListaNumRespuestas.length"></ngb-progressbar>
+    <ngb-progressbar showValue="true" type="success" [value]="CalcularPorcentaje(dato.respuestas, dato.preguntas)" *ngIf="dato.respuestas==dato.preguntas && ListaDeDatos.length != 0"></ngb-progressbar>
+    <ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(dato.respuestas, dato.preguntas)" *ngIf="dato.respuestas!=dato.preguntas && ListaDeDatos.length != 0"></ngb-progressbar>
+    <ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(0, dato.preguntas)" *ngIf="ListaDeDatos.length == 0"></ngb-progressbar>
 
-    <span class="title"> {{ListaNumRespuestas [i]}} de {{ListaNumPreguntas [i]}} </span>
+    <span class="title"> {{dato.respuestas}} de {{dato.preguntas}} </span>
   </div>
   <div class="col-xs-12 col-sm-3 col-md-3">
-      <img *ngIf="ListaNumRespuestas [i]!=ListaNumPreguntas [i] && ListaNumRespuestas [i]>0" src="../../assets/green_no.png" alt="ok">
-      <img *ngIf="ListaNumRespuestas [i]==ListaNumPreguntas [i]" src="../../assets/green_si.png" alt="ok">
+      <img *ngIf="dato.respuestas!=dato.preguntas && dato.respuestas>0" src="../../assets/green_no.png" alt="ok">
+      <img *ngIf="dato.respuestas==dato.preguntas" src="../../assets/green_si.png" alt="ok">
   </div>
     <br />
   </div>

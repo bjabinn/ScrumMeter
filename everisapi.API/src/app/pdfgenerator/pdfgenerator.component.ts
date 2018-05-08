@@ -37,7 +37,6 @@ export class PdfgeneratorComponent implements OnInit {
     //Recupera los datos y los comprueba
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
     this.Evaluacion = this._appComponent._storageDataService.EvaluacionToPDF;
-    console.log("dale desde principio: ", this.Evaluacion, "o no vea: ", this._appComponent._storageDataService.EvaluacionToPDF)
     if (this._appComponent._storageDataService.UserData == undefined || this._appComponent._storageDataService.UserData == null) {
       this.UserName = localStorage.getItem("user");
       if (this.UserName == undefined || this.UserName == null || this.UserName == "") {
@@ -51,7 +50,6 @@ export class PdfgeneratorComponent implements OnInit {
     }
 
     //Recoge los datos del servicio
-    console.log("le esta pasando: ", this.Evaluacion.estado)
     this._sectionService.getSectionInfo(this.Evaluacion.id).subscribe(
       res => {
         this.ListaDeDatos = res;
@@ -66,12 +64,10 @@ export class PdfgeneratorComponent implements OnInit {
   //Da los datos a las diferentes listas que usaremos para las graficas
   public shareDataToChart() {
     for (var i = 0; i < this.ListaDeDatos.length; i++) {
-      console.log("dentro del for: ", this.ListaDeDatos[i])
       this.ListaNombres.push(this.ListaDeDatos[i].nombre);
       this.ListaNPreguntas.push(this.ListaDeDatos[i].preguntas);
       this.ListaNRespuestas.push(this.ListaDeDatos[i].respuestas);
     }
-    console.log("investiga muchos array: ", this.ListaNombres, this.ListaNPreguntas, this.ListaNRespuestas)
   }
 
   //Datos para la grafica
