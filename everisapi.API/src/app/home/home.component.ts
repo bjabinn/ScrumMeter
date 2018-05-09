@@ -8,6 +8,11 @@ import { Router } from "@angular/router";
 import { AppComponent } from '../app.component';
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { EvaluacionCreate } from 'app/Models/EvaluacionCreate';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'; 
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +32,7 @@ export class HomeComponent implements OnInit {
   constructor(
             private _proyectoService: ProyectoService,
             private _evaluacionService: EvaluacionService,
+             private modalService:NgbModal,
             private _router: Router,
             private _appComponent: AppComponent) {}
 
@@ -176,5 +182,22 @@ export class HomeComponent implements OnInit {
         this.ErrorMessage= "Seleccione un proyecto para realizar esta acción.";
     }
   }
+  
+  showModal(content) {
+    this.modalService.open(content).result.then(
+      (closeResult) => {
+        //cerrar modal 
+        console.log("modal closed : ", closeResult);
+      }, (dismissReason) => {
+        //modal Dismiss  
+        if (dismissReason == ModalDismissReasons.ESC) {
+          console.log("modal dismissed when used pressed ESC button");
+        } else if (dismissReason == ModalDismissReasons.BACKDROP_CLICK) {
+          console.log("modal dismissed when used pressed backdrop");
+        } else {
+          console.log(dismissReason);
+        }
+      })
+  }  
 
 }
