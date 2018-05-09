@@ -1,13 +1,12 @@
-<button class="GenerarPDF">Generar PDF</button>
-  <div style="display: block">
-    <canvas baseChart
-            [datasets]="barChartData"
-            [labels]="ListaNombres"
-            [options]="barChartOptions"
-            [legend]="barChartLegend"
-            [chartType]="barChartType"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)"></canvas>
-  </div>
+<button class="btn btn-outline-success" (click)="downloadPDF()">Generar PDF</button>
 
-
+<div style="display: block">
+  <canvas baseChart
+          [datasets]="barChartData"
+          [labels]="ListaNombres"
+          [options]="barChartOptions"
+          [legend]="barChartLegend"
+          [chartType]="barChartType"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { EvaluacionInfo } from 'app/Models/EvaluacionInfo';
 import { Proyecto } from 'app/Models/Proyecto';
@@ -6,7 +6,8 @@ import { SectionInfo } from 'app/Models/SectionInfo';
 import { AppComponent } from 'app/app.component';
 import { Router } from '@angular/router';
 import { SectionService } from 'app/services/SectionService';
-import { forEach } from '@angular/router/src/utils/collection';
+
+import * as jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-pdfgenerator',
@@ -26,6 +27,9 @@ export class PdfgeneratorComponent implements OnInit {
   public ListaNPreguntas: number[] = [];
   public ListaNRespuestas: number[] = [];
   public ListaNombres: string[] = [];
+
+  //Datos para pdf
+  @ViewChild('content') content: ElementRef;
 
   constructor(
     private _appComponent: AppComponent,
@@ -67,12 +71,13 @@ export class PdfgeneratorComponent implements OnInit {
       this.ListaNombres.push(this.ListaDeDatos[i].nombre);
       this.ListaNPreguntas.push(this.ListaDeDatos[i].preguntas);
       this.ListaNRespuestas.push(this.ListaDeDatos[i].respuestas);
+      console.log("dando: ", this.ListaNombres, this.ListaNPreguntas, this.ListaNRespuestas)
     }
   }
 
   //Datos para la grafica
   public barChartOptions: any = {
-    scaleShowVerticalLines: false,
+    scaleShowVerticalLines: true,
     responsive: true
   };
 
@@ -90,4 +95,26 @@ export class PdfgeneratorComponent implements OnInit {
   public chartHovered(e: any): void {
     console.log(e);
   }
+
+  //Generar pdf
+
+  public downloadPDF() {
+    let doc = new jsPDF();
+    let specialElementHandlers = {
+    '#editor': function(element, rederer) {
+      return true;
+    }
+  };
+  let content = this.content.nativeElement;
+
+  doc.fromHTML(content.innerHTML, 15, 15, {
+    'width': 190,
+    'elementHandlers': specialElementHandlers
+  });
+
+  //Recoger nombre
+  var NombrePDF = "test.pdf";
+  doc.save(NombrePDF);
+  }
+
 }
