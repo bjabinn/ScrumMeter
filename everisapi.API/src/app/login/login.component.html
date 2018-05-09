@@ -16,23 +16,16 @@
                     <strong>{{ErrorMessage}}</strong>
                 </div>
                 <div class="loginmodal-container">
-                    <h1>Ingresa en tu cuenta</h1>
+                    <h1>Iniciar Sesión</h1>
                     <br>
                     <form>
-                       <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-user"></i>
-                                </span>
-                                <input id="user" type="text" class="form-control" name="user" placeholder="Usuario" [(ngModel)]="nombreDeUsuario">                     
+                       <div class="input-group">     
+                       <input id="email" type="email" class="form-control" name="name" placeholder="Usuario" [(ngModel)]="nombreDeUsuario">       
                         </div>
                         <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="glyphicon glyphicon-lock"></i>
-                            </span>
+                        <div class="input-group">                            
                             <input id="password" type="password" class="form-control" name="password" placeholder="Contrase&ntilde;a" [(ngModel)]="passwordDeUsuario">
                         </div> 
-                   
                         <br>
                         <input type="submit" name="login" class="btn btn-success" value="Acceder" (click)="SignUp()">
                     </form>
