@@ -1,4 +1,5 @@
 using everisapi.API.Entities;
+using everisapi.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,9 @@ namespace everisapi.API.Services
     {
         //Devuelve todas las asignaciones
         IEnumerable<AsignacionEntity> GetAsignaciones();
+
+        //Devuelve todas las asignaciones con datos extendidos filtrado por proyecto
+        IEnumerable<AsignacionInfoDto> GetAsignFromProject(int idProject);
 
         //Devuelve una asignación
         AsignacionEntity GetAsignacion(int AsignacionId, Boolean IncluirPreguntas);

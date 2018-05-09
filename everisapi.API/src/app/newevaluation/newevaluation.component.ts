@@ -8,6 +8,7 @@ import { Proyecto } from 'app/Models/Proyecto';
 import { Respuesta } from 'app/Models/Respuesta';
 import { Router } from "@angular/router";
 import { Evaluacion } from 'app/Models/Evaluacion';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-newevaluation',

@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
+import { LoadingComponent } from './loading/loading.component';
 import { AppRoutingModule, routing } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { NewevaluationComponent } from './newevaluation/newevaluation.component';
@@ -22,7 +23,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     NewevaluationComponent,
     PreviousevaluationComponent,
     MenunewevaluationComponent,
-    PdfgeneratorComponent
+    PdfgeneratorComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'; 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-home',
@@ -130,23 +131,7 @@ export class HomeComponent implements OnInit {
 
   //Nos devuelve si una evaluacion esta incompleta en este proyecto 
   public ProyectoIncompleto() {
-    this._evaluacionService.getIncompleteEvaluacionFromProject(this.ProyectoSeleccionado.id).subscribe(
-      res => {
-        //Si hay un proyecto sin finalizar lo guarda y lo carga
-        if (res != null) {
-
-          this._appComponent._storageDataService.Evaluacion = res;
-          this._router.navigate(['/menunuevaevaluacion']);
-
-        } else {
-
-          this.GuardarEvaluacion();
-
-        }
-      },
-      error => {
-        console.log("error incompleta evaluacion comprobacion");
-      });
+    
   }
 
   //Este metodo crea una nueva evaluación y la manda para guardarla en la base de datos
@@ -182,22 +167,59 @@ export class HomeComponent implements OnInit {
         this.ErrorMessage= "Seleccione un proyecto para realizar esta acción.";
     }
   }
-  
+
+  //Este metodo guarda la evaluacion y cambia su estado como finalizado
+  public FinishEvaluation() {
+    //Recoge la evaluación
+    var Evaluacion = this._appComponent._storageDataService.Evaluacion;
+
+    //La cambia a temrinada
+    Evaluacion.estado = true;
+
+    //La envia a la base de datos ya terminada
+    this._evaluacionService.updateEvaluacion(Evaluacion).subscribe(
+      res => {
+        //Una vez terminado guarda una nueva evaluación
+        this.GuardarEvaluacion();
+      },
+      error => {
+        console.log("ocurrio un error en el update: " + error);
+      });
+  }
+
+  //Muestra un modal con lo que se debe hacer en cada caso
   showModal(content) {
-    this.modalService.open(content).result.then(
-      (closeResult) => {
-        //cerrar modal 
-        console.log("modal closed : ", closeResult);
-      }, (dismissReason) => {
-        //modal Dismiss  
-        if (dismissReason == ModalDismissReasons.ESC) {
-          console.log("modal dismissed when used pressed ESC button");
-        } else if (dismissReason == ModalDismissReasons.BACKDROP_CLICK) {
-          console.log("modal dismissed when used pressed backdrop");
+    this._evaluacionService.getIncompleteEvaluacionFromProject(this.ProyectoSeleccionado.id).subscribe(
+      res => {
+        //Si hay un proyecto sin finalizar muestra un modal y deja seleccionar
+        if (res != null) {
+          this.modalService.open(content).result.then(
+            (closeResult) => {
+
+            }, (dismissReason) => {
+              //Lo guarda en el storage
+              this._appComponent._storageDataService.Evaluacion = res;
+              //Si selecciona continuar cargara la valuación que no termino
+              if (dismissReason == 'Continuar') {
+                this._router.navigate(['/menunuevaevaluacion']);
+              } else {
+                //Si selecciona nuevo que es la otra opción cogera la evaluación anterior lo finalizara
+                //cargara una nueva y lo mostrara
+                this.GuardarEvaluacion();
+              }
+
+            })
+
         } else {
-          console.log(dismissReason);
+          //Si no encuentra ninguna repetida directamente te crea una nueva evaluación
+          this.GuardarEvaluacion();
+
         }
-      })
+      },
+      error => {
+        console.log("error incompleta evaluacion comprobacion");
+      });
+
   }  
 
 }

@@ -19,7 +19,7 @@
               <option *ngFor="let proyecto of ListaDeProyectos" (click)="SeleccionDeProyecto(proyecto)">{{proyecto.nombre}}</option>
             </select>
             <span *ngIf="ListaDeProyectos.length == 0" class="textstyledanger">
-              <br /> Sin proyectos disponibles
+              <app-loading></app-loading>
             </span>
           </div>
         </div>
@@ -64,19 +64,19 @@
 <ng-template #content let-cl="close" let-di="dismiss">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">NUEVA EVALUACIÓN</h5> <button type="button" class="close" (click)="cl('Closed from Close button')">
+      <h5 class="modal-title">Advertencia</h5> <button type="button" class="close" (click)="cl('Closed from Close button')">
 
         <span aria-hidden="true">×</span>
 
       </button>
     </div>
     <div class="modal-body">
-      <p>¿Quieres continuar con la evaluación o empezar una nueva?</p>
+      <p>Ya existe una evaluación sin terminar</p>
     </div>
     <div class="modal-footer">    
-        <button type="button" class="btn btn-secondary"  (click)="NuevaEvaluacion()">Continuar</button>
-        <button type="button" class="btn btn-secondary" (click)="di('Dismissed from dismiss button')">Nueva</button>
-        <button type="button" class="btn btn-primary" (click)="cl('Closed from Close button')">Cancelar</button>
+        <button type="button" class="btn btn-secondary"  (click)="di('Continuar')">Continuar</button>
+        <button type="button" class="btn btn-secondary" (click)="di('Nuevo')">Nueva</button>
+        <button type="button" class="btn btn-primary" (click)="cl('Cerrar')">Cancelar</button>
       </div>
     </div>
 </ng-template>

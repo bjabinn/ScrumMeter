@@ -16,32 +16,39 @@
   </div>
 </div>
 <br>
-<div class="row" *ngFor="let dato of ListaDeDatos" >
 
-  <div class="col-xs-12 col-sm-3 col-md-3"></div>
+<div *ngIf="ListaDeDatos.length != 0">
+  <div class="row" *ngFor="let dato of ListaDeDatos">
 
-  <div class="col-xs-12 col-sm-3 col-md-3" id="infopro" (click)="RedirectToAsignaciones(dato.id)">
-    {{dato.nombre}}
-    <i class="arrow arrow-right"></i>
-  </div>
+    <div class="col-xs-12 col-sm-3 col-md-3"></div>
 
-  <div class="col-xs-12 col-sm-3 col-md-3" id="barraespacio">
-    <ngb-progressbar showValue="true" type="success" [value]="CalcularPorcentaje(dato.respuestas, dato.preguntas)" *ngIf="dato.respuestas==dato.preguntas && ListaDeDatos.length != 0"></ngb-progressbar>
-    <ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(dato.respuestas, dato.preguntas)" *ngIf="dato.respuestas!=dato.preguntas && ListaDeDatos.length != 0"></ngb-progressbar>
-    <ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(0, dato.preguntas)" *ngIf="ListaDeDatos.length == 0"></ngb-progressbar>
-    <span class="title"> {{dato.respuestas}} de {{dato.preguntas}} </span>
-  </div>
-  <div class="col-xs-12 col-sm-3 col-md-3" id="barraespacio">
-    <img *ngIf="dato.respuestas!=dato.preguntas && dato.respuestas>0" src="../../assets/green_no.png" alt="ok">
-    <img *ngIf="dato.respuestas==dato.preguntas" src="../../assets/green_si.png" alt="ok">
-  </div>
+    <div class="col-xs-12 col-sm-3 col-md-3" id="infopro" (click)="RedirectToAsignaciones(dato.id)">
+      {{dato.nombre}}
+      <i class="arrow arrow-right"></i>
+    </div>
+
+    <div class="col-xs-12 col-sm-3 col-md-3" id="barraespacio">
+
+      <ngb-progressbar showValue="true" type="success" [value]="CalcularPorcentaje(dato.respuestas, dato.preguntas)" *ngIf="dato.respuestas==dato.preguntas"></ngb-progressbar>
+      <ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(dato.respuestas, dato.preguntas)" *ngIf="dato.respuestas!=dato.preguntas"></ngb-progressbar>
+
+      <span class="title"> {{dato.respuestas}} de {{dato.preguntas}} </span>
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-3" id="barraespacio">
+      <img *ngIf="dato.respuestas!=dato.preguntas && dato.respuestas>0" src="../../assets/green_no.png" alt="ok">
+      <img *ngIf="dato.respuestas==dato.preguntas" src="../../assets/green_si.png" alt="ok">
+    </div>
     <br />
   </div>
-<br />
-<div class="wrapper">
-  <button type="button" class="btn btn-outline-success" (click)="FinishEvaluation()">Finish</button>
+  <br />
+  <div class="wrapper">
+    <button type="button" class="btn btn-outline-success" (click)="FinishEvaluation()">Finish</button>
+  </div>
 </div>
 
+<div *ngIf="ListaDeDatos.length == 0">
+  <app-loading></app-loading>
+</div>
 <!--Este Div es para hacer una comprobación sobre
     la barra de progreso de preguntas respondidas-->
 <!--

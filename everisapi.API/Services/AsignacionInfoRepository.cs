@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using everisapi.API.Entities;
+using everisapi.API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace everisapi.API.Services
@@ -49,6 +50,14 @@ namespace everisapi.API.Services
             return _context.Asignaciones.OrderBy(c => c.Nombre).ToList();
         }
 
+        //Devuelve todas las asignaciones con datos extendidos filtrado por proyecto
+        public IEnumerable<AsignacionInfoDto> GetAsignFromProject(int idEval)
+        {
+          //return _context.Asignaciones.Where(a => a.PreguntasDeAsignacion.Any(p => p.))
+
+          return null;
+        }
+
         //Recogemos una pregunta de una asignación
         public PreguntaEntity GetPreguntaDeAsignacion(int AsignacionId, int PreguntaId)
         {
@@ -85,5 +94,5 @@ namespace everisapi.API.Services
         {
             _context.Preguntas.Remove(pregunta);
         }
-    }
+  }
 }

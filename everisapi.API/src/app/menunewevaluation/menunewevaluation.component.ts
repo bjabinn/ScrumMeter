@@ -9,6 +9,7 @@ import { Proyecto } from 'app/Models/Proyecto';
 import { async } from '@angular/core/testing';
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { SectionInfo } from 'app/Models/SectionInfo';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-menunewevaluation',
