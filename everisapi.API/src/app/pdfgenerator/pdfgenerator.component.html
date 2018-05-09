@@ -1,12 +1,16 @@
 <button class="btn btn-outline-success" (click)="downloadPDF()">Generar PDF</button>
-
-<div style="display: block">
-  <canvas baseChart
-          [datasets]="barChartData"
-          [labels]="ListaNombres"
-          [options]="barChartOptions"
-          [legend]="barChartLegend"
-          [chartType]="barChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
+<div *ngIf="Mostrar">
+  <div style="display: block" id="content">
+    <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="ListaNombres"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+  </div>
+</div>
+<div *ngIf="!Mostrar">
+  <app-loading></app-loading>
 </div>

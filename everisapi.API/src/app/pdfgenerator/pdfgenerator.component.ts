@@ -6,6 +6,7 @@ import { SectionInfo } from 'app/Models/SectionInfo';
 import { AppComponent } from 'app/app.component';
 import { Router } from '@angular/router';
 import { SectionService } from 'app/services/SectionService';
+import { LoadingComponent } from '../loading/loading.component';
 
 import * as jsPDF from 'jspdf';
 
@@ -21,6 +22,7 @@ export class PdfgeneratorComponent implements OnInit {
   public UserName: string = "";
   public Project: Proyecto = null;
   public Evaluacion: EvaluacionInfo = null;
+  public Mostrar = false;
   //Datos de la barras
   public barChartType: string = 'bar';
   public barChartLegend: boolean = true;
@@ -34,9 +36,7 @@ export class PdfgeneratorComponent implements OnInit {
   constructor(
     private _appComponent: AppComponent,
     private _router: Router,
-    private _sectionService: SectionService) { }
-
-  ngOnInit() {
+    private _sectionService: SectionService) {
 
     //Recupera los datos y los comprueba
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
@@ -63,6 +63,12 @@ export class PdfgeneratorComponent implements OnInit {
         console.log("Error al recoger los datos.")
       }
     );
+
+    console.log("dando: ", this.ListaNombres, this.ListaNPreguntas, this.ListaNRespuestas)
+  }
+
+  ngOnInit() {
+
   }
 
   //Da los datos a las diferentes listas que usaremos para las graficas
@@ -71,8 +77,8 @@ export class PdfgeneratorComponent implements OnInit {
       this.ListaNombres.push(this.ListaDeDatos[i].nombre);
       this.ListaNPreguntas.push(this.ListaDeDatos[i].preguntas);
       this.ListaNRespuestas.push(this.ListaDeDatos[i].respuestas);
-      console.log("dando: ", this.ListaNombres, this.ListaNPreguntas, this.ListaNRespuestas)
     }
+    this.Mostrar = true;
   }
 
   //Datos para la grafica
