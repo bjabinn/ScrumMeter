@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
                             this._router.navigate(['/home']);
                         }else{
                             //Si no es correcta borra el usuario recogido y muestra mensaje de error
-                            this.ErrorMessage = "El nombre de usuario o password no es correcto.";
+                            this.ErrorMessage = "El nombre de usuario o contraseña no son correctos.";
                             this.UsuarioEntrante = null;
                         }
                     }
@@ -66,14 +66,14 @@ export class LoginComponent implements OnInit {
                 error => {
                     //Si el servidor tiene algún tipo de problema mostraremos este error
                     if(error==404){
-                        this.ErrorMessage = "El nombre de usuario o password no es correcto.";
+                        this.ErrorMessage = "El nombre de usuario o contraseña no son correctos.";
                     }else if(error==500){
                         this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
                     }
                 }	
             );
         }else{
-            this.ErrorMessage="Introduzca todos los campos porfavor."
+            this.ErrorMessage="Introduzca todos los campos."
         }
     }
 
