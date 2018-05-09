@@ -44,7 +44,12 @@
     <br />
   </div>
 
-<button (click)="NextPreviousButton(false)">Previous</button>
-{{PageNow}}/{{NumMax}}
-<button *ngIf="PageNow != NumMax" (click)="NextPreviousButton(true)">Next</button>
-<button *ngIf="PageNow == NumMax" (click)="NextPreviousButton(true)">Finish</button>
+<br />
+  <div class="wrapper">
+    <button type="button" class="btn btn-outline-success" (click)="NextPreviousButton(false)">Previous</button>
+    <strong>
+      {{PageNow}}/{{NumMax}}
+    </strong>
+      <button type="button" class="btn btn-outline-success" *ngIf="PageNow != NumMax" (click)="NextPreviousButton(true)">Next</button>
+      <button type="button" class="btn btn-outline-success" *ngIf="PageNow == NumMax" (click)="NextPreviousButton(true)">Finish</button>
+</div>
