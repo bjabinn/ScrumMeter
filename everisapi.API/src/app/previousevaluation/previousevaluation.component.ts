@@ -5,6 +5,7 @@ import { AppComponent } from 'app/app.component';
 import { Router } from '@angular/router';
 import { EvaluacionService } from '../services/EvaluacionService';
 import { Evaluacion } from 'app/Models/Evaluacion';
+import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 
 @Component({
   selector: 'app-previousevaluation',
@@ -17,10 +18,11 @@ export class PreviousevaluationComponent implements OnInit {
   public EvaluacionBuscada: EvaluacionInfo =
     { 'id': null, 'nombre': '', 'estado': null, 'fecha': '', 'userNombre': null, 'npreguntas': null, 'nrespuestas': null };
   public ListaDeEvaluaciones: Array<EvaluacionInfo>;
-  public nrespuestas: string;
+  public nrespuestas: string = '';
   public FiltrarCompletados: boolean = null;
   public UserName: string = "";
-  public Project: Proyecto = { 'id': null, 'nombre': '', 'fecha': '' };
+  public Project: Proyecto = { 'id': null, 'nombre': '', 'fecha': null };
+  public Mostrar = false;
   
 
   constructor(
@@ -54,7 +56,7 @@ export class PreviousevaluationComponent implements OnInit {
     this._evaluacionService.getEvaluacionInfo(this.Project.id).subscribe(
       res => {
         this.ListaDeEvaluaciones = res;
-        console.log("Listado Evaluaciones: ", this.ListaDeEvaluaciones)
+        this.Mostrar = true;
       },
       error => {
         console.log("Error recoger listado de evaluaciones: "+error)
@@ -86,8 +88,9 @@ export class PreviousevaluationComponent implements OnInit {
       BuscaPersonalizada = this.ListaDeEvaluaciones.filter(
         x => x.fecha.includes(this.EvaluacionBuscada.fecha) &&
         x.nombre.includes(this.EvaluacionBuscada.nombre) &&
-          x.userNombre.includes(this.EvaluacionBuscada.userNombre) &&
-        String(x.nrespuestas).includes(this.nrespuestas));
+        x.userNombre.includes(this.EvaluacionBuscada.userNombre) &&
+          x.nrespuestas==toInteger(this.nrespuestas));
+      console.log("si ", this.ListaDeEvaluaciones, "y ademas", this.nrespuestas)
     } else {
       //Filtrando por completos
       if (this.FiltrarCompletados) {

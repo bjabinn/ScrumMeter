@@ -1,6 +1,35 @@
-<button class="btn btn-outline-success" (click)="downloadPDF()">Generar PDF</button>
+
 <div *ngIf="Mostrar">
-  <div style="display: block" id="content">
+  <br />
+
+  <div class="center">
+    <button class="btn btn-outline-success" id="no-print" (click)="downloadPDF()" media="print">Generar PDF</button>
+  </div>
+
+  <br />
+
+  <!--Tabla con datos-->
+  <table class="table-fill">
+    <thead>
+      <tr>
+        <th class="text-left">Asignaciones</th>
+        <th class="text-left">Nº de preguntas</th>
+        <th class="text-left">Nº de respuestas</th>
+      </tr>
+    </thead>
+    <tbody class="table-hover">
+      <tr *ngFor="let datos of ListaDeDatos">
+        <td class="text-left">{{datos.nombre}}</td>
+        <td class="text-left">{{datos.preguntas}}</td>
+        <td class="text-left">{{datos.respuestas}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br />
+
+  <!--Grafica-->
+  <div style="display: block" id="Grafica">
     <canvas baseChart
             [datasets]="barChartData"
             [labels]="ListaNombres"
@@ -8,9 +37,13 @@
             [legend]="barChartLegend"
             [chartType]="barChartType"
             (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)"></canvas>
+            (chartClick)="chartClicked($event)" #content></canvas>
   </div>
 </div>
 <div *ngIf="!Mostrar">
   <app-loading></app-loading>
 </div>
+
+
+
+

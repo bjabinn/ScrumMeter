@@ -6,7 +6,7 @@
     Usuario: {{UserName}}
   </div>
   <div class="col-xs-12 col-sm-5 col-md-5">
-    Fecha: {{Project.fecha}}
+    Fecha: {{ Project.fecha | date:'dd/mm/yyyy' }}
   </div>
 
   <div class="col-xs-12 col-sm-5 col-md-5">
@@ -21,19 +21,21 @@
   </div>
 </div>
 <br>
-<div class="row">
-  <div class="col-xs-12 col-sm-2 col-md-3"></div>
-  <div class="col-xs-12 col-sm-8 col-md-6">
-    <h2>Evaluaciones anteriores</h2>
-  </div>
-  <div class="col-xs-12 col-sm-2 col-md-3"></div>
-</div>
 
-<div class="container">
+
+<div class="container" *ngIf="Mostrar && ListaDeEvaluaciones.length != 0">
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-2 col-md-3"></div>
+    <div class="col-xs-12 col-sm-8 col-md-6">
+      <h2>Evaluaciones anteriores</h2>
+    </div>
+    <div class="col-xs-12 col-sm-2 col-md-3"></div>
+  </div>
 
   <div class="row">
     <div class="panel panel-primary filterable">
-      <div class="panel-heading">       
+      <div class="panel-heading">
         <div class="pull-right">
           <button class="btn btn-default btn-xs btn-filter" (click)="Restablecer()">Filtrados</button>
 
@@ -83,7 +85,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let evaluacion of Busqueda()">
-            <td>{{evaluacion.fecha}}</td>
+            <td>{{evaluacion.fecha | date:'dd/mm/yyyy'}}</td>
             <td>{{evaluacion.nombre}}</td>
             <td>{{evaluacion.userNombre}}</td>
             <td>{{evaluacion.nRespuestas}}/{{evaluacion.nPreguntas}}</td>
@@ -91,9 +93,25 @@
             <td *ngIf="!evaluacion.estado"><img class="icons" src="../../assets/warning.png" /></td>
             <td><button type="button" class="btn btn-danger" (click)="SaveDataToPDF(evaluacion)">VER GRAFICA <span class="glyphicon glyphicon-save-file"><img class="icons" src="../../assets/pdfgenerate.png" /></span></button></td>
           </tr>
-      
+
         </tbody>
       </table>
     </div>
   </div>
+</div>
+
+<div *ngIf="Mostrar && ListaDeEvaluaciones.length == 0">
+  <div class="row">
+    <div class="col-xs-12 col-sm-2 col-md-3"></div>
+    <div class="col-xs-12 col-sm-8 col-md-6">
+      <h2 class="Warning">
+        No existen evaluaciones para este proyecto.
+      </h2>
+    </div>
+    <div class="col-xs-12 col-sm-2 col-md-3"></div>
+  </div>
+</div>
+
+<div class="loading" *ngIf="!Mostrar">
+  <app-loading></app-loading>
 </div>

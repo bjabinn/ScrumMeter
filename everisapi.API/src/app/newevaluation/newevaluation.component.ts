@@ -26,6 +26,7 @@ export class NewevaluationComponent implements OnInit {
   Evaluation: Evaluacion = null;
   AreaAsignada: Asignacion = { 'id': 0, 'nombre': "undefined" };
   UserName: string = "";
+  public Deshabilitar = false;
 
   //Recogemos todos los datos de la primera area segun su id y las colocamos en la lista
   constructor(
@@ -102,6 +103,7 @@ export class NewevaluationComponent implements OnInit {
         if (res != null) {
           this.ListaRespuestas = res;
           console.log("Respuestas: ", this.ListaRespuestas);
+          this.Deshabilitar = false;
         } else {
           console.log("Esto esta muy vacio");
         }
@@ -139,12 +141,14 @@ export class NewevaluationComponent implements OnInit {
   //Al presionar el boton va avanzado y retrocediendo
   public NextPreviousButton(Option: boolean) {
     if (Option && this.PageNow < this.NumMax) {
+      this.Deshabilitar = false;
       this.getQuestions(this.ListaAsignaciones[this.PageNow].id);
       this.AreaAsignada = this.ListaAsignaciones[this.PageNow];
       this.getAnswers(this.Evaluation.id, this.AreaAsignada.id);
       this.PageNow++;
     } else if (!Option && this.PageNow > 1) {
       this.PageNow--;
+      this.Deshabilitar = false;
       var CualToca = this.PageNow - 1;
       this.AreaAsignada = this.ListaAsignaciones[CualToca];
       this.getQuestions(this.ListaAsignaciones[CualToca].id);

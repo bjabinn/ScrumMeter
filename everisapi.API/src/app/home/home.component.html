@@ -1,64 +1,63 @@
- <br> <br>
- <div class="row" id="infopro">
-  
-  <div class="col-xs-12 col-sm-5 col-md-6">
+
+  <br> <br>
+  <div class="row" id="infopro">
+
+    <div class="col-xs-12 col-sm-5 col-md-6">
       <span class="textstyle">Usuario:</span> {{NombreDeUsuario}}
-  </div>
-  <div class="col-xs-12 col-sm-5 col-md-6">
-    <span class="textstyle">Fecha:</span>
-  </div>
- 
-  <div class="col-xs-12 col-sm-5 col-md-4">
+    </div>
+    <div class="col-xs-12 col-sm-5 col-md-6">
+      <span class="textstyle">Fecha:</span>
+    </div>
+
+    <div class="col-xs-12 col-sm-5 col-md-4">
 
       <div class="form-horizontal">
-      <div class="form-group">
-        <div class="input-group">
-          <div class="col-xs-3">
-            <select class="custom-select" *ngIf="ListaDeProyectos.length > 0">
-              <option selected>- Seleccione un proyecto </option>
-              <option *ngFor="let proyecto of ListaDeProyectos" (click)="SeleccionDeProyecto(proyecto)">{{proyecto.nombre}}</option>
-            </select>
-            <span *ngIf="ListaDeProyectos.length == 0" class="textstyledanger">
-              <app-loading></app-loading>
-            </span>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="col-xs-3">
+              <select class="custom-select" *ngIf="ListaDeProyectos.length > 0">
+                <option selected>- Seleccione un proyecto </option>
+                <option *ngFor="let proyecto of ListaDeProyectos" (click)="SeleccionDeProyecto(proyecto)">{{proyecto.nombre}}</option>
+              </select>
+              <span *ngIf="ListaDeProyectos.length == 0" class="textstyledanger">
+                <app-loading></app-loading>
+              </span>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
-      
+
+    <div class="col-xs-12 col-sm-5 col-md-8">
+      <div *ngIf="(ErrorMessage != null && ProyectoSeleccionado == null )" class="alert alert-danger" id="danger">
+        <strong>{{ErrorMessage}}</strong>
+      </div>
+      <div *ngIf="(ProyectoSeleccionado != null )" class=" alert alert-success">
+        <span class="textstyle">Proyecto Seleccionado:</span> {{ProyectoSeleccionado.nombre}}
+      </div>
+    </div>
   </div>
-   
-  <div class="col-xs-12 col-sm-5 col-md-8">
-    <div *ngIf="(ErrorMessage != null && ProyectoSeleccionado == null )" class="alert alert-danger" id="danger">
-      <strong>{{ErrorMessage}}</strong>
+  <br> <br>
+
+
+  <div class="row">
+    //<div class="col-xs-12 col-sm-12 col-md-2"></div>
+    <div class="col-xs-12 col-sm-12 col-md-4">
+      <div class="titulo" (click)="showModal(content)">
+        <a>Nueva <br />Evaluaci&oacute;n</a>
+      </div>
     </div>
-    <div *ngIf="(ProyectoSeleccionado != null )" class=" alert alert-success">
-      <span class="textstyle">Proyecto Seleccionado:</span> {{ProyectoSeleccionado.nombre}}
+
+
+    <div class="col-xs-12 col-sm-12 col-md-4">
+
+      <div class="titulo" (click)="EvaluacionesAnteriores()" id="bajarmedia">
+        <a>Evaluaciones <br />Anteriores</a>
+      </div>
     </div>
+    <div class="col-xs-12 col-sm-12 col-md-2"></div>
   </div>
-</div>
-<br> <br>
-
-
-<div class="row">
-       //<div class="col-xs-12 col-sm-12 col-md-2"></div>
-       <div class="col-xs-12 col-sm-12 col-md-4">
-         <div class="titulo" (click)="showModal(content)">
-           <a>Nueva <br />Evaluaci&oacute;n</a>
-         </div>
-       </div>
-
-
-       <div class="col-xs-12 col-sm-12 col-md-4">
-
-         <div class="titulo" (click)="EvaluacionesAnteriores()" id="bajarmedia">
-           <a>Evaluaciones <br />Anteriores</a>
-         </div>
-       </div>
-       <div class="col-xs-12 col-sm-12 col-md-2"></div>
-     </div>
-
-
 
 
 <ng-template #content let-cl="close" let-di="dismiss">
@@ -75,7 +74,7 @@
     </div>
     <div class="modal-footer">    
         <button type="button" class="btn btn-secondary"  (click)="di('Continuar')">Continuar</button>
-        <button type="button" class="btn btn-secondary" (click)="di('Nuevo')">Nueva</button>
+        <button type="button" class="btn btn-secondary" (click)="di('Nueva')">Nueva</button>
         <button type="button" class="btn btn-primary" (click)="cl('Cerrar')">Cancelar</button>
       </div>
     </div>

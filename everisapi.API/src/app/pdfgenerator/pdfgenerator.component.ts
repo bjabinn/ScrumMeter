@@ -23,6 +23,7 @@ export class PdfgeneratorComponent implements OnInit {
   public Project: Proyecto = null;
   public Evaluacion: EvaluacionInfo = null;
   public Mostrar = false;
+  public Imprimiendo = false;
   //Datos de la barras
   public barChartType: string = 'bar';
   public barChartLegend: boolean = true;
@@ -63,8 +64,6 @@ export class PdfgeneratorComponent implements OnInit {
         console.log("Error al recoger los datos.")
       }
     );
-
-    console.log("dando: ", this.ListaNombres, this.ListaNPreguntas, this.ListaNRespuestas)
   }
 
   ngOnInit() {
@@ -105,22 +104,10 @@ export class PdfgeneratorComponent implements OnInit {
   //Generar pdf
 
   public downloadPDF() {
-    let doc = new jsPDF();
-    let specialElementHandlers = {
-    '#editor': function(element, rederer) {
-      return true;
+    this.Imprimiendo = true;
+    if (this.Imprimiendo) {
+      window.print();
     }
-  };
-  let content = this.content.nativeElement;
-
-  doc.fromHTML(content.innerHTML, 15, 15, {
-    'width': 190,
-    'elementHandlers': specialElementHandlers
-  });
-
-  //Recoger nombre
-  var NombrePDF = "test.pdf";
-  doc.save(NombrePDF);
-  }
-
+    this.Imprimiendo = false;
+    }
 }

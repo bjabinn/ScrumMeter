@@ -18,6 +18,7 @@ namespace everisapi.API.Entities
         public string Nombre { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime Fecha { get; set; }
 
 

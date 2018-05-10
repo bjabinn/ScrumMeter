@@ -98,3 +98,13 @@
 #cerrarsesion{
     margin-right: 20%;
 }
+
+@media print {
+  #no-print, #no-print * {
+    display: none !important;
+  }
+
+  .no-print, .no-print * {
+    display: none !important;
+  }
+}

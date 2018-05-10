@@ -14,6 +14,7 @@ namespace everisapi.API.Entities
     public int Id { get; set; }
 
     [Required]
+    [DataType(DataType.Date)]
     public DateTime Fecha { get; set; }
 
     [Required]

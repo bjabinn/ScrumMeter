@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
     public AdminOn = false;
     public ProyectoSeleccionado:Proyecto;
     public NombreDeUsuario: string;
+    public Deshabilitar = false;
 
   constructor(
             private _proyectoService: ProyectoService,
@@ -129,11 +130,6 @@ export class HomeComponent implements OnInit {
     this._appComponent._storageDataService.UserProjectSelected = this.ProyectoSeleccionado;
   }
 
-  //Nos devuelve si una evaluacion esta incompleta en este proyecto 
-  public ProyectoIncompleto() {
-    
-  }
-
   //Este metodo crea una nueva evaluación y la manda para guardarla en la base de datos
   public GuardarEvaluacion() {
     var NuevaEvaluacion: EvaluacionCreate = { 'estado': false, 'proyectoid': this.ProyectoSeleccionado.id};
@@ -151,11 +147,7 @@ export class HomeComponent implements OnInit {
   //Guardara los datos en el service de almacenamiento
   public NuevaEvaluacion(){
 
-    if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
-      this.ProyectoIncompleto();
-    }else{
-        this.ErrorMessage= "Seleccione un proyecto para realizar esta acción.";
-    }
+    
 
   }
 
@@ -189,36 +181,48 @@ export class HomeComponent implements OnInit {
 
   //Muestra un modal con lo que se debe hacer en cada caso
   showModal(content) {
-    this._evaluacionService.getIncompleteEvaluacionFromProject(this.ProyectoSeleccionado.id).subscribe(
-      res => {
-        //Si hay un proyecto sin finalizar muestra un modal y deja seleccionar
-        if (res != null) {
-          this.modalService.open(content).result.then(
-            (closeResult) => {
+    //Deshabilito la parte de atras del modal
+    this.Deshabilitar = true;
+    //Comprueba si existe un proyecto seleccionado
+    if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
+      this._evaluacionService.getIncompleteEvaluacionFromProject(this.ProyectoSeleccionado.id).subscribe(
+        res => {
+          //Habilitamos la pagina nuevamente
+          this.Deshabilitar = false;
+          //Si hay un proyecto sin finalizar muestra un modal y deja seleccionar
+          if (res != null) {
+            this.modalService.open(content).result.then(
+              (closeResult) => {
 
-            }, (dismissReason) => {
-              //Lo guarda en el storage
-              this._appComponent._storageDataService.Evaluacion = res;
-              //Si selecciona continuar cargara la valuación que no termino
-              if (dismissReason == 'Continuar') {
-                this._router.navigate(['/menunuevaevaluacion']);
-              } else {
-                //Si selecciona nuevo que es la otra opción cogera la evaluación anterior lo finalizara
-                //cargara una nueva y lo mostrara
-                this.GuardarEvaluacion();
-              }
+              }, (dismissReason) => {
+                //Lo guarda en el storage
+                this._appComponent._storageDataService.Evaluacion = res;
+                //Si selecciona continuar cargara la valuación que no termino
+                if (dismissReason == 'Continuar') {
+                  this._router.navigate(['/menunuevaevaluacion']);
+                } else if (dismissReason == 'Nueva'){
+                  //Si selecciona nuevo que es la otra opción cogera la evaluación anterior lo finalizara
+                  //cargara una nueva y lo mostrara
+                  this.FinishEvaluation();
+                }
 
-            })
+              })
 
-        } else {
-          //Si no encuentra ninguna repetida directamente te crea una nueva evaluación
-          this.GuardarEvaluacion();
+          } else {
+            //Si no encuentra ninguna repetida directamente te crea una nueva evaluación
+            this.GuardarEvaluacion();
 
-        }
-      },
-      error => {
-        console.log("error incompleta evaluacion comprobacion");
-      });
+          }
+        },
+        error => {
+          //Habilitamos la pagina nuevamente
+          this.Deshabilitar = false;
+          console.log("error incompleta evaluacion comprobacion");
+        });
+    } else {
+      this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
+    }
+
 
   }  
 

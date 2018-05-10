@@ -131,7 +131,7 @@ namespace everisapi.API
                         {
                             Id = 1,
                             Nombre="Proyecto Feria Huida",
-                            Fecha = DateTime.Now,
+                            Fecha = DateTime.Now.Date,
                             /*Evaluaciones = new List<EvaluacionEntity>()
                             {
                               new EvaluacionEntity()
@@ -152,7 +152,7 @@ namespace everisapi.API
                         {
                             Id=2,
                             Nombre="Proyecto No Se Que Inventarme",
-                            Fecha = DateTime.Now
+                            Fecha = DateTime.Now.Date
                         }
                     }
                 },
@@ -166,13 +166,13 @@ namespace everisapi.API
                         {
                             Id = 3,
                             Nombre="Proyecto Increible",
-                            Fecha = DateTime.Now
+                            Fecha = DateTime.Now.Date
                         },
                         new ProyectoEntity()
                         {
                             Id=4,
                             Nombre="Proyecto Desbugeo Conciso",
-                            Fecha = DateTime.Now
+                            Fecha = DateTime.Now.Date
                         }
                     }
                 }
