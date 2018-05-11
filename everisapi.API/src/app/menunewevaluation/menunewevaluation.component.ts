@@ -51,13 +51,12 @@ export class MenunewevaluationComponent implements OnInit {
     this._sectionService.getSectionInfo(this.Evaluacion.id).subscribe(
       res => {
         this.ListaDeDatos = res;
+        console.log("encontre: ", this.ListaDeDatos)
       },
       error => {
         console.log("Error al recoger los datos.")
       }
     );
-
-
   
   }
 

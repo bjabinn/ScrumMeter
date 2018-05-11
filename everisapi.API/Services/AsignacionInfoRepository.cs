@@ -79,6 +79,33 @@ namespace everisapi.API.Services
           return AsignacionesInfo;
         }
 
+        //Filtra por evaluación y sección devolviendo una lista de asignaciones
+        public IEnumerable<AsignacionInfoDto> GetAsignFromEvalAndSection(int idEval, int idSection)
+        {
+       List<AsignacionInfoDto> AsignacionesInfo = new List<AsignacionInfoDto>();
+       List<RespuestaDto> ListaRespuestas = Mapper.Map<List<RespuestaDto>>(_context.Respuestas.Where(r => r.EvaluacionId == idEval).ToList());
+
+       var asignaciones = (from res in _context.Respuestas
+            where res.EvaluacionId == idEval
+            select new { res.Id, res.PreguntaId, res.Estado, res.EvaluacionId} into respuestas
+            join p in _context.Preguntas on respuestas.PreguntaId equals p.Id
+            select new { p.Id, p.AsignacionId, p.Pregunta,  } into preguntas
+            join asig in _context.Asignaciones on preguntas.AsignacionId equals asig.Id
+            where asig.SectionId == idSection
+            select new { asig.Id, asig.Nombre, asig.PreguntasDeAsignacion } into asignacionesEntity
+            select asignacionesEntity).Distinct().ToList();
+      foreach (var asignacion in asignaciones)
+      {
+        var introducirasig = new AsignacionInfoDto();
+        introducirasig.Id = asignacion.Id;
+        introducirasig.Nombre = asignacion.Nombre;
+        introducirasig.Preguntas = changePregunta(asignacion.PreguntasDeAsignacion, ListaRespuestas);
+        AsignacionesInfo.Add(introducirasig);
+      }
+
+          return AsignacionesInfo;
+        }
+
         //Devuelve todas las asignaciones con datos extendidos filtrado por evaluacion
         public AsignacionInfoDto GetAsignFromEvalAndAsig(int idEval, int idAsing)
         {

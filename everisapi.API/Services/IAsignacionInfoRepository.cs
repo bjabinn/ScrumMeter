@@ -18,6 +18,9 @@ namespace everisapi.API.Services
         //Devuelve una asignación con datos extendidos filtrado por evaluación y asignación
         AsignacionInfoDto GetAsignFromEvalAndAsig(int idEval, int idAsig);
 
+        //Devuelve una asignación con datos extendidos filtrado por evaluación y su sección
+        IEnumerable<AsignacionInfoDto> GetAsignFromEvalAndSection(int idEval, int idSection);
+
         //Devuelve una asignación
         AsignacionEntity GetAsignacion(int AsignacionId, Boolean IncluirPreguntas);
 

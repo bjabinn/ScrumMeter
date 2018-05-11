@@ -26,6 +26,14 @@ export class RespuestasService {
       .catch(this.errorHandler);
   }
 
+  //Este metodo devuelve un listado con sus preguntas y respuestas de una evaluación y su asignación
+  getRespuestasAsig(idEvaluacion: number, idAsig: number) {
+    console.log(" desde el servicio se recoge: ", this.url + 'asignaciones/evaluacion/' + idEvaluacion + '/asignacion/' + idAsig)
+    return this._http.get(this.url + 'asignaciones/evaluacion/' + idEvaluacion + '/asignacion/' + idAsig)
+      .map((response: Response) => response.json())
+      .catch(this.errorHandler);
+  }
+
   //Este metodo altera el valor de la respuesta en la base de datos
   AlterEstadoRespuesta(id: number, change: boolean) {
     let httpParams = new HttpParams();

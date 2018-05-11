@@ -6,6 +6,7 @@ import { Asignacion } from 'app/Models/Asignacion';
 import { Pregunta } from 'app/Models/Pregunta';
 import { Proyecto } from 'app/Models/Proyecto';
 import { Respuesta } from 'app/Models/Respuesta';
+import { AsignacionInfo } from 'app/Models/AsignacionInfo';
 import { Router } from "@angular/router";
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { LoadingComponent } from '../loading/loading.component';
@@ -20,12 +21,14 @@ export class NewevaluationComponent implements OnInit {
   ListaAsignaciones: Array<Asignacion> = [];
   ListaPreguntas: Array<Pregunta> = [];
   ListaRespuestas: Array<Respuesta> = [];
+  InfoAsignacion: AsignacionInfo = { id: null, nombre: '', preguntas: null };
   NumMax: number = 0;
   PageNow: number = 1;
   Project: Proyecto = null;
   Evaluation: Evaluacion = null;
   AreaAsignada: Asignacion = { 'id': 0, 'nombre': "undefined" };
   UserName: string = "";
+  public idSelected = 0;
   public Deshabilitar = false;
 
   //Recogemos todos los datos de la primera area segun su id y las colocamos en la lista
@@ -35,7 +38,7 @@ export class NewevaluationComponent implements OnInit {
     private _router: Router,
     private _appComponent: AppComponent) {
 
-    var idSelected = this._appComponent._storageDataService.IdSection;
+    this.idSelected = this._appComponent._storageDataService.IdSection;
     //Recogemos el proyecto y el usuario si no coincide alguno lo redirigiremos
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
     this.Evaluation = this._appComponent._storageDataService.Evaluacion;
@@ -52,16 +55,13 @@ export class NewevaluationComponent implements OnInit {
       this.UserName = this._appComponent._storageDataService.UserData.nombre;
     }
 
-    console.log("Seleccionaste la id de section: " + idSelected)
-    this._sectionService.getAsignacionesSection(idSelected).subscribe(
+    console.log("Seleccionaste la id de section: " + this.idSelected)
+    this._sectionService.getAsignacionesSection(this.idSelected).subscribe(
       res => {
         if (res != null) {
           this.ListaAsignaciones = res;
           this.NumMax = this.ListaAsignaciones.length;
-          console.log("Asignaciones: ", this.ListaAsignaciones);
-          this.AreaAsignada = this.ListaAsignaciones[0];
-          this.getQuestions(this.ListaAsignaciones[0].id);
-          this.getAnswers(this.Evaluation.id, this.AreaAsignada.id);
+          this.getAsignacionActual(this.Evaluation.id, this.ListaAsignaciones[0].id);
         } else {
           console.log("Esto esta muy vacio");
         }
@@ -71,53 +71,39 @@ export class NewevaluationComponent implements OnInit {
       }
     );
 
+
+
   }
 
   ngOnInit() {
 
   }
 
-  //Recoge todas las preguntas
-  public getQuestions(id: number) {
-    console.log("investigar questions id:", id);
-    this._sectionService.getPreguntasArea(id).subscribe(
+  //Le proporciona a la asignación en la que nos encontramos todos los datos
+  public getAsignacionActual(idSelected, idAsignacion) {
+    this._respuestasService.getRespuestasAsig(idSelected, idAsignacion).subscribe(
       res => {
         if (res != null) {
-          this.ListaPreguntas = res;
-          console.log("Preguntas: ", this.ListaPreguntas);
-        } else {
-          console.log("Esto esta muy vacio");
-        }
-      },
-      error => {
-        console.log("error lista Preguntas");
-      }
-    );
-  }
-
-  //Recoge todas las respuestas
-  public getAnswers(idEvaluacion: number, idAsignacion: number) {
-    console.log("investigar answer: ", idEvaluacion, " Asignacion: ", idAsignacion);
-    this._respuestasService.getRespuestasAsigProy(idEvaluacion, idAsignacion).subscribe(
-      res => {
-        if (res != null) {
-          this.ListaRespuestas = res;
-          console.log("Respuestas: ", this.ListaRespuestas);
+          this.InfoAsignacion = res;
           this.Deshabilitar = false;
+          console.log("la respuesta de la prueba es: ", this.InfoAsignacion);
         } else {
           console.log("Esto esta muy vacio");
         }
       },
       error => {
-        console.log("error lista Respuestas");
+        console.log("error lista asignaciones");
       }
     );
   }
 
   //Cambia el estado de las preguntas
   public ChangeEstadoDB(idarray: number) {
-    var idRespuesta = this.ListaRespuestas[idarray].id;
-    if (this.ListaRespuestas[idarray].estado) {
+    console.log("estoy dandole el id: ", idarray, "su lenght es: ", this.InfoAsignacion.preguntas.length)
+    console.log("antes de todo", this.InfoAsignacion.preguntas[idarray].respuesta.estado)
+    var idRespuesta = this.InfoAsignacion.preguntas[idarray].respuesta.id;
+    console.log("estoy dandole el id a service : ", idRespuesta)
+    if (this.InfoAsignacion.preguntas[idarray].respuesta.estado) {
       this._respuestasService.AlterEstadoRespuesta(idRespuesta, false).subscribe(
         res => {
           console.log("Cambio realizado");
@@ -125,7 +111,7 @@ export class NewevaluationComponent implements OnInit {
         error => {
           console.log("Cambio fallido ", error);
         });
-      this.ListaRespuestas[idarray].estado = false;
+      this.InfoAsignacion.preguntas[idarray].respuesta.estado = false;
     } else {
       this._respuestasService.AlterEstadoRespuesta(idRespuesta, true).subscribe(
         res => {
@@ -134,7 +120,7 @@ export class NewevaluationComponent implements OnInit {
         error => {
           console.log("Cambio fallido ", error);
         });
-      this.ListaRespuestas[idarray].estado = true;
+      this.InfoAsignacion.preguntas[idarray].respuesta.estado = true;
     }
   }
 
@@ -142,17 +128,15 @@ export class NewevaluationComponent implements OnInit {
   public NextPreviousButton(Option: boolean) {
     if (Option && this.PageNow < this.NumMax) {
       this.Deshabilitar = true;
-      this.getQuestions(this.ListaAsignaciones[this.PageNow].id);
       this.AreaAsignada = this.ListaAsignaciones[this.PageNow];
-      this.getAnswers(this.Evaluation.id, this.AreaAsignada.id);
+      this.getAsignacionActual(this.Evaluation.id, this.AreaAsignada.id);
       this.PageNow++;
     } else if (!Option && this.PageNow > 1) {
       this.PageNow--;
       this.Deshabilitar = true;
       var CualToca = this.PageNow - 1;
       this.AreaAsignada = this.ListaAsignaciones[CualToca];
-      this.getQuestions(this.ListaAsignaciones[CualToca].id);
-      this.getAnswers(this.Evaluation.id, this.AreaAsignada.id);
+      this.getAsignacionActual(this.Evaluation.id, this.AreaAsignada.id);
     } else if (Option && this.PageNow == this.NumMax) {
       this._router.navigate(['/menunuevaevaluacion']);
     }

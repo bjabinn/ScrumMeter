@@ -45,7 +45,9 @@ namespace everisapi.API.Controllers
             
         }
 
-        [HttpGet("evaluacion/{id}")]
+
+    //Recoge una lista de asignaciones con todas sus preguntas y su respuesta filtrada por id de una evaluación
+    [HttpGet("evaluacion/{id}")]
         public IActionResult GetAsignacionFromEval( int id )
         {
             try
@@ -62,12 +64,31 @@ namespace everisapi.API.Controllers
             
         }
 
-        [HttpGet("evaluacion/{id}/asignacion/{idAsig}")]
-        public IActionResult GetAsignacionFromEval( int id, int idAsig )
+        //Recoge una asignación con todas sus preguntas y su respuesta filtrada por id de evaluación y otra de asignación
+        [HttpGet("evaluacion/{idEval}/asignacion/{idAsig}")]
+        public IActionResult GetAsignacionFromEval( int idEval, int idAsig )
         {
             try
             {
-                var AsignacionesWithInfo = _asignacionInfoRepository.GetAsignFromEvalAndAsig(id, idAsig);
+                var AsignacionesWithInfo = _asignacionInfoRepository.GetAsignFromEvalAndAsig(idEval, idAsig);
+
+                return Ok(AsignacionesWithInfo);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogCritical("Se recogio un error al recibir todos los datos de las asignaciones: "+ex);
+                return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+            }
+            
+        }
+
+        //Recoge una asignación con todas sus preguntas y su respuesta filtrada por id de evaluación y otra de asignación
+        [HttpGet("evaluacion/{idEval}/section/{idSection}")]
+        public IActionResult GetAsignacionFromSection( int idEval, int idSection )
+        {
+            try
+            {
+                var AsignacionesWithInfo = _asignacionInfoRepository.GetAsignFromEvalAndSection(idEval, idSection);
 
                 return Ok(AsignacionesWithInfo);
             }
