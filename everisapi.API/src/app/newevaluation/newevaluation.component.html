@@ -54,10 +54,10 @@
 <br />
 
 <div class="wrapper">
-  <button type="button" class="btn btn-outline-success" (click)="NextPreviousButton(false)">Previous</button>
+  <button type="button" class="btn btn-outline-success" (click)="NextPreviousButton(false)">Anterior</button>
   <strong>
     {{PageNow}}/{{NumMax}}
   </strong>
-  <button type="button" class="btn btn-outline-success" *ngIf="PageNow != NumMax" (click)="NextPreviousButton(true)">Next</button>
-  <button type="button" class="btn btn-outline-success" *ngIf="PageNow == NumMax" (click)="NextPreviousButton(true)">Finish</button>
+  <button type="button" class="btn btn-outline-success" *ngIf="PageNow != NumMax" (click)="NextPreviousButton(true)">Siguiente</button>
+  <button type="button" class="btn btn-outline-success" *ngIf="PageNow == NumMax" (click)="NextPreviousButton(true)">Finalizar</button>
 </div>
