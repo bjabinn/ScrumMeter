@@ -7,13 +7,16 @@
   text-shadow: 2px 8px 6px rgba(0,0,0,0.2), 0px -5px 35px rgba(255,255,255,0.3);
 }
 
-#infopro{
-    font-size: 25px;
-    border: 1px solid #99AD00;
-    margin: 0 auto;
-    text-align: left;
-    max-width: 1000px;
-  }
+#infopro {
+  border: 2px solid #99AD00;
+  margin: 0 auto;
+  padding: 15px 15px;
+  text-align: left;
+  max-width: 1100px;
+  font-size: 16px;
+  margin-top: 15px;
+  border-radius: 5px;
+}
 
   h2{
     text-align: center;
