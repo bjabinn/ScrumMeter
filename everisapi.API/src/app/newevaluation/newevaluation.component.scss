@@ -1,3 +1,5 @@
+
+
 #preguntas{
     text-align: left;
 }
@@ -17,24 +19,32 @@ h2 {
   text-align: center;
 }
 
-.wrapper{
+.wrapper {
   text-align: center;
 }
 
 .disabled {
-  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.loading {
+position: fixed;
+margin-top: 10%;
 }
 
 //Estilos para los botones de las preguntas para responder
-
 @media (max-width: 574px) {
-    .onoffswitch {
-        margin-top: 3%;
-        margin-left: 39%;
-        position: relative; width: 90px;
-        -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
-    }
+  .onoffswitch {
+    margin-top: 3%;
+    margin-left: 39%;
+    position: relative;
+    width: 90px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
   }
+}
 
 .onoffswitch {
     position: relative; width: 90px;

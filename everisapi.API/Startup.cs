@@ -75,6 +75,7 @@ namespace everisapi.API
                 cfg.CreateMap<Models.EvaluacionDto, Entities.EvaluacionEntity>();
                 cfg.CreateMap<Models.AsignacionDto, Entities.AsignacionEntity>();
                 cfg.CreateMap<Models.PreguntaDto, Entities.PreguntaEntity>();
+                cfg.CreateMap<Models.PreguntaWithOneRespuestasDto, Entities.PreguntaEntity>();
                 cfg.CreateMap<Models.PreguntaCreateDto, Entities.PreguntaEntity>();
                 cfg.CreateMap<Models.PreguntaUpdateDto, Entities.PreguntaEntity>();
                 cfg.CreateMap<Models.UsersDto, Entities.UserEntity>();

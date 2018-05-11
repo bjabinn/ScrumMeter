@@ -141,14 +141,14 @@ export class NewevaluationComponent implements OnInit {
   //Al presionar el boton va avanzado y retrocediendo
   public NextPreviousButton(Option: boolean) {
     if (Option && this.PageNow < this.NumMax) {
-      this.Deshabilitar = false;
+      this.Deshabilitar = true;
       this.getQuestions(this.ListaAsignaciones[this.PageNow].id);
       this.AreaAsignada = this.ListaAsignaciones[this.PageNow];
       this.getAnswers(this.Evaluation.id, this.AreaAsignada.id);
       this.PageNow++;
     } else if (!Option && this.PageNow > 1) {
       this.PageNow--;
-      this.Deshabilitar = false;
+      this.Deshabilitar = true;
       var CualToca = this.PageNow - 1;
       this.AreaAsignada = this.ListaAsignaciones[CualToca];
       this.getQuestions(this.ListaAsignaciones[CualToca].id);

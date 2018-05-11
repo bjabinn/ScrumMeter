@@ -11,7 +11,7 @@ namespace everisapi.API.Models
 
         public string Nombre { get; set; }
 
-        public ICollection<PreguntaWithRespuestasDto> Preguntas { get; set; }
-        = new List<PreguntaWithRespuestasDto>();
+        public ICollection<PreguntaWithOneRespuestasDto> Preguntas { get; set; }
+        = new List<PreguntaWithOneRespuestasDto>();
   }
 }

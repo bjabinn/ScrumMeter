@@ -89,8 +89,7 @@ export class PreviousevaluationComponent implements OnInit {
         x => x.fecha.includes(this.EvaluacionBuscada.fecha) &&
         x.nombre.includes(this.EvaluacionBuscada.nombre) &&
         x.userNombre.includes(this.EvaluacionBuscada.userNombre) &&
-          x.nrespuestas==toInteger(this.nrespuestas));
-      console.log("si ", this.ListaDeEvaluaciones, "y ademas", this.nrespuestas)
+          String(x.nrespuestas).includes(this.nrespuestas));
     } else {
       //Filtrando por completos
       if (this.FiltrarCompletados) {

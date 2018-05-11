@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using everisapi.API.Entities;
 using everisapi.API.Models;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace everisapi.API.Services
 {
@@ -50,16 +51,83 @@ namespace everisapi.API.Services
             return _context.Asignaciones.OrderBy(c => c.Nombre).ToList();
         }
 
-        //Devuelve todas las asignaciones con datos extendidos filtrado por proyecto
-        public IEnumerable<AsignacionInfoDto> GetAsignFromProject(int idEval)
+        //Devuelve todas las asignaciones con datos extendidos filtrado por evaluacion
+        public IEnumerable<AsignacionInfoDto> GetAsignFromEval(int idEval)
         {
-          //return _context.Asignaciones.Where(a => a.PreguntasDeAsignacion.Any(p => p.))
+       List<AsignacionInfoDto> AsignacionesInfo = new List<AsignacionInfoDto>();
+       List<RespuestaDto> ListaRespuestas = Mapper.Map<List<RespuestaDto>>(_context.Respuestas.Where(r => r.EvaluacionId == idEval).ToList());
 
-          return null;
+        
+
+       var asignaciones = (from res in _context.Respuestas
+            where res.EvaluacionId == idEval
+            select new { res.Id, res.PreguntaId, res.Estado, res.EvaluacionId} into respuestas
+            join p in _context.Preguntas on respuestas.PreguntaId equals p.Id
+            select new { p.Id, p.AsignacionId, p.Pregunta,  } into preguntas
+            join asig in _context.Asignaciones on preguntas.AsignacionId equals asig.Id
+            select new { asig.Id, asig.Nombre, asig.PreguntasDeAsignacion } into asignacionesEntity
+            select asignacionesEntity).Distinct().ToList();
+      foreach (var asignacion in asignaciones)
+      {
+        var introducirasig = new AsignacionInfoDto();
+        introducirasig.Id = asignacion.Id;
+        introducirasig.Nombre = asignacion.Nombre;
+        introducirasig.Preguntas = changePregunta(asignacion.PreguntasDeAsignacion, ListaRespuestas);
+        AsignacionesInfo.Add(introducirasig);
+      }
+
+          return AsignacionesInfo;
         }
 
-        //Recogemos una pregunta de una asignación
-        public PreguntaEntity GetPreguntaDeAsignacion(int AsignacionId, int PreguntaId)
+        //Devuelve todas las asignaciones con datos extendidos filtrado por evaluacion
+        public AsignacionInfoDto GetAsignFromEvalAndAsig(int idEval, int idAsing)
+        {
+
+       AsignacionInfoDto AsignacionesInfo = new AsignacionInfoDto();
+       List<RespuestaDto> ListaRespuestas = Mapper.Map<List<RespuestaDto>>(_context.Respuestas.Where(r => r.EvaluacionId == idEval).ToList());
+
+       var asignacionBD = (from res in _context.Respuestas
+            where res.EvaluacionId == idEval
+            select new { res.Id, res.PreguntaId, res.Estado, res.EvaluacionId} into respuestas
+            join p in _context.Preguntas on respuestas.PreguntaId equals p.Id
+            select new { p.Id, p.AsignacionId, p.Pregunta,  } into preguntas
+            join asig in _context.Asignaciones on preguntas.AsignacionId equals asig.Id
+            where asig.Id == idAsing
+            select new { asig.Id, asig.Nombre, asig.PreguntasDeAsignacion } into asignacionesEntity
+            select asignacionesEntity).Distinct().FirstOrDefault();
+
+
+        AsignacionesInfo.Id = asignacionBD.Id;
+        AsignacionesInfo.Nombre = asignacionBD.Nombre;
+        AsignacionesInfo.Preguntas = changePregunta(asignacionBD.PreguntasDeAsignacion, ListaRespuestas);
+
+          return AsignacionesInfo;
+        }
+
+        /*Metodo que convierte una pregunta y una respuesta en una Dto devolviendola
+        public PreguntaWithOneRespuestasDto changePregunta( PreguntaEntity Pregunta,RespuestaEntity Respuesta) {
+          var PreguntaConRespuesta = new PreguntaWithOneRespuestasDto { Id = Pregunta.Id, Pregunta = Pregunta.Pregunta, Respuesta = Mapper.Map<RespuestaDto>(Respuesta) };
+          return PreguntaConRespuesta;
+        }*/
+
+    // Metodo que devolvia una lista
+       public List<PreguntaWithOneRespuestasDto> changePregunta( IEnumerable<PreguntaEntity> Preguntas, IEnumerable<RespuestaDto> Respuestas) {
+           List<PreguntaWithOneRespuestasDto> PreguntasConRespuestas = new List<PreguntaWithOneRespuestasDto>();
+           foreach (var pregunta in Preguntas)
+           {
+             var RespuestaParaPregunta = Respuestas.Where(r => r.PreguntaId == pregunta.Id).FirstOrDefault();
+
+             var PreguntaAdd = new PreguntaWithOneRespuestasDto { Id = pregunta.Id, Pregunta = pregunta.Pregunta, Respuesta = RespuestaParaPregunta };
+
+             PreguntasConRespuestas.Add(PreguntaAdd);
+      }
+          PreguntasConRespuestas = PreguntasConRespuestas.OrderBy(p => p.Id).ToList();
+          return PreguntasConRespuestas;
+
+        }
+
+    //Recogemos una pregunta de una asignación
+    public PreguntaEntity GetPreguntaDeAsignacion(int AsignacionId, int PreguntaId)
         {
             //Devolvemos una pregunta especifica de una Asignación
             return _context.Preguntas.Where(p => p.AsignacionId == AsignacionId && p.Id == PreguntaId).FirstOrDefault();

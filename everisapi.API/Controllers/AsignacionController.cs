@@ -45,6 +45,40 @@ namespace everisapi.API.Controllers
             
         }
 
+        [HttpGet("evaluacion/{id}")]
+        public IActionResult GetAsignacionFromEval( int id )
+        {
+            try
+            {
+                var AsignacionesWithInfo = _asignacionInfoRepository.GetAsignFromEval( id);
+
+                return Ok(AsignacionesWithInfo);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogCritical("Se recogio un error al recibir todos los datos de las asignaciones: "+ex);
+                return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+            }
+            
+        }
+
+        [HttpGet("evaluacion/{id}/asignacion/{idAsig}")]
+        public IActionResult GetAsignacionFromEval( int id, int idAsig )
+        {
+            try
+            {
+                var AsignacionesWithInfo = _asignacionInfoRepository.GetAsignFromEvalAndAsig(id, idAsig);
+
+                return Ok(AsignacionesWithInfo);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogCritical("Se recogio un error al recibir todos los datos de las asignaciones: "+ex);
+                return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+            }
+            
+        }
+
         //Introduciendo la id de la asignacion devuelve una asignación especifica
         [HttpGet("{id}")]
         public IActionResult GetAsignacion(int id, bool IncluirPreguntas = false)

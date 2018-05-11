@@ -12,8 +12,11 @@ namespace everisapi.API.Services
         //Devuelve todas las asignaciones
         IEnumerable<AsignacionEntity> GetAsignaciones();
 
-        //Devuelve todas las asignaciones con datos extendidos filtrado por proyecto
-        IEnumerable<AsignacionInfoDto> GetAsignFromProject(int idProject);
+        //Devuelve todas las asignaciones con datos extendidos filtrado por evaluación
+        IEnumerable<AsignacionInfoDto> GetAsignFromEval(int idEval);
+
+        //Devuelve una asignación con datos extendidos filtrado por evaluación y asignación
+        AsignacionInfoDto GetAsignFromEvalAndAsig(int idEval, int idAsig);
 
         //Devuelve una asignación
         AsignacionEntity GetAsignacion(int AsignacionId, Boolean IncluirPreguntas);
