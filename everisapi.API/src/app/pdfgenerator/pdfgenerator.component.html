@@ -7,7 +7,13 @@
   </div>
 
   <br />
-
+  <!--Datos de la evaluación-->
+  <div class="data">
+    Proyecto: <b>{{Evaluacion.nombre}}</b>
+    <br />
+    Fecha: <b>{{Evaluacion.fecha | date:'MM-dd-yyyy'}}</b>
+  </div>
+  <br />
   <!--Tabla con datos-->
   <table class="table-fill">
     <thead>
@@ -36,8 +42,7 @@
             [options]="barChartOptions"
             [legend]="barChartLegend"
             [chartType]="barChartType"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)" #content></canvas>
+            (chartHover)="chartHovered($event)"></canvas>
   </div>
 </div>
 <div *ngIf="!Mostrar">

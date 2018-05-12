@@ -106,6 +106,30 @@ namespace everisapi.API.Controllers
       }
     }
 
+    //Introduciendo la id de la evaluación devuelve una evaluación especifica
+    [HttpGet("proyecto/{id}/info/page/{pageNumber}")]
+    public IActionResult GetEvaluacionInfoAndPage(int id, int pageNumber)
+    {
+      try
+      {
+        //Recoge si existe la evaluación si es asi la devuelve si no es así muestra un error
+        var EvaluacionInfo = _evaluacionInfoRepository.GetEvaluationInfoAndPage(id, pageNumber);
+
+        if (EvaluacionInfo == null)
+        {
+          _logger.LogInformation("La evaluación información con id " + id + " no pudo ser encontrado.");
+          return NotFound();
+        }
+
+        return Ok(EvaluacionInfo);
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir la evaluación con toda su información con id " + id + ": " + ex);
+        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+      }
+    }
+
     [HttpGet("proyecto/{id}")]
     public IActionResult GetEvaluacionFromProject(int id)
     {

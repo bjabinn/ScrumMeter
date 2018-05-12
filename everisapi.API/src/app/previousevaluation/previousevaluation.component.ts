@@ -16,13 +16,16 @@ import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 export class PreviousevaluationComponent implements OnInit {
   public clicked: boolean = true;
   public EvaluacionBuscada: EvaluacionInfo =
-    { 'id': null, 'nombre': '', 'estado': null, 'fecha': '', 'userNombre': null, 'npreguntas': null, 'nrespuestas': null };
+    { 'id': null, 'nombre': '', 'estado': null, 'fecha': '', 'userNombre': null, 'nPreguntas': null, 'nRespuestas': null };
   public ListaDeEvaluaciones: Array<EvaluacionInfo>;
+  public ListaDeEvaluacionesPaginada: Array<EvaluacionInfo>;
   public nrespuestas: string = '';
   public FiltrarCompletados: boolean = null;
   public UserName: string = "";
   public Project: Proyecto = { 'id': null, 'nombre': '', 'fecha': null };
   public Mostrar = false;
+  private PageNow = 1;
+  private NumMax = 0;
   
 
   constructor(
@@ -31,12 +34,8 @@ export class PreviousevaluationComponent implements OnInit {
     private _evaluacionService: EvaluacionService) { }
 
   ngOnInit() {
+    //Inicializar 
     this.Restablecer();
-    //Datos de prueba
-    /*this.ListaDeEvaluaciones = [new EvaluacionInfo( 1 ,'TESCO', 'User', 100, 100, "12/11/2018", true),
-      new EvaluacionInfo( 2, 'BSA', 'Admin', 65, 55, "24/10/2015", false),
-      new EvaluacionInfo( 3, 'FacePalms', 'Admin', 100, 100, "09/03/2012", false),
-      new EvaluacionInfo( 4, 'NextDay', 'User', 50, 32, "11/01/2016", true)];*/
 
     //Recogemos los proyectos y realizamos comprobaciones
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
@@ -56,12 +55,23 @@ export class PreviousevaluationComponent implements OnInit {
     this._evaluacionService.getEvaluacionInfo(this.Project.id).subscribe(
       res => {
         this.ListaDeEvaluaciones = res;
+        this.CalcularPaginas();
+        this.paginacionLista(0);
         this.Mostrar = true;
       },
       error => {
         console.log("Error recoger listado de evaluaciones: "+error)
       });
-    
+  }
+
+  //Este metodo devuelve el número de paginas máximo que hay
+  public CalcularPaginas() {
+    var NumeroDePaginas = Math.floor((this.ListaDeEvaluaciones.length / 5) * 100) / 100;
+    if (NumeroDePaginas % 1 != 0) {
+      this.NumMax = Math.floor(NumeroDePaginas) + 1;
+    } else {
+      this.NumMax = NumeroDePaginas;
+    }
   }
 
   //Restablece los datos de la busqueda
@@ -70,8 +80,8 @@ export class PreviousevaluationComponent implements OnInit {
       this.EvaluacionBuscada.fecha = "";
       this.EvaluacionBuscada.nombre = "";
       this.EvaluacionBuscada.userNombre = "";
-      this.EvaluacionBuscada.npreguntas = null;
-      this.EvaluacionBuscada.nrespuestas = null;
+      this.EvaluacionBuscada.nPreguntas = null;
+      this.EvaluacionBuscada.nRespuestas = null;
       this.EvaluacionBuscada.estado = null;
       this.nrespuestas = '';
       this.clicked = false;
@@ -80,36 +90,48 @@ export class PreviousevaluationComponent implements OnInit {
     }
   }
 
+  //Este metodo devuelve la transforma la lista de evaluaciones dada en una lista paginada
+  public paginacionLista( pageNumber: number) {
+    var Skip = pageNumber * 5;
+    var ListaPaginada = new Array<EvaluacionInfo>();
+    var contador = Skip;
+    while (ListaPaginada.length != 5 && contador < this.ListaDeEvaluaciones.length) {
+      ListaPaginada.push(this.ListaDeEvaluaciones[contador]);
+      contador++;
+    }
+    this.ListaDeEvaluacionesPaginada = ListaPaginada;
+  }
+
   //Utiliza los datos del filtrado para realizar un filtrado en el array
   public Busqueda() {
-    var BuscaPersonalizada: Array<EvaluacionInfo> = this.ListaDeEvaluaciones;
+    var BuscaPersonalizada: Array<EvaluacionInfo> = this.ListaDeEvaluacionesPaginada;
+    this.CalcularPaginas();
     //Si no filtra por completos o incompletos
     if (this.FiltrarCompletados == null) {
-      BuscaPersonalizada = this.ListaDeEvaluaciones.filter(
+      BuscaPersonalizada = this.ListaDeEvaluacionesPaginada.filter(
         x => x.fecha.includes(this.EvaluacionBuscada.fecha) &&
         x.nombre.includes(this.EvaluacionBuscada.nombre) &&
-        x.userNombre.includes(this.EvaluacionBuscada.userNombre) &&
-          String(x.nrespuestas).includes(this.nrespuestas));
+          x.userNombre.includes(this.EvaluacionBuscada.userNombre) &&
+          String(x.nRespuestas).includes(this.nrespuestas));
     } else {
       //Filtrando por completos
       if (this.FiltrarCompletados) {
-        BuscaPersonalizada = this.ListaDeEvaluaciones.filter(
+        BuscaPersonalizada = this.ListaDeEvaluacionesPaginada.filter(
           x => x.estado &&
           x.fecha.includes(this.EvaluacionBuscada.fecha) &&
           x.nombre.includes(this.EvaluacionBuscada.nombre) &&
             x.userNombre.includes(this.EvaluacionBuscada.userNombre) &&
-          String(x.nrespuestas).includes(this.nrespuestas));
+            String(x.nRespuestas).includes(this.nrespuestas));
       } else {
         //Filtrando por incompletos
-        BuscaPersonalizada = this.ListaDeEvaluaciones.filter(
-          x => !x.estado &&
+        BuscaPersonalizada = this.ListaDeEvaluacionesPaginada.filter(
+          x => x.estado == false &&
           x.fecha.includes(this.EvaluacionBuscada.fecha) &&
           x.nombre.includes(this.EvaluacionBuscada.nombre) &&
             x.userNombre.includes(this.EvaluacionBuscada.userNombre) &&
-          String(x.nrespuestas).includes(this.nrespuestas));
+            String(x.nRespuestas).includes(this.nrespuestas));
       }
     }
-    
     return BuscaPersonalizada;
   }
 
@@ -122,6 +144,17 @@ export class PreviousevaluationComponent implements OnInit {
   //Filtra por evaluaciones completas completas o ninguna
   public ChangeFiltro(estado: boolean) {
     this.FiltrarCompletados = estado;
+  }
+
+  //Al presionar el boton va avanzado y retrocediendo
+  public NextPreviousButton(Option: boolean) {
+    if (Option && this.PageNow < this.NumMax) {
+      this.paginacionLista(this.PageNow++);
+    } else if (!Option && this.PageNow > 1) {
+      this.PageNow--;
+      var CualToca = this.PageNow - 1;
+      this.paginacionLista(CualToca);
+    }
   }
 
 }

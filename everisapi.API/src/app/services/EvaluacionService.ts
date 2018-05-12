@@ -61,7 +61,6 @@ import { EvaluacionCreate } from 'app/Models/EvaluacionCreate';
         let headers = new Headers({
           'Content-Type': 'application/json'
         });
-        console.log("hola", evaluacion)
         return this._http.post(this.url + 'evaluaciones', params, { headers: headers })
           .map(res => res.json())
           .catch(this.errorHandler);
@@ -81,7 +80,7 @@ import { EvaluacionCreate } from 'app/Models/EvaluacionCreate';
 
       //Implementamos este metodo para permitir la recogida de los errores y su gestión
       errorHandler(error: Response) {
-        return Observable.throw(console.log("El error es: ", error));
+        return Observable.throw(error.status);
       }
     }
 

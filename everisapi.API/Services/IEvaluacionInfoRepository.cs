@@ -18,6 +18,9 @@ namespace everisapi.API.Services
         //Devuelve información detallada de las evaluaciones
         List<EvaluacionInfoDto> GetEvaluationInfo(int IdProject);
 
+        //Recoge una lista de evaluaciones con datos de información de muchas tablas filtrandola por paginado
+        List<EvaluacionInfoDto> GetEvaluationInfoAndPage(int IdProject, int pageNumber);
+
         //Devuelve todas las evaluaciones de un proyecto
         IEnumerable<EvaluacionEntity> GetEvaluacionesFromProject(int IdProject);
 

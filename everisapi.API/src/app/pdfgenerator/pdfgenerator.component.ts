@@ -7,14 +7,13 @@ import { AppComponent } from 'app/app.component';
 import { Router } from '@angular/router';
 import { SectionService } from 'app/services/SectionService';
 import { LoadingComponent } from '../loading/loading.component';
-
-import * as jsPDF from 'jspdf';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-pdfgenerator',
   templateUrl: './pdfgenerator.component.html',
   styleUrls: ['./pdfgenerator.component.scss'],
-  providers: [SectionService]
+  providers: [SectionService, DatePipe]
 })
 export class PdfgeneratorComponent implements OnInit {
 
@@ -23,7 +22,6 @@ export class PdfgeneratorComponent implements OnInit {
   public Project: Proyecto = null;
   public Evaluacion: EvaluacionInfo = null;
   public Mostrar = false;
-  public Imprimiendo = false;
   //Datos de la barras
   public barChartType: string = 'bar';
   public barChartLegend: boolean = true;
@@ -37,7 +35,8 @@ export class PdfgeneratorComponent implements OnInit {
   constructor(
     private _appComponent: AppComponent,
     private _router: Router,
-    private _sectionService: SectionService) {
+    private _sectionService: SectionService,
+    private datePipe: DatePipe) {
 
     //Recupera los datos y los comprueba
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
@@ -86,28 +85,21 @@ export class PdfgeneratorComponent implements OnInit {
     responsive: true
   };
 
-
+  //Estos son los datos introducidos en la grafica para que represente sus formas
   public barChartData: any[] = [
     { data: this.ListaNPreguntas, label: 'Nº total de preguntas' },
     { data: this.ListaNRespuestas, label: 'Preguntas Respondidas' }
   ];
 
-  // eventos
-  public chartClicked(e: any): void {
-    console.log(e);
-  }
-
   public chartHovered(e: any): void {
     console.log(e);
   }
 
-  //Generar pdf
-
+  //Genera un pdf a partir de una captura de pantalla
+  //Mediante css eliminamos los componentes que no deseamos
   public downloadPDF() {
-    this.Imprimiendo = true;
-    if (this.Imprimiendo) {
-      window.print();
-    }
-    this.Imprimiendo = false;
-    }
+    var date = this.datePipe.transform(this.Evaluacion.fecha, 'MM-dd-yyyy');
+    document.title = this.Evaluacion.nombre + date + "ScrumMeter";
+    window.print();
+  }
 }

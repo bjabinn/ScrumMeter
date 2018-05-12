@@ -6,7 +6,7 @@
     Usuario: {{UserName}}
   </div>
   <div class="col-xs-12 col-sm-5 col-md-5">
-    Fecha: {{ Project.fecha | date:'dd/mm/yyyy' }}
+    Fecha: {{ Project.fecha | date:'MM-dd-yyyy' }}
   </div>
 
   <div class="col-xs-12 col-sm-5 col-md-5">
@@ -23,7 +23,7 @@
 <br>
 
 
-<div class="container" *ngIf="Mostrar && ListaDeEvaluaciones.length != 0">
+<div class="container" *ngIf="Mostrar && ListaDeEvaluacionesPaginada.length != 0">
 
   <div class="row">
     <div class="col-xs-12 col-sm-2 col-md-3"></div>
@@ -85,7 +85,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let evaluacion of Busqueda()">
-            <td>{{evaluacion.fecha | date:'dd/mm/yyyy'}}</td>
+            <td>{{evaluacion.fecha | date:'MM-dd-yyyy'}}</td>
             <td>{{evaluacion.nombre}}</td>
             <td>{{evaluacion.userNombre}}</td>
             <td>{{evaluacion.nRespuestas}}/{{evaluacion.nPreguntas}}</td>
@@ -98,7 +98,16 @@
       </table>
     </div>
   </div>
+  <div class="wrapper">
+    <button type="button" class="btn btn-outline-success" (click)="NextPreviousButton(false)">Anterior</button>
+    <strong>
+      {{PageNow}}/{{NumMax}}
+    </strong>
+    <button type="button" class="btn btn-outline-success" (click)="NextPreviousButton(true)">Siguiente</button>
+  </div>
 </div>
+
+
 
 <div *ngIf="Mostrar && ListaDeEvaluaciones.length == 0">
   <div class="row">

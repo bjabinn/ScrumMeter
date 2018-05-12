@@ -35,7 +35,7 @@ namespace everisapi.API.Services
             }
         }
 
-    //Recoge una evaluación con datos de información de muchas tablas
+    //Recoge una lista de evaluaciones con datos de información de muchas tablas
     public List<EvaluacionInfoDto> GetEvaluationInfo(int IdProject)
     {
       List<EvaluacionInfoDto> EvaluacionesInformativas = new List<EvaluacionInfoDto>();
@@ -52,7 +52,7 @@ namespace everisapi.API.Services
         .Select(r => new EvaluacionInfoDto
         {
           Id = r.EvaluacionEntity.Id,
-          Fecha = r.EvaluacionEntity.Fecha,
+          Fecha = r.EvaluacionEntity.Fecha.Date,
           Estado = r.EvaluacionEntity.Estado,
           Nombre = r.EvaluacionEntity.ProyectoEntity.Nombre,
           UserNombre = r.EvaluacionEntity.ProyectoEntity.UserNombre
@@ -65,7 +65,41 @@ namespace everisapi.API.Services
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
       }
-      
+      return EvaluacionesInformativas;
+    }
+
+    //Recoge una lista de evaluaciones con datos de información de muchas tablas filtrandola por paginado
+    public List<EvaluacionInfoDto> GetEvaluationInfoAndPage(int IdProject, int pageNumber)
+    {
+      //Recogemos las evaluaciones y la paginamos
+      List<EvaluacionInfoDto> EvaluacionesInformativas = new List<EvaluacionInfoDto>();
+      var Evaluaciones = _context.Evaluaciones.Where(e => e.ProyectoId == IdProject).Skip(5 * pageNumber).Take(5)
+        .ToList();
+      //Encuentra la informacion de la evaluacion y lo introduce en un objeto
+      foreach (var evaluacion in Evaluaciones)
+      {
+        EvaluacionInfoDto EvaluacionInfo = _context.Respuestas.
+        Include(r => r.EvaluacionEntity).
+        ThenInclude(e => e.ProyectoEntity).
+        ThenInclude(p => p.UserEntity).
+        Where(e => e.EvaluacionId == evaluacion.Id)
+        .Select(r => new EvaluacionInfoDto
+        {
+          Id = r.EvaluacionEntity.Id,
+          Fecha = r.EvaluacionEntity.Fecha.Date,
+          Estado = r.EvaluacionEntity.Estado,
+          Nombre = r.EvaluacionEntity.ProyectoEntity.Nombre,
+          UserNombre = r.EvaluacionEntity.ProyectoEntity.UserNombre
+        })
+          .FirstOrDefault<EvaluacionInfoDto>();
+        //Calcula el número de preguntas y el número de respuestas de esa evaluación
+        EvaluacionInfo.NPreguntas = _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id).Count();
+        EvaluacionInfo.NRespuestas = _context.Respuestas.Where(r => r.Estado == true && r.EvaluacionId == evaluacion.Id).Count();
+
+        //Añade el objeto en la lista
+        EvaluacionesInformativas.Add(EvaluacionInfo);
+      }
+
       return EvaluacionesInformativas;
     }
 

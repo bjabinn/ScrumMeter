@@ -28,7 +28,6 @@ export class RespuestasService {
 
   //Este metodo devuelve un listado con sus preguntas y respuestas de una evaluación y su asignación
   getRespuestasAsig(idEvaluacion: number, idAsig: number) {
-    console.log(" desde el servicio se recoge: ", this.url + 'asignaciones/evaluacion/' + idEvaluacion + '/asignacion/' + idAsig)
     return this._http.get(this.url + 'asignaciones/evaluacion/' + idEvaluacion + '/asignacion/' + idAsig)
       .map((response: Response) => response.json())
       .catch(this.errorHandler);
@@ -42,7 +41,7 @@ export class RespuestasService {
     });
     
     return this._http.put(this.url + 'respuestas/' + id + '/change/' + change, httpParams, { headers: headers })
-      .map(res => console.log(res));
+      .map(res => res);
   }
 
   //Implementamos este metodo para permitir la recogida de los errores y su gestión

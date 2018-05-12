@@ -3,8 +3,8 @@ export class EvaluacionInfo {
     public id: number,
     public nombre: string,
     public userNombre: string,
-    public npreguntas: number,
-    public nrespuestas: number,
+    public nPreguntas: number,
+    public nRespuestas: number,
     public fecha: string,
     public estado: boolean
   ) { }

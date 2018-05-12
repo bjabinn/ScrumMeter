@@ -18,18 +18,16 @@ import { LoadingComponent } from '../loading/loading.component';
   providers: [SectionService, RespuestasService]
 })
 export class NewevaluationComponent implements OnInit {
-  ListaAsignaciones: Array<Asignacion> = [];
-  ListaPreguntas: Array<Pregunta> = [];
-  ListaRespuestas: Array<Respuesta> = [];
-  InfoAsignacion: AsignacionInfo = { id: null, nombre: '', preguntas: null };
-  NumMax: number = 0;
-  PageNow: number = 1;
-  Project: Proyecto = null;
-  Evaluation: Evaluacion = null;
-  AreaAsignada: Asignacion = { 'id': 0, 'nombre': "undefined" };
-  UserName: string = "";
-  public idSelected = 0;
-  public Deshabilitar = false;
+  private ListaAsignaciones: Array<Asignacion> = [];
+  private InfoAsignacion: AsignacionInfo = { id: null, nombre: '', preguntas: null };
+  private NumMax: number = 0;
+  private PageNow: number = 1;
+  private Project: Proyecto = null;
+  private Evaluation: Evaluacion = null;
+  private AreaAsignada: Asignacion = { 'id': 0, 'nombre': "undefined" };
+  private UserName: string = "";
+  private idSelected = 0;
+  private Deshabilitar = false;
 
   //Recogemos todos los datos de la primera area segun su id y las colocamos en la lista
   constructor(
@@ -55,7 +53,6 @@ export class NewevaluationComponent implements OnInit {
       this.UserName = this._appComponent._storageDataService.UserData.nombre;
     }
 
-    console.log("Seleccionaste la id de section: " + this.idSelected)
     this._sectionService.getAsignacionesSection(this.idSelected).subscribe(
       res => {
         if (res != null) {
@@ -86,7 +83,6 @@ export class NewevaluationComponent implements OnInit {
         if (res != null) {
           this.InfoAsignacion = res;
           this.Deshabilitar = false;
-          console.log("la respuesta de la prueba es: ", this.InfoAsignacion);
         } else {
           console.log("Esto esta muy vacio");
         }
@@ -99,14 +95,11 @@ export class NewevaluationComponent implements OnInit {
 
   //Cambia el estado de las preguntas
   public ChangeEstadoDB(idarray: number) {
-    console.log("estoy dandole el id: ", idarray, "su lenght es: ", this.InfoAsignacion.preguntas.length)
-    console.log("antes de todo", this.InfoAsignacion.preguntas[idarray].respuesta.estado)
     var idRespuesta = this.InfoAsignacion.preguntas[idarray].respuesta.id;
-    console.log("estoy dandole el id a service : ", idRespuesta)
     if (this.InfoAsignacion.preguntas[idarray].respuesta.estado) {
       this._respuestasService.AlterEstadoRespuesta(idRespuesta, false).subscribe(
         res => {
-          console.log("Cambio realizado");
+          //console.log("Cambio realizado");
         },
         error => {
           console.log("Cambio fallido ", error);
@@ -115,7 +108,7 @@ export class NewevaluationComponent implements OnInit {
     } else {
       this._respuestasService.AlterEstadoRespuesta(idRespuesta, true).subscribe(
         res => {
-          console.log("Cambio realizado");
+          //console.log("Cambio realizado");
         },
         error => {
           console.log("Cambio fallido ", error);

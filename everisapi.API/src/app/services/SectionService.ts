@@ -54,7 +54,6 @@ export class SectionService {
 
   //Recoge todos los datos extendidos de una evaluación
   getSectionInfo(idEvaluacion) {
-    console.log(this.url + 'sections/evaluacion/' + idEvaluacion)
     return this._http.get(this.url + 'sections/evaluacion/' + idEvaluacion)
       .map((response: Response) => response.json())
       .catch(this.errorHandler);

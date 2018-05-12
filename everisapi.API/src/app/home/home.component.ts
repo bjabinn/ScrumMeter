@@ -125,8 +125,8 @@ export class HomeComponent implements OnInit {
   }
 
   //Este metodo guarda el proyecto que a sido seleccionado en el front
-  public SeleccionDeProyecto(ProyectoSeleccionado: Proyecto){
-    this.ProyectoSeleccionado = ProyectoSeleccionado;
+  public SeleccionDeProyecto(index: number) {
+    this.ProyectoSeleccionado = this.ListaDeProyectos[index];
     this._appComponent._storageDataService.UserProjectSelected = this.ProyectoSeleccionado;
   }
 

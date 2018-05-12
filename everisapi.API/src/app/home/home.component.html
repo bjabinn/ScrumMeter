@@ -20,9 +20,9 @@
               <div class="form-group">
                 <div class="input-group">
                   <div class="col-xs-3">
-                    <select class="custom-select" *ngIf="ListaDeProyectos.length > 0">
+                    <select class="custom-select" *ngIf="ListaDeProyectos.length > 0"  (change)="SeleccionDeProyecto($event.target.value)">
                       <option selected>- Seleccione un proyecto </option>
-                      <option *ngFor="let proyecto of ListaDeProyectos" (click)="SeleccionDeProyecto(proyecto)">{{proyecto.nombre}}</option>
+                      <option *ngFor="let proyecto of ListaDeProyectos; let i = index" value={{i}}>{{proyecto.nombre}}</option>
                     </select>
                     <span *ngIf="ListaDeProyectos.length == 0" class="textstyledanger">
                       <app-loading></app-loading>
