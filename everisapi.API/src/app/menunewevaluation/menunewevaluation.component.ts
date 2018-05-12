@@ -10,6 +10,7 @@ import { async } from '@angular/core/testing';
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { SectionInfo } from 'app/Models/SectionInfo';
 import { LoadingComponent } from '../loading/loading.component';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'; 
 
 @Component({
   selector: 'app-menunewevaluation',
@@ -31,7 +32,8 @@ export class MenunewevaluationComponent implements OnInit {
     private _sectionService: SectionService,
     private _router: Router,
     private _evaluacionService: EvaluacionService,
-    private _appComponent: AppComponent)
+    private _appComponent: AppComponent,
+    private modalService: NgbModal)
   {
 
     //Empezamos cargando el usuario en el componente mientras verificamos si esta logueado
@@ -87,6 +89,23 @@ export class MenunewevaluationComponent implements OnInit {
       error => {
         console.log("ocurrio un error en el update: " + error);
       });
+  }
+
+  public AbrirModal(content) {
+    this.modalService.open(content).result.then(
+      (closeResult) => {
+        //Esto realiza la acción de cerrar la ventana
+        //Console.log("Cerro la ventana con: ", content);
+      }, (dismissReason) => {
+        if (dismissReason == 'Home') {
+          //Si no desea finalizar lo mandaremos a home
+          this._router.navigate(['/home']);
+        } else if (dismissReason == 'Finish') {
+          //Si decide finalizarlo usaremos el metodo para finalizar la evaluación
+          this.FinishEvaluation();
+        }
+
+      })
   }
 
 /*

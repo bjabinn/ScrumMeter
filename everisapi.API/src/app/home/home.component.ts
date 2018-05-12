@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
   constructor(
             private _proyectoService: ProyectoService,
             private _evaluacionService: EvaluacionService,
-             private modalService:NgbModal,
+            private modalService:NgbModal,
             private _router: Router,
             private _appComponent: AppComponent) {}
 
