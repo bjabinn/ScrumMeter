@@ -139,7 +139,7 @@ export class HomeComponent implements OnInit {
         this._router.navigate(['/menunuevaevaluacion']);
       },
       error => {
-        console.log("Error al guardar la evaluación");
+        this.ErrorMessage = "Error al guardar la evaluación, " + error; 
       });
   }
 
@@ -175,7 +175,8 @@ export class HomeComponent implements OnInit {
         this.GuardarEvaluacion();
       },
       error => {
-        console.log("ocurrio un error en el update: " + error);
+        this.ErrorMessage = "Error al actualizar la base de datos, " + error;
+        
       });
   }
 
@@ -217,7 +218,7 @@ export class HomeComponent implements OnInit {
         error => {
           //Habilitamos la pagina nuevamente
           this.Deshabilitar = false;
-          console.log("error incompleta evaluacion comprobacion");
+           this.ErrorMessage = "Error en la base de datos, " +error;
         });
     } else {
       this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
