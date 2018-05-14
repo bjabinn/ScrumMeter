@@ -1,5 +1,11 @@
 <br>
 <br>
+<div class="espacio">
+  <div *ngIf="(ErrorMessage != null || ErrorMessage != undefined )" class="alert alert-danger" id="danger">
+    <strong>{{ErrorMessage}}</strong>
+  </div>
+</div>
+
 <div class="row" id="infopro">
   <div class="col-xs-12 col-sm-5 col-md-5">
     Usuario: {{UserName}}
