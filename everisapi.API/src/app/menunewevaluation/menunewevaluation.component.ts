@@ -55,7 +55,7 @@ export class MenunewevaluationComponent implements OnInit {
         this.ListaDeDatos = res;
       },
       error => {
-        console.log("Error al recoger los datos.")
+        this.ErrorMessage = "Error en la base de datos, " + error;
       }
     );
   
@@ -87,7 +87,7 @@ export class MenunewevaluationComponent implements OnInit {
         this._router.navigate(['/home']);
       },
       error => {
-        console.log("ocurrio un error en el update: " + error);
+       this.ErrorMessage = "Error en la base de datos, " + error;
       });
   }
 
