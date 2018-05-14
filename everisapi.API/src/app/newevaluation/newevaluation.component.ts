@@ -28,6 +28,7 @@ export class NewevaluationComponent implements OnInit {
   private UserName: string = "";
   private idSelected = 0;
   private Deshabilitar = false;
+  public ErrorMessage: string = null;
 
   //Recogemos todos los datos de la primera area segun su id y las colocamos en la lista
   constructor(
@@ -64,7 +65,7 @@ export class NewevaluationComponent implements OnInit {
         }
       },
       error => {
-        console.log("error lista asignaciones");
+       this.ErrorMessage = "Error en la base de datos, " + error;
       }
     );
 
@@ -88,7 +89,7 @@ export class NewevaluationComponent implements OnInit {
         }
       },
       error => {
-        console.log("error lista asignaciones");
+        this.ErrorMessage = "Error en la base de datos, " + error;
       }
     );
   }
@@ -102,7 +103,7 @@ export class NewevaluationComponent implements OnInit {
           //console.log("Cambio realizado");
         },
         error => {
-          console.log("Cambio fallido ", error);
+          this.ErrorMessage = "Error en la base de datos, " + error;
         });
       this.InfoAsignacion.preguntas[idarray].respuesta.estado = false;
     } else {
@@ -111,7 +112,7 @@ export class NewevaluationComponent implements OnInit {
           //console.log("Cambio realizado");
         },
         error => {
-          console.log("Cambio fallido ", error);
+          this.ErrorMessage = "Error en la base de datos, " + error;
         });
       this.InfoAsignacion.preguntas[idarray].respuesta.estado = true;
     }
