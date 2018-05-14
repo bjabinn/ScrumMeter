@@ -26,6 +26,7 @@ export class PreviousevaluationComponent implements OnInit {
   public Mostrar = false;
   private PageNow = 1;
   private NumMax = 0;
+  public ErrorMessage: string = null;
   
 
   constructor(
@@ -60,7 +61,7 @@ export class PreviousevaluationComponent implements OnInit {
         this.Mostrar = true;
       },
       error => {
-        console.log("Error recoger listado de evaluaciones: "+error)
+         this.ErrorMessage = "Error en la base de datos, " + error;
       });
   }
 
