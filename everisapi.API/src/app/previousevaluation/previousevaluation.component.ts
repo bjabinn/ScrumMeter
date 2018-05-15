@@ -24,8 +24,8 @@ export class PreviousevaluationComponent implements OnInit {
   public UserName: string = "";
   public Project: Proyecto = { 'id': null, 'nombre': '', 'fecha': null };
   public Mostrar = false;
-  private PageNow = 1;
-  private NumMax = 0;
+  public PageNow = 1;
+  public NumMax = 0;
   public ErrorMessage: string = null;
   
 

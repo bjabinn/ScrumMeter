@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     public ErrorMessage: string = null;
     public nombreDeUsuario: string="";
     public passwordDeUsuario: string="";
-    private UsuarioEntrante: User = null;
+    public UsuarioEntrante: User = null;
     public Recuerdame: boolean=false;
 
     constructor(private _userService : UserService,

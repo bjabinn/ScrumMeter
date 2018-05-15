@@ -18,16 +18,16 @@ import { LoadingComponent } from '../loading/loading.component';
   providers: [SectionService, RespuestasService]
 })
 export class NewevaluationComponent implements OnInit {
-  private ListaAsignaciones: Array<Asignacion> = [];
-  private InfoAsignacion: AsignacionInfo = { id: null, nombre: '', preguntas: null };
-  private NumMax: number = 0;
-  private PageNow: number = 1;
-  private Project: Proyecto = null;
-  private Evaluation: Evaluacion = null;
-  private AreaAsignada: Asignacion = { 'id': 0, 'nombre': "undefined" };
-  private UserName: string = "";
-  private idSelected = 0;
-  private Deshabilitar = false;
+  public ListaAsignaciones: Array<Asignacion> = [];
+  public InfoAsignacion: AsignacionInfo = { id: null, nombre: '', preguntas: null };
+  public NumMax: number = 0;
+  public PageNow: number = 1;
+  public Project: Proyecto = null;
+  public Evaluation: Evaluacion = null;
+  public AreaAsignada: Asignacion = { 'id': 0, 'nombre': "undefined" };
+  public UserName: string = "";
+  public idSelected = 0;
+  public Deshabilitar = false;
   public ErrorMessage: string = null;
 
   //Recogemos todos los datos de la primera area segun su id y las colocamos en la lista
