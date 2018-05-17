@@ -1,5 +1,7 @@
 .loading {
-  margin-top: 0%;
+  position: fixed;
+  margin-top: 15%;
+  margin-right: 5%;
 }
 
 .espacio {
@@ -14,6 +16,11 @@
 
 .wrapper {
   text-align: center;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 #infopro {

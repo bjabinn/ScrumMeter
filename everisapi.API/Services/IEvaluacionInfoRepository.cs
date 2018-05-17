@@ -21,6 +21,9 @@ namespace everisapi.API.Services
         //Recoge una lista de evaluaciones con datos de información de muchas tablas filtrandola por paginado
         List<EvaluacionInfoDto> GetEvaluationInfoAndPage(int IdProject, int pageNumber);
 
+        //Recoge una lista de evaluaciones con datos de información de muchas tablas filtrandola por paginado y los datos de una evaluación
+        List<EvaluacionInfoDto> GetEvaluationInfoAndPageFiltered(int IdProject, int pageNumber, EvaluacionInfoPaginationDto Evaluation);
+
         //Devuelve todas las evaluaciones de un proyecto
         IEnumerable<EvaluacionEntity> GetEvaluacionesFromProject(int IdProject);
 
@@ -29,6 +32,12 @@ namespace everisapi.API.Services
 
         //Añadir una evaluación en un proyecto
         void IncluirEvaluacion( EvaluacionEntity evaluacion);
+
+        //Devuelve una lista de evaluaciones filtrada por una evaluacion de modelo y un paginado
+        List<EvaluacionInfoDto> GetEvaluationInfoAndPageFilteredAdmin(int pageNumber, EvaluacionInfoPaginationDto Evaluacion);
+
+        //Devuelve un número entero de las evaluaciones por proyecto o todas las evaluaciones
+        int GetNumEval(int idProject);
 
         //Guardar cambio de las entidades
         bool SaveChanges();

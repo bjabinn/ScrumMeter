@@ -130,7 +130,7 @@ namespace everisapi.API
                         new ProyectoEntity()
                         {
                             Id = 1,
-                            Nombre="BSA",
+                            Nombre="BCA",
                             Fecha = DateTime.Now.Date,
                             /*Evaluaciones = new List<EvaluacionEntity>()
                             {

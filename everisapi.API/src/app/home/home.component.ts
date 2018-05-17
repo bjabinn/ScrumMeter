@@ -46,7 +46,10 @@ export class HomeComponent implements OnInit {
     }
 
     //Recogemos el nombre del usuario con el que nos logueamos
-    this.NombreDeUsuario=this._proyectoService.UsuarioLogeado;
+    this.NombreDeUsuario = this._proyectoService.UsuarioLogeado;
+
+    //Reiniciamos los proyectos seleccionados en el servicio
+    this._appComponent._storageDataService.UserProjectSelected = { id: null, nombre: '', fecha: null };
 
     //Intentamos recoger los roles de los usuarios
     this._proyectoService.getRolesUsuario().subscribe(
@@ -143,17 +146,9 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  //Este metodo comprueba si el proyecto seleccionado es correcto y si es así pasa al siguiente elemento
-  //Guardara los datos en el service de almacenamiento
-  public NuevaEvaluacion(){
-
-    
-
-  }
-
   //Este metodo consulta las evaluaciones anteriores de este proyecto si esta seleccionado y existe
   public EvaluacionesAnteriores(){
-    if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
+    if (this.AdminOn || this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
         this._router.navigate(['/evaluacionprevia']);
     }else{
         this.ErrorMessage= "Seleccione un proyecto para realizar esta acción.";

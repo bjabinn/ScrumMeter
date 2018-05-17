@@ -130,6 +130,73 @@ namespace everisapi.API.Controllers
       }
     }
 
+    //Este metodo lanza mediante un post una petición que devolvera una lista de evaluaciones
+    [HttpPost("proyecto/{id}/info/page/{pageNumber}")]
+    public IActionResult GetEvaluationInfoAndPageFiltered(int id, int pageNumber,
+            [FromBody] EvaluacionInfoPaginationDto EvaluacionParaFiltrar)
+    {
+      try
+      {
+
+        //Comprueba que el body del json es correcto sino devolvera null
+        //Si esto ocurre devolveremos un error
+        if (EvaluacionParaFiltrar == null)
+        {
+          return BadRequest();
+        }
+
+        //Si no cumple con el modelo de creación devuelve error
+        if (!ModelState.IsValid)
+        {
+          return BadRequest(ModelState);
+        }
+
+        var EvaluacionesFiltradas = new List<EvaluacionInfoDto>();
+        var NumEvals = 0;
+        if (id != 0)
+        {
+          var Evals = _evaluacionInfoRepository.GetEvaluationInfoAndPageFiltered(id, pageNumber, EvaluacionParaFiltrar);
+          NumEvals = Evals.Count();
+          EvaluacionesFiltradas = Evals.Skip(5 * pageNumber).Take(5).ToList();
+        }
+        else
+        {
+          var Evals = _evaluacionInfoRepository.GetEvaluationInfoAndPageFilteredAdmin( pageNumber, EvaluacionParaFiltrar);
+          NumEvals = Evals.Count();
+          EvaluacionesFiltradas = Evals.Skip(5 * pageNumber).Take(5).ToList();
+        }
+
+        //Hacemos un mapeo de la pregunta que recogimos
+        var EvaluacionesResult = Mapper.Map<List<EvaluacionInfoDto>>(EvaluacionesFiltradas);
+
+        return Ok(new { NumEvals, EvaluacionesResult });
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir la petición post de recoger una lista filtrada de evaluaciones con id de proyecto "+id+" y paginado con número "+ pageNumber +": " + ex);
+        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+      }
+    }
+
+    //Este metodo devuelve el número de evaluaciones que contiene un proyecto o todos los proyectos
+    [HttpGet("proyecto/{id}/num")]
+    public IActionResult GetNumEvaluacionFromProject(int id)
+    {
+      try
+      {
+
+        var NumEvaluacion = _evaluacionInfoRepository.GetNumEval(id);
+
+        return Ok(NumEvaluacion);
+
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir la evaluación con id " + id + ": " + ex);
+        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+      }
+    }
+
     [HttpGet("proyecto/{id}")]
     public IActionResult GetEvaluacionFromProject(int id)
     {
