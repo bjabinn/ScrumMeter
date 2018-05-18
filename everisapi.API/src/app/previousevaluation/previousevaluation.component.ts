@@ -6,18 +6,10 @@ import { AppComponent } from 'app/app.component';
 import { Router } from '@angular/router';
 import { EvaluacionService } from '../services/EvaluacionService';
 import { Evaluacion } from 'app/Models/Evaluacion';
-import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
-import { map, retry, catchError, delay } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/observable/throw';
 import { interval } from 'rxjs/observable/interval';
 import { ProyectoService } from 'app/services/ProyectoService';
 import { Role } from 'app/Models/Role';
-import { clearTimeout } from 'timers';
-import { timeout } from 'rxjs/operators/timeout';
-import { Subject } from 'rxjs';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -30,7 +22,6 @@ export class PreviousevaluationComponent implements OnInit {
   public clicked: boolean = true;
   public EvaluacionFiltrar: EvaluacionFilterInfo = { 'nombre': '', 'estado': '', 'fecha': '', 'userNombre': '', 'nPreguntas': '', 'nRespuestas': '' };
   public Typing: boolean = false;
-  public EvalSubject: Subject<any> = new Subject<any>();
   public permisosDeUsuario: Array<Role> = [];
   public ListaDeEvaluacionesPaginada: Array<EvaluacionInfo>;
   public nEvaluaciones: number = 0;
@@ -55,43 +46,44 @@ export class PreviousevaluationComponent implements OnInit {
     //Recogemos los proyectos y realizamos comprobaciones
     var Role;
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
-
     if (!this._proyectoService.verificarUsuario()) {
       this._router.navigate(['/login']);
     }
     this.UserName = this._proyectoService.UsuarioLogeado;
 
-    //Recogemos el rol del usuario
-    this._proyectoService.getRolesUsuario().subscribe(
-      res => {
-        this.permisosDeUsuario = res;
-        //Si no hay errores y son recogidos busca si tienes permisos de usuario
-        for (let num = 0; num < this.permisosDeUsuario.length; num++) {
-          if (this.permisosDeUsuario[num].role == "Administrador" && this.Project.id == null || this.Project.id == undefined) {
-            this.Project = { id: 0, nombre: '', fecha: null };
+    if (this.Project != null || this.Project != undefined) {
+      //Recogemos el rol del usuario
+      this._proyectoService.getRolesUsuario().subscribe(
+        res => {
+          this.permisosDeUsuario = res;
+
+          //Si no hay errores y son recogidos busca si tienes permisos de usuario
+          for (let num = 0; num < this.permisosDeUsuario.length; num++) {
+            if (this.permisosDeUsuario[num].role == "Administrador" && this.Project.id == -1 || this.Project.id == null || this.Project.id == undefined) {
+              this.Project = { id: 0, nombre: '', fecha: null };
+            }
           }
-        }
-        if (this.Project == null || this.Project == undefined) {
-          this._router.navigate(['/home']);
-        } else if (this.Project.id == null) {
-          this._router.navigate(['/home']);
-        } else {
-          this.MostrarInfo = true;
-        }
-        this.GetPaginacion();
-      },
-      error => {
-        //Si el servidor tiene algún tipo de problema mostraremos este error
-        if (error == 404) {
-          this.ErrorMessage = "El usuario actual no fue encontrado en nuestro servidor.";
-        } else if (error == 500) {
-          this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
-        }
-      });
-
-
-
-
+          //Comprueba que tenga  un proyecto seleccionado y si no es asi lo devuelve a home
+          if (this.Project == null || this.Project == undefined) {
+            this._router.navigate(['/home']);
+          } else if (this.Project.id == -1) {
+            this._router.navigate(['/home']);
+          } else {
+            this.MostrarInfo = true;
+          }
+          this.GetPaginacion();
+        },
+        error => {
+          //Si el servidor tiene algún tipo de problema mostraremos este error
+          if (error == 404) {
+            this.ErrorMessage = "El usuario actual no fue encontrado en nuestro servidor.";
+          } else if (error == 500) {
+            this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          }
+        });
+    } else {
+      this._router.navigate(['/home']);
+    }
     //Recoge la información extendida necesaria para la lista de evaluaciones
    /* this._evaluacionService.getEvaluacionInfo(this.Project.id).subscribe(
       res => {

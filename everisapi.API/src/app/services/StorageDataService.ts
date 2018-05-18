@@ -9,7 +9,7 @@ import { Section } from 'app/Models/Section';
 @Injectable()
 export class StorageDataService{
     public UserProjects: any = [];
-    public UserProjectSelected: Proyecto = { id: null, fecha: null, nombre: '' };
+    public UserProjectSelected: Proyecto = { id: -1, fecha: null, nombre: '' };
     public UserData: User;
     public DataUnfinished: boolean = false;
     public SectionSelected: Section = null;
