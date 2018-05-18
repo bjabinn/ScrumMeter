@@ -62,9 +62,42 @@
     color: #333;
 }
 
+.btnpdf {
+  background: #fe8c8c;
+  background-image: -webkit-linear-gradient(top, #fe8c8c, #f04141);
+  background-image: -moz-linear-gradient(top, #fe8c8c, #f04141);
+  background-image: -ms-linear-gradient(top, #fe8c8c, #f04141);
+  background-image: -o-linear-gradient(top, #fe8c8c, #f04141);
+  background-image: linear-gradient(to bottom, #fe8c8c, #f04141);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  text-shadow: 1px 1px 3px #666666;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 12px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+.btnpdf:hover {
+  background: #f55858;
+  background-image: -webkit-linear-gradient(top, #f55858, #e33535);
+  background-image: -moz-linear-gradient(top, #f55858, #e33535);
+  background-image: -ms-linear-gradient(top, #f55858, #e33535);
+  background-image: -o-linear-gradient(top, #f55858, #e33535);
+  background-image: linear-gradient(to bottom, #f55858, #e33535);
+  text-decoration: none;
+}
+
 //Icons
 .icons{
   width: 38px;
+  height: auto;
+}
+
+.icons2 {
+  width: 25px;
   height: auto;
 }
 

@@ -10,6 +10,7 @@ import { AsignacionInfo } from 'app/Models/AsignacionInfo';
 import { Router } from "@angular/router";
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { LoadingComponent } from '../loading/loading.component';
+import { Section } from 'app/Models/Section';
 
 @Component({
   selector: 'app-newevaluation',
@@ -26,9 +27,10 @@ export class NewevaluationComponent implements OnInit {
   public Evaluation: Evaluacion = null;
   public AreaAsignada: Asignacion = { 'id': 0, 'nombre': "undefined" };
   public UserName: string = "";
-  public idSelected = 0;
-  public Deshabilitar = false;
+  public SectionSelected: Section = null;
+  public Deshabilitar = true;
   public ErrorMessage: string = null;
+  public MostrarInfo = false;
 
   //Recogemos todos los datos de la primera area segun su id y las colocamos en la lista
   constructor(
@@ -37,7 +39,7 @@ export class NewevaluationComponent implements OnInit {
     private _router: Router,
     private _appComponent: AppComponent) {
 
-    this.idSelected = this._appComponent._storageDataService.IdSection;
+    this.SectionSelected = this._appComponent._storageDataService.SectionSelected;
     //Recogemos el proyecto y el usuario si no coincide alguno lo redirigiremos
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
     this.Evaluation = this._appComponent._storageDataService.Evaluacion;
@@ -54,23 +56,28 @@ export class NewevaluationComponent implements OnInit {
       this.UserName = this._appComponent._storageDataService.UserData.nombre;
     }
 
-    this._sectionService.getAsignacionesSection(this.idSelected).subscribe(
-      res => {
-        if (res != null) {
-          this.ListaAsignaciones = res;
-          this.NumMax = this.ListaAsignaciones.length;
-          this.getAsignacionActual(this.Evaluation.id, this.ListaAsignaciones[0].id);
-        } else {
-          console.log("Esto esta muy vacio");
+    this.MostrarInfo = true;
+    
+    //Recoge todas las asignaciones de la section por id
+    if (this.Evaluation != null && this.Evaluation != undefined && this.SectionSelected != null && this.SectionSelected != undefined) {
+      this._sectionService.getAsignacionesSection(this.SectionSelected.id).subscribe(
+        res => {
+          if (res != null) {
+            this.ListaAsignaciones = res;
+            this.NumMax = this.ListaAsignaciones.length;
+            this.getAsignacionActual(this.Evaluation.id, this.ListaAsignaciones[0].id);
+            this.Deshabilitar = false;
+          } else {
+            //console.log("Esto esta muy vacio");
+          }
+        },
+        error => {
+          this.ErrorMessage = "Error en la base de datos, " + error;
         }
-      },
-      error => {
-       this.ErrorMessage = "Error en la base de datos, " + error;
-      }
-    );
-
-
-
+      );
+    } else {
+      this._router.navigate(['/home']);
+    }
   }
 
   ngOnInit() {

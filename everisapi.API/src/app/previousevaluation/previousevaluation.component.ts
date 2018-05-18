@@ -9,10 +9,16 @@ import { Evaluacion } from 'app/Models/Evaluacion';
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { map, retry, catchError, delay } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/throw';
 import { interval } from 'rxjs/observable/interval';
 import { ProyectoService } from 'app/services/ProyectoService';
 import { Role } from 'app/Models/Role';
+import { clearTimeout } from 'timers';
+import { timeout } from 'rxjs/operators/timeout';
+import { Subject } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-previousevaluation',
@@ -23,6 +29,8 @@ import { Role } from 'app/Models/Role';
 export class PreviousevaluationComponent implements OnInit {
   public clicked: boolean = true;
   public EvaluacionFiltrar: EvaluacionFilterInfo = { 'nombre': '', 'estado': '', 'fecha': '', 'userNombre': '', 'nPreguntas': '', 'nRespuestas': '' };
+  public Typing: boolean = false;
+  public EvalSubject: Subject<any> = new Subject<any>();
   public permisosDeUsuario: Array<Role> = [];
   public ListaDeEvaluacionesPaginada: Array<EvaluacionInfo>;
   public nEvaluaciones: number = 0;
@@ -33,6 +41,8 @@ export class PreviousevaluationComponent implements OnInit {
   public NumMax = 0;
   public ErrorMessage: string = null;
   public NumEspera = 750;
+  public MostrarInfo = false;
+  public Timeout: Subscription;
   
 
   constructor(
@@ -42,7 +52,6 @@ export class PreviousevaluationComponent implements OnInit {
     private _proyectoService: ProyectoService) { }
 
   ngOnInit() {
-
     //Recogemos los proyectos y realizamos comprobaciones
     var Role;
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
@@ -62,20 +71,24 @@ export class PreviousevaluationComponent implements OnInit {
             this.Project = { id: 0, nombre: '', fecha: null };
           }
         }
+        if (this.Project == null || this.Project == undefined) {
+          this._router.navigate(['/home']);
+        } else if (this.Project.id == null) {
+          this._router.navigate(['/home']);
+        } else {
+          this.MostrarInfo = true;
+        }
         this.GetPaginacion();
       },
       error => {
         //Si el servidor tiene algún tipo de problema mostraremos este error
         if (error == 404) {
-          this.ErrorMessage = "El usuario autenticado no existe.";
+          this.ErrorMessage = "El usuario actual no fue encontrado en nuestro servidor.";
         } else if (error == 500) {
           this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
         }
       });
 
-    if (this.Project.id != 0 && this.Project == null || this.Project == undefined ) {
-        this._router.navigate(['/home']);
-      }
 
 
 
@@ -193,7 +206,14 @@ export class PreviousevaluationComponent implements OnInit {
   //Este metodo es llamado cuando cambias un valor de filtrado y en 750 milisegundos te manda a la primera pagina y recarga el componente con
   //los nuevos elementos
   public TryHttpRequest() {
-    setTimeout(() => { this.PageNow = 1, this.GetPaginacion() }, 750);
+    if (this.Timeout != null && !this.Timeout != undefined) {
+      this.Timeout.unsubscribe();
+    }
+    this.Timeout = Observable.interval(750)
+      .subscribe(i => {
+        this.PageNow = 1, this.GetPaginacion(),
+          this.Timeout.unsubscribe()
+      });
   }
 
   //Recarga los elementos en la pagina en la que se encuentra 
@@ -209,7 +229,8 @@ export class PreviousevaluationComponent implements OnInit {
       },
       error => {
         this.ErrorMessage = "Error en la base de datos, " + error;
-      });
+        });
+    
   }
 
 }

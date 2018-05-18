@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
     public ProyectoSeleccionado:Proyecto;
     public NombreDeUsuario: string;
     public Deshabilitar = false;
+    public MostrarInfo = false;
 
   constructor(
             private _proyectoService: ProyectoService,
@@ -63,6 +64,7 @@ export class HomeComponent implements OnInit {
                 }
             }
             //Llamamos al metodo para asignar proyectos
+            this.MostrarInfo = true;
             this.RecogerProyectos();
 
         },

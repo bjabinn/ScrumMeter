@@ -8,12 +8,13 @@ import { Router } from '@angular/router';
 import { SectionService } from 'app/services/SectionService';
 import { LoadingComponent } from '../loading/loading.component';
 import { DatePipe } from '@angular/common';
+import { ProyectoService } from 'app/services/ProyectoService';
 
 @Component({
   selector: 'app-pdfgenerator',
   templateUrl: './pdfgenerator.component.html',
   styleUrls: ['./pdfgenerator.component.scss'],
-  providers: [SectionService, DatePipe]
+  providers: [SectionService, ProyectoService, DatePipe]
 })
 export class PdfgeneratorComponent implements OnInit {
 
@@ -33,6 +34,7 @@ export class PdfgeneratorComponent implements OnInit {
   @ViewChild('content') content: ElementRef;
 
   constructor(
+    private _proyectoService: ProyectoService,
     private _appComponent: AppComponent,
     private _router: Router,
     private _sectionService: SectionService,
@@ -41,28 +43,53 @@ export class PdfgeneratorComponent implements OnInit {
     //Recupera los datos y los comprueba
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
     this.Evaluacion = this._appComponent._storageDataService.EvaluacionToPDF;
-    if (this._appComponent._storageDataService.UserData == undefined || this._appComponent._storageDataService.UserData == null) {
-      this.UserName = localStorage.getItem("user");
-      if (this.UserName == undefined || this.UserName == null || this.UserName == "") {
-        this._router.navigate(['/login']);
-      }
-      if (this.Project == null || this.Project == undefined || this.Evaluacion == null || this.Evaluacion == undefined) {
-        this._router.navigate(['/home']);
-      }
-    } else {
-      this.UserName = this._appComponent._storageDataService.UserData.nombre;
+    this._proyectoService.verificarUsuario();
+    this.UserName = this._proyectoService.UsuarioLogeado;
+
+    if (this.Evaluacion == null || this.Evaluacion == undefined || this.Project == null || this.Project == undefined) {
+
+      this._router.navigate(['/home']);
+
+    } else if (this.Evaluacion.id == null) {
+
+      this._router.navigate(['/home']);
+
     }
 
-    //Recoge los datos del servicio
-    this._sectionService.getSectionInfo(this.Evaluacion.id).subscribe(
+    var ArrayRoles = [];
+    this._proyectoService.getRolesUsuario().subscribe(
       res => {
-        this.ListaDeDatos = res;
-        this.shareDataToChart();
+        var AdminOn = false;
+        ArrayRoles = res;
+        //Si no hay errores y son recogidos busca si tienes permisos de usuario
+        for (let num = 0; num < ArrayRoles.length; num++) {
+          if (ArrayRoles[num].role == "Administrador") {
+            AdminOn = true;
+          }
+        }
+        if (this.Project.id == null && !AdminOn) {
+          this._router.navigate(['/home']);
+        }
       },
       error => {
-        console.log("Error al recoger los datos.")
-      }
-    );
+        this._router.navigate(['/home']);
+      });
+
+    //Recoge los datos del servicio
+    if (this.Evaluacion != null && this.Evaluacion != undefined) {
+      this._sectionService.getSectionInfo(this.Evaluacion.id).subscribe(
+        res => {
+          this.ListaDeDatos = res;
+          this.shareDataToChart();
+        },
+        error => {
+          console.log("Error al recoger los datos.")
+        }
+      );
+    } else {
+      this._router.navigate(['/home']);
+    }
+
   }
 
   ngOnInit() {

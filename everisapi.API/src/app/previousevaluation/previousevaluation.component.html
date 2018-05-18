@@ -7,21 +7,21 @@
   </div>
 </div>
 
-<div class="row" id="infopro">
+<div class="row" id="infopro" *ngIf="MostrarInfo">
 
   <div class="col-xs-12 col-sm-5 col-md-5">
     Usuario: {{UserName}}
   </div>
   <div class="col-xs-12 col-sm-5 col-md-5">
-    Fecha: {{ Project.fecha | date:'MM-dd-yyyy' }}
+    <span *ngIf="Project.fecha!=null">Fecha: {{ Project.fecha | date:'MM-dd-yyyy' }}</span>
   </div>
 
   <div class="col-xs-12 col-sm-5 col-md-5">
 
     <div class="form-horizontal">
       <div class="form-group">
-        <label for="sel1">Proyecto: {{Project.nombre}}</label>
-
+        <label for="sel1" *ngIf="Project.fecha!=null">Proyecto: {{Project.nombre}}</label>
+        <label for="sel1" *ngIf="Project.fecha==null">Proyecto: Todos</label>
       </div>
     </div>
 
@@ -81,7 +81,7 @@
               </th>
               <th>
                 <input type="text" class="form-control" placeholder="Usuario" disabled *ngIf="!clicked">
-                <input type="text" class="form-control" placeholder="Usuario" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.usuario">
+                <input type="text" class="form-control" placeholder="Usuario" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.userNombre">
               </th>
               <th>
                 <input type="text" class="form-control" placeholder="Puntuación" disabled *ngIf="!clicked">
@@ -103,7 +103,7 @@
               <td>{{evaluacion.nRespuestas}}/{{evaluacion.nPreguntas}}</td>
               <td *ngIf="evaluacion.estado"><img class="icons" src="../../assets/check.png" /></td>
               <td *ngIf="!evaluacion.estado"><img class="icons" src="../../assets/warning.png" /></td>
-              <td><button type="button" class="btn btn-danger" (click)="SaveDataToPDF(evaluacion)">VER GRAFICA <span class="glyphicon glyphicon-save-file"><img class="icons" src="../../assets/pdfgenerate.png" /></span></button></td>
+              <td><button type="button" class="btnpdf" (click)="SaveDataToPDF(evaluacion)">VER GRAFICA <span class="glyphicon glyphicon-save-file"><img class="icons2" src="../../assets/pdfgenerate.png" /></span></button></td>
             </tr>
             <tr *ngIf="Mostrar && ListaDeEvaluacionesPaginada.length == 0">
               <td colspan="6">

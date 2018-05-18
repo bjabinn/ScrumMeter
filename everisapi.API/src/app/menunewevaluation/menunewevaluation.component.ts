@@ -25,6 +25,7 @@ export class MenunewevaluationComponent implements OnInit {
   public ProjectSelected: Proyecto;
   public Evaluacion: Evaluacion = null;
   public UserSelected: string;
+  public MostrarInfo = false;
 
 
   constructor(
@@ -48,16 +49,22 @@ export class MenunewevaluationComponent implements OnInit {
     }
     //Recogemos el nombre del usuario con el que nos logueamos
     this.UserSelected = this._proyectoService.UsuarioLogeado;
+    this.MostrarInfo = true;
 
     //Recogemos todos los datos
-    this._sectionService.getSectionInfo(this.Evaluacion.id).subscribe(
-      res => {
-        this.ListaDeDatos = res;
-      },
-      error => {
-        this.ErrorMessage = "Error en la base de datos, " + error;
-      }
-    );
+    if (this.Evaluacion != null && this.Evaluacion != undefined) {
+      this._sectionService.getSectionInfo(this.Evaluacion.id).subscribe(
+        res => {
+          this.ListaDeDatos = res;
+        },
+        error => {
+          this.ErrorMessage = "Error en la base de datos, " + error;
+        }
+      );
+    } else {
+      this._router.navigate(['/home']);
+    }
+
   
   }
 
@@ -74,8 +81,8 @@ export class MenunewevaluationComponent implements OnInit {
   }
 
   //Permite refirigir y guardar la id de la sección seleccionada
-  public RedirectToAsignaciones(id: number) {
-    this._appComponent._storageDataService.IdSection = id;
+  public RedirectToAsignaciones(SectionSeleccionada: Section) {
+    this._appComponent._storageDataService.SectionSelected = SectionSeleccionada;
     this._router.navigate(['/nuevaevaluacion']);
   }
 
