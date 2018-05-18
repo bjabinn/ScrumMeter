@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using everisapi.API.Services;
 using System.IO;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace everisapi.API
 {
@@ -34,11 +35,19 @@ namespace everisapi.API
             services.AddDbContext<AsignacionInfoContext>(options =>
             options.UseMySql(ConexionActualBD));
 
+            //Incluimos estas lineas para que al utilizar un controlador con estas interfaces
+            //no de fallo al utilizar estos componentes
             services.AddScoped<IAsignacionInfoRepository, AsignacionInfoRepository>();
             services.AddScoped<IUsersInfoRepository, UsersInfoRespository>();
             services.AddScoped<ISectionsInfoRepository, SectionsInfoRepository>();
             services.AddScoped<IRespuestasInfoRepository, RespuestasInfoRepository>();
             services.AddScoped<IEvaluacionInfoRepository, EvaluacionInfoRepository>();
+
+            //Incluimos swagger
+            services.AddSwaggerGen(c =>
+            {
+              c.SwaggerDoc("v1", new Info { Title = "AgileMeter API", Description = "Swagger para visualizar todos los metodos de la API" });
+            });
 
     }
 
@@ -95,6 +104,10 @@ namespace everisapi.API
             .AllowAnyHeader()
             .AllowCredentials());
 
+            //Utilizamos Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>  c.SwaggerEndpoint("/swagger/v1/swagger.json", "AgileMeter Core API"));
+
             //Utiliza el modelo MVC
             //app.UseMvc();
 
@@ -113,8 +126,6 @@ namespace everisapi.API
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
-
 
             //app.Run((context) =>
             //{
