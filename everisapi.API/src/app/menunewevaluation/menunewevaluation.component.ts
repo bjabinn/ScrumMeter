@@ -36,7 +36,9 @@ export class MenunewevaluationComponent implements OnInit {
     private _appComponent: AppComponent,
     private modalService: NgbModal)
   {
+  }
 
+  ngOnInit() {
     //Empezamos cargando el usuario en el componente mientras verificamos si esta logueado
     //En caso de no estar logeado nos enviara devuelta al login
     //En caso de no tener asignado ningun proyecto nos enviara a home para que lo seleccionemos
@@ -44,7 +46,7 @@ export class MenunewevaluationComponent implements OnInit {
     this.Evaluacion = this._appComponent._storageDataService.Evaluacion;
     if (!this._proyectoService.verificarUsuario()) {
       this._router.navigate(['/login']);
-    } else if (this.ProjectSelected == null || this.ProjectSelected == undefined || this.Evaluacion == null || this.Evaluacion == undefined) {
+    } else if (this.ProjectSelected == null || this.ProjectSelected == undefined || this.ProjectSelected.id == -1 || this.Evaluacion == null || this.Evaluacion == undefined) {
       this._router.navigate(['/home']);
     }
     //Recogemos el nombre del usuario con el que nos logueamos
@@ -64,12 +66,6 @@ export class MenunewevaluationComponent implements OnInit {
     } else {
       this._router.navigate(['/home']);
     }
-
-  
-  }
-
-  ngOnInit() {
-    
   }
 
   //Calcula el total de las ceremonias que llevamos completadas de forma dinamica

@@ -50,28 +50,35 @@ export class PreviousevaluationComponent implements OnInit {
       this._router.navigate(['/login']);
     }
     this.UserName = this._proyectoService.UsuarioLogeado;
-
-    if (this.Project != null || this.Project != undefined) {
+    
       //Recogemos el rol del usuario
       this._proyectoService.getRolesUsuario().subscribe(
         res => {
+          
           this.permisosDeUsuario = res;
-
+          var Admin = false;
           //Si no hay errores y son recogidos busca si tienes permisos de usuario
           for (let num = 0; num < this.permisosDeUsuario.length; num++) {
-            if (this.permisosDeUsuario[num].role == "Administrador" && this.Project.id == -1 || this.Project.id == null || this.Project.id == undefined) {
-              this.Project = { id: 0, nombre: '', fecha: null };
+            console.log("hola ", this.permisosDeUsuario[num].role)
+            if (this.permisosDeUsuario[num].role == "Administrador") {
+              if (this.Project == null || this.Project == undefined || this.Project.id == -1) {
+                this.Project = { id: 0, nombre: '', fecha: null };
+                Admin = true;
+              }
             }
           }
+          console.log(Admin)
           //Comprueba que tenga  un proyecto seleccionado y si no es asi lo devuelve a home
           if (this.Project == null || this.Project == undefined) {
             this._router.navigate(['/home']);
-          } else if (this.Project.id == -1) {
+          } else if (this.Project.id == -1 || !Admin) {
             this._router.navigate(['/home']);
           } else {
             this.MostrarInfo = true;
           }
+          
           this.GetPaginacion();
+          
         },
         error => {
           //Si el servidor tiene algún tipo de problema mostraremos este error
@@ -81,9 +88,6 @@ export class PreviousevaluationComponent implements OnInit {
             this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
         });
-    } else {
-      this._router.navigate(['/home']);
-    }
     //Recoge la información extendida necesaria para la lista de evaluaciones
    /* this._evaluacionService.getEvaluacionInfo(this.Project.id).subscribe(
       res => {
