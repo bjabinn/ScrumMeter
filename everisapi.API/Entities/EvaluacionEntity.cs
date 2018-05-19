@@ -20,6 +20,7 @@ namespace everisapi.API.Entities
     [Required]
     public bool Estado { get; set; }
 
+    [Required]
     public ICollection<RespuestaEntity> Respuestas { get; set; }
     = new List<RespuestaEntity>();
 

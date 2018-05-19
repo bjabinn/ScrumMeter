@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace everisapi.API.Services
 {
-    public interface IRespuestasInfoRepository
-    {
+  public interface IRespuestasInfoRepository
+  {
     //Devuelve todas las respuestas
     IEnumerable<RespuestaEntity> GetRespuestas();
 
@@ -21,9 +21,15 @@ namespace everisapi.API.Services
     IEnumerable<RespuestaEntity> GetRespuestasFromAsigEval(int IdProyecto, int IdPregunta);
 
     //Update de una respuesta
-    void UpdateRespuesta(bool Opcion, int RespuestaId);
+    bool UpdateRespuesta(bool Opcion, int RespuestaId);
 
     //Guardar cambio de las entidades
     bool SaveChanges();
+
+    //Aqui introducimos una nueva respuesta
+    bool AddRespuesta(RespuestaEntity respuesta);
+
+    //Elimina una respuesta
+    bool DeleteRespuesta(RespuestaEntity respuesta);
   }
 }

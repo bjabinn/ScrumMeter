@@ -11,8 +11,8 @@ using System;
 namespace everisapi.API.Migrations
 {
     [DbContext(typeof(AsignacionInfoContext))]
-    [Migration("20180404105803_MyFirstMigration")]
-    partial class MyFirstMigration
+    [Migration("20180519182058_ReliacionesOn")]
+    partial class ReliacionesOn
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,9 +31,32 @@ namespace everisapi.API.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
+                    b.Property<int>("SectionId");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("SectionId");
+
                     b.ToTable("Asignaciones");
+                });
+
+            modelBuilder.Entity("everisapi.API.Entities.EvaluacionEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Estado");
+
+                    b.Property<DateTime>("Fecha");
+
+                    b.Property<int>("ProyectoId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProyectoId");
+
+                    b.ToTable("Evaluaciones");
                 });
 
             modelBuilder.Entity("everisapi.API.Entities.PreguntaEntity", b =>
@@ -48,8 +71,6 @@ namespace everisapi.API.Migrations
                         .IsRequired()
                         .HasMaxLength(120);
 
-                    b.Property<bool>("Respuesta");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AsignacionId");
@@ -63,6 +84,8 @@ namespace everisapi.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("Fecha");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(50);
@@ -74,6 +97,28 @@ namespace everisapi.API.Migrations
                     b.HasIndex("UserNombre");
 
                     b.ToTable("Proyectos");
+                });
+
+            modelBuilder.Entity("everisapi.API.Entities.RespuestaEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Estado")
+                        .HasMaxLength(120);
+
+                    b.Property<int>("EvaluacionId");
+
+                    b.Property<int>("PreguntaId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EvaluacionId");
+
+                    b.HasIndex("PreguntaId");
+
+                    b.ToTable("Respuestas");
                 });
 
             modelBuilder.Entity("everisapi.API.Entities.RoleEntity", b =>
@@ -90,6 +135,21 @@ namespace everisapi.API.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("everisapi.API.Entities.SectionEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(120);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sections");
+                });
+
             modelBuilder.Entity("everisapi.API.Entities.User_RoleEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -98,7 +158,8 @@ namespace everisapi.API.Migrations
 
                     b.Property<int>("RoleId");
 
-                    b.Property<string>("UserNombre");
+                    b.Property<string>("UserNombre")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -122,6 +183,22 @@ namespace everisapi.API.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("everisapi.API.Entities.AsignacionEntity", b =>
+                {
+                    b.HasOne("everisapi.API.Entities.SectionEntity", "SectionEntity")
+                        .WithMany("Asignaciones")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("everisapi.API.Entities.EvaluacionEntity", b =>
+                {
+                    b.HasOne("everisapi.API.Entities.ProyectoEntity", "ProyectoEntity")
+                        .WithMany("Evaluaciones")
+                        .HasForeignKey("ProyectoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("everisapi.API.Entities.PreguntaEntity", b =>
                 {
                     b.HasOne("everisapi.API.Entities.AsignacionEntity", "AsignacionEntity")
@@ -137,6 +214,19 @@ namespace everisapi.API.Migrations
                         .HasForeignKey("UserNombre");
                 });
 
+            modelBuilder.Entity("everisapi.API.Entities.RespuestaEntity", b =>
+                {
+                    b.HasOne("everisapi.API.Entities.EvaluacionEntity", "EvaluacionEntity")
+                        .WithMany("Respuestas")
+                        .HasForeignKey("EvaluacionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("everisapi.API.Entities.PreguntaEntity", "PreguntaEntity")
+                        .WithMany()
+                        .HasForeignKey("PreguntaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("everisapi.API.Entities.User_RoleEntity", b =>
                 {
                     b.HasOne("everisapi.API.Entities.RoleEntity", "Role")
@@ -146,7 +236,8 @@ namespace everisapi.API.Migrations
 
                     b.HasOne("everisapi.API.Entities.UserEntity", "User")
                         .WithMany("User_Role")
-                        .HasForeignKey("UserNombre");
+                        .HasForeignKey("UserNombre")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

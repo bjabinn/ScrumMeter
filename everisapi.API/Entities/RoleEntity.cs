@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,6 +16,7 @@ namespace everisapi.API.Entities
         [Required]
         public string Role { get; set; }
 
+        [Required]
         public ICollection<User_RoleEntity> User_Role { get; set; }
         = new List<User_RoleEntity>();
     }

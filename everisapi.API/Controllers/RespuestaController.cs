@@ -151,5 +151,58 @@ namespace everisapi.API.Controllers
       }
     }
 
+    /*ADD RESPUESTAS*/
+    [HttpPost("add")]
+    public IActionResult AddRespuesta([FromBody] RespuestaDto RespuestaAdd)
+    {
+
+      //Si los datos son validos los guardara
+      if (RespuestaAdd == null || _respuestasInfoRepository.GetRespuesta(RespuestaAdd.Id) != null)
+      {
+        return BadRequest();
+      }
+
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+
+      //Comprueba que se guardo bien y lo envia
+      if (_respuestasInfoRepository.AddRespuesta(Mapper.Map<RespuestaEntity>(RespuestaAdd)))
+      {
+        return Ok("La respuesta fue creada.");
+      }
+      else
+      {
+        return BadRequest();
+      }
+    }
+
+    /*DELETE RESPUESTAS*/
+    [HttpDelete("delete")]
+    public IActionResult DeleteRespuesta([FromBody] RespuestaDto RespuestaDelete)
+    {
+      //Si los datos son validos los guardara
+      if (RespuestaDelete == null || _respuestasInfoRepository.GetRespuesta(RespuestaDelete.Id) == null)
+      {
+        return BadRequest();
+      }
+
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+
+      //Comprueba que se guardo bien y lo envia
+      if (_respuestasInfoRepository.DeleteRespuesta(Mapper.Map<RespuestaEntity>(RespuestaDelete)))
+      {
+        return Ok("La respuesta fue eliminada correctamente.");
+      }
+      else
+      {
+        return BadRequest();
+      }
+    }
+
   }
 }

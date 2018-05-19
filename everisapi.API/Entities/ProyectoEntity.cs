@@ -21,7 +21,7 @@ namespace everisapi.API.Entities
         [DataType(DataType.Date)]
         public DateTime Fecha { get; set; }
 
-
+        [Required]
         public ICollection<EvaluacionEntity> Evaluaciones { get; set; }
         = new List<EvaluacionEntity>();
 

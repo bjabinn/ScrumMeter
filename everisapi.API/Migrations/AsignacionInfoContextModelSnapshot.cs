@@ -157,7 +157,8 @@ namespace everisapi.API.Migrations
 
                     b.Property<int>("RoleId");
 
-                    b.Property<string>("UserNombre");
+                    b.Property<string>("UserNombre")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -234,7 +235,8 @@ namespace everisapi.API.Migrations
 
                     b.HasOne("everisapi.API.Entities.UserEntity", "User")
                         .WithMany("User_Role")
-                        .HasForeignKey("UserNombre");
+                        .HasForeignKey("UserNombre")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

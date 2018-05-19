@@ -22,7 +22,7 @@ namespace everisapi.API.Services
     //Devolvemos el numero de preguntas de la seccion filtrada por proyecto
     public int GetNumPreguntasFromSection(int idSection, int idEvaluacion)
     {
-      return _context.Respuestas.Where( r => r.EvaluacionId == idEvaluacion && r.PreguntaEntity.AsignacionEntity.SectionId == idSection).Count();
+      return _context.Respuestas.Where(r => r.EvaluacionId == idEvaluacion && r.PreguntaEntity.AsignacionEntity.SectionId == idSection).Count();
     }
 
     //Devolvemos el numero de preguntas respondidas de la seccion filtrada por proyecto
@@ -40,11 +40,11 @@ namespace everisapi.API.Services
         Include(r => r.PreguntaEntity).
         ThenInclude(rp => rp.AsignacionEntity).
         ThenInclude(rpa => rpa.SectionEntity).
-        Where( r => r.EvaluacionId == idEvaluacion).ToList();
+        Where(r => r.EvaluacionId == idEvaluacion).ToList();
 
       //Saca las en que secciones estuvo en ese momento
       var SectionsUtilizadas = Respuestas.Select(r => r.PreguntaEntity.AsignacionEntity.SectionEntity).Distinct().ToList();
-      
+
 
       //Rellena los datos y los añade a la lista para cada sección
       foreach (var section in SectionsUtilizadas)
@@ -88,7 +88,7 @@ namespace everisapi.API.Services
       }
       else
       {
-        //Si no es así devolveremos solo el usuario
+        //Si no es así devolveremos solo la section
         return _context.Sections.Where(p => p.Id == id).FirstOrDefault();
       }
     }
@@ -98,5 +98,40 @@ namespace everisapi.API.Services
     {
       return _context.Sections.ToList();
     }
+
+    //Este metodo nos permite persistir los cambios en las entidades
+    public bool SaveChanges()
+    {
+      return (_context.SaveChanges() >= 0);
+    }
+
+    //Aqui introducimos una nueva section
+    public bool AddSection(SectionEntity section)
+    {
+
+      _context.Sections.Add(section);
+
+      return SaveChanges();
+    }
+
+    //Nos permite modificar una section
+    public bool AlterSection(SectionEntity section)
+    {
+      var SectionAlter = _context.Sections.Where(s => s.Id == section.Id).FirstOrDefault();
+
+      SectionAlter.Nombre = section.Nombre;
+
+      return SaveChanges();
+    }
+
+    //Elimina una section
+    public bool DeleteSection(SectionEntity section)
+    {
+
+      _context.Sections.Remove(_context.Sections.Where( s => s == section).FirstOrDefault());
+
+      return SaveChanges();
+    }
+
   }
 }

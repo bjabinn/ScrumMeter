@@ -7,6 +7,7 @@ using everisapi.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
+using everisapi.API.Entities;
 
 namespace everisapi.API.Controllers
 {
@@ -136,5 +137,84 @@ namespace everisapi.API.Controllers
                 return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
             }
         }
+
+    /*ADD ASIGNACIONES*/
+    [HttpPost("add")]
+    public IActionResult AddAsignacion([FromBody] AsignacionCreateUpdateDto AsignacionAdd)
+    {
+
+      //Si los datos son validos los guardara
+      if (AsignacionAdd == null || _asignacionInfoRepository.AsignacionExiste(AsignacionAdd.Id))
+      {
+        return BadRequest();
+      }
+
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+
+      //Comprueba que se guardo bien y lo envia
+      if (_asignacionInfoRepository.AddAsig(Mapper.Map<AsignacionEntity>(AsignacionAdd)))
+      {
+        return Ok("La asignación fue creada.");
+      }
+      else
+      {
+        return BadRequest();
+      }
     }
+
+    /*UPDATE ASIGNACIONES*/
+    [HttpPut("update")]
+    public IActionResult UpdateAsignacion([FromBody] AsignacionCreateUpdateDto AsignacionUpdate)
+    {
+      //Si los datos son validos los guardara
+      if (AsignacionUpdate == null || !_asignacionInfoRepository.AsignacionExiste(AsignacionUpdate.Id))
+      {
+        return BadRequest();
+      }
+
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+
+      //Comprueba que se guardo bien y lo envia
+      if (_asignacionInfoRepository.AlterAsig(Mapper.Map<AsignacionEntity>(AsignacionUpdate)))
+      {
+        return Ok("La asignación fue modificada correctamente.");
+      }
+      else
+      {
+        return BadRequest();
+      }
+    }
+
+    /*DELETE ASIGNACIONES*/
+    [HttpDelete("delete")]
+    public IActionResult DeleteAsignacion([FromBody] AsignacionCreateUpdateDto AsignacionDelete)
+    {
+      //Si los datos son validos los guardara
+      if (AsignacionDelete == null || !_asignacionInfoRepository.AsignacionExiste(AsignacionDelete.Id))
+      {
+        return BadRequest();
+      }
+
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+
+      //Comprueba que se guardo bien y lo envia
+      if (_asignacionInfoRepository.DeleteAsig(Mapper.Map<AsignacionEntity>(AsignacionDelete)))
+      {
+        return Ok("La asignación fue eliminada correctamente.");
+      }
+      else
+      {
+        return BadRequest();
+      }
+    }
+  }
 }

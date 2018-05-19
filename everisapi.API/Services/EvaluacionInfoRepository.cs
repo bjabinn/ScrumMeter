@@ -10,30 +10,30 @@ using MySql.Data.MySqlClient;
 
 namespace everisapi.API.Services
 {
-    public class EvaluacionInfoRepository : IEvaluacionInfoRepository
+  public class EvaluacionInfoRepository : IEvaluacionInfoRepository
+  {
+
+    private AsignacionInfoContext _context;
+
+    //Le damos un contexto en el constructor
+    public EvaluacionInfoRepository(AsignacionInfoContext context)
     {
+      _context = context;
+    }
 
-        private AsignacionInfoContext _context;
-
-        //Le damos un contexto en el constructor
-        public EvaluacionInfoRepository(AsignacionInfoContext context)
-        {
-            _context = context;
-        }
-
-        //Recoge una evaluación incluyendo o no las respuestas
-        public EvaluacionEntity GetEvaluacion(int IdEvaluacion, bool IncluirRespuestas)
-        {
-            if (IncluirRespuestas)
-            {
-              return _context.Evaluaciones.Include(e => e.Respuestas)
-                .Where(e => e.Id == IdEvaluacion).FirstOrDefault();
-            }
-            else
-            {
-              return _context.Evaluaciones.Where(e => e.Id == IdEvaluacion).FirstOrDefault();
-            }
-        }
+    //Recoge una evaluación incluyendo o no las respuestas
+    public EvaluacionEntity GetEvaluacion(int IdEvaluacion, bool IncluirRespuestas)
+    {
+      if (IncluirRespuestas)
+      {
+        return _context.Evaluaciones.Include(e => e.Respuestas)
+          .Where(e => e.Id == IdEvaluacion).FirstOrDefault();
+      }
+      else
+      {
+        return _context.Evaluaciones.Where(e => e.Id == IdEvaluacion).FirstOrDefault();
+      }
+    }
 
     //Recoge una lista de evaluaciones con datos de información de muchas tablas
     public List<EvaluacionInfoDto> GetEvaluationInfo(int IdProject)
@@ -105,45 +105,45 @@ namespace everisapi.API.Services
 
     //Recoge todas las evaluaciones
     public IEnumerable<EvaluacionEntity> GetEvaluaciones()
-        {
-          return _context.Evaluaciones.ToList();
-        }
+    {
+      return _context.Evaluaciones.ToList();
+    }
 
-        //Recoge todas las evaluaciones de un proyecto
-        public IEnumerable<EvaluacionEntity> GetEvaluacionesFromProject(int IdProject)
-        {
-          return _context.Evaluaciones.Where(e => e.ProyectoId == IdProject).ToList();
-        }
+    //Recoge todas las evaluaciones de un proyecto
+    public IEnumerable<EvaluacionEntity> GetEvaluacionesFromProject(int IdProject)
+    {
+      return _context.Evaluaciones.Where(e => e.ProyectoId == IdProject).ToList();
+    }
 
-        //Devuelve una evaluacion si existiera una inacabada en la base de datos filtrado por id de projecto
-        public EvaluacionEntity EvaluationIncompletaFromProject(int IdProject)
-        {
-          return _context.Evaluaciones.Where(e => e.ProyectoId == IdProject && !e.Estado).FirstOrDefault();
-        }
+    //Devuelve una evaluacion si existiera una inacabada en la base de datos filtrado por id de projecto
+    public EvaluacionEntity EvaluationIncompletaFromProject(int IdProject)
+    {
+      return _context.Evaluaciones.Where(e => e.ProyectoId == IdProject && !e.Estado).FirstOrDefault();
+    }
 
 
-        //Incluye una nueva evaluación a la base de datos
-        public void IncluirEvaluacion(EvaluacionEntity evaluacion)
-        {
-           _context.Add(evaluacion);
+    //Incluye una nueva evaluación a la base de datos
+    public void IncluirEvaluacion(EvaluacionEntity evaluacion)
+    {
+      _context.Add(evaluacion);
 
-           this.SaveChanges();
-        }
+      this.SaveChanges();
+    }
 
-        //Modifica el estado de una evaluacion
-        public void ModificarEvaluacion(int IdEvaluacion, EvaluacionEntity evaluacion)
-        {
-            EvaluacionEntity evoluacionAnterior = _context.Evaluaciones.Where(e => e.Id == IdEvaluacion).FirstOrDefault();
+    //Modifica el estado de una evaluacion
+    public bool ModificarEvaluacion(int IdEvaluacion, EvaluacionEntity evaluacion)
+    {
+      EvaluacionEntity evoluacionAnterior = _context.Evaluaciones.Where(e => e.Id == IdEvaluacion).FirstOrDefault();
 
-            evoluacionAnterior.Estado = evaluacion.Estado;
-            this.SaveChanges();
-        }
+      evoluacionAnterior.Estado = evaluacion.Estado;
+      return SaveChanges();
+    }
 
-        //Guarda todos los cambios en la base de datos
-        public bool SaveChanges()
-        {
-          return (_context.SaveChanges() >= 0);
-        }
+    //Guarda todos los cambios en la base de datos
+    public bool SaveChanges()
+    {
+      return (_context.SaveChanges() >= 0);
+    }
 
     //Metodo que devuelve un filtrado de evaluaciones y proyecto paginada
     public List<EvaluacionInfoDto> GetEvaluationInfoAndPageFiltered(int IdProject, int pageNumber, EvaluacionInfoPaginationDto Evaluacion)
@@ -151,7 +151,8 @@ namespace everisapi.API.Services
       //Recogemos las evaluaciones y la paginamos
       List<EvaluacionInfoDto> EvaluacionesInformativas = new List<EvaluacionInfoDto>();
       List<EvaluacionEntity> Evaluaciones;
-      if(Evaluacion.Estado!= null && Evaluacion.Estado != "") {
+      if (Evaluacion.Estado != null && Evaluacion.Estado != "")
+      {
         Evaluaciones = _context.Evaluaciones.Where(e => e.ProyectoId == IdProject &&
         e.Estado == Boolean.Parse(Evaluacion.Estado) &&
         e.Fecha.Date.ToString("yyyyMMdd").Contains(Evaluacion.Fecha) &&
@@ -305,7 +306,7 @@ namespace everisapi.API.Services
     public int GetNumEval(int idProject)
     {
       //Si es distinto de cero filtra sino filtra por todos
-      if(idProject!= 0)
+      if (idProject != 0)
       {
         return _context.Evaluaciones.Where(e => e.ProyectoId == idProject).Count();
       }
@@ -313,6 +314,14 @@ namespace everisapi.API.Services
       {
         return _context.Evaluaciones.Count();
       }
+    }
+
+
+    //Este metodo nos permite eliminar una evaluacion en concreto
+    public bool DeleteEvaluacion(EvaluacionEntity evaluacion)
+    {
+      _context.Evaluaciones.Remove(_context.Evaluaciones.Where(e => e == evaluacion).FirstOrDefault());
+      return SaveChanges();
     }
   }
 }

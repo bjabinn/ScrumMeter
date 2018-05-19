@@ -48,14 +48,32 @@ namespace everisapi.API.Services
     }
 
     //Realiza un update de la respuesta por el id de la respuesta y el estado que se desea cambiar
-    public void UpdateRespuesta(bool Opcion, int RespuestaId)
+    public bool UpdateRespuesta(bool Opcion, int RespuestaId)
     {
       RespuestaEntity respuestaAnterior = _context.Respuestas.Where(r => r.Id == RespuestaId).FirstOrDefault();
       if (respuestaAnterior != null)
       {
         respuestaAnterior.Estado = Opcion;
-        this.SaveChanges();
+        return SaveChanges();
       }
+      else
+      {
+        return false;
+      }
+    }
+
+    //Aqui introducimos una nueva respuesta
+    public bool AddRespuesta(RespuestaEntity respuesta)
+    {
+      _context.Respuestas.Add(respuesta);
+      return SaveChanges();
+    }
+
+    //Elimina una respuesta
+    public bool DeleteRespuesta(RespuestaEntity respuesta)
+    {
+      _context.Respuestas.Remove(_context.Respuestas.Where(r => r == respuesta).FirstOrDefault());
+      return SaveChanges();
     }
   }
 }

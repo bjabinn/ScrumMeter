@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace everisapi.API.Models
 {
-    public class ProyectoWithEvaluacionesDto
-    {
-        public int Id { get; set; }
+  public class ProyectoWithEvaluacionesDto
+  {
+    public int Id { get; set; }
 
-        public string Nombre { get; set; }
+    public string Nombre { get; set; }
 
-        public DateTime Fecha { get; set; }
+    public DateTime Fecha { get; set; }
 
-        public ICollection<EvaluacionDto> Evaluaciones { get; set; }
-        = new List<EvaluacionDto>();
+    public ICollection<EvaluacionDto> Evaluaciones { get; set; }
+    = new List<EvaluacionDto>();
   }
 }

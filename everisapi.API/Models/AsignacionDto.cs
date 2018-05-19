@@ -11,12 +11,6 @@ namespace everisapi.API.Models
 
         public string Nombre { get; set; }
 
-        public int NumeroDePreguntas { get
-            {
-                return PreguntasDeAsignacion.Count;
-            }
-        }
-
         public ICollection<PreguntaDto> PreguntasDeAsignacion { get; set; }
         = new List<PreguntaDto>();
   }

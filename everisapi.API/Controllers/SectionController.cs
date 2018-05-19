@@ -201,5 +201,84 @@ namespace everisapi.API.Controllers
       }
     }
 
+    /*ADD SECTIONS*/
+    [HttpPost("add")]
+    public IActionResult AddAsignacion([FromBody] SectionWithoutAreaDto SectionAdd)
+    {
+
+      //Si los datos son validos los guardara
+      if (SectionAdd == null || _sectionInfoRepository.GetSection(SectionAdd.Id, false) != null)
+      {
+        return BadRequest();
+      }
+
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+
+      //Comprueba que se guardo bien y lo envia
+      if (_sectionInfoRepository.AddSection(Mapper.Map<SectionEntity>(SectionAdd)))
+      {
+        return Ok("La asignación fue creada.");
+      }
+      else
+      {
+        return BadRequest();
+      }
+    }
+
+    /*UPDATE SECTIONS*/
+    [HttpPut("update")]
+    public IActionResult UpdateSection([FromBody] SectionWithoutAreaDto SectionUpdate)
+    {
+      //Si los datos son validos los guardara
+      if (SectionUpdate == null || _sectionInfoRepository.GetSection(SectionUpdate.Id, false) == null)
+      {
+        return BadRequest();
+      }
+
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+
+      //Comprueba que se guardo bien y lo envia
+      if (_sectionInfoRepository.AlterSection(Mapper.Map<SectionEntity>(SectionUpdate)))
+      {
+        return Ok("La asignación fue modificada correctamente.");
+      }
+      else
+      {
+        return BadRequest();
+      }
+    }
+
+    /*DELETE SECTIONS*/
+    [HttpDelete("delete")]
+    public IActionResult DeleteSection([FromBody] SectionWithoutAreaDto SectionDelete)
+    {
+      //Si los datos son validos los guardara
+      if (SectionDelete == null || _sectionInfoRepository.GetSection(SectionDelete.Id, false) == null)
+      {
+        return BadRequest();
+      }
+
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+
+      //Comprueba que se guardo bien y lo envia
+      if (_sectionInfoRepository.DeleteSection(Mapper.Map<SectionEntity>(SectionDelete)))
+      {
+        return Ok("La asignación fue eliminada correctamente.");
+      }
+      else
+      {
+        return BadRequest();
+      }
+    }
+
   }
 }

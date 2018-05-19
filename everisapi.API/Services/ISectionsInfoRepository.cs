@@ -29,5 +29,17 @@ namespace everisapi.API.Services
 
     //Devuelve todas las asignaciones de un sector
     IEnumerable<AsignacionEntity> GetAsignacionesFromSection(SectionEntity section);
+
+    //Guardar cambio de las entidades
+    bool SaveChanges();
+
+    //Aqui introducimos una nueva section
+    bool AddSection(SectionEntity section);
+
+    //Nos permite modificar una section
+    bool AlterSection(SectionEntity section);
+
+    //Elimina una section
+    bool DeleteSection(SectionEntity section);
   }
 }

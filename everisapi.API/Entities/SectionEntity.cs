@@ -18,6 +18,7 @@ namespace everisapi.API.Entities
     [MaxLength(120)]
     public string Nombre { get; set; }
 
+    [Required]
     public ICollection<AsignacionEntity> Asignaciones { get; set; }
     = new List<AsignacionEntity>();
   }

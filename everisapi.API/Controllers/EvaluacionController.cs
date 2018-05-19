@@ -7,12 +7,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using everisapi.API.Models;
+using everisapi.API.Entities;
 
 namespace everisapi.API.Controllers
 {
-    [Route("api/evaluaciones")]
-    public class EvaluacionController: Controller
-    {
+  [Route("api/evaluaciones")]
+  public class EvaluacionController : Controller
+  {
 
     //Inyectamos un logger
     private ILogger<EvaluacionController> _logger;
@@ -161,7 +162,7 @@ namespace everisapi.API.Controllers
         }
         else
         {
-          var Evals = _evaluacionInfoRepository.GetEvaluationInfoAndPageFilteredAdmin( pageNumber, EvaluacionParaFiltrar);
+          var Evals = _evaluacionInfoRepository.GetEvaluationInfoAndPageFilteredAdmin(pageNumber, EvaluacionParaFiltrar);
           NumEvals = Evals.Count();
           EvaluacionesFiltradas = Evals.Skip(5 * pageNumber).Take(5).ToList();
         }
@@ -173,7 +174,7 @@ namespace everisapi.API.Controllers
       }
       catch (Exception ex)
       {
-        _logger.LogCritical("Se recogio un error al recibir la petición post de recoger una lista filtrada de evaluaciones con id de proyecto "+id+" y paginado con número "+ pageNumber +": " + ex);
+        _logger.LogCritical("Se recogio un error al recibir la petición post de recoger una lista filtrada de evaluaciones con id de proyecto " + id + " y paginado con número " + pageNumber + ": " + ex);
         return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
       }
     }
@@ -211,7 +212,7 @@ namespace everisapi.API.Controllers
           return NotFound();
         }
 
-          return Ok(Evaluacion);
+        return Ok(Evaluacion);
 
       }
       catch (Exception ex)
@@ -254,7 +255,7 @@ namespace everisapi.API.Controllers
 
 
         //Hacemos un mapeo de la evaluación que recogimos
-        var IngresarEvaluacion = Mapper.Map<Entities.EvaluacionEntity>(EvaluacionRecogida);
+        var IngresarEvaluacion = Mapper.Map<EvaluacionEntity>(EvaluacionRecogida);
 
         //La incluimos en la evaluación
         _evaluacionInfoRepository.IncluirEvaluacion(IngresarEvaluacion);
@@ -266,7 +267,7 @@ namespace everisapi.API.Controllers
           return StatusCode(500, "Ocurrio un problema en la petición.");
         }
 
-        var EvaluationIngresada = Mapper.Map<Models.EvaluacionesWithoutRespuestasDto>(IngresarEvaluacion);
+        var EvaluationIngresada = Mapper.Map<EvaluacionesWithoutRespuestasDto>(IngresarEvaluacion);
 
         return Ok(EvaluationIngresada);
       }
@@ -297,7 +298,7 @@ namespace everisapi.API.Controllers
         }
 
         //Hacemos un mapeo de la evaluación que recogimos
-        var ModificarEvaluacion = Mapper.Map<Entities.EvaluacionEntity>(EvaluacionRecogida);
+        var ModificarEvaluacion = Mapper.Map<EvaluacionEntity>(EvaluacionRecogida);
 
         //La incluimos en la evaluación
         _evaluacionInfoRepository.ModificarEvaluacion(ModificarEvaluacion.Id, ModificarEvaluacion);
@@ -305,7 +306,7 @@ namespace everisapi.API.Controllers
         //Guardamos los cambios a la entidad y esta debera devolver si es correcta o no
         if (!_evaluacionInfoRepository.SaveChanges())
         {
-          _logger.LogCritical("Ocurrio un error al guardar los cambios cuando intentamos modificar una evaluacion con id: "+ ModificarEvaluacion.Id);
+          _logger.LogCritical("Ocurrio un error al guardar los cambios cuando intentamos modificar una evaluacion con id: " + ModificarEvaluacion.Id);
           return StatusCode(500, "Ocurrio un problema en la petición.");
         }
 
@@ -316,6 +317,32 @@ namespace everisapi.API.Controllers
       {
         _logger.LogCritical("Se recogio un error al recibir la petición de modificacion de evaluacion: " + ex);
         return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+      }
+    }
+
+    /*DELETE EVALUACIONES*/
+    //Este metodo permite realizar una eliminación de una evaluacion en concreto
+    [HttpDelete("")]
+    public IActionResult DeleteEvaluaciones([FromBody] EvaluacionesWithoutRespuestasDto EvaluacionDelete)
+    {
+      if(EvaluacionDelete == null || _evaluacionInfoRepository.GetEvaluacion(EvaluacionDelete.Id, false) == null)
+      {
+        return BadRequest();
+      }
+
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+
+      //Comprueba que se guardo bien y lo envia
+      if (_evaluacionInfoRepository.DeleteEvaluacion(Mapper.Map<EvaluacionEntity>(EvaluacionDelete)))
+      {
+        return Ok("La evaluación fue eliminada correctamente.");
+      }
+      else
+      {
+        return BadRequest();
       }
     }
 

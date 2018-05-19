@@ -17,9 +17,11 @@ namespace everisapi.API.Entities
         [MaxLength(50)]
         public string Password { get; set; }
 
+        [Required]
         public ICollection<ProyectoEntity> ProyectosDeUsuario { get; set; }
         = new List<ProyectoEntity>();
 
+        [Required]
         public ICollection<User_RoleEntity> User_Role { get; set; }
         = new List<User_RoleEntity>();
     }

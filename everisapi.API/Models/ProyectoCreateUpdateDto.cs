@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 
 namespace everisapi.API.Models
 {
-  public class ProyectoDto
+  public class ProyectoCreateUpdateDto
   {
     public int Id { get; set; }
 
     public string Nombre { get; set; }
 
     public DateTime Fecha { get; set; }
+
+    public string UserNombre { get; set; }
   }
 }
