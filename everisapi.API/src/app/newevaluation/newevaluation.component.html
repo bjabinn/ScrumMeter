@@ -61,7 +61,7 @@
     <div class="col-xs-12 col-sm-3 col-md-3"></div>
     <br />
   </div>
-  <div class="wrapper" *ngIf="InfoAsignacion.preguntas != 0">
+  <div class="wrapper" *ngIf="InfoAsignacion.preguntas.length != 0">
     <button type="button" class="btn btn-outline-success" (click)="NextPreviousButton(false)">Anterior</button>
     <strong>
       {{PageNow}}/{{NumMax}}

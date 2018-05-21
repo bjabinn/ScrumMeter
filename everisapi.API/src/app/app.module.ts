@@ -14,6 +14,8 @@ import { MenunewevaluationComponent } from './menunewevaluation/menunewevaluatio
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PdfgeneratorComponent } from './pdfgenerator/pdfgenerator.component';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RequestInterceptorService } from './services/RequestInterceptor.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,11 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     ChartsModule,
     NgbModule.forRoot()
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: RequestInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
