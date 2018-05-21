@@ -58,6 +58,18 @@
   }
 }
 
+@media only screen and (max-width: 500px) {
+  .titulo {
+    margin-left: 15%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .titulo {
+    margin-left: 10%;
+  }
+}
+
 .espacio {
   margin: 25px;
 }
