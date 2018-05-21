@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 
 namespace everisapi.API.Controllers
 {
+  [Authorize]
   [Route("api/users")]
   public class UsersController : Controller
   {

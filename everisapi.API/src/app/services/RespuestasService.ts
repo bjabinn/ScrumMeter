@@ -14,32 +14,43 @@ export class RespuestasService {
 
   private url: string;
 
-  constructor(private _http: Http) {
+  constructor(private _http: Http,
+    private _appComponent: AppComponent) {
     this.url = GLOBAL.url;
   }
 
 
   //Este metodo devuelve todas las respuestas de una asignacion en un proyecto
   getRespuestasAsigProy(idEvaluacion: number, idAsignacion: number) {
-    return this._http.get(this.url + 'respuestas/evaluacion/' + idEvaluacion + '/asignacion/' + idAsignacion)
+    let Token = this._appComponent.ComprobarUserYToken();
+    let headers = new Headers({
+      'Authorization': Token
+    });
+    return this._http.get(this.url + 'respuestas/evaluacion/' + idEvaluacion + '/asignacion/' + idAsignacion, { headers: headers })
       .map((response: Response) => response.json())
       .catch(this.errorHandler);
   }
 
   //Este metodo devuelve un listado con sus preguntas y respuestas de una evaluación y su asignación
   getRespuestasAsig(idEvaluacion: number, idAsig: number) {
-    return this._http.get(this.url + 'asignaciones/evaluacion/' + idEvaluacion + '/asignacion/' + idAsig)
+    let Token = this._appComponent.ComprobarUserYToken();
+    let headers = new Headers({
+      'Authorization': Token
+    });
+    return this._http.get(this.url + 'asignaciones/evaluacion/' + idEvaluacion + '/asignacion/' + idAsig, { headers: headers })
       .map((response: Response) => response.json())
       .catch(this.errorHandler);
   }
 
   //Este metodo altera el valor de la respuesta en la base de datos
   AlterEstadoRespuesta(id: number, change: boolean) {
+    let Token = this._appComponent.ComprobarUserYToken();
     let httpParams = new HttpParams();
     let headers = new Headers({
+      'Authorization': Token,
       'Content-Type': 'application/x-www-form-urlencoded'
     });
-    
+
     return this._http.put(this.url + 'respuestas/' + id + '/change/' + change, httpParams, { headers: headers })
       .map(res => res);
   }

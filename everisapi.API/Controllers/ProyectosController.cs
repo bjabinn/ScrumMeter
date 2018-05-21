@@ -8,9 +8,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using everisapi.API.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace everisapi.API.Controllers
 {
+  [Authorize]
   [Route("api/users")]
   public class ProyectosController : Controller
   {
@@ -26,7 +28,6 @@ namespace everisapi.API.Controllers
     }
 
     /*METODOS GET DE PREGUNTAS*/
-
     [HttpGet("fullproyectos")]
     public IActionResult GetFullProyectos()
     {
@@ -111,6 +112,7 @@ namespace everisapi.API.Controllers
       }
     }
 
+    //Este metodo devuelve un proyecto por su id especifica
     [HttpGet("proyecto/{id}")]
     public IActionResult GetProyecto(int id)
     {

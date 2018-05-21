@@ -14,7 +14,6 @@ namespace everisapi.API.Entities
         public string Nombre { get; set; }
 
         [Required]
-        [MaxLength(50)]
         public string Password { get; set; }
 
         [Required]

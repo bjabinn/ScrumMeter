@@ -16,4 +16,5 @@ export class StorageDataService{
     public Evaluacion: Evaluacion = null;
     public EvaluacionToPDF: EvaluacionInfo = null;
     public SectionName: string = null;
+    public TokenUser: string = "";
 }

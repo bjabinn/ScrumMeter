@@ -15,7 +15,6 @@ export class LoginComponent implements OnInit {
     public ErrorMessage: string = null;
     public nombreDeUsuario: string="";
     public passwordDeUsuario: string="";
-    public UsuarioEntrante: User = null;
     public Recuerdame: boolean=false;
 
     constructor(private _userService : UserService,
@@ -34,46 +33,46 @@ export class LoginComponent implements OnInit {
 
     //Mediante este metodo comprobaremos si el usuario espcificado existe o no
     //si es así sera redirigido a la pagina principal
-    public SignUp(){
+  public SignUp() {
         //Comprueba si los campos tienen datos
         if(this.nombreDeUsuario!="" && this.passwordDeUsuario!=""){
             //Manda una petición a la api para ver si el nombre existe
-            this._userService.SignUpMe(this.nombreDeUsuario).subscribe(
-                res => {
-                    //Si no existe muestra un error
-                    if(!res){
-                        this.ErrorMessage = "No existe el usuario especificado."
-                    }else{
-                        //Si existe comprueba si la contraseña es correcta y es redirigido
-                        this.UsuarioEntrante = res;
-                        if(this.UsuarioEntrante.password==this.passwordDeUsuario){
-                            if(this.Recuerdame){
-                                //Si el usuario quiere ser recordado lo guardara en el localStorage
-                                localStorage.setItem("user", this.UsuarioEntrante.nombre);
-                                localStorage.setItem("passuser", this.UsuarioEntrante.password);
-                            }else{
-                                //Si el usuario no quiere ser recordado lo guardara en el servicio
-                                this._app._storageDataService.UserData = this.UsuarioEntrante;
-                            }
-                            this._router.navigate(['/home']);
-                        }else{
-                            //Si no es correcta borra el usuario recogido y muestra mensaje de error
-                            this.ErrorMessage = "El nombre de usuario o contraseña no son correctos.";
-                            this.UsuarioEntrante = null;
-                        }
+          var User = { 'nombre': this.nombreDeUsuario, 'password': this.passwordDeUsuario };
+            this._userService.SignUpMe(User).subscribe(
+              res => {
+                  //Si no existe muestra un error
+                  if (!res) {
+                    this.ErrorMessage = "No existe el usuario especificado."
+                  } else {
+                    //Si existe comprueba si la contraseña es correcta y es redirigido
+                    //console.log(res);
+                    if (this.Recuerdame) {
+                      //Si el usuario quiere ser recordado lo guardara en el localStorage
+                      localStorage.setItem("user", this.nombreDeUsuario);
+                      localStorage.setItem("passuser", this.passwordDeUsuario);
+                      localStorage.setItem("tokenuser", res.access_token);
+                    } else {
+                      //Si el usuario no quiere ser recordado lo guardara en el servicio
+                      this._app._storageDataService.UserData = { 'nombre': this.nombreDeUsuario, 'password': this.passwordDeUsuario };
+                      //Guardamos el token del usuario
+                      this._app._storageDataService.TokenUser = res.access_token;
                     }
+                    this._router.navigate(['/home']);
+                  }
                 },
                 error => {
                     //Si el servidor tiene algún tipo de problema mostraremos este error
-                    if(error==404){
-                        this.ErrorMessage = "El nombre de usuario o contraseña no son correctos.";
-                    }else if(error==500){
-                        this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
-                    }
+                  if (error == 404) {
+                    this.ErrorMessage = "El nombre de usuario o contraseña no son correctos.";
+                  } else if (error == 500) {
+                    this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+                  } else {
+                    this.ErrorMessage = "El nombre de usuario o contraseña no son correctos.";
+                  }
                 }	
             );
-        }else{
-            this.ErrorMessage="Introduzca todos los campos."
+        } else {
+          this.ErrorMessage = "Introduzca todos los campos."
         }
     }
 

@@ -6,11 +6,13 @@ using System.Collections.Generic;
 using AutoMapper;
 using everisapi.API.Models;
 using everisapi.API.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace everisapi.API.Controllers
 {
+  [Authorize]
   [Route("api/sections")]
-  public class SectionController: Controller
+  public class SectionController : Controller
   {
 
     //Creamos un logger
@@ -181,7 +183,7 @@ namespace everisapi.API.Controllers
         SectionEntity sectionExist = _sectionInfoRepository.GetSection(id, true);
         if (sectionExist == null)
         {
-          _logger.LogInformation($"La section con id "+ id +" no pudo ser encontrado.");
+          _logger.LogInformation($"La section con id " + id + " no pudo ser encontrado.");
           return NotFound();
         }
 

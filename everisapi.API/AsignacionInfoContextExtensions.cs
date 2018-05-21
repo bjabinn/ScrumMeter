@@ -124,7 +124,7 @@ namespace everisapi.API
                 new UserEntity()
                 {
                     Nombre= "Admin",
-                    Password= "Admin",
+                    Password= "c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f",
                     ProyectosDeUsuario= new List<ProyectoEntity>()
                     {
                         new ProyectoEntity()
@@ -159,7 +159,7 @@ namespace everisapi.API
                 new UserEntity()
                 {
                     Nombre= "User",
-                    Password= "User",
+                    Password= "b512d97e7cbf97c273e4db073bbb547aa65a84589227f8f3d9e4a72b9372a24d",
                     ProyectosDeUsuario= new List<ProyectoEntity>()
                     {
                         new ProyectoEntity()

@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using AutoMapper;
 using everisapi.API.Models;
 using everisapi.API.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace everisapi.API.Controllers
 {
-    [Route("api/respuestas")]
-    public class RespuestaController : Controller
-    {
+  [Authorize]
+  [Route("api/respuestas")]
+  public class RespuestaController : Controller
+  {
     //Creamos un logger
     private ILogger<RespuestaController> _logger;
     private IRespuestasInfoRepository _respuestasInfoRepository;
@@ -58,9 +60,9 @@ namespace everisapi.API.Controllers
           _logger.LogInformation("La respuesta con id " + id + " no pudo ser encontrado.");
           return NotFound();
         }
-          var RespuestaResult = Mapper.Map<RespuestaDto>(Section);
+        var RespuestaResult = Mapper.Map<RespuestaDto>(Section);
 
-          return Ok(RespuestaResult);
+        return Ok(RespuestaResult);
       }
       catch (Exception ex)
       {
@@ -85,7 +87,7 @@ namespace everisapi.API.Controllers
       }
       catch (Exception ex)
       {
-        _logger.LogCritical("Se recogio un error al recibir las respuestas con idevaluacion " + idevaluacion + " y idpregunta "+ idpregunta +" : " + ex);
+        _logger.LogCritical("Se recogio un error al recibir las respuestas con idevaluacion " + idevaluacion + " y idpregunta " + idpregunta + " : " + ex);
         return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
       }
     }
@@ -132,7 +134,7 @@ namespace everisapi.API.Controllers
 
         //Intenta hacer update y lo comprueba
 
-        _respuestasInfoRepository.UpdateRespuesta( CambioRespuesta, id );
+        _respuestasInfoRepository.UpdateRespuesta(CambioRespuesta, id);
 
         if (!_respuestasInfoRepository.SaveChanges())
         {

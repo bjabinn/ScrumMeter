@@ -29,13 +29,13 @@ namespace everisapi.API.Services
     //Recoge todos los proyectos de un usuario
     public IEnumerable<ProyectoEntity> GetProyectosDeUsuario(string userNombre)
     {
-      return _context.Proyectos.Where(p => p.UserNombre == userNombre).ToList();
+      return _context.Proyectos.Where(p => p.UserNombre == userNombre).OrderBy( p => p.Nombre).ToList();
     }
 
     //Recoge todos los proyectos de todos los usuarios
     public IEnumerable<ProyectoEntity> GetFullProyectos()
     {
-      return _context.Proyectos.ToList();
+      return _context.Proyectos.OrderBy(p => p.Nombre).ToList();
     }
 
     //Recoge un usuario por su nombre 

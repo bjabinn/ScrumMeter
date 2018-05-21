@@ -55,7 +55,6 @@ export class HomeComponent implements OnInit {
     //Intentamos recoger los roles de los usuarios
     this._proyectoService.getRolesUsuario().subscribe(
         res => {
-            
             this.permisosDeUsuario=res;
             //Si no hay errores y son recogidos busca si tienes permisos de usuario
             for (let num = 0; num < this.permisosDeUsuario.length; num++) {
@@ -68,13 +67,15 @@ export class HomeComponent implements OnInit {
             this.RecogerProyectos();
 
         },
-        error =>{
+      error => {
             //Si el servidor tiene algún tipo de problema mostraremos este error
-            if(error==404){
-                this.ErrorMessage = "El usuario autenticado no existe.";
-            }else if(error==500){
-                this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
-            }
+          if (error == 404) {
+            this.ErrorMessage = "El usuario autenticado no existe.";
+          } else if (error == 500) {
+            this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else {
+            this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          }
         });
   }
 
@@ -87,29 +88,33 @@ export class HomeComponent implements OnInit {
     if(!this.AdminOn){
         //Aqui se entra solo si no tienes permisos de administrador dandote los proyectos que te tocan
         this._proyectoService.getProyectosDeUsuario().subscribe(
-            res => {
+          res => {
                 this.ListaDeProyectos=res;
             },
-            error =>{
+          error => {
                 //Si el servidor tiene algún tipo de problema mostraremos este error
                 if(error==404){
                     this.ErrorMessage = "El usuario autenticado no existe.";
                 }else if(error==500){
                     this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+                } else {
+                  this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
                 }
             });
         }else{
             //Aqui entra si eres administrador dandote todos los proyectos
             this._proyectoService.getAllProyectos().subscribe(
-                res => {
+              res => {
                     this.ListaDeProyectos=res;
                 },
-                error =>{
+              error => {
                     //Si el servidor tiene algún tipo de problema mostraremos este error
                     if(error==404){
                         this.ErrorMessage = "El usuario autenticado no existe.";
                     }else if(error==500){
                         this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+                    } else {
+                      this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
                     }
                 });
 
@@ -124,7 +129,9 @@ export class HomeComponent implements OnInit {
                          this.ErrorMessage = "El usuario autenticado no existe.";
                     }else if(error==500){
                         this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
-                     }
+                    } else {
+                      this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+                    }
                 });
         }
   }

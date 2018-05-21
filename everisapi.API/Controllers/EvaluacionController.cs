@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using everisapi.API.Models;
 using everisapi.API.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace everisapi.API.Controllers
 {
+  [Authorize]
   [Route("api/evaluaciones")]
   public class EvaluacionController : Controller
   {
@@ -325,7 +327,7 @@ namespace everisapi.API.Controllers
     [HttpDelete("")]
     public IActionResult DeleteEvaluaciones([FromBody] EvaluacionesWithoutRespuestasDto EvaluacionDelete)
     {
-      if(EvaluacionDelete == null || _evaluacionInfoRepository.GetEvaluacion(EvaluacionDelete.Id, false) == null)
+      if (EvaluacionDelete == null || _evaluacionInfoRepository.GetEvaluacion(EvaluacionDelete.Id, false) == null)
       {
         return BadRequest();
       }

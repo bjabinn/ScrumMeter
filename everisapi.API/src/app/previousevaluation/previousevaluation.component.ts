@@ -59,7 +59,6 @@ export class PreviousevaluationComponent implements OnInit {
           var Admin = false;
           //Si no hay errores y son recogidos busca si tienes permisos de usuario
           for (let num = 0; num < this.permisosDeUsuario.length; num++) {
-            console.log("hola ", this.permisosDeUsuario[num].role)
             if (this.permisosDeUsuario[num].role == "Administrador") {
               if (this.Project == null || this.Project == undefined || this.Project.id == -1) {
                 this.Project = { id: 0, nombre: '', fecha: null };
@@ -67,11 +66,11 @@ export class PreviousevaluationComponent implements OnInit {
               }
             }
           }
-          console.log(Admin)
+
           //Comprueba que tenga  un proyecto seleccionado y si no es asi lo devuelve a home
           if (this.Project == null || this.Project == undefined) {
             this._router.navigate(['/home']);
-          } else if (this.Project.id == -1 || !Admin) {
+          } else if (this.Project.id == -1 && !Admin) {
             this._router.navigate(['/home']);
           } else {
             this.MostrarInfo = true;
