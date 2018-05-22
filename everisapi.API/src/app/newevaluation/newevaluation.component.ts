@@ -103,25 +103,27 @@ export class NewevaluationComponent implements OnInit {
 
   //Cambia el estado de las preguntas
   public ChangeEstadoDB(idarray: number) {
-    var idRespuesta = this.InfoAsignacion.preguntas[idarray].respuesta.id;
+    var Respuesta;
     if (this.InfoAsignacion.preguntas[idarray].respuesta.estado) {
-      this._respuestasService.AlterEstadoRespuesta(idRespuesta, false).subscribe(
-        res => {
-          //console.log("Cambio realizado");
-        },
-        error => {
-          this.ErrorMessage = "Error en la base de datos, " + error;
-        });
       this.InfoAsignacion.preguntas[idarray].respuesta.estado = false;
-    } else {
-      this._respuestasService.AlterEstadoRespuesta(idRespuesta, true).subscribe(
+      Respuesta = this.InfoAsignacion.preguntas[idarray].respuesta;
+      this._respuestasService.AlterEstadoRespuesta(Respuesta).subscribe(
         res => {
           //console.log("Cambio realizado");
         },
         error => {
           this.ErrorMessage = "Error en la base de datos, " + error;
         });
+    } else {
       this.InfoAsignacion.preguntas[idarray].respuesta.estado = true;
+      Respuesta = this.InfoAsignacion.preguntas[idarray].respuesta;
+      this._respuestasService.AlterEstadoRespuesta(Respuesta).subscribe(
+        res => {
+          //console.log("Cambio realizado");
+        },
+        error => {
+          this.ErrorMessage = "Error en la base de datos, " + error;
+        });
     }
   }
 

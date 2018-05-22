@@ -8,6 +8,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { GLOBAL } from './global';
 import { AppComponent } from '../app.component';
+import { Respuesta } from 'app/Models/Respuesta';
 
 @Injectable()
 export class RespuestasService {
@@ -43,15 +44,15 @@ export class RespuestasService {
   }
 
   //Este metodo altera el valor de la respuesta en la base de datos
-  AlterEstadoRespuesta(id: number, change: boolean) {
+  AlterEstadoRespuesta(RespuestaForUpdate: Respuesta) {
     let Token = this._appComponent.ComprobarUserYToken();
-    let httpParams = new HttpParams();
+    let params = JSON.stringify(RespuestaForUpdate);
     let headers = new Headers({
       'Authorization': Token,
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json'
     });
 
-    return this._http.put(this.url + 'respuestas/' + id + '/change/' + change, httpParams, { headers: headers })
+    return this._http.put(this.url + 'respuestas/update', params, { headers: headers })
       .map(res => res);
   }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using everisapi.API.Entities;
+using everisapi.API.Models;
 
 namespace everisapi.API.Services
 {
@@ -48,12 +49,12 @@ namespace everisapi.API.Services
     }
 
     //Realiza un update de la respuesta por el id de la respuesta y el estado que se desea cambiar
-    public bool UpdateRespuesta(bool Opcion, int RespuestaId)
+    public bool UpdateRespuesta(RespuestaDto Respuesta)
     {
-      RespuestaEntity respuestaAnterior = _context.Respuestas.Where(r => r.Id == RespuestaId).FirstOrDefault();
+      RespuestaEntity respuestaAnterior = _context.Respuestas.Where(r => r.Id == Respuesta.Id).FirstOrDefault();
       if (respuestaAnterior != null)
       {
-        respuestaAnterior.Estado = Opcion;
+        respuestaAnterior.Estado = Respuesta.Estado;
         return SaveChanges();
       }
       else
@@ -74,6 +75,12 @@ namespace everisapi.API.Services
     {
       _context.Respuestas.Remove(_context.Respuestas.Where(r => r == respuesta).FirstOrDefault());
       return SaveChanges();
+    }
+
+    //Muestra si existe la respuesta
+    public bool ExiteRespuesta(int idRespuesta)
+    {
+      return _context.Respuestas.Any(r => r.Id == idRespuesta);
     }
   }
 }

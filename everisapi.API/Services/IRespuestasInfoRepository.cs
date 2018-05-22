@@ -1,4 +1,5 @@
 using everisapi.API.Entities;
+using everisapi.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace everisapi.API.Services
     IEnumerable<RespuestaEntity> GetRespuestasFromAsigEval(int IdProyecto, int IdPregunta);
 
     //Update de una respuesta
-    bool UpdateRespuesta(bool Opcion, int RespuestaId);
+    bool UpdateRespuesta(RespuestaDto respuesta);
 
     //Guardar cambio de las entidades
     bool SaveChanges();
@@ -31,5 +32,8 @@ namespace everisapi.API.Services
 
     //Elimina una respuesta
     bool DeleteRespuesta(RespuestaEntity respuesta);
+
+    //Muestra si existe la respuesta
+    bool ExiteRespuesta(int idRespuesta);
   }
 }

@@ -7,6 +7,7 @@ using AutoMapper;
 using everisapi.API.Models;
 using everisapi.API.Entities;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
 
 namespace everisapi.API.Controllers
 {
@@ -114,31 +115,28 @@ namespace everisapi.API.Controllers
     }
 
     //Cambiamos el estado de la pregunta que queremos cambiar
-    [HttpPut("{id}/change/{CambioRespuesta}")]
-    public IActionResult AlterRespuesta(int id, Boolean CambioRespuesta)
+    [HttpPut("update")]
+    public IActionResult AlterRespuesta([FromBody] RespuestaDto RespuestaUpdate)
     {
       try
       {
+        if(RespuestaUpdate == null || !_respuestasInfoRepository.ExiteRespuesta(RespuestaUpdate.Id))
+        {
+          return NotFound();
+        }
 
         if (!ModelState.IsValid)
         {
           return BadRequest(ModelState);
         }
 
-        var RespuestaEncontrada = _respuestasInfoRepository.GetRespuesta(id);
-
-        if (RespuestaEncontrada == null)
-        {
-          return NotFound();
-        }
-
         //Intenta hacer update y lo comprueba
 
-        _respuestasInfoRepository.UpdateRespuesta(CambioRespuesta, id);
+        _respuestasInfoRepository.UpdateRespuesta(RespuestaUpdate);
 
         if (!_respuestasInfoRepository.SaveChanges())
         {
-          _logger.LogCritical("Ocurrio un error al guardar los cambios cuando intentamos actualizar una respuesta con id: " + id);
+          _logger.LogCritical("Ocurrio un error al guardar los cambios cuando intentamos actualizar una respuesta con id: " + RespuestaUpdate.Id);
           return StatusCode(500, "Ocurrio un problema en la petición.");
         }
 
@@ -148,7 +146,7 @@ namespace everisapi.API.Controllers
       }
       catch (Exception ex)
       {
-        _logger.LogCritical("Se recogio un error al recibir la respuesta con id " + id + ": " + ex);
+        _logger.LogCritical("Se recogio un error al realizar el update de la respuesta con id " + RespuestaUpdate.Id + ": " + ex);
         return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
       }
     }
@@ -159,7 +157,7 @@ namespace everisapi.API.Controllers
     {
 
       //Si los datos son validos los guardara
-      if (RespuestaAdd == null || _respuestasInfoRepository.GetRespuesta(RespuestaAdd.Id) != null)
+      if (RespuestaAdd == null || _respuestasInfoRepository.ExiteRespuesta(RespuestaAdd.Id))
       {
         return BadRequest();
       }
@@ -185,9 +183,9 @@ namespace everisapi.API.Controllers
     public IActionResult DeleteRespuesta([FromBody] RespuestaDto RespuestaDelete)
     {
       //Si los datos son validos los guardara
-      if (RespuestaDelete == null || _respuestasInfoRepository.GetRespuesta(RespuestaDelete.Id) == null)
+      if (RespuestaDelete == null || !_respuestasInfoRepository.ExiteRespuesta(RespuestaDelete.Id))
       {
-        return BadRequest();
+        return NotFound();
       }
 
       if (!ModelState.IsValid)
