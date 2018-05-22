@@ -13,7 +13,7 @@ export class AppComponent {
 
   constructor(
     public _storageDataService: StorageDataService,
-    private _router: Router) {
+    public _router: Router) {
   }
 
 
