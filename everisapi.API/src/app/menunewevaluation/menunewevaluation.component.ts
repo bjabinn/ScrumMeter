@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { SectionService } from '../services/SectionService';
 import { EvaluacionService } from '../services/EvaluacionService';
 import { ProyectoService } from '../services/ProyectoService';
@@ -26,7 +26,12 @@ export class MenunewevaluationComponent implements OnInit {
   public Evaluacion: Evaluacion = null;
   public UserSelected: string;
   public MostrarInfo = false;
+  public ScreenWidth;
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.ScreenWidth = window.innerWidth;
+  }
 
   constructor(
     private _proyectoService: ProyectoService,
@@ -36,6 +41,7 @@ export class MenunewevaluationComponent implements OnInit {
     private _appComponent: AppComponent,
     private modalService: NgbModal)
   {
+    this.ScreenWidth = window.innerWidth;
   }
 
   ngOnInit() {

@@ -7,47 +7,50 @@
   </div>
 
   <br />
-  <!--Datos de la evaluación-->
-  <div class="data">
-    Proyecto: <b>{{Evaluacion.nombre}}</b>
+  <div id="printcanvas">
+    <!--Datos de la evaluación-->
+    <div class="data">
+      Proyecto: <b>{{Evaluacion.nombre}}</b>
+      <br />
+      Fecha: <b>{{Evaluacion.fecha | date:'MM-dd-yyyy'}}</b>
+    </div>
     <br />
-    Fecha: <b>{{Evaluacion.fecha | date:'MM-dd-yyyy'}}</b>
-  </div>
-  <br />
-  <!--Tabla con datos-->
-  <table class="table-fill">
-    <thead>
-      <tr>
-        <th class="text-left">Asignaciones</th>
-        <th class="text-left">Nº de preguntas</th>
-        <th class="text-left">Nº de respuestas</th>
-      </tr>
-    </thead>
-    <tbody class="table-hover">
-      <tr *ngFor="let datos of ListaDeDatos">
-        <td class="text-left">{{datos.nombre}}</td>
-        <td class="text-left">{{datos.preguntas}}</td>
-        <td class="text-left">{{datos.respuestas}}</td>
-      </tr>
-    </tbody>
-  </table>
+    <!--Tabla con datos-->
+    <table class="table-fill" style="overflow-x:auto;">
+      <thead>
+        <tr>
+          <th class="text-left">Asignaciones</th>
+          <th class="text-left">Nº de preguntas</th>
+          <th class="text-left">Nº de respuestas</th>
+        </tr>
+      </thead>
+      <tbody class="table-hover">
+        <tr *ngFor="let datos of ListaDeDatos">
+          <td class="text-left">{{datos.nombre}}</td>
+          <td class="text-left">{{datos.preguntas}}</td>
+          <td class="text-left">{{datos.respuestas}}</td>
+        </tr>
+      </tbody>
+    </table>
 
-  <br />
+    <br />
 
-  <!--Grafica-->
-  <div style="display: block" id="Grafica">
-    <canvas baseChart
-            [datasets]="barChartData"
-            [labels]="ListaNombres"
-            [options]="barChartOptions"
-            [legend]="barChartLegend"
-            [chartType]="barChartType"
-            (chartHover)="chartHovered($event)"></canvas>
+    <!--Grafica-->
+    <div style="display: block" id="Grafica">
+      <canvas id="canvas" baseChart
+              [datasets]="barChartData"
+              [labels]="ListaNombres"
+              [options]="barChartOptions"
+              [legend]="barChartLegend"
+              [chartType]="barChartType"
+              (chartHover)="chartHovered($event)"></canvas>
+    </div>
   </div>
 </div>
 <div *ngIf="!Mostrar">
   <app-loading></app-loading>
 </div>
+
 
 
 

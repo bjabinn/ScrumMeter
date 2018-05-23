@@ -10,6 +10,9 @@ import { LoadingComponent } from '../loading/loading.component';
 import { DatePipe } from '@angular/common';
 import { ProyectoService } from 'app/services/ProyectoService';
 
+import * as jsPDF from 'jspdf';
+import * as html2canvas from 'html2canvas';
+
 @Component({
   selector: 'app-pdfgenerator',
   templateUrl: './pdfgenerator.component.html',
@@ -29,6 +32,7 @@ export class PdfgeneratorComponent implements OnInit {
   public ListaNPreguntas: number[] = [];
   public ListaNRespuestas: number[] = [];
   public ListaNombres: string[] = [];
+  public valueResponsive:boolean = true;
 
   //Datos para pdf
   @ViewChild('content') content: ElementRef;
@@ -109,7 +113,7 @@ export class PdfgeneratorComponent implements OnInit {
   //Datos para la grafica
   public barChartOptions: any = {
     scaleShowVerticalLines: true,
-    responsive: true
+    responsive: this.valueResponsive
   };
 
   //Estos son los datos introducidos en la grafica para que represente sus formas
@@ -125,8 +129,15 @@ export class PdfgeneratorComponent implements OnInit {
   //Genera un pdf a partir de una captura de pantalla
   //Mediante css eliminamos los componentes que no deseamos
   public downloadPDF() {
-    var date = this.datePipe.transform(this.Evaluacion.fecha, 'MM-dd-yyyy');
+    /*var date = this.datePipe.transform(this.Evaluacion.fecha, 'MM-dd-yyyy');
     document.title = this.Evaluacion.nombre + date + "ScrumMeter";
-    window.print();
+    window.print();*/
+    html2canvas(document.getElementById("printcanvas")).then(function (canvas) {
+        var img = canvas.toDataURL("image/png");
+        var doc = new jsPDF();
+        doc.addImage(img, 'JPEG', 0, 20, 220, 150);
+        doc.save('testCanvas.pdf');
+      });
+    
   }
 }

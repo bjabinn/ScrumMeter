@@ -34,7 +34,6 @@ namespace everisapi.API
       {
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidateLifetime = true,
         ValidIssuer = DireccionesConf["JWT:issuer"],
         ValidAudience = DireccionesConf["JWT:audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(DireccionesConf["JWT:key"]))
