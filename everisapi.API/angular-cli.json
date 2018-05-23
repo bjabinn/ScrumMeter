@@ -19,7 +19,8 @@
       "prefix": "app",
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-        "styles.css"
+        "styles.css",
+        "index.scss"
       ],
       "scripts": [
         "../node_modules/chart.js/dist/Chart.bundle.min.js"

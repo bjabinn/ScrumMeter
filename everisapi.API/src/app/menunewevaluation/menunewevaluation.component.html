@@ -1,87 +1,89 @@
 <br>
 <br>
-<div class="espacio">
-  <div *ngIf="(ErrorMessage != null || ErrorMessage != undefined )" class="alert alert-danger" id="danger">
-    <strong>{{ErrorMessage}}</strong>
-  </div>
-</div>
 
-<div class="row" id="infopro" *ngIf="MostrarInfo">
-  <div class="col-xs-12 col-sm-5 col-md-5">
-    Usuario: {{UserSelected}}
+<div class="corregir">
+  <div class="espacio">
+    <div *ngIf="(ErrorMessage != null || ErrorMessage != undefined )" class="alert alert-danger" id="danger">
+      <strong>{{ErrorMessage}}</strong>
+    </div>
   </div>
-  <div class="col-xs-12 col-sm-5 col-md-5">
-    Fecha: {{ProjectSelected.fecha | date:'MM-dd-yyyy'}}
-  </div>
-  <div class="col-xs-12 col-sm-5 col-md-5">
-    <div class="form-horizontal">
-      <div class="form-group">
-        <label for="sel1">Proyecto: {{ProjectSelected.nombre}}</label>
+
+  <div class="row" id="infopro" *ngIf="MostrarInfo">
+    <div class="col-xs-12 col-sm-5 col-md-5">
+      Usuario: {{UserSelected}}
+    </div>
+    <div class="col-xs-12 col-sm-5 col-md-5">
+      Fecha: {{ProjectSelected.fecha | date:'MM-dd-yyyy'}}
+    </div>
+    <div class="col-xs-12 col-sm-5 col-md-5">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="sel1">Proyecto: {{ProjectSelected.nombre}}</label>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<br>
+  <br>
 
-<div *ngIf="ListaDeDatos.length != 0">
-  <div class="row" *ngFor="let dato of ListaDeDatos" id="bajar">
-    <div class="col-xs-12 col-sm-3 col-md-3"></div>
-    <div class="col-xs-12 col-sm-3 col-md-3">
+  <div *ngIf="ListaDeDatos.length != 0">
+    <div class="row" *ngFor="let dato of ListaDeDatos" id="bajar">
+      <div class="col-xs-12 col-sm-3 col-md-3"></div>
+      <div class="col-xs-12 col-sm-3 col-md-3">
 
-      <button type="button" class="btn btn-outline-success btn-lg btn-block" id="infopro" (click)="RedirectToAsignaciones(dato)">
-        <strong>{{dato.nombre}}  </strong>
-        <span *ngIf="ScreenWidth <= 576">
-          <img class="icon" *ngIf="dato.respuestas!=dato.preguntas && dato.respuestas>0" src="/assets/green_no.png" alt="No compleado">
-          <img class="icon" *ngIf="dato.respuestas==dato.preguntas" src="/assets/green_si.png" alt="Compleado">
-        </span>
-      </button>
+        <button type="button" class="btn btn-outline-success btn-lg btn-block" id="infopro" (click)="RedirectToAsignaciones(dato)">
+          <strong>{{dato.nombre}}  </strong>
+          <span *ngIf="ScreenWidth <= 576">
+            <img class="icon" *ngIf="dato.respuestas!=dato.preguntas && dato.respuestas>0" src="/assets/green_no.png" alt="No compleado">
+            <img class="icon" *ngIf="dato.respuestas==dato.preguntas" src="/assets/green_si.png" alt="Compleado">
+          </span>
+        </button>
 
-    </div>
+      </div>
 
-    <div class="col-xs-12 col-sm-3 col-md-3" id="barraespacio">
-      <ngb-progressbar showValue="true" type="success" [value]="CalcularPorcentaje(dato.respuestas, dato.preguntas)" *ngIf="dato.respuestas==dato.preguntas"></ngb-progressbar>
-      <ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(dato.respuestas, dato.preguntas)" *ngIf="dato.respuestas!=dato.preguntas"></ngb-progressbar>
-      <span class="title"> {{dato.respuestas}} de {{dato.preguntas}} </span>
-    </div>
-    <div class="col-xs-12 col-sm-3 col-md-3" id="barraespacio" *ngIf="ScreenWidth >= 576">
-      <img class="icon" *ngIf="dato.respuestas!=dato.preguntas && dato.respuestas>0" src="/assets/green_no.png" alt="No compleado">
-      <img class="icon" *ngIf="dato.respuestas==dato.preguntas" src="/assets/green_si.png" alt="Compleado">
+      <div class="col-xs-12 col-sm-3 col-md-3" id="barraespacio">
+        <ngb-progressbar showValue="true" type="success" [value]="CalcularPorcentaje(dato.respuestas, dato.preguntas)" *ngIf="dato.respuestas==dato.preguntas"></ngb-progressbar>
+        <ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(dato.respuestas, dato.preguntas)" *ngIf="dato.respuestas!=dato.preguntas"></ngb-progressbar>
+        <span class="title"> {{dato.respuestas}} de {{dato.preguntas}} </span>
+      </div>
+      <div class="col-xs-12 col-sm-3 col-md-3" id="barraespacio" *ngIf="ScreenWidth >= 576">
+        <img class="icon" *ngIf="dato.respuestas!=dato.preguntas && dato.respuestas>0" src="/assets/green_no.png" alt="No compleado">
+        <img class="icon" *ngIf="dato.respuestas==dato.preguntas" src="/assets/green_si.png" alt="Compleado">
+      </div>
+      <br />
     </div>
     <br />
-  </div>
-  <br />
-  <div class="wrapper">
-    <button type="button" class="btn btn-outline-success" (click)="AbrirModal(content)">Finalizar</button>
-  </div>
-</div>
-
-<div *ngIf="ListaDeDatos.length == 0">
-  <app-loading></app-loading>
-</div>
-
-<ng-template #content let-cl="close" let-di="dismiss">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title">Advertencia</h5> <button type="button" class="close" (click)="cl('Cerrar')">
-        <span aria-hidden="true">×</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <p>Al finalizar el proyecto no lo podrá modificar o eliminar ¿está seguro de realizar esta acción?</p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="di('Finish')">Finalizar</button>
-      <button type="button" class="btn btn-primary" (click)="di('Home')">Ir a inicio</button>
-      <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
+    <div class="wrapper">
+      <button type="button" class="btn btn-outline-success" (click)="AbrirModal(content)">Finalizar</button>
     </div>
   </div>
-</ng-template>
 
-<!--Este Div es para hacer una comprobación sobre
-    la barra de progreso de preguntas respondidas-->
-<!--
-<div>
-    <button (click)="ProbarDinamico(true)">Aumentar</button> <br/><br/>
-    <button (click)="ProbarDinamico(false)">Disminuir</button>
+  <div *ngIf="ListaDeDatos.length == 0">
+    <app-loading></app-loading>
+  </div>
+
+  <ng-template #content let-cl="close" let-di="dismiss">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Advertencia</h5> <button type="button" class="close" (click)="cl('Cerrar')">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Al finalizar el proyecto no lo podrá modificar o eliminar ¿está seguro de realizar esta acción?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="di('Finish')">Finalizar</button>
+        <button type="button" class="btn btn-primary" (click)="di('Home')">Ir a inicio</button>
+        <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
+      </div>
+    </div>
+  </ng-template>
 </div>
--->
+  <!--Este Div es para hacer una comprobación sobre
+      la barra de progreso de preguntas respondidas-->
+  <!--
+  <div>
+      <button (click)="ProbarDinamico(true)">Aumentar</button> <br/><br/>
+      <button (click)="ProbarDinamico(false)">Disminuir</button>
+  </div>
+  -->

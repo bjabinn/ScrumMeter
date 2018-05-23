@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
+.corregir {
+  max-width: 1420px;
+}
+
 .titulo {
   margin-left: 15%;
   width: 310px;
@@ -47,11 +51,11 @@
   .titulo {
     margin-left: 28%;
   }
+
   #bajarmedia {
     margin-top: 20px;
     margin-bottom: 10%;
   }
-
 }
 
 @media only screen and (max-width: 535px) {
