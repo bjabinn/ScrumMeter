@@ -9,7 +9,6 @@ import { Respuesta } from 'app/Models/Respuesta';
 import { AsignacionInfo } from 'app/Models/AsignacionInfo';
 import { Router } from "@angular/router";
 import { Evaluacion } from 'app/Models/Evaluacion';
-import { LoadingComponent } from '../loading/loading.component';
 import { Section } from 'app/Models/Section';
 
 @Component({
@@ -57,7 +56,7 @@ export class NewevaluationComponent implements OnInit {
     }
 
     this.MostrarInfo = true;
-    
+
     //Recoge todas las asignaciones de la section por id
     if (this.Evaluation != null && this.Evaluation != undefined && this.SectionSelected != null && this.SectionSelected != undefined) {
       this._sectionService.getAsignacionesSection(this.SectionSelected.id).subscribe(

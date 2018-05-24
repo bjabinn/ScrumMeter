@@ -8,12 +8,7 @@ import { Router } from "@angular/router";
 import { AppComponent } from '../app.component';
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { EvaluacionCreate } from 'app/Models/EvaluacionCreate';
-import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-home',
@@ -31,6 +26,7 @@ export class HomeComponent implements OnInit {
   public NombreDeUsuario: string;
   public Deshabilitar = false;
   public MostrarInfo = false;
+  public SendingInfo = false;
 
   constructor(
     private _proyectoService: ProyectoService,
@@ -144,14 +140,17 @@ export class HomeComponent implements OnInit {
 
   //Este metodo crea una nueva evaluación y la manda para guardarla en la base de datos
   public GuardarEvaluacion() {
+
     var NuevaEvaluacion: EvaluacionCreate = { 'estado': false, 'proyectoid': this.ProyectoSeleccionado.id };
     this._evaluacionService.addEvaluacion(NuevaEvaluacion).subscribe(
       res => {
         this._appComponent._storageDataService.Evaluacion = res;
+        this.SendingInfo = false;
         this._router.navigate(['/menunuevaevaluacion']);
       },
       error => {
         this.ErrorMessage = "Error al guardar la evaluación, " + error;
+        this.SendingInfo = false;
       });
   }
 
@@ -177,58 +176,60 @@ export class HomeComponent implements OnInit {
       res => {
         //Una vez terminado guarda una nueva evaluación
         this.GuardarEvaluacion();
+        this.SendingInfo = false;
       },
       error => {
         this.ErrorMessage = "Error al actualizar la base de datos, " + error;
-
+        this.SendingInfo = false;
       });
   }
 
   //Muestra un modal con lo que se debe hacer en cada caso
   showModal(content) {
-    //Deshabilito la parte de atras del modal
-    this.Deshabilitar = true;
-    //Comprueba si existe un proyecto seleccionado
-    if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
-      this._evaluacionService.getIncompleteEvaluacionFromProject(this.ProyectoSeleccionado.id).subscribe(
-        res => {
-          //Habilitamos la pagina nuevamente
-          this.Deshabilitar = false;
-          //Si hay un proyecto sin finalizar muestra un modal y deja seleccionar
-          if (res != null) {
-            this.modalService.open(content).result.then(
-              (closeResult) => {
-
-              }, (dismissReason) => {
-                //Lo guarda en el storage
-                this._appComponent._storageDataService.Evaluacion = res;
-                //Si selecciona continuar cargara la valuación que no termino
-                if (dismissReason == 'Continuar') {
-                  this._router.navigate(['/menunuevaevaluacion']);
-                } else if (dismissReason == 'Nueva') {
-                  //Si selecciona nuevo que es la otra opción cogera la evaluación anterior lo finalizara
-                  //cargara una nueva y lo mostrara
-                  this.FinishEvaluation();
-                }
-
-              })
-
-          } else {
-            //Si no encuentra ninguna repetida directamente te crea una nueva evaluación
-            this.GuardarEvaluacion();
-
-          }
-        },
-        error => {
-          //Habilitamos la pagina nuevamente
-          this.Deshabilitar = false;
-          this.ErrorMessage = "Error en la base de datos, " + error;
-        });
-    } else {
-      this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
+    //Comprueba si ya termino de enviarse la información desde la api
+    if (!this.SendingInfo) {
+      this.SendingInfo = true;
+      //Deshabilito la parte de atras del modal
+      this.Deshabilitar = true;
+      //Comprueba si existe un proyecto seleccionado
+      if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
+        this._evaluacionService.getIncompleteEvaluacionFromProject(this.ProyectoSeleccionado.id).subscribe(
+          res => {
+            //Habilitamos la pagina nuevamente
+            this.Deshabilitar = false;
+            //Si hay un proyecto sin finalizar muestra un modal y deja seleccionar
+            if (res != null) {
+              this.modalService.open(content).result.then(
+                (closeResult) => {
+                  this.SendingInfo = false;
+                }, (dismissReason) => {
+                  //Lo guarda en el storage
+                  this._appComponent._storageDataService.Evaluacion = res;
+                  //Si selecciona continuar cargara la valuación que no termino
+                  if (dismissReason == 'Continuar') {
+                    this.SendingInfo = false;
+                    this._router.navigate(['/menunuevaevaluacion']);
+                  } else if (dismissReason == 'Nueva') {
+                    //Si selecciona nuevo que es la otra opción cogera la evaluación anterior lo finalizara
+                    //cargara una nueva y lo mostrara
+                    this.FinishEvaluation();
+                  } else {
+                    this.SendingInfo = false;
+                  }
+                })
+            } else {
+              //Si no encuentra ninguna repetida directamente te crea una nueva evaluación
+              this.GuardarEvaluacion();
+            }
+          },
+          error => {
+            //Habilitamos la pagina nuevamente
+            this.Deshabilitar = false;
+            this.ErrorMessage = "Error en la base de datos, " + error;
+          });
+      } else {
+        this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
+      }
     }
-
-
   }
-
 }

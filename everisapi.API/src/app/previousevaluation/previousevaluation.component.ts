@@ -34,7 +34,7 @@ export class PreviousevaluationComponent implements OnInit {
   public NumEspera = 750;
   public MostrarInfo = false;
   public Timeout: Subscription;
-  
+
 
   constructor(
     private _appComponent: AppComponent,
@@ -50,54 +50,54 @@ export class PreviousevaluationComponent implements OnInit {
       this._router.navigate(['/login']);
     }
     this.UserName = this._proyectoService.UsuarioLogeado;
-    
-      //Recogemos el rol del usuario
-      this._proyectoService.getRolesUsuario().subscribe(
-        res => {
-          
-          this.permisosDeUsuario = res;
-          var Admin = false;
-          //Si no hay errores y son recogidos busca si tienes permisos de usuario
-          for (let num = 0; num < this.permisosDeUsuario.length; num++) {
-            if (this.permisosDeUsuario[num].role == "Administrador") {
-              if (this.Project == null || this.Project == undefined || this.Project.id == -1) {
-                this.Project = { id: 0, nombre: '', fecha: null };
-                Admin = true;
-              }
+
+    //Recogemos el rol del usuario
+    this._proyectoService.getRolesUsuario().subscribe(
+      res => {
+
+        this.permisosDeUsuario = res;
+        var Admin = false;
+        //Si no hay errores y son recogidos busca si tienes permisos de usuario
+        for (let num = 0; num < this.permisosDeUsuario.length; num++) {
+          if (this.permisosDeUsuario[num].role == "Administrador") {
+            if (this.Project == null || this.Project == undefined || this.Project.id == -1) {
+              this.Project = { id: 0, nombre: '', fecha: null };
+              Admin = true;
             }
           }
+        }
 
-          //Comprueba que tenga  un proyecto seleccionado y si no es asi lo devuelve a home
-          if (this.Project == null || this.Project == undefined) {
-            this._router.navigate(['/home']);
-          } else if (this.Project.id == -1 && !Admin) {
-            this._router.navigate(['/home']);
-          } else {
-            this.MostrarInfo = true;
-          }
-          
-          this.GetPaginacion();
-          
-        },
-        error => {
-          //Si el servidor tiene algún tipo de problema mostraremos este error
-          if (error == 404) {
-            this.ErrorMessage = "El usuario actual no fue encontrado en nuestro servidor.";
-          } else if (error == 500) {
-            this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
-          }
-        });
-    //Recoge la información extendida necesaria para la lista de evaluaciones
-   /* this._evaluacionService.getEvaluacionInfo(this.Project.id).subscribe(
-      res => {
-        this.ListaDeEvaluaciones = res;
-        this.CalcularPaginas();
-        this.paginacionLista(0);
-        this.Mostrar = true;
+        //Comprueba que tenga  un proyecto seleccionado y si no es asi lo devuelve a home
+        if (this.Project == null || this.Project == undefined) {
+          this._router.navigate(['/home']);
+        } else if (this.Project.id == -1 && !Admin) {
+          this._router.navigate(['/home']);
+        } else {
+          this.MostrarInfo = true;
+        }
+
+        this.GetPaginacion();
+
       },
       error => {
-         this.ErrorMessage = "Error en la base de datos, " + error;
-      });*/
+        //Si el servidor tiene algún tipo de problema mostraremos este error
+        if (error == 404) {
+          this.ErrorMessage = "El usuario actual no fue encontrado en nuestro servidor.";
+        } else if (error == 500) {
+          this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        }
+      });
+    //Recoge la información extendida necesaria para la lista de evaluaciones
+    /* this._evaluacionService.getEvaluacionInfo(this.Project.id).subscribe(
+       res => {
+         this.ListaDeEvaluaciones = res;
+         this.CalcularPaginas();
+         this.paginacionLista(0);
+         this.Mostrar = true;
+       },
+       error => {
+          this.ErrorMessage = "Error en la base de datos, " + error;
+       });*/
   }
 
   //Este metodo devuelve el número de paginas máximo que hay
@@ -128,7 +128,7 @@ export class PreviousevaluationComponent implements OnInit {
   }
 
   //Este metodo devuelve la transforma la lista de evaluaciones dada en una lista paginada
-  public paginacionLista( pageNumber: number) {
+  public paginacionLista(pageNumber: number) {
     var Skip = pageNumber * 5;
     var ListaPaginada = new Array<EvaluacionInfo>();
     var contador = Skip;
@@ -140,37 +140,37 @@ export class PreviousevaluationComponent implements OnInit {
   }
 
   //Utiliza los datos del filtrado para realizar un filtrado en el array
- /* public Busqueda() {
-    var BuscaPersonalizada: Array<EvaluacionInfo> = this.ListaDeEvaluacionesPaginada;
-    this.CalcularPaginas();
-    //Si no filtra por completos o incompletos
-    if (this.FiltrarCompletados == null) {
-      BuscaPersonalizada = this.ListaDeEvaluacionesPaginada.filter(
-        x => x.fecha.includes(this.ListaDeEvaluacionesPaginada.fecha) &&
-          x.nombre.includes(this.ListaDeEvaluacionesPaginada.nombre) &&
-          x.userNombre.includes(this.ListaDeEvaluacionesPaginada.userNombre) &&
-          String(x.nRespuestas).includes(this.nrespuestas));
-    } else {
-      //Filtrando por completos
-      if (this.FiltrarCompletados) {
-        BuscaPersonalizada = this.ListaDeEvaluacionesPaginada.filter(
-          x => x.estado &&
-            x.fecha.includes(this.ListaDeEvaluacionesPaginada.fecha) &&
-            x.nombre.includes(this.ListaDeEvaluacionesPaginada.nombre) &&
-            x.userNombre.includes(this.ListaDeEvaluacionesPaginada.userNombre) &&
-            String(x.nRespuestas).includes(this.nrespuestas));
-      } else {
-        //Filtrando por incompletos
-        BuscaPersonalizada = this.ListaDeEvaluacionesPaginada.filter(
-          x => x.estado == false &&
-            x.fecha.includes(this.ListaDeEvaluacionesPaginada.fecha) &&
-            x.nombre.includes(this.ListaDeEvaluacionesPaginada.nombre) &&
-            x.userNombre.includes(this.ListaDeEvaluacionesPaginada.userNombre) &&
-            String(x.nRespuestas).includes(this.nrespuestas));
-      }
-    }
-    return BuscaPersonalizada;
-  }*/
+  /* public Busqueda() {
+     var BuscaPersonalizada: Array<EvaluacionInfo> = this.ListaDeEvaluacionesPaginada;
+     this.CalcularPaginas();
+     //Si no filtra por completos o incompletos
+     if (this.FiltrarCompletados == null) {
+       BuscaPersonalizada = this.ListaDeEvaluacionesPaginada.filter(
+         x => x.fecha.includes(this.ListaDeEvaluacionesPaginada.fecha) &&
+           x.nombre.includes(this.ListaDeEvaluacionesPaginada.nombre) &&
+           x.userNombre.includes(this.ListaDeEvaluacionesPaginada.userNombre) &&
+           String(x.nRespuestas).includes(this.nrespuestas));
+     } else {
+       //Filtrando por completos
+       if (this.FiltrarCompletados) {
+         BuscaPersonalizada = this.ListaDeEvaluacionesPaginada.filter(
+           x => x.estado &&
+             x.fecha.includes(this.ListaDeEvaluacionesPaginada.fecha) &&
+             x.nombre.includes(this.ListaDeEvaluacionesPaginada.nombre) &&
+             x.userNombre.includes(this.ListaDeEvaluacionesPaginada.userNombre) &&
+             String(x.nRespuestas).includes(this.nrespuestas));
+       } else {
+         //Filtrando por incompletos
+         BuscaPersonalizada = this.ListaDeEvaluacionesPaginada.filter(
+           x => x.estado == false &&
+             x.fecha.includes(this.ListaDeEvaluacionesPaginada.fecha) &&
+             x.nombre.includes(this.ListaDeEvaluacionesPaginada.nombre) &&
+             x.userNombre.includes(this.ListaDeEvaluacionesPaginada.userNombre) &&
+             String(x.nRespuestas).includes(this.nrespuestas));
+       }
+     }
+     return BuscaPersonalizada;
+   }*/
 
   //Guarda los datos en el storage y cambia de ruta hacia la generación de grafica
   public SaveDataToPDF(evaluacion: EvaluacionInfo) {
@@ -224,8 +224,8 @@ export class PreviousevaluationComponent implements OnInit {
       },
       error => {
         this.ErrorMessage = "Error en la base de datos, " + error;
-        });
-    
+      });
+
   }
 
 }

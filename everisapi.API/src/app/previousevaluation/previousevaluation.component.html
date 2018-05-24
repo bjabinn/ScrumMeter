@@ -101,9 +101,9 @@
               <td>{{evaluacion.nombre}}</td>
               <td>{{evaluacion.userNombre}}</td>
               <td>{{evaluacion.nRespuestas}}/{{evaluacion.nPreguntas}}</td>
-              <td *ngIf="evaluacion.estado"><img class="icons" src="../../assets/check.png" /></td>
-              <td *ngIf="!evaluacion.estado"><img class="icons" src="../../assets/warning.png" /></td>
-              <td><button type="button" class="btnpdf" (click)="SaveDataToPDF(evaluacion)">VER GRAFICA <span class="glyphicon glyphicon-save-file"><img class="icons2" src="../../assets/pdfgenerate.png" /></span></button></td>
+              <td *ngIf="evaluacion.estado"><img class="icons" src="assets/check.png" /></td>
+              <td *ngIf="!evaluacion.estado"><img class="icons" src="assets/warning.png" /></td>
+              <td><button type="button" class="btnpdf" (click)="SaveDataToPDF(evaluacion)">VER GRAFICA <span class="glyphicon glyphicon-save-file"><img class="icons2" src="assets/pdfgenerate.png" /></span></button></td>
             </tr>
             <tr *ngIf="Mostrar && ListaDeEvaluacionesPaginada.length == 0">
               <td colspan="6">

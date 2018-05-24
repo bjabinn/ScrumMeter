@@ -6,7 +6,6 @@ import { SectionInfo } from 'app/Models/SectionInfo';
 import { AppComponent } from 'app/app.component';
 import { Router } from '@angular/router';
 import { SectionService } from 'app/services/SectionService';
-import { LoadingComponent } from '../loading/loading.component';
 import { DatePipe } from '@angular/common';
 import { ProyectoService } from 'app/services/ProyectoService';
 
@@ -24,7 +23,7 @@ export class PdfgeneratorComponent implements OnInit {
   public ListaDeDatos: Array<SectionInfo> = [];
   public UserName: string = "";
   public Project: Proyecto = null;
-  public Evaluacion: EvaluacionInfo = null;
+  public Evaluacion: EvaluacionInfo = { id: null, nombre: '', estado: null, fecha: null, nPreguntas: null, nRespuestas: null, userNombre: '' };
   public Mostrar = false;
   //Datos de la barras
   public barChartType: string = 'bar';
@@ -32,7 +31,6 @@ export class PdfgeneratorComponent implements OnInit {
   public ListaNPreguntas: number[] = [];
   public ListaNRespuestas: number[] = [];
   public ListaNombres: string[] = [];
-  public valueResponsive: boolean = true;
 
   //Datos para pdf
   @ViewChild('content') content: ElementRef;
@@ -112,8 +110,8 @@ export class PdfgeneratorComponent implements OnInit {
 
   //Datos para la grafica
   public barChartOptions: any = {
-    scaleShowVerticalLines: true,
-    responsive: this.valueResponsive
+     scaleShowVerticalLines: true,
+     responsive: true
   };
 
   //Estos son los datos introducidos en la grafica para que represente sus formas
@@ -130,13 +128,15 @@ export class PdfgeneratorComponent implements OnInit {
   //Mediante css eliminamos los componentes que no deseamos
   public downloadPDF() {
     var date = this.datePipe.transform(this.Evaluacion.fecha, 'MM-dd-yyyy');
+    var nombre = this.Evaluacion.nombre;
     /*document.title = this.Evaluacion.nombre + date + "ScrumMeter";
     window.print();*/
     html2canvas(document.getElementById("printcanvas")).then(function (canvas) {
       var img = canvas.toDataURL("image/png");
       var doc = new jsPDF();
       doc.addImage(img, 'JPEG', 0, 20, 220, 150);
-      doc.save(this.Evaluacion.nombre + date + 'ScrumMeter.pdf');
+      var title = nombre + '.' + date + '.' + 'ScrumMeter.pdf';
+      doc.save(title);
     });
 
   }

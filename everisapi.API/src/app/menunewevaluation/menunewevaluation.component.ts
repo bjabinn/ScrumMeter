@@ -6,11 +6,9 @@ import { AppComponent } from '../app.component';
 import { Section } from 'app/Models/Section';
 import { Router } from "@angular/router";
 import { Proyecto } from 'app/Models/Proyecto';
-import { async } from '@angular/core/testing';
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { SectionInfo } from 'app/Models/SectionInfo';
-import { LoadingComponent } from '../loading/loading.component';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'; 
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-menunewevaluation',
@@ -39,8 +37,7 @@ export class MenunewevaluationComponent implements OnInit {
     private _router: Router,
     private _evaluacionService: EvaluacionService,
     private _appComponent: AppComponent,
-    private modalService: NgbModal)
-  {
+    private modalService: NgbModal) {
     this.ScreenWidth = window.innerWidth;
   }
 
@@ -75,11 +72,11 @@ export class MenunewevaluationComponent implements OnInit {
   }
 
   //Calcula el total de las ceremonias que llevamos completadas de forma dinamica
-  public CalcularPorcentaje(preguntasRespondidas:number, totalPreguntas:number){
+  public CalcularPorcentaje(preguntasRespondidas: number, totalPreguntas: number) {
     //Calculamos el porcentaje de las preguntas respondidas a partir del total
-    var Total= (preguntasRespondidas/totalPreguntas)*100;
+    var Total = (preguntasRespondidas / totalPreguntas) * 100;
     //Redondeamos el porcentaje obtenido y lo devolvemos
-    return Math.round(Total*10)/10;
+    return Math.round(Total * 10) / 10;
   }
 
   //Permite refirigir y guardar la id de la sección seleccionada
@@ -96,7 +93,7 @@ export class MenunewevaluationComponent implements OnInit {
         this._router.navigate(['/home']);
       },
       error => {
-       this.ErrorMessage = "Error en la base de datos, " + error;
+        this.ErrorMessage = "Error en la base de datos, " + error;
       });
   }
 
@@ -117,35 +114,35 @@ export class MenunewevaluationComponent implements OnInit {
       })
   }
 
-/*
-  //Metodo de prueba para probar el dinamismo del componente
-  public ProbarDinamico(Opcion:boolean){
-    if(Opcion){
-        if(this.preguntasRespondidasArtefactos<this.numeroPreguntasArtefactos){
-            this.preguntasRespondidasArtefactos++;
-        }
-
-        if(this.preguntasRespondidasCeremonias< this.numeroPreguntasCeremonias){
-            this.preguntasRespondidasCeremonias++;
-        }
-
-        if(this.preguntasRespondidasRoles< this.numeroPreguntasRoles){
-            this.preguntasRespondidasRoles++;
-        }
-    }else{
-        if(this.preguntasRespondidasArtefactos>0){
-            this.preguntasRespondidasArtefactos--;
-        }
-
-        if(this.preguntasRespondidasCeremonias>0){
-            this.preguntasRespondidasCeremonias--;
-        }
-
-        if(this.preguntasRespondidasRoles>0){
-            this.preguntasRespondidasRoles--;
-        }
+  /*
+    //Metodo de prueba para probar el dinamismo del componente
+    public ProbarDinamico(Opcion:boolean){
+      if(Opcion){
+          if(this.preguntasRespondidasArtefactos<this.numeroPreguntasArtefactos){
+              this.preguntasRespondidasArtefactos++;
+          }
+  
+          if(this.preguntasRespondidasCeremonias< this.numeroPreguntasCeremonias){
+              this.preguntasRespondidasCeremonias++;
+          }
+  
+          if(this.preguntasRespondidasRoles< this.numeroPreguntasRoles){
+              this.preguntasRespondidasRoles++;
+          }
+      }else{
+          if(this.preguntasRespondidasArtefactos>0){
+              this.preguntasRespondidasArtefactos--;
+          }
+  
+          if(this.preguntasRespondidasCeremonias>0){
+              this.preguntasRespondidasCeremonias--;
+          }
+  
+          if(this.preguntasRespondidasRoles>0){
+              this.preguntasRespondidasRoles--;
+          }
+      }
     }
-  }
-*/
- 
+  */
+
 }
