@@ -52,7 +52,7 @@ export class RespuestasService {
       'Content-Type': 'application/json'
     });
 
-    return this._http.put(this.url + 'respuestas/update', params, { headers: headers })
+    return this._http.put(this.url + 'respuestas/update/', params, { headers: headers })
       .map(res => res);
   }
 

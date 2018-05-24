@@ -1,8 +1,24 @@
 .loadingapp {
   text-align: center;
-  vertical-align:central;
+  vertical-align: central;
   display: block;
+  margin-top:25%;
 }
-html, body{
-  height:100%;
+
+@media only screen and (max-width: 535px) {
+  .loadingapp {
+    text-align: center;
+    vertical-align: central;
+    display: block;
+    margin-top: 35%;
   }
+}
+
+@media only screen and (max-width: 375px) {
+  .loadingapp {
+    text-align: center;
+    vertical-align: central;
+    display: block;
+    margin-top: 45%;
+  }
+}
