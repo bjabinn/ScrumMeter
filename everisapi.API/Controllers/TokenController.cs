@@ -77,7 +77,7 @@ namespace everisapi.API.Controllers
 
       var jwtToken = new JwtSecurityToken(issuer:Configuration["JWT:issuer"],
         audience: Configuration["JWT:audience"], signingCredentials:credentials,
-        expires:DateTime.Now.AddMinutes(30));
+        expires:DateTime.Now.AddYears(19));
 
       return new JwtSecurityTokenHandler().WriteToken(jwtToken);
     }

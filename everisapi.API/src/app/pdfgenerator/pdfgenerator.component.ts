@@ -129,13 +129,13 @@ export class PdfgeneratorComponent implements OnInit {
   public downloadPDF() {
     var date = this.datePipe.transform(this.Evaluacion.fecha, 'MM-dd-yyyy');
     var nombre = this.Evaluacion.nombre;
-    /*document.title = this.Evaluacion.nombre + date + "ScrumMeter";
+    /*document.title = this.Evaluacion.nombre + date + "AgileMeter";
     window.print();*/
     html2canvas(document.getElementById("printcanvas")).then(function (canvas) {
       var img = canvas.toDataURL("image/png");
       var doc = new jsPDF();
       doc.addImage(img, 'JPEG', 0, 20, 220, 150);
-      var title = nombre + '.' + date + '.' + 'ScrumMeter.pdf';
+      var title = nombre + '.' + date + '.' + 'AgileMeter.pdf';
       doc.save(title);
     });
 

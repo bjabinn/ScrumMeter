@@ -1,10 +1,10 @@
-import { ScrumMeterPage } from './app.po';
+import { AgileMeterPage } from './app.po';
 
 describe('scrum-meter App', function() {
-  let page: ScrumMeterPage;
+  let page: AgileMeterPage;
 
   beforeEach(() => {
-    page = new ScrumMeterPage();
+    page = new AgileMeterPage();
   });
 
   it('should display message saying app works', () => {
