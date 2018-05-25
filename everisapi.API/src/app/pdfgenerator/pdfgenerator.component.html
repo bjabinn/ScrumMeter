@@ -1,4 +1,10 @@
 
+<div class="espacio">
+  <div *ngIf="(ErrorMessage != null || ErrorMessage != undefined )" class="alert alert-danger" id="danger">
+    <strong>{{ErrorMessage}}</strong>
+  </div>
+</div>
+
 <div *ngIf="Mostrar">
   <br />
 

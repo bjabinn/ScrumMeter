@@ -28,7 +28,6 @@ export class RequestInterceptorService implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
-    console.log("hola")
     return next.handle(this.addToken(req, this._appComponent._storageDataService.GetToken()))
       .catch(error => {
         if (error instanceof HttpErrorResponse) {

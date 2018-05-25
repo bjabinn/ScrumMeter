@@ -97,20 +97,4 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  /*public Prueba(){
-      this._userService.getUsers().subscribe(
-          res => {
-              if(!res){
-                  console.log("No hay usuarios")
-              }else{
-                  console.log("Usuarios encontrados: "+res);
-              }
-          },
-          error => {
-              console.log("Lo sentimos ocurrio un error en al realizar la petición.");
-
-          }	
-      );
-  }*/
-
 }

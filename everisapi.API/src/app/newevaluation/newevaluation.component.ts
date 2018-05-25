@@ -67,11 +67,19 @@ export class NewevaluationComponent implements OnInit {
             this.getAsignacionActual(this.Evaluation.id, this.ListaAsignaciones[0].id);
             this.Deshabilitar = false;
           } else {
-            //console.log("Esto esta muy vacio");
+            this.ErrorMessage = "No se encontraron datos para esta sección.";
           }
         },
         error => {
-          this.ErrorMessage = "Error en la base de datos, " + error;
+          if (error == 404) {
+            this.ErrorMessage = "Error: ", error, " No se pudo acceder a la información de esta evaluación.";
+          } else if (error == 500) {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          } else {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          }
         }
       );
     } else {
@@ -91,11 +99,19 @@ export class NewevaluationComponent implements OnInit {
           this.InfoAsignacion = res;
           this.Deshabilitar = false;
         } else {
-          console.log("Esto esta muy vacio");
+          this.ErrorMessage = "No se encontraron datos para esta asignación.";
         }
       },
       error => {
-        this.ErrorMessage = "Error en la base de datos, " + error;
+        if (error == 404) {
+          this.ErrorMessage = "Error: ", error, "No se pudo acceder a los datos de esta asignación.";
+        } else if (error == 500) {
+          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        } else if (error == 401) {
+          this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+        } else {
+          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        }
       }
     );
   }
@@ -111,7 +127,15 @@ export class NewevaluationComponent implements OnInit {
           //console.log("Cambio realizado");
         },
         error => {
-          this.ErrorMessage = "Error en la base de datos, " + error;
+          if (error == 404) {
+            this.ErrorMessage = "Error: ", error, "No pudimos realizar la actualización de la respuesta, lo sentimos.";
+          } else if (error == 500) {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          } else {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          }
         });
     } else {
       this.InfoAsignacion.preguntas[idarray].respuesta.estado = true;
@@ -121,7 +145,15 @@ export class NewevaluationComponent implements OnInit {
           //console.log("Cambio realizado");
         },
         error => {
-          this.ErrorMessage = "Error en la base de datos, " + error;
+          if (error == 404) {
+            this.ErrorMessage = "Error: ", error, "No pudimos realizar la actualización de la respuesta, lo sentimos.";
+          } else if (error == 500) {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          } else {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          }
         });
     }
   }

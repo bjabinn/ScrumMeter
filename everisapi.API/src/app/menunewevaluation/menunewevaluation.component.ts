@@ -63,7 +63,15 @@ export class MenunewevaluationComponent implements OnInit {
           this.ListaDeDatos = res;
         },
         error => {
-          this.ErrorMessage = "Error en la base de datos, " + error;
+          if (error == 404) {
+            this.ErrorMessage = "Error: ", error, " No pudimos encontrar información de las secciones para esta evaluación.";
+          } else if (error == 500) {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          } else {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          }
         }
       );
     } else {
@@ -93,7 +101,15 @@ export class MenunewevaluationComponent implements OnInit {
         this._router.navigate(['/home']);
       },
       error => {
-        this.ErrorMessage = "Error en la base de datos, " + error;
+        if (error == 404) {
+          this.ErrorMessage = "Error: ", error, " No se pudo completar la actualización para esta evaluación.";
+        } else if (error == 500) {
+          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        } else if (error == 401) {
+          this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+        } else {
+          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        }
       });
   }
 
@@ -113,36 +129,4 @@ export class MenunewevaluationComponent implements OnInit {
 
       })
   }
-
-  /*
-    //Metodo de prueba para probar el dinamismo del componente
-    public ProbarDinamico(Opcion:boolean){
-      if(Opcion){
-          if(this.preguntasRespondidasArtefactos<this.numeroPreguntasArtefactos){
-              this.preguntasRespondidasArtefactos++;
-          }
-  
-          if(this.preguntasRespondidasCeremonias< this.numeroPreguntasCeremonias){
-              this.preguntasRespondidasCeremonias++;
-          }
-  
-          if(this.preguntasRespondidasRoles< this.numeroPreguntasRoles){
-              this.preguntasRespondidasRoles++;
-          }
-      }else{
-          if(this.preguntasRespondidasArtefactos>0){
-              this.preguntasRespondidasArtefactos--;
-          }
-  
-          if(this.preguntasRespondidasCeremonias>0){
-              this.preguntasRespondidasCeremonias--;
-          }
-  
-          if(this.preguntasRespondidasRoles>0){
-              this.preguntasRespondidasRoles--;
-          }
-      }
-    }
-  */
-
 }

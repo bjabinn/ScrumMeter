@@ -82,22 +82,15 @@ export class PreviousevaluationComponent implements OnInit {
       error => {
         //Si el servidor tiene algún tipo de problema mostraremos este error
         if (error == 404) {
-          this.ErrorMessage = "El usuario actual no fue encontrado en nuestro servidor.";
+          this.ErrorMessage = "Error: ", error, "No pudimos recoger los datos del usuario.";
         } else if (error == 500) {
-          this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        } else if (error == 401) {
+          this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+        } else {
+          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         }
       });
-    //Recoge la información extendida necesaria para la lista de evaluaciones
-    /* this._evaluacionService.getEvaluacionInfo(this.Project.id).subscribe(
-       res => {
-         this.ListaDeEvaluaciones = res;
-         this.CalcularPaginas();
-         this.paginacionLista(0);
-         this.Mostrar = true;
-       },
-       error => {
-          this.ErrorMessage = "Error en la base de datos, " + error;
-       });*/
   }
 
   //Este metodo devuelve el número de paginas máximo que hay
@@ -223,7 +216,15 @@ export class PreviousevaluationComponent implements OnInit {
         this.Mostrar = true;
       },
       error => {
-        this.ErrorMessage = "Error en la base de datos, " + error;
+        if (error == 404) {
+          this.ErrorMessage = "Error: ", error, " No pudimos recoger la información de las evaluaciones, lo sentimos.";
+        } else if (error == 500) {
+          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        } else if (error == 401) {
+          this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+        } else {
+          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        }
       });
 
   }

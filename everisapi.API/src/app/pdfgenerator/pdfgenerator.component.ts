@@ -25,6 +25,7 @@ export class PdfgeneratorComponent implements OnInit {
   public Project: Proyecto = null;
   public Evaluacion: EvaluacionInfo = { id: null, nombre: '', estado: null, fecha: null, nPreguntas: null, nRespuestas: null, userNombre: '' };
   public Mostrar = false;
+  public ErrorMessage = null;
   //Datos de la barras
   public barChartType: string = 'bar';
   public barChartLegend: boolean = true;
@@ -85,7 +86,15 @@ export class PdfgeneratorComponent implements OnInit {
           this.shareDataToChart();
         },
         error => {
-          console.log("Error al recoger los datos.")
+          if (error == 404) {
+            this.ErrorMessage = "Error: ", error, "No pudimos recoger los datos de la sección lo sentimos.";
+          } else if (error == 500) {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          } else {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          }
         }
       );
     } else {

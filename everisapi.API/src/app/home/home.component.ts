@@ -66,11 +66,13 @@ export class HomeComponent implements OnInit {
       error => {
         //Si el servidor tiene algún tipo de problema mostraremos este error
         if (error == 404) {
-          this.ErrorMessage = "El usuario autenticado no existe.";
+          this.ErrorMessage = "Error: ", error, " El usuario autenticado no existe.";
         } else if (error == 500) {
-          this.ErrorMessage = "Error: ", error, "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        } else if (error == 401) {
+          this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
         } else {
-          this.ErrorMessage = "Error: ", error, "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         }
       });
   }
@@ -90,9 +92,11 @@ export class HomeComponent implements OnInit {
         error => {
           //Si el servidor tiene algún tipo de problema mostraremos este error
           if (error == 404) {
-            this.ErrorMessage = "El usuario autenticado no existe.";
+            this.ErrorMessage = "Error: ", error, " El usuario o proyecto autenticado no existe.";
           } else if (error == 500) {
-            this.ErrorMessage = "Error: ", error, "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
           } else {
             this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
@@ -106,11 +110,13 @@ export class HomeComponent implements OnInit {
         error => {
           //Si el servidor tiene algún tipo de problema mostraremos este error
           if (error == 404) {
-            this.ErrorMessage = "El usuario autenticado no existe.";
+            this.ErrorMessage = "Error: ", error, " El usuario o proyecto autenticado no existe.";
           } else if (error == 500) {
-            this.ErrorMessage = "Error: ", error, "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
           } else {
-            this.ErrorMessage = "Error: ", error, "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
         });
 
@@ -122,11 +128,13 @@ export class HomeComponent implements OnInit {
         error => {
           //Si el servidor tiene algún tipo de problema mostraremos este error
           if (error == 404) {
-            this.ErrorMessage = "El usuario autenticado no existe.";
+            this.ErrorMessage = "Error: ", error, " El usuario o proyecto autenticado no existe.";
           } else if (error == 500) {
-            this.ErrorMessage = "Error: ", error, "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
           } else {
-            this.ErrorMessage = "Error: ", error, "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
         });
     }
@@ -149,7 +157,15 @@ export class HomeComponent implements OnInit {
         this._router.navigate(['/menunuevaevaluacion']);
       },
       error => {
-        this.ErrorMessage = "Error al guardar la evaluación, " + error;
+        if (error == 404) {
+          this.ErrorMessage = "Error: ", error, " La petición de crear una evaluación es incorrecta.";
+        } else if (error == 500) {
+          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        } else if (error == 401) {
+          this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+        } else {
+          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        }
         this.SendingInfo = false;
       });
   }
@@ -179,57 +195,78 @@ export class HomeComponent implements OnInit {
         this.SendingInfo = false;
       },
       error => {
-        this.ErrorMessage = "Error al actualizar la base de datos, " + error;
+        if (error == 404) {
+          this.ErrorMessage = "Error: ", error, " La petición de modificación de evaluación no puede ser realizada.";
+        } else if (error == 500) {
+          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        } else if (error == 401) {
+          this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+        } else {
+          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        }
         this.SendingInfo = false;
       });
   }
 
   //Muestra un modal con lo que se debe hacer en cada caso
   showModal(content) {
-    //Comprueba si ya termino de enviarse la información desde la api
-    if (!this.SendingInfo) {
-      this.SendingInfo = true;
-      //Deshabilito la parte de atras del modal
-      this.Deshabilitar = true;
-      //Comprueba si existe un proyecto seleccionado
-      if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
-        this._evaluacionService.getIncompleteEvaluacionFromProject(this.ProyectoSeleccionado.id).subscribe(
-          res => {
-            //Habilitamos la pagina nuevamente
-            this.Deshabilitar = false;
-            //Si hay un proyecto sin finalizar muestra un modal y deja seleccionar
-            if (res != null) {
-              this.modalService.open(content).result.then(
-                (closeResult) => {
-                  this.SendingInfo = false;
-                }, (dismissReason) => {
-                  //Lo guarda en el storage
-                  this._appComponent._storageDataService.Evaluacion = res;
-                  //Si selecciona continuar cargara la valuación que no termino
-                  if (dismissReason == 'Continuar') {
+    //Comprueba que no esta vacia el proyecto elegido
+    if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
+      //Comprueba si ya termino de enviarse la información desde la api
+      if (!this.SendingInfo) {
+        this.SendingInfo = true;
+        //Deshabilito la parte de atras del modal
+        this.Deshabilitar = true;
+        //Comprueba si existe un proyecto seleccionado
+        if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
+          this._evaluacionService.getIncompleteEvaluacionFromProject(this.ProyectoSeleccionado.id).subscribe(
+            res => {
+              //Habilitamos la pagina nuevamente
+              this.Deshabilitar = false;
+              //Si hay un proyecto sin finalizar muestra un modal y deja seleccionar
+              if (res != null) {
+                this.modalService.open(content).result.then(
+                  (closeResult) => {
                     this.SendingInfo = false;
-                    this._router.navigate(['/menunuevaevaluacion']);
-                  } else if (dismissReason == 'Nueva') {
-                    //Si selecciona nuevo que es la otra opción cogera la evaluación anterior lo finalizara
-                    //cargara una nueva y lo mostrara
-                    this.FinishEvaluation();
-                  } else {
-                    this.SendingInfo = false;
-                  }
-                })
-            } else {
-              //Si no encuentra ninguna repetida directamente te crea una nueva evaluación
-              this.GuardarEvaluacion();
-            }
-          },
-          error => {
-            //Habilitamos la pagina nuevamente
-            this.Deshabilitar = false;
-            this.ErrorMessage = "Error en la base de datos, " + error;
-          });
-      } else {
-        this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
+                  }, (dismissReason) => {
+                    //Lo guarda en el storage
+                    this._appComponent._storageDataService.Evaluacion = res;
+                    //Si selecciona continuar cargara la valuación que no termino
+                    if (dismissReason == 'Continuar') {
+                      this.SendingInfo = false;
+                      this._router.navigate(['/menunuevaevaluacion']);
+                    } else if (dismissReason == 'Nueva') {
+                      //Si selecciona nuevo que es la otra opción cogera la evaluación anterior lo finalizara
+                      //cargara una nueva y lo mostrara
+                      this.FinishEvaluation();
+                    } else {
+                      this.SendingInfo = false;
+                    }
+                  })
+              } else {
+                //Si no encuentra ninguna repetida directamente te crea una nueva evaluación
+                this.GuardarEvaluacion();
+              }
+            },
+            error => {
+              //Habilitamos la pagina nuevamente
+              this.Deshabilitar = false;
+              if (error == 404) {
+                this.ErrorMessage = "Error: ", error, " No se puede completar la comprobación en la evaluación lo sentimos.";
+              } else if (error == 500) {
+                this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              } else if (error == 401) {
+                this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+              } else {
+                this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              }
+            });
+        } else {
+          this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
+        }
       }
+    } else {
+      this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
     }
   }
 }

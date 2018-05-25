@@ -76,9 +76,9 @@ namespace everisapi.API
         AsignacionInfoContext asignacionInfoContext)
     {
       //Registra eventos en la consola
-      loggerFactory.AddConsole();
+      //loggerFactory.AddConsole();
 
-      loggerFactory.AddDebug();
+      //loggerFactory.AddDebug();
 
       if (env.IsDevelopment())
       {
