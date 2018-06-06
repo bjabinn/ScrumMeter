@@ -33,8 +33,8 @@
         <button type="button" class="btn btn-outline-success btn-lg btn-block" id="infopro" (click)="RedirectToAsignaciones(dato)">
           <strong>{{dato.nombre}}  </strong>
           <span *ngIf="ScreenWidth <= 576">
-            <img class="icon" *ngIf="dato.respuestas!=dato.preguntas && dato.respuestas>0" src="/assets/green_no.png" alt="No compleado">
-            <img class="icon" *ngIf="dato.respuestas==dato.preguntas" src="/assets/green_si.png" alt="Compleado">
+            <img class="icon" *ngIf="dato.respuestas!=dato.preguntas && dato.respuestas>0" src="assets/green_no.png" alt="No compleado">
+            <img class="icon" *ngIf="dato.respuestas==dato.preguntas" src="assets/green_si.png" alt="Compleado">
           </span>
         </button>
 
@@ -46,8 +46,8 @@
         <span class="title"> {{dato.respuestas}} de {{dato.preguntas}} </span>
       </div>
       <div class="col-xs-12 col-sm-3 col-md-3" id="barraespacio" *ngIf="ScreenWidth >= 576">
-        <img class="icon" *ngIf="dato.respuestas!=dato.preguntas && dato.respuestas>0" src="/assets/green_no.png" alt="No compleado">
-        <img class="icon" *ngIf="dato.respuestas==dato.preguntas" src="/assets/green_si.png" alt="Compleado">
+        <img class="icon" *ngIf="dato.respuestas!=dato.preguntas && dato.respuestas>0" src="assets/green_no.png" alt="No compleado">
+        <img class="icon" *ngIf="dato.respuestas==dato.preguntas" src="assets/green_si.png" alt="Compleado">
       </div>
       <br />
     </div>
