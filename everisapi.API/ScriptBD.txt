@@ -6,119 +6,138 @@ INSERT INTO `asignaciones`( `Nombre`, `SectionId`) VALUES ("Product Backlog", 3)
 
 /*PREGUNTAS*/
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES 
-( 1 , '¿Se realiza la daily?'), 
-( 1 , '¿El equipo completo participa?'), 
-( 1 , '¿El PO participa al menos una/dos veces por semana?'), 
-( 1 , '¿Se emplean como máximo 15 min?'), 
-( 1 , '¿Se mencionan los problemas e impedimentos?'), 
-( 1 , '¿Salen los miembros del equipo alineados con el objetivo?');
+INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES
+( 1 , '¿Se realiza la daily?'),
+( 1 , '¿El equipo completo participa?'),
+( 1 , '¿Se emplean como máximo 15 min?'),
+( 1 , '¿Se mencionan los problemas e impedimentos?'),
+( 1 , '¿Se revisan en cada daily los objetivos del Sprint?'),
+( 1 , '¿Se realiza siempre a la misma hora y lugar?'),
+( 1 , '¿Participa gente que no pertenece al equipo?');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES 
-( 2 , '¿Se realiza la Retrospective al final de cada sprint?'), 
-( 2 , '¿Se plantean propuestas SMART?'), 
-( 2 , '¿Se implementan las propuestas?'), 
-( 2 , '¿Equipo al completo más PO participan?');
+INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES
+( 2 , '¿Se realiza la Retrospective al final de cada sprint?'),
+( 2 , '¿Se plantean propuestas SMART?'),
+( 2 , '¿Se implementan las propuestas?'),
+( 2 , '¿Equipo al completo más PO participan?'),
+( 2 , '¿Se analizan los problemas en profundidad?'),
+( 2 , '¿Participa gente que no pertenece al equipo?'),
+( 2 , '¿Todo el equipo expresa su punto de vista?'),
+( 2 , '¿Se analizan las métricas y su impacto durante la retro?');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES 
-( 3 , '¿Se realiza la Sprint Review al final de cada sprint?'), 
-( 3 , '¿Se muestra software funcionando y probado?'), 
-( 3 , '¿Se recibe feedback de interesados y PO?')
-;
+INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES
+( 3 , '¿Se realiza la Sprint Review al final de cada sprint?'),
+( 3 , '¿Se muestra software funcionando y probado?'),
+( 3 , '¿Se recibe feedback de interesados y PO?'),
+( 3 , '¿Se mencionan los items inacabados?'),
+( 3 , '¿Se revisa si se ha alcanzado el objetivo del Sprint?'),
+( 3 , '¿Se muestran los items acabados al 99%?');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES 
-( 4 , '¿Se realiza Sprint Planning por cada Sprint?'), 
-( 4 , '¿El PO está disponible para dudas?'), 
-( 4 , '¿Está el PB preparado para el Sprint Planning?'), 
-( 4 , '¿El equipo completo participa?'), 
-( 4 , '¿El resultado de la sesión es el plan del Sprint?'), 
-( 4 , '¿El equipo completo cree que el plan es alcanzable?'), 
-( 4 , '¿El PO queda satisfecho con las prioridades?'), 
-( 4 , '¿Los PBI se dividen en tareas?'), 
+INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES
+( 4 , '¿Se realiza Sprint Planning por cada Sprint?'),
+( 4 , '¿El PO está disponible para dudas?'),
+( 4 , '¿Está el PB preparado para el Sprint Planning?'),
+( 4 , '¿El equipo completo participa?'),
+( 4 , '¿El resultado de la sesión es el plan del Sprint?'),
+( 4 , '¿El equipo completo cree que el plan es alcanzable?'),
+( 4 , '¿El PO queda satisfecho con las prioridades?'),
+( 4 , '¿Los PBI se dividen en tareas?'),
 ( 4 , '¿Las tareas son estimadas?'),
-( 4, '¿Se revisan las estimaciones diariamente?' )
-;
+( 4 , '¿Se adquiere un compromiso por parte del equipo?'); 
+
+INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES
+( 5 , '¿Se realiza Refinement?'),
+( 5 , '¿Es el PO quien decide cuando se hace un refinement?'),
+( 5 , '¿El PO lleva las US definidas para discutir?'),
+( 5 , '¿Se estima en tamaño relativo?'),
+( 5 , '¿Existe DoR?'),
+( 5 , '¿Se aplica DoR?'),
+( 5 , '¿Se realizan preguntas y propuestas?'),
+( 5 , '¿Participa todo el equipo?'),
+( 5 , '¿Participa en la estimación personas ajenas al equipo?');
+
+INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES
+( 6 , '¿Existe el rol de PO en el equipo?'),
+( 6 , '¿El PO tiene poder para priorizar los elementos del PB?'),
+( 6 , '¿El PO tiene el conocimiento suficiente para priorizar?'),
+( 6 , '¿El PO tiene contacto directo con el equipo?'),
+( 6 , '¿El PO tiene contacto directo con los interesados?'),
+( 6 , '¿El PO tiene voz única (Si es equipo, solo hay una opinión)?'),
+( 6 , '¿El PO tiene la visión del producto?'),
+( 6 , '¿El PO hace otras labores (codificar por ejemplo)?'),
+( 6 , '¿El PO toma decisiones técnicas?');
 
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES 
-( 5 , '¿El PO lleva las US definidas para discutir?'), 
-( 5 , '¿Se estima en tamaño relativo?'), 
-( 5 , '¿Existe DoR?')
-;
+INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES
+( 7, '¿Existe el rol de SM en el equipo?'),
+( 7, '¿El SM se sienta con el equipo?'),
+( 7, '¿El SM se enfoca en la resolución de impedimentos?'),
+( 7, '¿El SM escala los impedimentos?'),
+( 7, '¿El SM hace otras labores (codificar/analizar por ejemplo)?'),
+( 7, '¿El SM toma decisiones técnicas o de negocio?'),
+( 7, '¿El SM ayuda/guía al PO para realizar correctamente su trabajo?'),
+( 7, '¿El SM empodera al equipo?'),
+( 7, '¿El SM asume la responsabilidad si el equipo falla?'),
+( 7, '¿El SM permite que el equipo experimente y se equivoque?'),
+( 7, '¿Los líderes o managers de la organización conocen y/o comparten los principios ágiles?');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES 
-( 6 , '¿Existe el rol de PO en el equipo?'), 
-( 6 , '¿El PO tiene poder para priorizar los elementos del PB?'), 
-( 6 , '¿El PO tiene el conocimiento suficiente para priorizar?'), 
-( 6 , '¿El PO tiene contacto directo con el equipo?'), 
-( 6 , '¿El PO tiene contacto directo con los interesados?'), 
-( 6 , '¿El PO tiene voz única (Si es equipo, solo hay una opinión)?'), 
-( 6 , '¿El PO tiene la visión del producto?')
-;
+INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES
+( 8 , '¿El equipo tiene todas las habilidades necesarias?'),
+( 8 , '¿Existen miembros del equipo encasillados, no conociendo absolutamente nada de otras áreas?'),
+( 8 , '¿Los miembros del equipo se sientan juntos?'),
+( 8 , '¿Hay com máximo 9 personas por equipo?'),
+( 8 , '¿Hay algún miembro del equipo que odie Scrum?'),
+( 8 , '¿Hay algún miembro del equipo profundamente desmotivado?'),
+( 8 , '¿Tiene el equipo un drag factor interiorizado, planificado y consensuado con los stakeholders?'),
+( 8 , '¿Se realizan reuniones adicionales que estén fuera del framework de Scrum?'),
+( 8 , '¿El equipo usa o dispone de herramientas para organizar sus tareas?');
 
+INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES
+( 9 , '¿Existe PB?'),
+( 9 , '¿EL PB es visible y refleja la visión del producto?'),
+( 9 , '¿Los PBI se priorizan por su valor de negocio?'),
+( 9 , '¿Los PBI se estiman?'),
+( 9 , '¿El equipo completo es quien realiza las estimaciones?'),
+( 9 , '¿Los PBI son tan pequeños como para abordarse en un Sprint?'),
+( 9 , '¿El PO entiende el propósito de todos los PBI?');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES 
-( 7, '¿Existe el rol de SM en el equipo?'), 
-( 7, '¿El SM se sienta con el equipo?'), 
-( 7, '¿El SM se enfoca en la resolución de impedimentos?'), 
-( 7, '¿El SM escala los impedimentos?')
-;
+INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES
+( 10 , '¿Existe SB?'),
+( 10 , '¿El SB es visible y refleja el compromiso para el Sprint?'),
+( 10 , '¿El SB se actualiza diariamente?'),
+( 10 , '¿El SB es propiedad exclusiva del equipo?');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES 
-( 8 , '¿El equipo tiene todas las habilidades necesarias?'), 
-( 8 , '¿Existen meimbros del equipo que no están encasillados?'), 
-( 8 , '¿Los miembros del equipo se sientan juntos?'), 
-( 8 , '¿Hay com máximo 9 personas por equipo?')
-;
+INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES
+( 11 , '¿Existe DoD?'),
+( 11 , '¿El DoD es alcanzable dentro de cada iteración?'),
+( 11 , '¿El equipo respeta el DoD?'),
+( 11 , '¿El Software entregado tiene calidad para subirse a producción si el negocio así lo pidiera?'),
+( 11 , '¿Se actualiza el DoD?'),
+( 11 , '¿Tanto PO como equipo están de acuerdo con el DoD?');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES 
-( 9 , '¿Existe PB?'), 
-( 9 , '¿EL PB es visible y refleja la visión del producto?'), 
-( 9 , '¿Es el PO el que rellena los items del PB?'), 
-( 9 , '¿Los PBI se priorizan por su valor de negocio?'), 
-( 9 , '¿Los PBI se estiman?'), 
-( 9 , '¿El equipo completo es quien realiza las estimaciones?'), 
-( 9 , '¿Los PBI son tan pequeños como para abordarse en un Sprint?'), 
-( 9 , '¿El PO entiende el propósito de todos los PBI?')
-;
+INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES
+( 12 , '¿Existe iteraciones de tiempo fijo?'),
+( 12 , '¿La longitud de las iteraciones está entre 2-4 semanas?'),
+( 12 , '¿Siempre terminan a tiempo?'),
+( 12 , '¿El equipo es interrumpido durante una iteración?'),
+( 12 , '¿El equipo normalmente entrega lo que comprometió?'),
+( 12 , '¿Se ha cancelado alguna iteración que ha sido un fracaso?');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES 
-( 10 , '¿Existe SB?'), 
-( 10 , '¿El SB es visible y refleja el compromiso para el Sprint?'), 
-( 10 , '¿El SB se actualiza diariamente?'), 
-( 10 , '¿El SB es propiedad exclusiva del equipo?')
-;
-
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES 
-( 11 , '¿Existe DoD?'), 
-( 11 , '¿El DoD es alcanzable dentro de cada iteración?'), 
-( 11 , '¿El equipo respeta el DoD?')
-;
-
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES 
-( 12 , '¿Existe iteraciones de tiempo fijo?'), 
-( 12 , '¿La longitud de las iteraciones está entre 2-4 semanas?'), 
-( 12 , '¿Siempre terminan a tiempo?'), 
-( 12 , '¿El equipo es interrumpido durante una iteración?'), 
-( 12 , '¿El equipo normalmente entrega lo que comprometió?'), 
-( 12 , '¿Se ha cancelado alguna iteración que ha sido un fracaso?')
-;
-
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES 
-( 13 , '¿Se mide la velodidad del equipo?'), 
-( 13 , '¿Todos los PBI se estiman y se computan en la velocidad?'), 
-( 13 , '¿El PO usa la velocidad para planificar a futuro?'), 
-( 13 , '¿La velocidad sólo incluye PBI terminados?'), 
-( 13 , '¿El equipo tiene un Burndown por Sprint?'), 
-( 13 , '¿El Burndown es visible por todos los miembros del equipo?'), 
-( 13 , '¿El Burndown se actualiza diariamente?')
-;
+INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`) VALUES
+( 13 , '¿Se mide la velodidad del equipo?'),
+( 13 , '¿Todos los PBI se estiman y se computan en la velocidad?'),
+( 13 , '¿El PO usa la velocidad para planificar a futuro?'),
+( 13 , '¿La velocidad sólo incluye PBI terminados?'),
+( 13 , '¿El equipo tiene un Burndown por Sprint?'),
+( 13 , '¿El Burndown es visible por todos los miembros del equipo?'),
+( 13 , '¿El Burndown se actualiza diariamente?'),
+( 13 , '¿El equipo conoce y entiende sus métricas?');
 
 
 /*RESPUESTAS DE PRUEBA*/
 
 /*
-INSERT INTO `respuestas`(`Estado`, `PreguntaId`, `EvaluacionId`) VALUES 
+INSERT INTO `respuestas`(`Estado`, `PreguntaId`, `EvaluacionId`) VALUES
 (0 , 1 , 1),
 (0 , 2 , 1),
 (0 , 3 , 1),
