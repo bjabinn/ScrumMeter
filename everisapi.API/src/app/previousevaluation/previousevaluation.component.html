@@ -70,7 +70,7 @@
 
         <table class="table">
           <thead>
-            <tr class="filters">
+            <tr class="filters text-center">
               <th>
                 <input type="text" class="form-control" placeholder="Fecha" disabled *ngIf="!clicked">
                 <input type="text" class="form-control" placeholder="Fecha" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.fecha">
@@ -88,21 +88,29 @@
                 <input type="text" class="form-control" placeholder="Puntuación" pattern="[0-9]{3}" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.nrespuestas">
               </th>
               <th>
-                <input type="text" class="form-control" placeholder="Estado" disabled>
+                <span>Estado</span>
               </th>
               <th>
-                <input type="text" class="form-control" placeholder="Informe" disabled>
+                <span>Notas Evaluacion</span>
+              </th>
+              <th>
+                <span>Notas Objetivos</span>
+              </th>
+              <th>
+                <span>Informe</span>
               </th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let evaluacion of ListaDeEvaluacionesPaginada">
-              <td>{{evaluacion.fecha | date:'dd/MM/yyyy'}}</td>
+              <td>{{evaluacion.fecha | date:'dd/MM/yyyy, HH:mm'}}</td>
               <td>{{evaluacion.nombre}}</td>
               <td>{{evaluacion.userNombre}}</td>
-              <td>{{evaluacion.nRespuestas}}/{{evaluacion.nPreguntas}}</td>
+              <td>{{evaluacion.puntuacion}}%</td>
               <td *ngIf="evaluacion.estado">Completada</td>
               <td *ngIf="!evaluacion.estado">No completada</td>
+              <td><button class="transparente"><img src="assets/nota_no.png"/></button></td>
+              <td><button class="transparente"><img src="assets/nota_si.png" /></button></td>
               <td><button type="button" class="btnpdf" (click)="SaveDataToPDF(evaluacion)">Ver Informe</button></td>
             </tr>
             <tr *ngIf="Mostrar && ListaDeEvaluacionesPaginada.length == 0">

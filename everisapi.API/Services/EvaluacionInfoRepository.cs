@@ -39,28 +39,25 @@ namespace everisapi.API.Services
     public List<EvaluacionInfoDto> GetEvaluationInfo(int IdProject)
     {
       List<EvaluacionInfoDto> EvaluacionesInformativas = new List<EvaluacionInfoDto>();
-      var Evaluaciones = _context.Evaluaciones.Where(e => e.ProyectoId == IdProject).ToList();
+      var Evaluaciones = _context.Evaluaciones.
+        Include(r => r.ProyectoEntity).
+        ThenInclude(p => p.UserEntity).OrderByDescending(e => e.Fecha)
+        .Where(e => e.ProyectoId == IdProject).ToList();
 
       //Encuentra la informacion de la evaluacion y lo introduce en un objeto
       foreach (var evaluacion in Evaluaciones)
       {
-        EvaluacionInfoDto EvaluacionInfo = _context.Respuestas.
-        Include(r => r.EvaluacionEntity).
-        ThenInclude(e => e.ProyectoEntity).
-        ThenInclude(p => p.UserEntity).
-        Where(e => e.EvaluacionId == evaluacion.Id)
-        .Select(r => new EvaluacionInfoDto
+        EvaluacionInfoDto EvaluacionInfo = new EvaluacionInfoDto
         {
-          Id = r.EvaluacionEntity.Id,
-          Fecha = r.EvaluacionEntity.Fecha.Date,
-          Estado = r.EvaluacionEntity.Estado,
-          Nombre = r.EvaluacionEntity.ProyectoEntity.Nombre,
-          UserNombre = r.EvaluacionEntity.ProyectoEntity.UserNombre
-        })
-          .FirstOrDefault<EvaluacionInfoDto>();
-        //Calcula el número de preguntas y el número de respuestas de esa evaluación
-        EvaluacionInfo.NPreguntas = _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id).Count();
-        EvaluacionInfo.NRespuestas = _context.Respuestas.Where(r => r.Estado == 1 && r.EvaluacionId == evaluacion.Id).Count();
+          Id = evaluacion.Id,
+          Fecha = evaluacion.Fecha,
+          Estado = evaluacion.Estado,
+          Nombre = evaluacion.ProyectoEntity.Nombre,
+          UserNombre = evaluacion.ProyectoEntity.UserNombre
+        };
+
+
+        EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);
 
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
@@ -73,28 +70,24 @@ namespace everisapi.API.Services
     {
       //Recogemos las evaluaciones y la paginamos
       List<EvaluacionInfoDto> EvaluacionesInformativas = new List<EvaluacionInfoDto>();
-      var Evaluaciones = _context.Evaluaciones.Where(e => e.ProyectoId == IdProject).Skip(5 * pageNumber).Take(5)
-        .ToList();
+      var Evaluaciones = _context.Evaluaciones.
+        Include(r => r.ProyectoEntity).
+        ThenInclude(p => p.UserEntity).
+        Where(e => e.ProyectoId == IdProject).Skip(5 * pageNumber).Take(5)
+        .OrderByDescending(e => e.Fecha).ToList();
       //Encuentra la informacion de la evaluacion y lo introduce en un objeto
       foreach (var evaluacion in Evaluaciones)
       {
-        EvaluacionInfoDto EvaluacionInfo = _context.Respuestas.
-        Include(r => r.EvaluacionEntity).
-        ThenInclude(e => e.ProyectoEntity).
-        ThenInclude(p => p.UserEntity).
-        Where(e => e.EvaluacionId == evaluacion.Id)
-        .Select(r => new EvaluacionInfoDto
+        EvaluacionInfoDto EvaluacionInfo = new EvaluacionInfoDto
         {
-          Id = r.EvaluacionEntity.Id,
-          Fecha = r.EvaluacionEntity.Fecha.Date,
-          Estado = r.EvaluacionEntity.Estado,
-          Nombre = r.EvaluacionEntity.ProyectoEntity.Nombre,
-          UserNombre = r.EvaluacionEntity.ProyectoEntity.UserNombre
-        })
-          .FirstOrDefault<EvaluacionInfoDto>();
-        //Calcula el número de preguntas y el número de respuestas de esa evaluación
-        EvaluacionInfo.NPreguntas = _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id).Count();
-        EvaluacionInfo.NRespuestas = _context.Respuestas.Where(r => r.Estado == 1 && r.EvaluacionId == evaluacion.Id).Count();
+          Id = evaluacion.Id,
+          Fecha = evaluacion.Fecha,
+          Estado = evaluacion.Estado,
+          Nombre = evaluacion.ProyectoEntity.Nombre,
+          UserNombre = evaluacion.ProyectoEntity.UserNombre
+        };
+
+        EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);
 
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
@@ -153,75 +146,43 @@ namespace everisapi.API.Services
       List<EvaluacionEntity> Evaluaciones;
       if (Evaluacion.Estado != null && Evaluacion.Estado != "")
       {
-        Evaluaciones = _context.Evaluaciones.Where(e => e.ProyectoId == IdProject &&
+        Evaluaciones = _context.Evaluaciones.
+        Include(r => r.ProyectoEntity).
+        ThenInclude(p => p.UserEntity).
+        Where(e => e.ProyectoId == IdProject &&
         e.Estado == Boolean.Parse(Evaluacion.Estado) &&
         e.Fecha.Date.ToString("yyyyMMdd").Contains(Evaluacion.Fecha) &&
         e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
-        ).ToList();
+        ).OrderByDescending(e => e.Fecha).ToList();
       }
       else
       {
-        Evaluaciones = _context.Evaluaciones.Where(e => e.ProyectoId == IdProject &&
+        Evaluaciones = _context.Evaluaciones.
+        Include(r => r.ProyectoEntity).
+        ThenInclude(p => p.UserEntity).
+        Where(e => e.ProyectoId == IdProject &&
         e.Fecha.Date.ToString("yyyyMMdd").Contains(Evaluacion.Fecha) &&
         e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
-        ).ToList();
+        ).OrderByDescending(e => e.Fecha).ToList();
       }
       //Encuentra la informacion de la evaluacion y lo introduce en un objeto
-      if (Evaluacion.NRespuestas != null && Evaluacion.NRespuestas != "")
+      foreach (var evaluacion in Evaluaciones)
       {
-        foreach (var evaluacion in Evaluaciones)
+        EvaluacionInfoDto EvaluacionInfo = new EvaluacionInfoDto
         {
-          var NRespuetas = _context.Respuestas.Where(r => r.Estado == 1 && r.EvaluacionId == evaluacion.Id).Count();
-          if (NRespuetas.ToString().Contains(Evaluacion.NRespuestas))
-          {
-            EvaluacionInfoDto EvaluacionInfo = _context.Respuestas.
-            Include(r => r.EvaluacionEntity).
-            ThenInclude(e => e.ProyectoEntity).
-            ThenInclude(p => p.UserEntity).
-            Where(e => e.EvaluacionId == evaluacion.Id &&
-            e.EvaluacionEntity.ProyectoEntity.Nombre.Contains(Evaluacion.Nombre))
-            .Select(r => new EvaluacionInfoDto
-            {
-              Id = r.EvaluacionEntity.Id,
-              Fecha = r.EvaluacionEntity.Fecha.Date,
-              Estado = r.EvaluacionEntity.Estado,
-              Nombre = r.EvaluacionEntity.ProyectoEntity.Nombre,
-              UserNombre = r.EvaluacionEntity.ProyectoEntity.UserNombre
-            }).FirstOrDefault<EvaluacionInfoDto>();
-            //Calcula el número de preguntas y el número de respuestas de esa evaluación
-            EvaluacionInfo.NPreguntas = _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id).Count();
-            EvaluacionInfo.NRespuestas = NRespuetas;
-            //Añade el objeto en la lista
-            EvaluacionesInformativas.Add(EvaluacionInfo);
-          }
-        }
+          Id = evaluacion.Id,
+          Fecha = evaluacion.Fecha,
+          Estado = evaluacion.Estado,
+          Nombre = evaluacion.ProyectoEntity.Nombre,
+          UserNombre = evaluacion.ProyectoEntity.UserNombre
+        };
+
+        EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);
+        //Añade el objeto en la lista
+        EvaluacionesInformativas.Add(EvaluacionInfo);
       }
-      else
-      {
-        foreach (var evaluacion in Evaluaciones)
-        {
-          EvaluacionInfoDto EvaluacionInfo = _context.Respuestas.
-        Include(r => r.EvaluacionEntity).
-        ThenInclude(e => e.ProyectoEntity).
-        ThenInclude(p => p.UserEntity).
-        Where(e => e.EvaluacionId == evaluacion.Id &&
-        e.EvaluacionEntity.ProyectoEntity.Nombre.Contains(Evaluacion.Nombre) &&
-        e.EvaluacionEntity.ProyectoEntity.UserNombre.Contains(Evaluacion.UserNombre))
-        .Select(r => new EvaluacionInfoDto
-        {
-          Id = r.EvaluacionEntity.Id,
-          Fecha = r.EvaluacionEntity.Fecha.Date,
-          Estado = r.EvaluacionEntity.Estado,
-          Nombre = r.EvaluacionEntity.ProyectoEntity.Nombre,
-          UserNombre = r.EvaluacionEntity.ProyectoEntity.UserNombre
-        }).FirstOrDefault<EvaluacionInfoDto>();
-          //Calcula el número de preguntas y el número de respuestas de esa evaluación
-          EvaluacionInfo.NPreguntas = _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id).Count();
-          EvaluacionInfo.NRespuestas = _context.Respuestas.Where(r => r.Estado == 1 && r.EvaluacionId == evaluacion.Id).Count();
-          //Añade el objeto en la lista
-          EvaluacionesInformativas.Add(EvaluacionInfo);
-        }
-      }
+
+
       return EvaluacionesInformativas.Skip(5 * pageNumber).Take(5).ToList();
     }
 
@@ -233,71 +194,41 @@ namespace everisapi.API.Services
       List<EvaluacionEntity> Evaluaciones;
       if (Evaluacion.Estado != null && Evaluacion.Estado != "")
       {
-        Evaluaciones = _context.Evaluaciones.Where(e => e.Estado == Boolean.Parse(Evaluacion.Estado) &&
+        Evaluaciones = _context.Evaluaciones.
+        Include(r => r.ProyectoEntity).
+        ThenInclude(p => p.UserEntity).
+        Where(e => e.Estado == Boolean.Parse(Evaluacion.Estado) &&
         e.Fecha.Date.ToString("yyyyMMdd").Contains(Evaluacion.Fecha) &&
         e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
-        ).ToList();
+        ).OrderByDescending(e => e.Fecha).ToList();
       }
       else
       {
-        Evaluaciones = _context.Evaluaciones.Where(e => e.Fecha.Date.ToString("yyyyMMdd").Contains(Evaluacion.Fecha) &&
+        Evaluaciones = _context.Evaluaciones.
+        Include(r => r.ProyectoEntity).
+        ThenInclude(p => p.UserEntity).
+        Where(e => e.Fecha.Date.ToString("yyyyMMdd").Contains(Evaluacion.Fecha) &&
         e.ProyectoEntity.Nombre.Contains(Evaluacion.Nombre) &&
         e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
-        ).ToList();
+        ).OrderByDescending(e => e.Fecha).ToList();
       }
+
+
       //Encuentra la informacion de la evaluacion y lo introduce en un objeto
-      if (Evaluacion.NRespuestas != null && Evaluacion.NRespuestas != "")
+      foreach (var evaluacion in Evaluaciones)
       {
-        foreach (var evaluacion in Evaluaciones)
+        EvaluacionInfoDto EvaluacionInfo = new EvaluacionInfoDto
         {
-          var NRespuetas = _context.Respuestas.Where(r => r.Estado == 1 && r.EvaluacionId == evaluacion.Id).Count();
-          if (NRespuetas.ToString().Contains(Evaluacion.NRespuestas))
-          {
-            EvaluacionInfoDto EvaluacionInfo = _context.Respuestas.
-            Include(r => r.EvaluacionEntity).
-            ThenInclude(e => e.ProyectoEntity).
-            ThenInclude(p => p.UserEntity).
-            Where(e => e.EvaluacionId == evaluacion.Id)
-            .Select(r => new EvaluacionInfoDto
-            {
-              Id = r.EvaluacionEntity.Id,
-              Fecha = r.EvaluacionEntity.Fecha.Date,
-              Estado = r.EvaluacionEntity.Estado,
-              Nombre = r.EvaluacionEntity.ProyectoEntity.Nombre,
-              UserNombre = r.EvaluacionEntity.ProyectoEntity.UserNombre
-            }).FirstOrDefault<EvaluacionInfoDto>();
-            //Calcula el número de preguntas y el número de respuestas de esa evaluación
-            EvaluacionInfo.NPreguntas = _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id).Count();
-            EvaluacionInfo.NRespuestas = NRespuetas;
-            //Añade el objeto en la lista
-            EvaluacionesInformativas.Add(EvaluacionInfo);
-          }
-        }
-      }
-      else
-      {
-        foreach (var evaluacion in Evaluaciones)
-        {
-          EvaluacionInfoDto EvaluacionInfo = _context.Respuestas.
-        Include(r => r.EvaluacionEntity).
-        ThenInclude(e => e.ProyectoEntity).
-        ThenInclude(p => p.UserEntity).
-        Where(e => e.EvaluacionId == evaluacion.Id &&
-        e.EvaluacionEntity.ProyectoEntity.Nombre.Contains(Evaluacion.Nombre))
-        .Select(r => new EvaluacionInfoDto
-        {
-          Id = r.EvaluacionEntity.Id,
-          Fecha = r.EvaluacionEntity.Fecha.Date,
-          Estado = r.EvaluacionEntity.Estado,
-          Nombre = r.EvaluacionEntity.ProyectoEntity.Nombre,
-          UserNombre = r.EvaluacionEntity.ProyectoEntity.UserNombre
-        }).FirstOrDefault<EvaluacionInfoDto>();
-          //Calcula el número de preguntas y el número de respuestas de esa evaluación
-          EvaluacionInfo.NPreguntas = _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id).Count();
-          EvaluacionInfo.NRespuestas = _context.Respuestas.Where(r => r.Estado == 1 && r.EvaluacionId == evaluacion.Id).Count();
-          //Añade el objeto en la lista
-          EvaluacionesInformativas.Add(EvaluacionInfo);
-        }
+          Id = evaluacion.Id,
+          Fecha = evaluacion.Fecha,
+          Estado = evaluacion.Estado,
+          Nombre = evaluacion.ProyectoEntity.Nombre,
+          UserNombre = evaluacion.ProyectoEntity.UserNombre
+        };
+
+        EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);
+        //Añade el objeto en la lista
+        EvaluacionesInformativas.Add(EvaluacionInfo);
       }
       return EvaluacionesInformativas;
     }
@@ -322,6 +253,46 @@ namespace everisapi.API.Services
     {
       _context.Evaluaciones.Remove(_context.Evaluaciones.Where(e => e == evaluacion).FirstOrDefault());
       return SaveChanges();
+    }
+
+    private double calculaPuntuacion(int idEvaluacion)
+    {
+      //Calcula la puntuacion de esa evaluación
+      var listaRespuestas = _context.Respuestas.
+        Include(r => r.PreguntaEntity).
+        ThenInclude(rp => rp.AsignacionEntity).
+        ThenInclude(rpa => rpa.SectionEntity).
+        Where(r => r.EvaluacionId == idEvaluacion).ToList();
+
+      double suma = 0;
+      double puntosCorrectos = 0;
+
+      foreach (var resp in listaRespuestas)
+      {
+
+        if (resp.PreguntaEntity.Correcta != null)
+        {
+          var maxPuntos = listaRespuestas.Where(r => r.PreguntaEntity.Correcta != null &&
+          r.PreguntaEntity.AsignacionId == resp.PreguntaEntity.AsignacionId).Count();
+
+          var puntos = (double)resp.PreguntaEntity.AsignacionEntity.Peso / maxPuntos;
+
+          puntosCorrectos += puntos;
+
+          if (resp.Estado == 1 && resp.PreguntaEntity.Correcta.Equals("Si"))
+          {
+            suma += puntos;
+          }
+
+          else if (resp.Estado == 2 && resp.PreguntaEntity.Correcta.Equals("No"))
+          {
+            suma += puntos;
+          }
+
+        }
+      }
+
+      return Math.Round(100 * suma / puntosCorrectos, 1); ;
     }
   }
 }

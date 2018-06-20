@@ -14,9 +14,7 @@ namespace everisapi.API.Models
 
     public string UserNombre { get; set; }
 
-    public string NPreguntas { get; set; }
-
-    public string NRespuestas { get; set; }
+    public string Puntuacion { get; set; }
 
     public string Fecha { get; set; }
 

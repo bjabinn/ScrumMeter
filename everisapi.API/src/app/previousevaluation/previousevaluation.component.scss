@@ -62,6 +62,20 @@
     color: #333;
 }
 
+table *{
+  vertical-align: middle;
+  text-align: center;
+}
+
+.transparente {
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+
 .btnpdf {
   -moz-box-shadow: 0px 10px 14px -7px #276873;
   -webkit-box-shadow: 0px 10px 14px -7px #276873;
@@ -104,17 +118,6 @@
   top: 1px;
 }
 
-        
-
-
-
-
-//Titulos tabla
-input[type="text"]:disabled {
-  background: #dddddd;
-  font-size:20px;
-  height: 38px;
-}
 
 //Radio Button
 .radio {

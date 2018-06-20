@@ -33,8 +33,8 @@
         <button type="button" class="btn btn-outline-success btn-lg btn-block" id="infopro" (click)="RedirectToAsignaciones(dato)">
           <strong>{{dato.nombre}}  </strong>
           <span *ngIf="ScreenWidth <= 576">
-            <img class="icon" *ngIf="dato.respuestas!=dato.preguntas && dato.respuestas>0" src="assets/green_no.png" alt="No compleado">
-            <img class="icon" *ngIf="dato.respuestas==dato.preguntas" src="assets/green_si.png" alt="Compleado">
+            <img class="icon" *ngIf="dato.progreso!=100" src="assets/green_no.png" alt="No completado">
+            <img class="icon" *ngIf="dato.progreso==100" src="assets/green_si.png" alt="Completado">
           </span>
         </button>
 
@@ -78,7 +78,7 @@
         <p>Al finalizar el proyecto no lo podrá modificar o eliminar ¿está seguro de realizar esta acción?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="di('Finish')">Finalizar</button>
+        <button type="button" class="btn btn-success" (click)="di('Finish')">Finalizar</button>
         <button type="button" class="btn btn-primary" (click)="di('Home')">Ir a inicio</button>
         <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
       </div>

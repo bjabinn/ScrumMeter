@@ -98,7 +98,7 @@ export class MenunewevaluationComponent implements OnInit {
     this.Evaluacion.estado = true;
     this._evaluacionService.updateEvaluacion(this.Evaluacion).subscribe(
       res => {
-        this._router.navigate(['/home']);
+        this._router.navigate(['/evaluacionprevia']);
       },
       error => {
         if (error == 404) {

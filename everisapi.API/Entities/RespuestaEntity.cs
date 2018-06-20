@@ -13,6 +13,7 @@ namespace everisapi.API.Entities
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
+    [Required]
     [MaxLength(5)]
     public int Estado { get; set; }
 

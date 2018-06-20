@@ -23,7 +23,7 @@ export class PdfgeneratorComponent implements OnInit {
   public ListaDeDatos: Array<SectionInfo> = [];
   public UserName: string = "";
   public Project: Proyecto = null;
-  public Evaluacion: EvaluacionInfo = { id: null, nombre: '', estado: null, fecha: null, nPreguntas: null, nRespuestas: null, userNombre: '' };
+  public Evaluacion: EvaluacionInfo = { id: null, nombre: '', estado: null, fecha: null, puntuacion: null, userNombre: '' };
   public Mostrar = false;
   public ErrorMessage = null;
   //Datos de la barras

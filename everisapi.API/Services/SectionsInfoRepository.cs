@@ -58,33 +58,33 @@ namespace everisapi.API.Services
         SectionAdd.Progreso = Math.Round( ((double)SectionAdd.Contestadas / SectionAdd.Preguntas) *100, 1);
 
 
-
-        var listaPreguntas = Respuestas.Where(r => r.Estado != 0 && r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).ToList();
+        var listaRespuestas = Respuestas.Where(r => r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).ToList();
         double suma = 0;
+        double puntosCorrectos = 0;
 
-        foreach (var resp in listaPreguntas)
+        foreach (var resp in listaRespuestas)
         {
           if (resp.PreguntaEntity.Correcta != null)
           {
+            var maxPuntos = Respuestas.Where(r => r.PreguntaEntity.Correcta != null && r.PreguntaEntity.AsignacionId == resp.PreguntaEntity.AsignacionId).Count();
+            var puntos = (double)resp.PreguntaEntity.AsignacionEntity.Peso / maxPuntos;
+
+            puntosCorrectos += puntos;
 
             if (resp.Estado == 1 && resp.PreguntaEntity.Correcta.Equals("Si"))
             {
-              var maxPuntos = Respuestas.Where(r => r.PreguntaEntity.Correcta != null && r.PreguntaEntity.AsignacionId == resp.PreguntaEntity.AsignacionId).Count();
-
-              suma += (double)resp.PreguntaEntity.AsignacionEntity.Peso / maxPuntos;
+              suma += puntos;
             }
 
             else if (resp.Estado == 2 && resp.PreguntaEntity.Correcta.Equals("No"))
             {
-              var maxPuntos = Respuestas.Where(r => r.PreguntaEntity.Correcta != null && r.PreguntaEntity.AsignacionId == resp.PreguntaEntity.AsignacionId).Count();
-
-              suma += (double)resp.PreguntaEntity.AsignacionEntity.Peso / maxPuntos;
+              suma += puntos;
             }
 
           }
         }
 
-        SectionAdd.RespuestasCorrectas = Math.Round(suma, 1);
+        SectionAdd.RespuestasCorrectas = Math.Round(100 * suma/puntosCorrectos, 1);
 
         ListadoSectionInformacion.Add(SectionAdd);
       }

@@ -13,15 +13,15 @@
   </div>
 
   <br />
-  <div id="printcanvas">
-    <!--Datos de la evaluación-->
+  <!--div id="printcanvas">
+    <!--Datos de la evaluación->
     <div class="data">
       Proyecto: <b>{{Evaluacion.nombre}}</b>
       <br />
       Fecha: <b>{{Evaluacion.fecha | date:'dd/MM/yyyy'}}</b>
     </div>
     <br />
-    <!--Tabla con datos-->
+    <!--Tabla con datos->
     <table class="table-fill" style="overflow-x:auto;">
       <thead>
         <tr>
@@ -41,7 +41,7 @@
 
     <br />
 
-    <!--Grafica-->
+    <!--Grafica->
     <div style="display: block" id="Grafica">
       <canvas id="canvas" baseChart
               [datasets]="barChartData"
@@ -51,8 +51,8 @@
               [chartType]="barChartType"
               (chartHover)="chartHovered($event)"></canvas>
     </div>
-  </div>
-</div>
+  </!--div>
+</!--div-->
 <div *ngIf="!Mostrar">
   <app-loading></app-loading>
 </div>

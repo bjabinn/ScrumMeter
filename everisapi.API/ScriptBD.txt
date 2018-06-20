@@ -1,8 +1,12 @@
 /*Para borrar todo*/
-delete from evaluaciones;
-delete from respuestas;
+#delete from evaluaciones;
+#delete from respuestas;
 delete from preguntas;
 delete from asignaciones;
+
+#Modificamos la columna Estado
+ALTER TABLE respuestas MODIFY COLUMN Estado INT(3) NOT NULL DEFAULT '0';
+
 
 /*ASIGNACIONES*/
 INSERT INTO `asignaciones`(`Id`, `Nombre`, `SectionId`, `Peso`) VALUES (1, "Daily", 1, 5),

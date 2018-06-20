@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class PreviousevaluationComponent implements OnInit {
   public clicked: boolean = true;
-  public EvaluacionFiltrar: EvaluacionFilterInfo = { 'nombre': '', 'estado': '', 'fecha': '', 'userNombre': '', 'nPreguntas': '', 'nRespuestas': '' };
+  public EvaluacionFiltrar: EvaluacionFilterInfo = { 'nombre': '', 'estado': '', 'fecha': '', 'userNombre': '', 'puntuacion': ''};
   public Typing: boolean = false;
   public permisosDeUsuario: Array<Role> = [];
   public ListaDeEvaluacionesPaginada: Array<EvaluacionInfo>;
@@ -109,10 +109,8 @@ export class PreviousevaluationComponent implements OnInit {
       this.EvaluacionFiltrar.fecha = "";
       this.EvaluacionFiltrar.nombre = "";
       this.EvaluacionFiltrar.userNombre = "";
-      this.EvaluacionFiltrar.nPreguntas = "";
-      this.EvaluacionFiltrar.nRespuestas = "";
       this.EvaluacionFiltrar.estado = "";
-      this.EvaluacionFiltrar.nRespuestas = "";
+      this.EvaluacionFiltrar.puntuacion = "";
       this.GetPaginacion();
       this.clicked = false;
     } else {

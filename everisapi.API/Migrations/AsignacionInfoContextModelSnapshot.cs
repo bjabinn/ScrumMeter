@@ -140,6 +140,9 @@ namespace everisapi.API.Migrations
                     b.Property<int>("Estado")
                         .HasMaxLength(5);
 
+                    b.Property<int>("Estado2")
+                        .HasMaxLength(5);
+
                     b.Property<int>("EvaluacionId");
 
                     b.Property<string>("Notas")
