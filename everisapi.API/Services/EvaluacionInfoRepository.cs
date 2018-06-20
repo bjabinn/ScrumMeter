@@ -60,7 +60,7 @@ namespace everisapi.API.Services
           .FirstOrDefault<EvaluacionInfoDto>();
         //Calcula el número de preguntas y el número de respuestas de esa evaluación
         EvaluacionInfo.NPreguntas = _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id).Count();
-        EvaluacionInfo.NRespuestas = _context.Respuestas.Where(r => r.Estado == true && r.EvaluacionId == evaluacion.Id).Count();
+        EvaluacionInfo.NRespuestas = _context.Respuestas.Where(r => r.Estado == 1 && r.EvaluacionId == evaluacion.Id).Count();
 
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
@@ -94,7 +94,7 @@ namespace everisapi.API.Services
           .FirstOrDefault<EvaluacionInfoDto>();
         //Calcula el número de preguntas y el número de respuestas de esa evaluación
         EvaluacionInfo.NPreguntas = _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id).Count();
-        EvaluacionInfo.NRespuestas = _context.Respuestas.Where(r => r.Estado == true && r.EvaluacionId == evaluacion.Id).Count();
+        EvaluacionInfo.NRespuestas = _context.Respuestas.Where(r => r.Estado == 1 && r.EvaluacionId == evaluacion.Id).Count();
 
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
@@ -171,7 +171,7 @@ namespace everisapi.API.Services
       {
         foreach (var evaluacion in Evaluaciones)
         {
-          var NRespuetas = _context.Respuestas.Where(r => r.Estado == true && r.EvaluacionId == evaluacion.Id).Count();
+          var NRespuetas = _context.Respuestas.Where(r => r.Estado == 1 && r.EvaluacionId == evaluacion.Id).Count();
           if (NRespuetas.ToString().Contains(Evaluacion.NRespuestas))
           {
             EvaluacionInfoDto EvaluacionInfo = _context.Respuestas.
@@ -217,7 +217,7 @@ namespace everisapi.API.Services
         }).FirstOrDefault<EvaluacionInfoDto>();
           //Calcula el número de preguntas y el número de respuestas de esa evaluación
           EvaluacionInfo.NPreguntas = _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id).Count();
-          EvaluacionInfo.NRespuestas = _context.Respuestas.Where(r => r.Estado == true && r.EvaluacionId == evaluacion.Id).Count();
+          EvaluacionInfo.NRespuestas = _context.Respuestas.Where(r => r.Estado == 1 && r.EvaluacionId == evaluacion.Id).Count();
           //Añade el objeto en la lista
           EvaluacionesInformativas.Add(EvaluacionInfo);
         }
@@ -250,7 +250,7 @@ namespace everisapi.API.Services
       {
         foreach (var evaluacion in Evaluaciones)
         {
-          var NRespuetas = _context.Respuestas.Where(r => r.Estado == true && r.EvaluacionId == evaluacion.Id).Count();
+          var NRespuetas = _context.Respuestas.Where(r => r.Estado == 1 && r.EvaluacionId == evaluacion.Id).Count();
           if (NRespuetas.ToString().Contains(Evaluacion.NRespuestas))
           {
             EvaluacionInfoDto EvaluacionInfo = _context.Respuestas.
@@ -294,7 +294,7 @@ namespace everisapi.API.Services
         }).FirstOrDefault<EvaluacionInfoDto>();
           //Calcula el número de preguntas y el número de respuestas de esa evaluación
           EvaluacionInfo.NPreguntas = _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id).Count();
-          EvaluacionInfo.NRespuestas = _context.Respuestas.Where(r => r.Estado == true && r.EvaluacionId == evaluacion.Id).Count();
+          EvaluacionInfo.NRespuestas = _context.Respuestas.Where(r => r.Estado == 1 && r.EvaluacionId == evaluacion.Id).Count();
           //Añade el objeto en la lista
           EvaluacionesInformativas.Add(EvaluacionInfo);
         }

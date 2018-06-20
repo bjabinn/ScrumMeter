@@ -112,7 +112,7 @@ export class PdfgeneratorComponent implements OnInit {
     for (var i = 0; i < this.ListaDeDatos.length; i++) {
       this.ListaNombres.push(this.ListaDeDatos[i].nombre);
       this.ListaNPreguntas.push(this.ListaDeDatos[i].preguntas);
-      this.ListaNRespuestas.push(this.ListaDeDatos[i].respuestas);
+      this.ListaNRespuestas.push(/*this.ListaDeDatos[i].respuestas*/1);
     }
     this.Mostrar = true;
   }

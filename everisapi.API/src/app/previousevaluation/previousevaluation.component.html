@@ -13,7 +13,7 @@
     Usuario: {{UserName}}
   </div>
   <div class="col-xs-12 col-sm-5 col-md-5">
-    <span *ngIf="Project.fecha!=null">Fecha: {{ Project.fecha | date:'MM-dd-yyyy' }}</span>
+    <span *ngIf="Project.fecha!=null">Fecha: {{ Project.fecha | date:'dd/MM/yyyy' }}</span>
   </div>
 
   <div class="col-xs-12 col-sm-5 col-md-5">
@@ -51,17 +51,17 @@
 
             <label class="radio" *ngIf="clicked" (click)="ChangeFiltro(null)">
               <input name="radio" type="radio" checked>
-              <span>Todos</span>
+              <span>Todas</span>
             </label>
 
             <label class="radio" *ngIf="clicked" (click)="ChangeFiltro(true)">
               <input name="radio" type="radio">
-              <span>Completado</span>
+              <span>Completada</span>
             </label>
 
             <label class="radio" *ngIf="clicked" (click)="ChangeFiltro(false)">
               <input name="radio" type="radio">
-              <span>No Completado</span>
+              <span>No Completada</span>
             </label>
 
           </div>
@@ -97,13 +97,13 @@
           </thead>
           <tbody>
             <tr *ngFor="let evaluacion of ListaDeEvaluacionesPaginada">
-              <td>{{evaluacion.fecha | date:'MM-dd-yyyy'}}</td>
+              <td>{{evaluacion.fecha | date:'dd/MM/yyyy'}}</td>
               <td>{{evaluacion.nombre}}</td>
               <td>{{evaluacion.userNombre}}</td>
               <td>{{evaluacion.nRespuestas}}/{{evaluacion.nPreguntas}}</td>
-              <td *ngIf="evaluacion.estado"><img class="icons" src="assets/check.png" /></td>
-              <td *ngIf="!evaluacion.estado"><img class="icons" src="assets/warning.png" /></td>
-              <td><button type="button" class="btnpdf" (click)="SaveDataToPDF(evaluacion)">VER GRAFICA <span class="glyphicon glyphicon-save-file"><img class="icons2" src="assets/pdfgenerate.png" /></span></button></td>
+              <td *ngIf="evaluacion.estado">Completada</td>
+              <td *ngIf="!evaluacion.estado">No completada</td>
+              <td><button type="button" class="btnpdf" (click)="SaveDataToPDF(evaluacion)">Ver Informe</button></td>
             </tr>
             <tr *ngIf="Mostrar && ListaDeEvaluacionesPaginada.length == 0">
               <td colspan="6">

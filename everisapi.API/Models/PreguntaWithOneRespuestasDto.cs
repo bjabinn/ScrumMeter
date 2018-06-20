@@ -11,6 +11,8 @@ namespace everisapi.API.Models
 
         public string Pregunta { get; set; }
 
+        public string Correcta { get; set; }
+
         public RespuestaDto Respuesta { get; set; }
     }
 }

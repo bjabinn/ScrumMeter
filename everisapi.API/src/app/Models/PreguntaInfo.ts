@@ -4,7 +4,8 @@ export class PreguntaInfo {
   constructor(
     public id: number,
     public pregunta: string,
-    public respuesta: Respuesta
+    public respuesta: Respuesta,
+    public correcta: string
   ) { }
 }
 

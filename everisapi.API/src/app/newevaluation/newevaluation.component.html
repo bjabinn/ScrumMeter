@@ -12,7 +12,7 @@
       Usuario: {{UserName}}
     </div>
     <div class="col-xs-12 col-sm-5 col-md-5">
-      Fecha: {{Project.fecha | date:'MM-dd-yyyy'}}
+      Fecha: {{Project.fecha | date:'dd/MM/yyyy'}}
     </div>
     <div class="col-xs-12 col-sm-5 col-md-5">
       <div class="form-horizontal">
@@ -47,28 +47,37 @@
     <div class="row" id="preguntas" *ngFor="let preguntaDada of InfoAsignacion.preguntas; let i = index">
       <div class="col-xs-12 col-sm-3 col-md-3"></div>
       <div class="col-xs-12 col-sm-5 col-md-5">
-        {{preguntaDada.id}}. {{preguntaDada.pregunta}}
+        {{i + 1}}. {{preguntaDada.pregunta}}
       </div>
-      <div class="col-xs-12 col-sm-1 col-md-1" id="switch">
-        <div class="onoffswitch">
-          <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="{{preguntaDada.respuesta.id}}" *ngIf="!preguntaDada.respuesta.estado" (click)="ChangeEstadoDB(i)">
-          <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="{{preguntaDada.respuesta.id}}" *ngIf="preguntaDada.respuesta.estado" (click)="ChangeEstadoDB(i)" checked>
-          <label class="onoffswitch-label" for="{{preguntaDada.respuesta.id}}">
-            <span class="onoffswitch-inner"></span>
-            <span class="onoffswitch-switch"></span>
-          </label>
+      <div class="col-xs-12 col-sm-3 col-md-3" id="switch">
+
+        <div class="container" [ngClass]="{'disabled': InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0}">
+          <div class="button-wrap">
+            <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="{{preguntaDada.respuesta.id}}" (click)="ChangeEstadoDB(i)" [checked]="(preguntaDada.respuesta.estado == 1)">
+              <label class="onoffswitch-label" for="{{preguntaDada.respuesta.id}}">
+                <span [ngClass]="{'onoffswitch-inner-inactivo': preguntaDada.respuesta.estado == 0, 'onoffswitch-inner': preguntaDada.respuesta.estado != 0}"></span>
+                <span [ngClass]="{'onoffswitch-switch-inactivo': preguntaDada.respuesta.estado == 0, 'onoffswitch-switch': preguntaDada.respuesta.estado != 0}"></span>
+              </label>
+            </div>
+
+          </div>
         </div>
+
       </div>
-      <div class="col-xs-12 col-sm-3 col-md-3"></div>
+      <div class="col-xs-12 col-sm-1 col-md-1"></div>
       <br />
     </div>
     <div class="wrapper" *ngIf="InfoAsignacion.preguntas != null && InfoAsignacion.preguntas.length != 0">
-      <button type="button" class="btn btn-outline-success" (click)="NextPreviousButton(false)">Anterior</button>
+      <button type="button" class="btn btn-outline-success" [ngClass]="{'disabled': PageNow == 1}" (click)="NextPreviousButton(2)">Anterior</button>
       <strong>
         {{PageNow}}/{{NumMax}}
       </strong>
-      <button type="button" class="btn btn-outline-success" *ngIf="PageNow != NumMax" (click)="NextPreviousButton(true)">Siguiente</button>
-      <button type="button" class="btn btn-outline-success" *ngIf="PageNow == NumMax" (click)="NextPreviousButton(true)">Finalizar</button>
+      <button type="button" class="btn btn-outline-success" *ngIf="PageNow != NumMax" (click)="NextPreviousButton(1)">Siguiente</button>
+      <button type="button" class="btn btn-outline-success" *ngIf="PageNow == NumMax" (click)="NextPreviousButton(0)">Finalizar</button>
+    </div>
+    <div class="wrapper mt-2">
+      <button type="button" class="btn btn-info" (click)="NextPreviousButton(0)">Volver</button>
     </div>
   </div>
 </div>

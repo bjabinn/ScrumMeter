@@ -117,7 +117,7 @@ namespace everisapi.API.Services
                           where res.EvaluacionId == idEval
                           select new { res.Id, res.PreguntaId, res.Estado, res.EvaluacionId } into respuestas
                           join p in _context.Preguntas on respuestas.PreguntaId equals p.Id
-                          select new { p.Id, p.AsignacionId, p.Pregunta, } into preguntas
+                          select new { p.Id, p.AsignacionId, p.Pregunta, p.Correcta} into preguntas
                           join asig in _context.Asignaciones on preguntas.AsignacionId equals asig.Id
                           where asig.Id == idAsing
                           select new { asig.Id, asig.Nombre, asig.PreguntasDeAsignacion } into asignacionesEntity
@@ -145,7 +145,8 @@ namespace everisapi.API.Services
       {
         var RespuestaParaPregunta = Respuestas.Where(r => r.PreguntaId == pregunta.Id).FirstOrDefault();
 
-        var PreguntaAdd = new PreguntaWithOneRespuestasDto { Id = pregunta.Id, Pregunta = pregunta.Pregunta, Respuesta = RespuestaParaPregunta };
+        var PreguntaAdd = new PreguntaWithOneRespuestasDto { Id = pregunta.Id, Pregunta = pregunta.Pregunta, Correcta = pregunta.Correcta,
+          Respuesta = RespuestaParaPregunta };
 
         PreguntasConRespuestas.Add(PreguntaAdd);
       }

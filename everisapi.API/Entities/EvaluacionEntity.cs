@@ -24,6 +24,14 @@ namespace everisapi.API.Entities
     public ICollection<RespuestaEntity> Respuestas { get; set; }
     = new List<RespuestaEntity>();
 
+    
+    [StringLength(1000)]
+    public string NotasObjetivos { get; set; }
+
+    [StringLength(1000)]
+    public string NotasEvaluacion { get; set; }
+    
+
     public int ProyectoId { get; set; }
     //AsignacionEntity esta relacionando la pregunta con la asignación
     //Mediante esta Foreign Key estamos relacionando AsignacionEntity con su Id

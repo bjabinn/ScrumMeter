@@ -13,6 +13,10 @@ namespace everisapi.API.Models
 
     public int Preguntas { get; set; }
 
-    public int Respuestas { get; set; }
+    public int Contestadas { get; set; }
+
+    public double RespuestasCorrectas { get; set; }
+
+    public double Progreso { get; set; }
   }
 }

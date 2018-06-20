@@ -28,7 +28,7 @@ namespace everisapi.API.Services
     //Devolvemos el numero de preguntas respondidas de la seccion filtrada por proyecto
     public int GetRespuestasCorrectasFromSection(int idSection, int idEvaluacion)
     {
-      return _context.Respuestas.Where(r => r.EvaluacionId == idEvaluacion && r.Estado == true && r.PreguntaEntity.AsignacionEntity.SectionId == idSection).Count();
+      return _context.Respuestas.Where(r => r.EvaluacionId == idEvaluacion && r.Estado == 1 && r.PreguntaEntity.AsignacionEntity.SectionId == idSection).Count();
     }
 
     //Devuelve un objeto estado con información extendida
@@ -53,7 +53,39 @@ namespace everisapi.API.Services
         SectionAdd.Id = section.Id;
         SectionAdd.Nombre = section.Nombre;
         SectionAdd.Preguntas = Respuestas.Where(r => r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).Count();
-        SectionAdd.Respuestas = Respuestas.Where(r => r.Estado && r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).Count();
+        SectionAdd.Contestadas = Respuestas.Where(r => r.Estado != 0 && r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).Count();
+
+        SectionAdd.Progreso = Math.Round( ((double)SectionAdd.Contestadas / SectionAdd.Preguntas) *100, 1);
+
+
+
+        var listaPreguntas = Respuestas.Where(r => r.Estado != 0 && r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).ToList();
+        double suma = 0;
+
+        foreach (var resp in listaPreguntas)
+        {
+          if (resp.PreguntaEntity.Correcta != null)
+          {
+
+            if (resp.Estado == 1 && resp.PreguntaEntity.Correcta.Equals("Si"))
+            {
+              var maxPuntos = Respuestas.Where(r => r.PreguntaEntity.Correcta != null && r.PreguntaEntity.AsignacionId == resp.PreguntaEntity.AsignacionId).Count();
+
+              suma += (double)resp.PreguntaEntity.AsignacionEntity.Peso / maxPuntos;
+            }
+
+            else if (resp.Estado == 2 && resp.PreguntaEntity.Correcta.Equals("No"))
+            {
+              var maxPuntos = Respuestas.Where(r => r.PreguntaEntity.Correcta != null && r.PreguntaEntity.AsignacionId == resp.PreguntaEntity.AsignacionId).Count();
+
+              suma += (double)resp.PreguntaEntity.AsignacionEntity.Peso / maxPuntos;
+            }
+
+          }
+        }
+
+        SectionAdd.RespuestasCorrectas = Math.Round(suma, 1);
+
         ListadoSectionInformacion.Add(SectionAdd);
       }
 
@@ -128,7 +160,7 @@ namespace everisapi.API.Services
     public bool DeleteSection(SectionEntity section)
     {
 
-      _context.Sections.Remove(_context.Sections.Where( s => s == section).FirstOrDefault());
+      _context.Sections.Remove(_context.Sections.Where(s => s == section).FirstOrDefault());
 
       return SaveChanges();
     }

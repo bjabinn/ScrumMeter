@@ -9,7 +9,7 @@ namespace everisapi.API.Models
     {
     public int Id { get; set; }
 
-    public bool Estado { get; set; }
+    public int Estado { get; set; }
 
     public int PreguntaId { get; set; }
 

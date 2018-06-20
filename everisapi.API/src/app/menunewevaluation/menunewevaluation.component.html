@@ -13,7 +13,7 @@
       Usuario: {{UserSelected}}
     </div>
     <div class="col-xs-12 col-sm-5 col-md-5">
-      Fecha: {{ProjectSelected.fecha | date:'MM-dd-yyyy'}}
+      Fecha: {{ProjectSelected.fecha | date:'dd/MM/yyyy'}}
     </div>
     <div class="col-xs-12 col-sm-5 col-md-5">
       <div class="form-horizontal">
@@ -41,9 +41,15 @@
       </div>
 
       <div class="col-xs-12 col-sm-3 col-md-3" id="barraespacio">
-        <ngb-progressbar showValue="true" type="success" [value]="CalcularPorcentaje(dato.respuestas, dato.preguntas)" *ngIf="dato.respuestas==dato.preguntas"></ngb-progressbar>
-        <ngb-progressbar showValue="true" type="warning" [value]="CalcularPorcentaje(dato.respuestas, dato.preguntas)" *ngIf="dato.respuestas!=dato.preguntas"></ngb-progressbar>
-        <span class="title"> {{dato.respuestas}} de {{dato.preguntas}} </span>
+        <ngb-progressbar type="success" [value]="dato.progreso" *ngIf="dato.progreso==100">
+          <span class="progress-text">{{dato.progreso}}%</span>
+        </ngb-progressbar>
+
+        <ngb-progressbar type="warning" [value]="dato.progreso" *ngIf="dato.progreso!=100">
+          <span class="progress-text">{{dato.progreso}}%</span>
+        </ngb-progressbar>
+
+        <p class="mt-1 font-italic">Respondidas {{dato.contestadas}} de {{dato.preguntas}} </p>
       </div>
       <div class="col-xs-12 col-sm-3 col-md-3" id="barraespacio" *ngIf="ScreenWidth >= 576">
         <img class="icon" *ngIf="dato.respuestas!=dato.preguntas && dato.respuestas>0" src="assets/green_no.png" alt="No compleado">

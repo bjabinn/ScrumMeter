@@ -38,6 +38,7 @@ export class RespuestasService {
     let headers = new Headers({
       'Authorization': Token
     });
+
     return this._http.get(this.url + 'asignaciones/evaluacion/' + idEvaluacion + '/asignacion/' + idAsig, { headers: headers })
       .map((response: Response) => response.json())
       .catch(this.errorHandler);

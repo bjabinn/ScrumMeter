@@ -17,6 +17,8 @@ namespace everisapi.API.Entities
         [MaxLength(120)]
         public string Pregunta { get; set; }
 
+        public String Correcta { get; set; }
+
         public int AsignacionId { get; set; }
         //AsignacionEntity esta relacionando la pregunta con la asignación
         //Mediante esta Foreign Key estamos relacionando AsignacionEntity con su Id

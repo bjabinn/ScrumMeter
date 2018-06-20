@@ -3,6 +3,8 @@ export class SectionInfo {
     public id: number,
     public nombre: string,
     public preguntas: number,
-    public respuestas: number
+    public contestadas: number,
+    public respuestasCorrectas: number,
+    public progreso: number
   ) { }
 }
