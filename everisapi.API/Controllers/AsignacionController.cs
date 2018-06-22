@@ -43,7 +43,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir todos los datos de las asignaciones: " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
 
     }
@@ -62,7 +62,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir todos los datos de las asignaciones: " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
 
     }
@@ -80,7 +80,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir todos los datos de las asignaciones: " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
 
     }
@@ -98,7 +98,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir todos los datos de las asignaciones: " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
 
     }
@@ -138,7 +138,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la asignación con id " + id + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 

@@ -43,7 +43,7 @@ namespace everisapi.API.Services
     bool SaveChanges();
 
     //Modifica una evaluación concreta de un proyecto
-    bool ModificarEvaluacion(int IdProject, EvaluacionEntity evaluacion);
+    bool ModificarEvaluacion(EvaluacionEntity evaluacion);
 
     //Elimina una evaluacion de la base de datos
     bool DeleteEvaluacion(EvaluacionEntity evaluacion);

@@ -6,6 +6,13 @@
     <div *ngIf="(ErrorMessage != null || ErrorMessage != undefined )" class="alert alert-danger" id="danger">
       <strong>{{ErrorMessage}}</strong>
     </div>
+    <div *ngIf="anadeNota != null" class=" alert alert-success">
+      {{anadeNota}}
+    </div>
+
+    <div *ngIf="cargar">
+      <app-loading></app-loading>
+    </div>
   </div>
 
   <div class="row" id="infopro" *ngIf="MostrarInfo">
@@ -26,8 +33,13 @@
   <br>
 
   <div *ngIf="ListaDeDatos.length != 0">
-    <div class="row" *ngFor="let dato of ListaDeDatos" id="bajar">
-      <div class="col-xs-12 col-sm-3 col-md-3"></div>
+    <div class="row" *ngFor="let dato of ListaDeDatos; let i = index" id="bajar">
+      <div class="col-xs-12 col-sm-3 col-md-3">
+        <button class="transparente" (click)="AbrirModalNotas(notas, i)">
+          <img *ngIf="dato.notas != null" height="40" src="assets/nota_si.png" />
+          <img *ngIf="dato.notas == null" height="40" src="assets/nota_no.png" />
+        </button>
+      </div>
       <div class="col-xs-12 col-sm-3 col-md-3">
 
         <button type="button" class="btn btn-outline-success btn-lg btn-block" id="infopro" (click)="RedirectToAsignaciones(dato)">
@@ -80,6 +92,24 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-success" (click)="di('Finish')">Finalizar</button>
         <button type="button" class="btn btn-primary" (click)="di('Home')">Ir a inicio</button>
+        <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #notas let-cl="close" let-di="dismiss">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Notas Pregunta</h5> <button type="button" class="close" (click)="cl('Cerrar')">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" maxlength="1000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
+      </div>
+      <div class="modal-footer">
+        <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/1000</p>
+        <button type="button" class="btn btn-success" (click)="di('Guardar')">Guardar</button>
         <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
       </div>
     </div>

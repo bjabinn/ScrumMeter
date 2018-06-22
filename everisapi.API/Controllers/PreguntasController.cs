@@ -54,7 +54,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la petición de asignación preguntas concreta con id " + asignacionId + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -91,7 +91,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la petición de pregunta sobre asignación concreta con id de pregunta " + id + " en asignacion " + asignacionId + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -144,7 +144,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la petición de creación de pregunta: " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -194,7 +194,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la petición de modificación de pregunta con id " + id + " y la asignación con id " + asignacionId + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -233,7 +233,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la petición de eliminación de pregunta con id " + id + " de la asignación con id " + asignacionId + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
   }

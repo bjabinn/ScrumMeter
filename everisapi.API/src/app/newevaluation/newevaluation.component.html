@@ -5,6 +5,9 @@
     <div *ngIf="(ErrorMessage != null || ErrorMessage != undefined )" class="alert alert-danger" id="danger">
       <strong>{{ErrorMessage}}</strong>
     </div>
+    <div *ngIf="anadeNota != null" class=" alert alert-success">
+      {{anadeNota}}
+    </div>
   </div>
 
   <div class="row" id="infopro" *ngIf="MostrarInfo">
@@ -45,11 +48,11 @@
     </div>
     <br />
     <div class="row" id="preguntas" *ngFor="let preguntaDada of InfoAsignacion.preguntas; let i = index">
-      <div class="col-xs-12 col-sm-3 col-md-3"></div>
+      <div class="col-xs-12 col-sm-2 col-md-2"></div>
       <div class="col-xs-12 col-sm-5 col-md-5">
         {{i + 1}}. {{preguntaDada.pregunta}}
       </div>
-      <div class="col-xs-12 col-sm-3 col-md-3" id="switch">
+      <div class="col-xs-12 col-sm-2 col-md-2 col-lg-1 text-center" id="switch">
 
         <div class="container" [ngClass]="{'disabled': InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0}">
           <div class="button-wrap">
@@ -62,12 +65,16 @@
                       'onoffswitch-switch': preguntaDada.respuesta.estado != 0}"></span>
               </label>
             </div>
-
           </div>
         </div>
 
       </div>
-      <div class="col-xs-12 col-sm-1 col-md-1"></div>
+      <div class="col-xs-12 col-sm-1 col-md-1 col-lg-2 text-center pb-1">
+        <button class="transparente" (click)="AbrirModal(content, i)">
+          <img *ngIf="preguntaDada.respuesta.notas != null" height="40" src="assets/nota_si.png" />
+          <img *ngIf="preguntaDada.respuesta.notas == null" height="40" src="assets/nota_no.png" />
+        </button>
+      </div>
       <br />
     </div>
     <div class="wrapper" *ngIf="InfoAsignacion.preguntas != null && InfoAsignacion.preguntas.length != 0">
@@ -82,6 +89,25 @@
       <button type="button" class="btn btn-info" (click)="NextPreviousButton(0)">Volver</button>
     </div>
   </div>
+
+  <ng-template #content let-cl="close" let-di="dismiss">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Notas Pregunta</h5> <button type="button" class="close" (click)="cl('Cerrar')">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" maxlength="1000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
+      </div>
+      <div class="modal-footer">
+        <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/1000</p>
+        <button type="button" class="btn btn-success" (click)="di('Guardar')">Guardar</button>
+        <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
+      </div>
+    </div>
+  </ng-template>
+
 </div>
 <br />
 

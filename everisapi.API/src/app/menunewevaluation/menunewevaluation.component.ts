@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 import { Proyecto } from 'app/Models/Proyecto';
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { SectionInfo } from 'app/Models/SectionInfo';
+import { SectionModify } from 'app/Models/SectionModify';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -24,7 +25,10 @@ export class MenunewevaluationComponent implements OnInit {
   public Evaluacion: Evaluacion = null;
   public UserSelected: string;
   public MostrarInfo = false;
+  public textoModal: string;
+  public anadeNota: string = null;
   public ScreenWidth;
+  public cargar: boolean = false;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -127,6 +131,61 @@ export class MenunewevaluationComponent implements OnInit {
           this.FinishEvaluation();
         }
 
+      })
+  }
+
+  public AbrirModalNotas(content, i) {
+
+    this.anadeNota = null;
+
+    if (this.ListaDeDatos[i].notas != null) {
+      this.textoModal = this.ListaDeDatos[i].notas;
+    } else {
+      this.textoModal = "";
+    }
+
+    this.modalService.open(content).result.then(
+      (closeResult) => {
+        //Si cierra, no se guarda
+
+      }, (dismissReason) => {
+        if (dismissReason == 'Guardar') {
+
+          this.cargar = true;
+
+          if (this.textoModal != "") {
+            this.ListaDeDatos[i].notas = this.textoModal;
+          } else {
+            this.ListaDeDatos[i].notas = null;
+          }
+
+
+          var SeccionModificada = new SectionModify(this.Evaluacion.id, this.ListaDeDatos[i].id, this.ListaDeDatos[i].notas);
+
+          this._sectionService.addNota(SeccionModificada).subscribe(
+            res => {
+
+              this.anadeNota = "Nota añadida correctamente";
+            },
+            error => {
+
+              if (error == 404) {
+                this.ErrorMessage = "Error: ", error, "No pudimos realizar la actualización de la respuesta, lo sentimos.";
+              } else if (error == 500) {
+                this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              } else if (error == 401) {
+                this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+              } else {
+                this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              }
+            },
+            () => {
+              this.cargar = false;
+
+            });
+
+        }
+        //Else, Click fuera, no se guarda
       })
   }
 }

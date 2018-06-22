@@ -18,5 +18,7 @@ namespace everisapi.API.Models
     public double RespuestasCorrectas { get; set; }
 
     public double Progreso { get; set; }
+
+    public string Notas { get; set; }
   }
 }

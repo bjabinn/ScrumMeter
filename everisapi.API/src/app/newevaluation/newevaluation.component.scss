@@ -47,6 +47,15 @@ margin-top: 10%;
   margin: 25px;
 }
 
+.transparente {
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+
 //Estilos para los botones de las preguntas para responder
 @media (max-width: 574px) {
   .onoffswitch {

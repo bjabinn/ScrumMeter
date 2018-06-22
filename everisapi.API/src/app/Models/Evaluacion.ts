@@ -5,7 +5,7 @@ export class Evaluacion {
     public id: number,
     public fecha: string,
     public estado: boolean,
-    public proyectoid: number,
-    public respuestas: Array<Respuesta>
+    public notasObjetivos: string,
+    public notasEvaluacion: string,
   ) { }
 }

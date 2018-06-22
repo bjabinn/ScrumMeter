@@ -11,12 +11,17 @@ namespace everisapi.API.Models
     public int Id { get; set; }
 
     [Required]
-    public DateTime Fecha { get; set; } = DateTime.Now;
+    public DateTime Fecha { get; set; }
 
     [Required]
     public bool Estado { get; set; }
+    
+    public string NotasObjetivos { get; set; }
+
+    public string NotasEvaluacion { get; set; }
 
     [Required]
     public int ProyectoId { get; set; }
+
   }
 }

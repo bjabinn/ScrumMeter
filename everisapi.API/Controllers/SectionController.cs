@@ -44,7 +44,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical($"Se recogio un error al recibir todos los datos de las sections: " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -83,7 +83,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la section con id " + id + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -112,7 +112,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir el número de preguntas para la section " + id + " y la evaluación " + idevaluacion + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -141,7 +141,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir el número de respuestas correctas para la section " + id + " y el evaluacion " + idevaluacion + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -167,7 +167,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir el número de respuestas correctas para la section  con la id de evaluación " + id + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -199,7 +199,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir las asignaciones de la section con id " + id + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -253,6 +253,40 @@ namespace everisapi.API.Controllers
       else
       {
         return BadRequest();
+      }
+    }
+
+    /*UPDATE SECTIONS*/
+    [HttpPut("addNotas")]
+    public IActionResult AddNotas([FromBody] SectionWithNotasDto SectionUpdate)
+    {
+      //Si los datos son validos
+      if (SectionUpdate == null || _sectionInfoRepository.GetSection(SectionUpdate.SectionId, false) == null)
+      {
+        return BadRequest();
+      }
+
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+
+      try
+      {
+        //Comprueba que se guardo bien y lo envia
+        if (_sectionInfoRepository.AddNotasSection(SectionUpdate))
+        {
+          return Ok("Se añadio la nota correctamente");
+        }
+        else
+        {
+          return BadRequest();
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al añadir las notas: " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 

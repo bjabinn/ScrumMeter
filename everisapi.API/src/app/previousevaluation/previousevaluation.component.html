@@ -5,6 +5,9 @@
   <div *ngIf="(ErrorMessage != null || ErrorMessage != undefined )" class="alert alert-danger" id="danger">
     <strong>{{ErrorMessage}}</strong>
   </div>
+  <div *ngIf="anadeNota != null" class=" alert alert-success">
+    {{anadeNota}}
+  </div>
 </div>
 
 <div class="row" id="infopro" *ngIf="MostrarInfo">
@@ -47,7 +50,7 @@
             <app-loading></app-loading>
           </div>
           <div class="pull-right">
-            <button class="btn btn-default btn-xs btn-filter" (click)="Restablecer()">Filtrados</button>
+            <button class="btn btn-default btn-xs btn-filter" (click)="Restablecer()">Filtros</button>
 
             <label class="radio" *ngIf="clicked" (click)="ChangeFiltro(null)">
               <input name="radio" type="radio" checked>
@@ -102,15 +105,27 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let evaluacion of ListaDeEvaluacionesPaginada">
+            <tr *ngFor="let evaluacion of ListaDeEvaluacionesPaginada; let i = index">
               <td>{{evaluacion.fecha | date:'dd/MM/yyyy, HH:mm'}}</td>
               <td>{{evaluacion.nombre}}</td>
               <td>{{evaluacion.userNombre}}</td>
               <td>{{evaluacion.puntuacion}}%</td>
               <td *ngIf="evaluacion.estado">Completada</td>
               <td *ngIf="!evaluacion.estado">No completada</td>
-              <td><button class="transparente"><img src="assets/nota_no.png"/></button></td>
-              <td><button class="transparente"><img src="assets/nota_si.png" /></button></td>
+              <td>
+                <button class="transparente" (click)="AbrirModal(notasEv, i, 0)">
+                  <img *ngIf="evaluacion.notasEv != null" src="assets/nota_si.png" />
+                  <img *ngIf="evaluacion.notasEv == null" src="assets/nota_no.png" />
+                </button>
+              </td>
+
+              <td>
+                <button class="transparente" (click)="AbrirModal(notasOb, i, 1)">
+                  <img *ngIf="evaluacion.notasOb != null" src="assets/nota_si.png" />
+                  <img *ngIf="evaluacion.notasOb == null" src="assets/nota_no.png" />
+                </button>
+              </td>
+
               <td><button type="button" class="btnpdf" (click)="SaveDataToPDF(evaluacion)">Ver Informe</button></td>
             </tr>
             <tr *ngIf="Mostrar && ListaDeEvaluacionesPaginada.length == 0">
@@ -133,6 +148,46 @@
       <button type="button" class="btn btn-outline-success" (click)="NextPreviousButton(true)">Siguiente</button>
     </div>
   </div>
+
+  <div class="wrapper mt-2">
+    <button type="button" class="btn btn-info" (click)="VolverInicio()">Volver</button>
+  </div>
+
 </div>
 
 
+<ng-template #notasEv let-cl="close" let-di="dismiss">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Notas Evaluación</h5> <button type="button" class="close" (click)="cl('Cerrar')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <textarea class="form-control" maxlength="1000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
+    </div>
+    <div class="modal-footer">
+      <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/1000</p>
+      <button type="button" class="btn btn-success" (click)="di('Guardar')">Guardar</button>
+      <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #notasOb let-cl="close" let-di="dismiss">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Notas Objetivos</h5> <button type="button" class="close" (click)="cl('Cerrar')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <textarea class="form-control" maxlength="1000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
+    </div>
+    <div class="modal-footer">
+      <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/1000</p>
+      <button type="button" class="btn btn-success" (click)="di('Guardar')">Guardar</button>
+      <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
+    </div>
+  </div>
+</ng-template>

@@ -3,6 +3,7 @@ export class Respuesta {
     public id: number,
     public estado: number,
     public preguntaid: number,
-    public evaluacionId: number
+    public evaluacionId: number,
+    public notas: string
   ) { }
 }

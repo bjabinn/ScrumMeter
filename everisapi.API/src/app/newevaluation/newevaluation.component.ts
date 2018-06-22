@@ -9,6 +9,7 @@ import { Respuesta } from 'app/Models/Respuesta';
 import { AsignacionInfo } from 'app/Models/AsignacionInfo';
 import { Router } from "@angular/router";
 import { Evaluacion } from 'app/Models/Evaluacion';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Section } from 'app/Models/Section';
 
 @Component({
@@ -30,13 +31,16 @@ export class NewevaluationComponent implements OnInit {
   public Deshabilitar = true;
   public ErrorMessage: string = null;
   public MostrarInfo = false;
+  public textoModal: string;
+  public anadeNota: string = null;
 
   //Recogemos todos los datos de la primera area segun su id y las colocamos en la lista
   constructor(
     private _sectionService: SectionService,
     private _respuestasService: RespuestasService,
     private _router: Router,
-    private _appComponent: AppComponent) {
+    private _appComponent: AppComponent,
+    private modalService: NgbModal) {
 
     this.SectionSelected = this._appComponent._storageDataService.SectionSelected;
     //Recogemos el proyecto y el usuario si no coincide alguno lo redirigiremos
@@ -119,6 +123,8 @@ export class NewevaluationComponent implements OnInit {
 
   //Cambia el estado de las preguntas
   public ChangeEstadoDB(idarray: number) {
+    this.anadeNota = null;
+
     var Respuesta;
 
     if (this.InfoAsignacion.preguntas[idarray].respuesta.estado == 1) {
@@ -126,50 +132,50 @@ export class NewevaluationComponent implements OnInit {
     } else {
       this.InfoAsignacion.preguntas[idarray].respuesta.estado = 1;
     }
-   
-    Respuesta = this.InfoAsignacion.preguntas[idarray].respuesta;
-    this._respuestasService.AlterEstadoRespuesta(Respuesta).subscribe(
-      res => {
-        //console.log("Cambio realizado");
-      },
-      error => {
-        if (error == 404) {
-          this.ErrorMessage = "Error: ", error, "No pudimos realizar la actualización de la respuesta, lo sentimos.";
-        } else if (error == 500) {
-          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-        } else if (error == 401) {
-          this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-        } else {
-          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-        }
-      });
+
 
     //En caso de que se seleccione el primero, ponemos todos a NC
     if (idarray == 0 && this.InfoAsignacion.preguntas[idarray].respuesta.estado == 2 && this.InfoAsignacion.preguntas[idarray].correcta == null) {
-      for (var i = 1; i < this.InfoAsignacion.preguntas.length; i++) {
-        if (this.InfoAsignacion.preguntas[i].respuesta.estado != 0) {
-          this.InfoAsignacion.preguntas[i].respuesta.estado = 0;
-          Respuesta = this.InfoAsignacion.preguntas[i].respuesta;
-          this._respuestasService.AlterEstadoRespuesta(Respuesta).subscribe(
-            res => {
-              //console.log("Cambio realizado");
-            },
-            error => {
-              if (error == 404) {
-                this.ErrorMessage = "Error: ", error, "No pudimos realizar la actualización de la respuesta, lo sentimos.";
-              } else if (error == 500) {
-                this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-              } else if (error == 401) {
-                this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-              } else {
-                this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-              }
-            });
+      this._respuestasService.updateRespuestasAsig(this.Evaluation.id, this.InfoAsignacion.id).subscribe(
+        res => {
+            //Respuestas actualizadas correctamente
+          for (var i = 1; i < this.InfoAsignacion.preguntas.length; i++) {
+            this.InfoAsignacion.preguntas[i].respuesta.estado = 0;
+          }
+        },
+        error => {
+          if (error == 404) {
+            this.ErrorMessage = "Error: ", error, "No se pudo acceder a los datos de esta asignación.";
+          } else if (error == 500) {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          } else {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          }
         }
-      }
-      
-    }
+      );
 
+    } else {
+
+      Respuesta = this.InfoAsignacion.preguntas[idarray].respuesta;
+      this._respuestasService.AlterRespuesta(Respuesta).subscribe(
+        res => {
+          //console.log("Cambio realizado");
+        },
+        error => {
+          if (error == 404) {
+            this.ErrorMessage = "Error: ", error, "No pudimos realizar la actualización de la respuesta, lo sentimos.";
+          } else if (error == 500) {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          } else {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          }
+        });
+
+    }
 
   }
 
@@ -178,6 +184,8 @@ export class NewevaluationComponent implements OnInit {
   //1 avanzar
   //2 retroceder
   public NextPreviousButton(Option: number) {
+    this.anadeNota = null;
+
     if (Option == 1) {
       this.Deshabilitar = true;
       this.AreaAsignada = this.ListaAsignaciones[this.PageNow];
@@ -195,4 +203,62 @@ export class NewevaluationComponent implements OnInit {
       this._router.navigate(['/menunuevaevaluacion']);
     }
   }
+
+  public AbrirModal(content, i) {
+
+    this.anadeNota = null;
+
+    if (this.InfoAsignacion.preguntas[i].respuesta.notas != null) {
+      this.textoModal = this.InfoAsignacion.preguntas[i].respuesta.notas;
+    } else {
+      this.textoModal = "";
+    }
+
+    this.modalService.open(content).result.then(
+      (closeResult) => {
+        //Si cierra, no se guarda
+
+      }, (dismissReason) => {
+        if (dismissReason == 'Guardar') {
+
+          this.Deshabilitar = true;
+
+          if (this.textoModal != "") {
+            this.InfoAsignacion.preguntas[i].respuesta.notas = this.textoModal;
+          } else {
+            this.InfoAsignacion.preguntas[i].respuesta.notas = null;
+          }
+
+
+          var Respuesta = this.InfoAsignacion.preguntas[i].respuesta;
+
+          this._respuestasService.AlterRespuesta(Respuesta).subscribe(
+            res => {
+
+              this.anadeNota = "Nota añadida correctamente";
+            },
+            error => {
+
+              if (error == 404) {
+                this.ErrorMessage = "Error: ", error, "No pudimos realizar la actualización de la respuesta, lo sentimos.";
+              } else if (error == 500) {
+                this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              } else if (error == 401) {
+                this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+              } else {
+                this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              }
+            },
+            () => {
+              this.Deshabilitar = false;
+
+            });
+
+
+
+        }
+        //Else, Click fuera, no se guarda
+      })
+  }
+
 }

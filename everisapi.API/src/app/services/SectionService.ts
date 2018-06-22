@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { GLOBAL } from './global';
+import { SectionModify } from 'app/Models/SectionModify';
 import { AppComponent } from 'app/app.component';
 
 @Injectable()
@@ -94,6 +95,19 @@ export class SectionService {
     return this._http.get(this.url + 'asignaciones/' + id + '/preguntas', { headers: headers })
       .map((response: Response) => response.json())
       .catch(this.errorHandler);
+  }
+
+  //Este metodo altera el valor de la respuesta en la base de datos
+  addNota(SeccionUpdate: SectionModify) {
+    let Token = this._appComponent.ComprobarUserYToken();
+    let params = JSON.stringify(SeccionUpdate);
+    let headers = new Headers({
+      'Authorization': Token,
+      'Content-Type': 'application/json'
+    });
+
+    return this._http.put(this.url + 'sections/addNotas/', params, { headers: headers })
+      .map(res => res);
   }
 
   //Implementamos este metodo para permitir la recogida de los errores y su gestión

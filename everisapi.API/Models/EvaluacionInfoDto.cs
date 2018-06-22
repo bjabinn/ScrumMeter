@@ -17,6 +17,10 @@ namespace everisapi.API.Models
 
     public double Puntuacion { get; set; }
 
+    public string NotasEv { get; set; }
+
+    public string NotasOb { get; set; }
+
     public DateTime Fecha { get; set; }
 
     public bool Estado { get; set; }

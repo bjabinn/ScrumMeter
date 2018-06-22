@@ -48,7 +48,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical($"Se recogio un error al recibir todos los datos de los usuarios: " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
 
     }
@@ -88,7 +88,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir el usuario con nombre " + Nombre + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -119,7 +119,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir los roles de usuario con nombre " + Nombre + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 

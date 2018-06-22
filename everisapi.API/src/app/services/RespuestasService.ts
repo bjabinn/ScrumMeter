@@ -44,8 +44,21 @@ export class RespuestasService {
       .catch(this.errorHandler);
   }
 
+  //Este metodo se usa cuando se quiere poner todas las respuestas de una asignacion a No Contestado
+  //Excepto la primera, que se pone a No
+  updateRespuestasAsig(idEvaluacion: number, idAsig: number) {
+    let Token = this._appComponent.ComprobarUserYToken();
+    let headers = new Headers({
+      'Authorization': Token
+    });
+
+
+    return this._http.get(this.url + 'respuestas/evaluacion/' + idEvaluacion + '/asignacion/' + idAsig + '/update', { headers: headers })
+      .map(res => res);
+  }
+
   //Este metodo altera el valor de la respuesta en la base de datos
-  AlterEstadoRespuesta(RespuestaForUpdate: Respuesta) {
+  AlterRespuesta(RespuestaForUpdate: Respuesta) {
     let Token = this._appComponent.ComprobarUserYToken();
     let params = JSON.stringify(RespuestaForUpdate);
     let headers = new Headers({

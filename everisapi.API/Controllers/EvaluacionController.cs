@@ -42,7 +42,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir todos los datos de las evaluaciones: " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -81,7 +81,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la evaluación con id " + id + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -105,7 +105,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la evaluación con toda su información con id " + id + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -129,7 +129,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la evaluación con toda su información con id " + id + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -177,7 +177,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la petición post de recoger una lista filtrada de evaluaciones con id de proyecto " + id + " y paginado con número " + pageNumber + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -196,7 +196,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la evaluación con id " + id + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -220,7 +220,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la evaluación con id " + id + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -238,7 +238,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la evaluación con id " + id + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -259,6 +259,8 @@ namespace everisapi.API.Controllers
         //Hacemos un mapeo de la evaluación que recogimos
         var IngresarEvaluacion = Mapper.Map<EvaluacionEntity>(EvaluacionRecogida);
 
+        IngresarEvaluacion.Fecha =  DateTime.Now;
+
         //La incluimos en la evaluación
         _evaluacionInfoRepository.IncluirEvaluacion(IngresarEvaluacion);
 
@@ -276,7 +278,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la petición de creación de evaluacion: " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -303,7 +305,7 @@ namespace everisapi.API.Controllers
         var ModificarEvaluacion = Mapper.Map<EvaluacionEntity>(EvaluacionRecogida);
 
         //La incluimos en la evaluación
-        _evaluacionInfoRepository.ModificarEvaluacion(ModificarEvaluacion.Id, ModificarEvaluacion);
+        _evaluacionInfoRepository.ModificarEvaluacion(ModificarEvaluacion);
 
         //Guardamos los cambios a la entidad y esta debera devolver si es correcta o no
         if (!_evaluacionInfoRepository.SaveChanges())
@@ -318,7 +320,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la petición de modificacion de evaluacion: " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 

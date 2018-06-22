@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/Rx';
 import { interval } from 'rxjs/observable/interval';
 import { ProyectoService } from 'app/services/ProyectoService';
 import { Role } from 'app/Models/Role';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -34,13 +35,15 @@ export class PreviousevaluationComponent implements OnInit {
   public NumEspera = 750;
   public MostrarInfo = false;
   public Timeout: Subscription;
-
+  public textoModal: string;
+  public anadeNota = null;
 
   constructor(
     private _appComponent: AppComponent,
     private _router: Router,
     private _evaluacionService: EvaluacionService,
-    private _proyectoService: ProyectoService) { }
+    private _proyectoService: ProyectoService,
+    private modalService: NgbModal) { }
 
   ngOnInit() {
     //Recogemos los proyectos y realizamos comprobaciones
@@ -90,6 +93,9 @@ export class PreviousevaluationComponent implements OnInit {
         } else {
           this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         }
+      },
+      () => {
+        this.Restablecer();
       });
   }
 
@@ -225,6 +231,87 @@ export class PreviousevaluationComponent implements OnInit {
         }
       });
 
+  }
+
+  //tipo=0 -> Evaluacion
+  //tipo=1 -> Objetivos
+  public AbrirModal(content, numeroEv, tipo) {
+
+    this.anadeNota = null;
+
+    if (tipo == 0) {
+      if (this.ListaDeEvaluacionesPaginada[numeroEv].notasEv != null) {
+        this.textoModal = this.ListaDeEvaluacionesPaginada[numeroEv].notasEv;
+      } else {
+        this.textoModal = "";
+      }
+    } else if (tipo == 1) {
+      if (this.ListaDeEvaluacionesPaginada[numeroEv].notasOb != null) {
+        this.textoModal = this.ListaDeEvaluacionesPaginada[numeroEv].notasOb;
+      } else {
+        this.textoModal = "";
+      }
+    }
+
+    this.modalService.open(content).result.then(
+      (closeResult) => {
+        //Si cierra, no se guarda
+        
+      }, (dismissReason) => {
+        if (dismissReason == 'Guardar') {
+
+          this.Mostrar = false;
+
+          if (tipo == 0) {
+            if (this.textoModal != "") {
+              this.ListaDeEvaluacionesPaginada[numeroEv].notasEv = this.textoModal;
+            } else {
+              this.ListaDeEvaluacionesPaginada[numeroEv].notasEv = null;
+            }
+          } else {
+            if (this.textoModal != "") {
+              this.ListaDeEvaluacionesPaginada[numeroEv].notasOb = this.textoModal;
+            } else {
+              this.ListaDeEvaluacionesPaginada[numeroEv].notasOb = null;
+            }
+          }
+
+          var evalu = new Evaluacion(
+            this.ListaDeEvaluacionesPaginada[numeroEv].id,
+            this.ListaDeEvaluacionesPaginada[numeroEv].fecha,
+            this.ListaDeEvaluacionesPaginada[numeroEv].estado,
+            this.ListaDeEvaluacionesPaginada[numeroEv].notasOb,
+            this.ListaDeEvaluacionesPaginada[numeroEv].notasEv
+          );
+
+          this._evaluacionService.updateEvaluacion(evalu)
+            .subscribe(
+            res => {
+                this.anadeNota = "Se guardó la nota correctamente";
+              },
+              error => {
+                if (error == 404) {
+                  this.ErrorMessage = "Error: ", error, " No pudimos recoger la información de las evaluaciones, lo sentimos.";
+                } else if (error == 500) {
+                  this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+                } else if (error == 401) {
+                  this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+                } else {
+                  this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+                }
+            },
+            () => {
+              this.Mostrar = true;
+            });
+
+
+        }
+          //Else, Click fuera, no se guarda
+      })
+  }
+
+  public VolverInicio() {
+    this._router.navigate(['/home']);
   }
 
 }

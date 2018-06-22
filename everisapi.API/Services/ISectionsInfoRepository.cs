@@ -41,5 +41,8 @@ namespace everisapi.API.Services
 
     //Elimina una section
     bool DeleteSection(SectionEntity section);
+
+    //Nos permite modificar las notas una section
+    bool AddNotasSection(SectionWithNotasDto section);
   }
 }

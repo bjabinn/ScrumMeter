@@ -49,12 +49,28 @@ namespace everisapi.API.Services
       //Rellena los datos y los añade a la lista para cada sección
       foreach (var section in SectionsUtilizadas)
       {
-        SectionInfoDto SectionAdd = new SectionInfoDto();
-        SectionAdd.Id = section.Id;
-        SectionAdd.Nombre = section.Nombre;
-        SectionAdd.Preguntas = Respuestas.Where(r => r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).Count();
-        SectionAdd.Contestadas = Respuestas.Where(r => r.Estado != 0 && r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).Count();
+        SectionInfoDto SectionAdd = new SectionInfoDto
+        {
+          Id = section.Id,
+          Nombre = section.Nombre,
+          Preguntas = Respuestas.Where(r => r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).Count(),
+          Contestadas = Respuestas.Where(r => r.Estado != 0 && r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).Count()          
+        };
 
+        var notasSec = _context.NotasSections.Where(r => r.SectionId == section.Id && r.EvaluacionId == idEvaluacion).FirstOrDefault();
+
+        if(notasSec == null)
+        {
+          notasSec = new NotasSectionsEntity
+          {
+            EvaluacionEntity = _context.Evaluaciones.Where(s => s.Id == idEvaluacion).FirstOrDefault(),
+            SectionEntity = _context.Sections.Where(s => s.Id == section.Id).FirstOrDefault()
+          };
+
+          _context.NotasSections.Add(notasSec);
+        }
+
+        SectionAdd.Notas = notasSec.Notas;
         SectionAdd.Progreso = Math.Round( ((double)SectionAdd.Contestadas / SectionAdd.Preguntas) *100, 1);
 
 
@@ -152,6 +168,27 @@ namespace everisapi.API.Services
       var SectionAlter = _context.Sections.Where(s => s.Id == section.Id).FirstOrDefault();
 
       SectionAlter.Nombre = section.Nombre;
+
+      return SaveChanges();
+    }
+
+    //Nos permite modificar las notas una section
+    public bool AddNotasSection(SectionWithNotasDto section)
+    {
+      var SectionAlter = _context.NotasSections.Where(s => s.SectionId == section.SectionId && s.EvaluacionId == section.EvaluacionId).FirstOrDefault();
+
+      if(SectionAlter == null)
+      {
+        SectionAlter = new NotasSectionsEntity
+        {
+          EvaluacionEntity = _context.Evaluaciones.Where(s => s.Id == section.EvaluacionId).FirstOrDefault(),
+          SectionEntity = _context.Sections.Where(s => s.Id == section.SectionId).FirstOrDefault()
+        };
+
+        _context.NotasSections.Add(SectionAlter);
+      }
+
+      SectionAlter.Notas = section.Notas;
 
       return SaveChanges();
     }

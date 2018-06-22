@@ -53,7 +53,9 @@ namespace everisapi.API.Services
           Fecha = evaluacion.Fecha,
           Estado = evaluacion.Estado,
           Nombre = evaluacion.ProyectoEntity.Nombre,
-          UserNombre = evaluacion.ProyectoEntity.UserNombre
+          UserNombre = evaluacion.ProyectoEntity.UserNombre,
+          NotasEv = evaluacion.NotasEvaluacion,
+          NotasOb = evaluacion.NotasObjetivos
         };
 
 
@@ -84,7 +86,9 @@ namespace everisapi.API.Services
           Fecha = evaluacion.Fecha,
           Estado = evaluacion.Estado,
           Nombre = evaluacion.ProyectoEntity.Nombre,
-          UserNombre = evaluacion.ProyectoEntity.UserNombre
+          UserNombre = evaluacion.ProyectoEntity.UserNombre,
+          NotasEv = evaluacion.NotasEvaluacion,
+          NotasOb = evaluacion.NotasObjetivos
         };
 
         EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);
@@ -111,7 +115,7 @@ namespace everisapi.API.Services
     //Devuelve una evaluacion si existiera una inacabada en la base de datos filtrado por id de projecto
     public EvaluacionEntity EvaluationIncompletaFromProject(int IdProject)
     {
-      return _context.Evaluaciones.Where(e => e.ProyectoId == IdProject && !e.Estado).FirstOrDefault();
+      return _context.Evaluaciones.Where(e => e.ProyectoId == IdProject && !e.Estado).OrderByDescending(e => e.Fecha).FirstOrDefault();
     }
 
 
@@ -120,15 +124,20 @@ namespace everisapi.API.Services
     {
       _context.Add(evaluacion);
 
+
       this.SaveChanges();
     }
 
     //Modifica el estado de una evaluacion
-    public bool ModificarEvaluacion(int IdEvaluacion, EvaluacionEntity evaluacion)
+    public bool ModificarEvaluacion(EvaluacionEntity evaluacion)
     {
-      EvaluacionEntity evoluacionAnterior = _context.Evaluaciones.Where(e => e.Id == IdEvaluacion).FirstOrDefault();
+      EvaluacionEntity evaluacionAnterior = _context.Evaluaciones.Where(e => e.Id == evaluacion.Id).FirstOrDefault();
 
-      evoluacionAnterior.Estado = evaluacion.Estado;
+      evaluacionAnterior.NotasEvaluacion = evaluacion.NotasEvaluacion;
+      evaluacionAnterior.NotasObjetivos = evaluacion.NotasObjetivos;
+
+      evaluacionAnterior.Estado = evaluacion.Estado;
+
       return SaveChanges();
     }
 
@@ -174,7 +183,9 @@ namespace everisapi.API.Services
           Fecha = evaluacion.Fecha,
           Estado = evaluacion.Estado,
           Nombre = evaluacion.ProyectoEntity.Nombre,
-          UserNombre = evaluacion.ProyectoEntity.UserNombre
+          UserNombre = evaluacion.ProyectoEntity.UserNombre,
+          NotasEv = evaluacion.NotasEvaluacion,
+          NotasOb = evaluacion.NotasObjetivos
         };
 
         EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);
@@ -223,7 +234,9 @@ namespace everisapi.API.Services
           Fecha = evaluacion.Fecha,
           Estado = evaluacion.Estado,
           Nombre = evaluacion.ProyectoEntity.Nombre,
-          UserNombre = evaluacion.ProyectoEntity.UserNombre
+          UserNombre = evaluacion.ProyectoEntity.UserNombre,
+          NotasEv = evaluacion.NotasEvaluacion,
+          NotasOb = evaluacion.NotasObjetivos
         };
 
         EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);

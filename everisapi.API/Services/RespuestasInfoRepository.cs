@@ -55,6 +55,37 @@ namespace everisapi.API.Services
       if (respuestaAnterior != null)
       {
         respuestaAnterior.Estado = Respuesta.Estado;
+        respuestaAnterior.Notas = Respuesta.Notas;
+
+        return SaveChanges();
+      }
+      else
+      {
+        return false;
+      }
+    }
+
+    //Este metodo se usa cuando se quiere poner todas las respuestas de una asignacion a No Contestado
+    //Excepto la primera, que se pone a No
+    public bool UpdateRespuestasAsignacion(int idEvaluacion, int IdAsignacion)
+    {
+      var respuestas = _context.Respuestas.Where(r => r.PreguntaEntity.AsignacionId == IdAsignacion && r.EvaluacionId == idEvaluacion).ToList();
+      if (respuestas != null)
+      {
+        int cont = 0;
+        foreach(var resp in respuestas){
+          if(cont == 0)
+          {
+            resp.Estado = 2;
+          }
+          else
+          {
+            resp.Estado = 0;
+          }
+
+          cont++;
+        }
+
         return SaveChanges();
       }
       else

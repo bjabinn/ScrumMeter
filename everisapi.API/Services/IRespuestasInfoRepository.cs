@@ -35,5 +35,9 @@ namespace everisapi.API.Services
 
     //Muestra si existe la respuesta
     bool ExiteRespuesta(int idRespuesta);
+
+    //Este metodo se usa cuando se quiere poner todas las respuestas de una asignacion a No Contestado
+    //Excepto la primera, que se pone a No
+    bool UpdateRespuestasAsignacion(int idEvaluacion, int IdAsignacion);
   }
 }

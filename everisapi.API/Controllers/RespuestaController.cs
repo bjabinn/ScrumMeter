@@ -7,7 +7,6 @@ using AutoMapper;
 using everisapi.API.Models;
 using everisapi.API.Entities;
 using Microsoft.AspNetCore.Authorization;
-using AutoMapper;
 
 namespace everisapi.API.Controllers
 {
@@ -43,7 +42,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical($"Se recogio un error al recibir todos los datos de las respuestas: " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -68,7 +67,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la respuesta con id " + id + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -89,7 +88,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir las respuestas con idevaluacion " + idevaluacion + " y idpregunta " + idpregunta + " : " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -110,7 +109,32 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir las respuestas con idevaluacion " + idevaluacion + " y idasignacion " + idasignacion + " : " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
+      }
+    }
+
+    //Este metodo se usa cuando se quiere poner todas las respuestas de una asignacion a No Contestado
+    //Excepto la primera, que se pone a No
+    [HttpGet("evaluacion/{idevaluacion}/asignacion/{idasignacion}/update")]
+    public IActionResult UpdateRespuestasAsignacion(int idevaluacion, int idasignacion)
+    {
+      try
+      {
+        _logger.LogInformation("Actualizamos las respuestas.");
+
+        _respuestasInfoRepository.UpdateRespuestasAsignacion(idevaluacion, idasignacion);
+
+        //Si todo salio bien dara un mensaje 200 con todo correcto
+
+
+        Console.Write("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        return Ok("Actualización correcta.");
+
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al actualizar las respuestas: " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
@@ -147,7 +171,7 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al realizar el update de la respuesta con id " + RespuestaUpdate.Id + ": " + ex);
-        return StatusCode(500, "Un error a ocurrido mientras se procesaba su petición.");
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
 
