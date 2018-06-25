@@ -36,6 +36,9 @@ namespace everisapi.API.Services
     //Muestra si existe la respuesta
     bool ExiteRespuesta(int idRespuesta);
 
+    //Introduciendo la id de evaluacion sacaremos una lista con todas las respuestas que tengan notas
+    IEnumerable<RespuestaConNotasDto> GetRespuestasConNotas(int idEvaluacion);
+
     //Este metodo se usa cuando se quiere poner todas las respuestas de una asignacion a No Contestado
     //Excepto la primera, que se pone a No
     bool UpdateRespuestasAsignacion(int idEvaluacion, int IdAsignacion);

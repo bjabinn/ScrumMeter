@@ -175,6 +175,26 @@ namespace everisapi.API.Controllers
       }
     }
 
+
+    //Devuelve todas las preguntas con notas de una evaluación
+    [HttpGet("evaluacion/{idevaluacion}")]
+    public IActionResult GetRespuestasConNotas(int idevaluacion)
+    {
+      try
+      {
+        var respuestas = _respuestasInfoRepository.GetRespuestasConNotas(idevaluacion);
+
+        _logger.LogInformation("Mandamos correctamente todas las respuestas.");
+
+        return Ok(respuestas);
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir las respuestas con idevaluacion " + idevaluacion +  " : " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
+      }
+    }
+
     /*ADD RESPUESTAS*/
     [HttpPost("add")]
     public IActionResult AddRespuesta([FromBody] RespuestaDto RespuestaAdd)

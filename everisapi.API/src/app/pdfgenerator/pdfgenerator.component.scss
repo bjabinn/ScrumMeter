@@ -18,7 +18,7 @@
 //Data
 .data {
   text-align: center;
-  font-size: 19px;
+  font-size: 14px;
 }
 
 //Button
@@ -33,11 +33,9 @@
   background: white;
   border-radius: 3px;
   border-collapse: collapse;
-  height: 20%;
   margin: auto;
   max-width: 600px;
   padding: 5px;
-  width: 100%;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   animation: float 5s infinite;
 }
@@ -47,9 +45,9 @@ th {
   background: #9BAE0C;
   border-bottom: 4px solid #9ea7af;
   border-right: 1px solid #343a45;
-  font-size: 23px;
-  font-weight: 100;
-  padding: 24px;
+  font-size: 14pt;
+  font-weight: bold;
+  padding: 10px;
   text-align: left;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   vertical-align: middle;
@@ -67,16 +65,14 @@ th:last-child {
 tr {
   border-top: 1px solid #C1C3D1;
   border-bottom: 1px solid #C1C3D1;
-  color: #666B85;
-  font-size: 16px;
+  color: #000000;
   font-weight: normal;
   text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
 }
 
 tr:hover td {
   transition: background 0.7s ease;
-  background: #97E4FF;
-  color: #FFFFFF;
+  background: #4bedb4;
   border-top: 1px solid #22262e;
 }
 
@@ -89,11 +85,11 @@ tr:last-child {
 }
 
 tr:nth-child(odd) td {
-  background: #eef8a0;
+  background-color: #e0eaf9;
 }
 
 tr:nth-child(odd):hover td {
-  background: #80dfff;
+  background: #4bedb4;
 }
 
 tr:last-child td:first-child {
@@ -106,13 +102,16 @@ tr:last-child td:last-child {
 
 td {
   background: #FFFFFF;
-  padding: 20px;
+  padding: 10px;
   text-align: left;
   vertical-align: middle;
-  font-weight: 300;
-  font-size: 18px;
+  font-size: 13pt;
   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
   border-right: 1px solid #C1C3D1;
+}
+
+td.notasPreg{
+  font-size: 11pt;
 }
 
 td:last-child {
@@ -141,4 +140,127 @@ td.text-center {
 
 td.text-right {
   text-align: right;
+}
+
+
+
+
+
+.exp {
+  display: table; // to center the item
+  width: 100%;
+  height: 100%;
+
+  .checkbox {
+    display: table-cell; // to center the item
+    width: 100%;
+    height: 100%;
+    vertical-align: middle; // to center the item
+    text-align: center; // to center the item
+  }
+}
+
+label {
+  display: inline-block; // to make it easier to click
+  color: #000;
+  cursor: pointer;
+  position: relative; // important
+  // Now we'll create the checkbox object
+  span {
+    display: inline-block;
+    position: relative;
+    background-color: transparent;
+    width: 25px;
+    height: 25px;
+    transform-origin: center;
+    border: 2px solid #000;
+    border-radius: 50%;
+    vertical-align: -6px;
+    margin-right: 10px;
+    transition: background-color 150ms 200ms, transform 350ms cubic-bezier(.78,-1.22,.17,1.89); // custom ease effect for bouncy animation
+    // Now we'll create the "tick" using pseudo elements - those will be basically two lines that will be rotated to form the "tick"
+    &:before {
+      content: "";
+      width: 0px;
+      height: 2px;
+      border-radius: 2px; // so that the tick has nice rounded look
+      background: #000;
+      position: absolute;
+      transform: rotate(45deg);
+      top: 11px; // you'll need to experiment with placement depending on the dimensions you've chosen
+      left: 7px; // you'll need to experiment with placement depending on the dimensions you've chosen
+      transition: width 50ms ease 50ms;
+      transform-origin: 0% 0%;
+    }
+
+    &:after {
+      content: "";
+      width: 0;
+      height: 2px;
+      border-radius: 2px; // so that the tick has nice rounded look
+      background: #000;
+      position: absolute;
+      transform: rotate(305deg);
+      top: 14px; // you'll need to experiment with placement depending on the dimensions you've chosen
+      left: 8px; // you'll need to experiment with placement depending on the dimensions you've chosen
+      transition: width 50ms ease;
+      transform-origin: 0% 0%;
+    }
+  }
+  // Time to add some life to it
+  &:hover {
+    span {
+      &:before {
+        width: 5px;
+        transition: width 100ms ease;
+      }
+
+      &:after {
+        width: 10px;
+        transition: width 150ms ease 100ms;
+      }
+    }
+  }
+}
+
+input[type="checkbox"] {
+  display: none; // hide the system checkbox
+  // Let's add some effects after the checkbox is checked
+  &:checked {
+    + label {
+      span {
+        background-color: #9BAE0C;
+        transform: scale(1.25); // enlarge the box
+        &:after {
+          width: 10px;
+          background: #000;
+          transition: width 150ms ease 100ms; // enlarge the tick
+        }
+
+        &:before {
+          width: 5px;
+          background: #000;
+          transition: width 150ms ease 100ms; // enlarge the tick
+        }
+      }
+
+      &:hover { // copy the states for onMouseOver to avoid flickering
+        span {
+          background-color: #1790b5;
+          transform: scale(1.25); // enlarge the box
+          &:after {
+            width: 10px;
+            background: #000;
+            transition: width 150ms ease 100ms; // enlarge the tick
+          }
+
+          &:before {
+            width: 5px;
+            background: #000;
+            transition: width 150ms ease 100ms; // enlarge the tick
+          }
+        }
+      }
+    }
+  }
 }

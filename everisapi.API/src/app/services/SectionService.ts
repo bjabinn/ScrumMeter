@@ -97,7 +97,7 @@ export class SectionService {
       .catch(this.errorHandler);
   }
 
-  //Este metodo altera el valor de la respuesta en la base de datos
+  //Añade una nota para la seccion indicada a la base de datos
   addNota(SeccionUpdate: SectionModify) {
     let Token = this._appComponent.ComprobarUserYToken();
     let params = JSON.stringify(SeccionUpdate);
@@ -109,6 +109,19 @@ export class SectionService {
     return this._http.put(this.url + 'sections/addNotas/', params, { headers: headers })
       .map(res => res);
   }
+
+  //Obtiene todas las respuestas con notas para esta evaluacion
+  getRespuestasConNotas(id) {
+    let Token = this._appComponent.ComprobarUserYToken();
+    let headers = new Headers({
+      'Authorization': Token
+    });
+
+    return this._http.get(this.url + 'respuestas/evaluacion/' + id, { headers: headers })
+      .map((response: Response) => response.json())
+      .catch(this.errorHandler);
+  }
+
 
   //Implementamos este metodo para permitir la recogida de los errores y su gestión
   errorHandler(error: Response) {

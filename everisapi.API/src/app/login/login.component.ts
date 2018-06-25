@@ -34,6 +34,8 @@ export class LoginComponent implements OnInit {
   //Mediante este metodo comprobaremos si el usuario espcificado existe o no
   //si es así sera redirigido a la pagina principal
   public SignUp() {
+    this.ErrorMessage = null;
+
     //Comprueba si los campos tienen datos
     if (this.nombreDeUsuario != "" && this.passwordDeUsuario != "") {
       //Manda una petición a la api para ver si el nombre existe

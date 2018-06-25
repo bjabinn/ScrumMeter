@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using everisapi.API.Entities;
 using everisapi.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace everisapi.API.Services
 {
@@ -92,6 +93,32 @@ namespace everisapi.API.Services
       {
         return false;
       }
+    }
+
+    //Introduciendo la id de evaluacion sacaremos una lista con todas las respuestas que tengan notas
+    public IEnumerable<RespuestaConNotasDto> GetRespuestasConNotas(int idEvaluacion)
+    {
+      var respuestas = _context.Respuestas.
+        Include(r => r.PreguntaEntity).
+        ThenInclude(p => p.AsignacionEntity).
+        ThenInclude(p => p.SectionEntity).
+        Where(r => r.Notas != null && r.Notas != "" && r.EvaluacionId == idEvaluacion).ToList();
+
+
+      List<RespuestaConNotasDto> lista = new List<RespuestaConNotasDto>();
+
+      foreach (RespuestaEntity resp in respuestas) {
+        lista.Add(new RespuestaConNotasDto
+        {
+          Estado = resp.Estado,
+          Notas = resp.Notas,
+          Asignacion = resp.PreguntaEntity.AsignacionEntity.Nombre,
+          Section = resp.PreguntaEntity.AsignacionEntity.SectionEntity.Nombre,
+          Pregunta = resp.PreguntaEntity.Pregunta
+        });
+      }
+
+      return lista;
     }
 
     //Aqui introducimos una nueva respuesta

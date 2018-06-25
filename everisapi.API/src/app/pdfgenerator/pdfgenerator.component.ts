@@ -3,6 +3,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { EvaluacionInfo } from 'app/Models/EvaluacionInfo';
 import { Proyecto } from 'app/Models/Proyecto';
 import { SectionInfo } from 'app/Models/SectionInfo';
+import { RespuestaConNotas } from 'app/Models/RespuestaConNotas';
 import { AppComponent } from 'app/app.component';
 import { Router } from '@angular/router';
 import { SectionService } from 'app/services/SectionService';
@@ -23,7 +24,7 @@ export class PdfgeneratorComponent implements OnInit {
   public ListaDeDatos: Array<SectionInfo> = [];
   public UserName: string = "";
   public Project: Proyecto = null;
-  public Evaluacion: EvaluacionInfo = { id: null, nombre: '', estado: null, fecha: null, puntuacion: null, userNombre: '', notasEv: '', notasOb: '' };
+  public Evaluacion: EvaluacionInfo;
   public Mostrar = false;
   public ErrorMessage = null;
   //Datos de la barras
@@ -32,6 +33,16 @@ export class PdfgeneratorComponent implements OnInit {
   public ListaNPreguntas: number[] = [];
   public ListaNRespuestas: number[] = [];
   public ListaNombres: string[] = [];
+
+  //Para las notas
+  public mostrarCheckboxes: boolean = true;
+  public mostrarNotasEv: boolean = false;
+  public mostrarNotasOb: boolean = false;
+  public mostrarNotasSec: boolean = false;
+  public mostrarNotasPreg: boolean = false;
+  public ListaDeRespuestas: Array<RespuestaConNotas> = [];
+  public cargandoNotasPreg: boolean = false;
+
 
   //Datos para pdf
   @ViewChild('content') content: ElementRef;
@@ -78,7 +89,11 @@ export class PdfgeneratorComponent implements OnInit {
         this._router.navigate(['/home']);
       });
 
-    //Recoge los datos del servicio
+  }
+
+  ngOnInit() {
+
+    //Recoge los datos de las secciones
     if (this.Evaluacion != null && this.Evaluacion != undefined) {
       this._sectionService.getSectionInfo(this.Evaluacion.id).subscribe(
         res => {
@@ -100,10 +115,6 @@ export class PdfgeneratorComponent implements OnInit {
     } else {
       this._router.navigate(['/home']);
     }
-
-  }
-
-  ngOnInit() {
 
   }
 
@@ -136,17 +147,74 @@ export class PdfgeneratorComponent implements OnInit {
   //Genera un pdf a partir de una captura de pantalla
   //Mediante css eliminamos los componentes que no deseamos
   public downloadPDF() {
+    //this.mostrarCheckboxes = false;
+
     var date = this.datePipe.transform(this.Evaluacion.fecha, 'MM-dd-yyyy');
     var nombre = this.Evaluacion.nombre;
     /*document.title = this.Evaluacion.nombre + date + "AgileMeter";
     window.print();*/
-    html2canvas(document.getElementById("printcanvas")).then(function (canvas) {
-      var img = canvas.toDataURL("image/png");
-      var doc = new jsPDF();
-      doc.addImage(img, 'JPEG', 0, 20, 220, 150);
-      var title = nombre + '.' + date + '.' + 'AgileMeter.pdf';
-      doc.save(title);
-    });
 
+    //Para que de tiempo a ocultar el panel de las checkboxes
+    setTimeout(()=>{
+      html2canvas(document.getElementById("printcanvas")).then(function (canvas) {
+        var img = canvas.toDataURL("image/png");
+        var doc = new jsPDF();
+        doc.addImage(img, 'PNG', 15, 20, 0, 0);
+
+        var title = nombre + '.' + date + '.' + 'AgileMeter.pdf';
+        doc.save(title);
+
+      });
+      //this.mostrarCheckboxes = true;
+    }, 500);
+
+
+  }
+
+  public cambiarMostrarNotasEv() {
+    this.mostrarNotasEv = !this.mostrarNotasEv;
+  }
+
+  public cambiarMostrarNotasOb() {
+    this.mostrarNotasOb = !this.mostrarNotasOb;
+  }
+
+  public cambiarMostrarNotasSec() {
+    this.mostrarNotasSec = !this.mostrarNotasSec;
+  }
+
+  public cambiarMostrarNotasPreg() {
+
+    //No se ha hecho la peticion al servidor aun
+    if (!this.mostrarNotasPreg && this.ListaDeRespuestas.length == 0) {
+      this.cargandoNotasPreg = true;
+
+      this._sectionService.getRespuestasConNotas(this.Evaluacion.id).subscribe(
+        res => {
+          this.ListaDeRespuestas = res;
+          this.cargandoNotasPreg = false;
+          this.mostrarNotasPreg = true;
+        },
+        error => {
+          if (error == 404) {
+            this.ErrorMessage = "Error: ", error, "No pudimos recoger los datos de las preguntas.";
+          } else if (error == 500) {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          } else {
+            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          }
+        }
+      );
+    }
+    else {
+          this.mostrarNotasPreg = !this.mostrarNotasPreg;
+      }
+
+  }
+
+  public Volver(lugar) {
+    this._router.navigate([lugar]);
   }
 }

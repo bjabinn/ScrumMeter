@@ -6,42 +6,141 @@
 </div>
 
 <div *ngIf="Mostrar">
-  <br />
+  <div class="row">
+    <!--Datos de la evaluación-->
 
-  <div class="center">
-    <button class="btn btn-outline-success" id="no-print" (click)="downloadPDF()" media="print">Generar PDF</button>
-  </div>
 
-  <br />
-  <!--div id="printcanvas">
-    <!--Datos de la evaluación->
-    <div class="data">
-      Proyecto: <b>{{Evaluacion.nombre}}</b>
-      <br />
-      Fecha: <b>{{Evaluacion.fecha | date:'dd/MM/yyyy'}}</b>
+    <div class="ml-2 pl-5 col-xs-12 col-sm-3 col-md-3 mt-5" *ngIf="mostrarCheckboxes">
+      <div class="checkbox">
+        <form>
+          <div>
+            <input type="checkbox" id="notasEv" name="notasEv" value="" class="" (click)="cambiarMostrarNotasEv()" />
+            <label for="notasEv">
+              <span><!-- This span is needed to create the "checkbox" element --></span>
+              Notas de evaluación
+            </label>
+          </div>
+        </form>
+      </div>
+
+      <div class="checkbox">
+        <form>
+          <div>
+            <input type="checkbox" id="notasOb" name="notasOb" value="" (click)="cambiarMostrarNotasOb()" />
+            <label for="notasOb">
+              <span><!-- This span is needed to create the "checkbox" element --></span>
+              Notas de objetivos
+            </label>
+          </div>
+        </form>
+      </div>
+
+      <div class="checkbox">
+        <form>
+          <div>
+            <input type="checkbox" id="notasSec" name="notasSec" value="" (click)="cambiarMostrarNotasSec()" />
+            <label for="notasSec">
+              <span><!-- This span is needed to create the "checkbox" element --></span>
+              Notas de secciones
+            </label>
+          </div>
+        </form>
+      </div>
+
+      <div class="checkbox">
+        <form>
+          <div>
+            <input type="checkbox" id="notasPreg" name="notasPreg" value="" (click)="cambiarMostrarNotasPreg()" />
+            <label for="notasPreg">
+              <span><!-- This span is needed to create the "checkbox" element --></span>
+              Notas de preguntas
+            </label>
+          </div>
+        </form>
+      </div>
     </div>
-    <br />
-    <!--Tabla con datos->
-    <table class="table-fill" style="overflow-x:auto;">
-      <thead>
-        <tr>
-          <th class="text-left">Asignaciones</th>
-          <th class="text-left">Nº de preguntas</th>
-          <th class="text-left">Nº de respuestas</th>
-        </tr>
-      </thead>
-      <tbody class="table-hover">
-        <tr *ngFor="let datos of ListaDeDatos">
-          <td class="text-left">{{datos.nombre}}</td>
-          <td class="text-left">{{datos.preguntas}}</td>
-          <td class="text-left">{{datos.respuestas}}</td>
-        </tr>
-      </tbody>
-    </table>
 
-    <br />
+    <!--Tabla con datos--->
+    <div class="col-xs-12 col-sm-6 col-md-6 mt-3">
 
-    <!--Grafica->
+      <div id="printcanvas">
+        <div class="data mb-2">
+          Proyecto: <b>{{Evaluacion.nombre}}</b>
+          <br />
+          Fecha: <b>{{Evaluacion.fecha | date:'dd/MM/yyyy'}}</b>
+        </div>
+
+        <table class="table-fill" style="overflow-x:auto;">
+          <thead>
+            <tr>
+              <th class="text-left">Asignaciones</th>
+              <th class="text-left">Puntuación</th>
+            </tr>
+          </thead>
+          <tbody class="table-hover">
+            <tr *ngFor="let datos of ListaDeDatos">
+              <td class="text-left">{{datos.nombre | titlecase}}</td>
+              <td class="text-left">{{datos.respuestasCorrectas}}%</td>
+            </tr>
+          </tbody>
+        </table>
+
+
+        <div class="cajaNotas row text-center mt-4">
+          <div class="notas mx-auto col-12" *ngIf="mostrarNotasEv">
+            <h4>Notas de evaluación:</h4>
+            <p>{{Evaluacion.notasEv}}</p>
+          </div>
+
+          <div class="notas mx-auto col-12" *ngIf="mostrarNotasOb">
+            <h4>Notas de objetivos:</h4>
+            <p>{{Evaluacion.notasOb}}</p>
+          </div>
+
+          <div class="notas mx-auto col-12" *ngIf="mostrarNotasSec">
+            <h4>Notas de secciones:</h4>
+            <div *ngFor="let datos of ListaDeDatos">
+              <div *ngIf="datos.notas != null && datos.notas != ''">
+                <strong>{{datos.nombre | titlecase}}</strong>
+                <p>{{datos.notas}}</p>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div *ngIf="cargandoNotasPreg">
+            <app-loading></app-loading>
+          </div>
+
+
+          <div class="notas mx-auto col-12" *ngIf="mostrarNotasPreg">
+            <h4>Notas de preguntas:</h4>
+
+            <table class="table-fill" style="overflow-x:auto;">
+              <thead>
+                <tr>
+                  <th class="text-left">Sección</th>
+                  <th class="text-left">Asignación</th>
+                  <th class="text-left">Pregunta</th>
+                  <th class="text-left">Respuesta</th>
+                </tr>
+              </thead>
+              <tbody class="table-hover">
+                <tr *ngFor="let respuesta of ListaDeRespuestas">
+                  <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.section | titlecase}}</td>
+                  <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.asignacion}}</td>
+                  <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.pregunta}}</td>
+                  <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.notas}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+
+        <!--Grafica->
     <div style="display: block" id="Grafica">
       <canvas id="canvas" baseChart
               [datasets]="barChartData"
@@ -51,9 +150,26 @@
               [chartType]="barChartType"
               (chartHover)="chartHovered($event)"></canvas>
     </div>
-  </!--div>
-</!--div-->
-<div *ngIf="!Mostrar">
+  </!--div-->
+
+      </div>
+      <div class="center mt-3">
+        <button class="btn btn-outline-success" id="no-print" (click)="downloadPDF()" media="print">Generar PDF</button>
+      </div>
+      <div class="center mt-4">
+        <button type="button" class="btn btn-info" (click)="Volver('/evaluacionprevia')">Evaluaciones</button>
+        <button type="button" class="btn btn-secondary" (click)="Volver('/home')">Volver</button>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-3 col-md-3"></div>
+
+  </div>
+
+</div>
+
+
+<div *ngIf="!Mostrar" class="mt-3">
   <app-loading></app-loading>
 </div>
 

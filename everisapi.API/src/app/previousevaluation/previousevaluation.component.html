@@ -75,8 +75,21 @@
           <thead>
             <tr class="filters text-center">
               <th>
+                <div class="input-group" *ngIf="clicked">
+
+                  <input class="form-control" placeholder="dd/mm/yyyy"
+                         name="dp" ngbDatepicker #dF="ngbDatepicker" id="fromDate">
+
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="dF.toggle()" type="button">
+                      <img src="assets/calendar.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                    </button>
+
+                  </div>
+                </div>
+
                 <input type="text" class="form-control" placeholder="Fecha" disabled *ngIf="!clicked">
-                <input type="text" class="form-control" placeholder="Fecha" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.fecha">
+                <!--input type="text" class="form-control" placeholder="Fecha" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.fecha"-->
               </th>
               <th>
                 <input type="text" class="form-control" placeholder="Proyecto" disabled *ngIf="!clicked">
