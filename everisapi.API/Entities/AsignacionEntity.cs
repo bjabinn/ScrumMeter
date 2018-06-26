@@ -25,7 +25,7 @@ namespace everisapi.API.Entities
         [MaxLength(50)]
         public int Peso { get; set; }
 
-    public int SectionId { get; set; }
+        public int SectionId { get; set; }
         //SectionEntity esta relacionando la asignación con la section
         //Mediante esta Foreign Key estamos relacionando SectionEntity con su Id
         [ForeignKey("SectionId")]

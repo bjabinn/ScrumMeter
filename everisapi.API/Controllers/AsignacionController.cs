@@ -195,6 +195,62 @@ namespace everisapi.API.Controllers
       }
     }
 
+
+    //Añadir notas a una asignacion
+    [HttpPut("addNotas")]
+    public IActionResult AddNotasAsignacion([FromBody] AsignacionUpdateNotasDto AsignacionUpdate)
+    {
+      //Si los datos son validos los guardara
+      if (AsignacionUpdate == null || !_asignacionInfoRepository.AsignacionExiste(AsignacionUpdate.Id))
+      {
+        return BadRequest();
+      }
+
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+
+      try
+      {
+
+        //Comprueba que se guardo bien y lo envia
+        if (_asignacionInfoRepository.AddNotas(AsignacionUpdate))
+        {
+          return Ok("La asignación fue modificada correctamente.");
+        }
+        else
+        {
+          return BadRequest();
+        }
+
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir todos los datos de las asignaciones: " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
+      }
+
+    }
+
+    //Recoge una lista de asignaciones con todas sus preguntas y su respuesta filtrada por id de una evaluación
+    [HttpGet("evaluacion/{id}/notas")]
+    public IActionResult GetNotasAsignaciones(int id)
+    {
+      try
+      {
+        var AsignacionesWithInfo = _asignacionInfoRepository.GetAsignConNotas(id);
+
+        return Ok(AsignacionesWithInfo);
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir todos los datos de las asignaciones: " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
+      }
+
+    }
+
     /*DELETE ASIGNACIONES*/
     [HttpDelete("delete")]
     public IActionResult DeleteAsignacion([FromBody] AsignacionCreateUpdateDto AsignacionDelete)

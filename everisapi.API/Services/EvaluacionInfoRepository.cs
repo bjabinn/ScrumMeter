@@ -61,6 +61,37 @@ namespace everisapi.API.Services
 
         EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);
 
+        if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        {
+          EvaluacionInfo.FlagNotasAsig = true;
+        }
+        else
+        {
+          EvaluacionInfo.FlagNotasAsig = false;
+
+        }
+
+
+        if (0 < _context.NotasSections.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        {
+          EvaluacionInfo.FlagNotasSec = true;
+        }
+        else
+        {
+          EvaluacionInfo.FlagNotasSec = false;
+
+        }
+
+        if (0 < _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        {
+          EvaluacionInfo.FlagNotasPreg = true;
+        }
+        else
+        {
+          EvaluacionInfo.FlagNotasPreg = false;
+
+        }
+
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
       }
@@ -92,6 +123,37 @@ namespace everisapi.API.Services
         };
 
         EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);
+
+       if(0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        {
+          EvaluacionInfo.FlagNotasAsig = true;
+        }
+        else
+        {
+          EvaluacionInfo.FlagNotasAsig = false;
+
+        }
+
+
+        if (0 < _context.NotasSections.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        {
+          EvaluacionInfo.FlagNotasSec = true;
+        }
+        else
+        {
+          EvaluacionInfo.FlagNotasSec = false;
+
+        }
+
+        if (0 < _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        {
+          EvaluacionInfo.FlagNotasPreg = true;
+        }
+        else
+        {
+          EvaluacionInfo.FlagNotasPreg = false;
+
+        }
 
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
@@ -189,6 +251,38 @@ namespace everisapi.API.Services
         };
 
         EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);
+
+        if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        {
+          EvaluacionInfo.FlagNotasAsig = true;
+        }
+        else
+        {
+          EvaluacionInfo.FlagNotasAsig = false;
+
+        }
+
+
+        if (0 < _context.NotasSections.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        {
+          EvaluacionInfo.FlagNotasSec = true;
+        }
+        else
+        {
+          EvaluacionInfo.FlagNotasSec = false;
+
+        }
+
+        if (0 < _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        {
+          EvaluacionInfo.FlagNotasPreg = true;
+        }
+        else
+        {
+          EvaluacionInfo.FlagNotasPreg = false;
+
+        }
+
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
       }
@@ -240,6 +334,37 @@ namespace everisapi.API.Services
         };
 
         EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);
+
+        if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        {
+          EvaluacionInfo.FlagNotasAsig = true;
+        }
+        else
+        {
+          EvaluacionInfo.FlagNotasAsig = false;
+
+        }
+
+
+        if (0 < _context.NotasSections.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        {
+          EvaluacionInfo.FlagNotasSec = true;
+        }
+        else
+        {
+          EvaluacionInfo.FlagNotasSec = false;
+
+        }
+
+        if (0 < _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        {
+          EvaluacionInfo.FlagNotasPreg = true;
+        }
+        else
+        {
+          EvaluacionInfo.FlagNotasPreg = false;
+
+        }
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
       }

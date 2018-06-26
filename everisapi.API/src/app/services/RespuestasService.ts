@@ -8,6 +8,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { GLOBAL } from './global';
 import { AppComponent } from '../app.component';
+import { AsignacionUpdate } from 'app/Models/AsignacionUpdate';
 import { Respuesta } from 'app/Models/Respuesta';
 
 @Injectable()
@@ -67,6 +68,19 @@ export class RespuestasService {
     });
 
     return this._http.put(this.url + 'respuestas/update/', params, { headers: headers })
+      .map(res => res);
+  }
+
+  //Este metodo altera la nota de dicha asignacion
+  AddNotaAsig(AsigConNota: AsignacionUpdate) {
+    let Token = this._appComponent.ComprobarUserYToken();
+    let params = JSON.stringify(AsigConNota);
+    let headers = new Headers({
+      'Authorization': Token,
+      'Content-Type': 'application/json'
+    });
+
+    return this._http.put(this.url + 'asignaciones/addNotas/', params, { headers: headers })
       .map(res => res);
   }
 

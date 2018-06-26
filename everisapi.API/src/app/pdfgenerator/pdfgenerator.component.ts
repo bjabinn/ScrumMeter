@@ -4,6 +4,7 @@ import { EvaluacionInfo } from 'app/Models/EvaluacionInfo';
 import { Proyecto } from 'app/Models/Proyecto';
 import { SectionInfo } from 'app/Models/SectionInfo';
 import { RespuestaConNotas } from 'app/Models/RespuestaConNotas';
+import { AsignacionConNotas } from 'app/Models/AsignacionConNotas';
 import { AppComponent } from 'app/app.component';
 import { Router } from '@angular/router';
 import { SectionService } from 'app/services/SectionService';
@@ -39,9 +40,11 @@ export class PdfgeneratorComponent implements OnInit {
   public mostrarNotasEv: boolean = false;
   public mostrarNotasOb: boolean = false;
   public mostrarNotasSec: boolean = false;
+  public mostrarNotasAsig: boolean = false;
   public mostrarNotasPreg: boolean = false;
   public ListaDeRespuestas: Array<RespuestaConNotas> = [];
-  public cargandoNotasPreg: boolean = false;
+  public ListaDeAsignaciones: Array<AsignacionConNotas> = [];
+  public cargandoNotas: boolean = false;
 
 
   //Datos para pdf
@@ -172,46 +175,87 @@ export class PdfgeneratorComponent implements OnInit {
   }
 
   public cambiarMostrarNotasEv() {
-    this.mostrarNotasEv = !this.mostrarNotasEv;
+    if (this.Evaluacion.notasEv != null && this.Evaluacion.notasEv != "") {
+      this.mostrarNotasEv = !this.mostrarNotasEv;
+    }
   }
 
   public cambiarMostrarNotasOb() {
+    if (this.Evaluacion.notasOb != null && this.Evaluacion.notasOb != "") {
     this.mostrarNotasOb = !this.mostrarNotasOb;
+    }
   }
 
   public cambiarMostrarNotasSec() {
-    this.mostrarNotasSec = !this.mostrarNotasSec;
+    if (this.Evaluacion.flagNotasSec) {
+      this.mostrarNotasSec = !this.mostrarNotasSec;
+    }
   }
 
   public cambiarMostrarNotasPreg() {
+    if (this.Evaluacion.flagNotasPreg) {
 
-    //No se ha hecho la peticion al servidor aun
-    if (!this.mostrarNotasPreg && this.ListaDeRespuestas.length == 0) {
-      this.cargandoNotasPreg = true;
+      //No se ha hecho la peticion al servidor aun
+      if (!this.mostrarNotasPreg && this.ListaDeRespuestas.length == 0) {
+        this.cargandoNotas = true;
 
-      this._sectionService.getRespuestasConNotas(this.Evaluacion.id).subscribe(
-        res => {
-          this.ListaDeRespuestas = res;
-          this.cargandoNotasPreg = false;
-          this.mostrarNotasPreg = true;
-        },
-        error => {
-          if (error == 404) {
-            this.ErrorMessage = "Error: ", error, "No pudimos recoger los datos de las preguntas.";
-          } else if (error == 500) {
-            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-          } else if (error == 401) {
-            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-          } else {
-            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        this._sectionService.getRespuestasConNotas(this.Evaluacion.id).subscribe(
+          res => {
+            this.ListaDeRespuestas = res;
+            this.cargandoNotas = false;
+            this.mostrarNotasPreg = true;
+          },
+          error => {
+            if (error == 404) {
+              this.ErrorMessage = "Error: ", error, "No pudimos recoger los datos de las preguntas.";
+            } else if (error == 500) {
+              this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            } else if (error == 401) {
+              this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+            } else {
+              this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            }
           }
-        }
-      );
-    }
-    else {
-          this.mostrarNotasPreg = !this.mostrarNotasPreg;
+        );
       }
+      else {
+        this.mostrarNotasPreg = !this.mostrarNotasPreg;
+      }
+    }
+  }
 
+
+  public cambiarMostrarNotasAsig() {
+    if (this.Evaluacion.flagNotasAsig) {
+
+      //No se ha hecho la peticion al servidor aun
+      if (!this.mostrarNotasAsig && this.ListaDeAsignaciones.length == 0) {
+        this.cargandoNotas = true;
+
+        this._sectionService.getAsignConNotas(this.Evaluacion.id).subscribe(
+          res => {
+            this.ListaDeAsignaciones = res;
+            this.cargandoNotas = false;
+            this.mostrarNotasAsig = true;
+          },
+          error => {
+            if (error == 404) {
+              this.ErrorMessage = "Error: ", error, "No pudimos recoger los datos de las preguntas.";
+            } else if (error == 500) {
+              this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            } else if (error == 401) {
+              this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+            } else {
+              this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            }
+          }
+        );
+
+      }
+      else {
+        this.mostrarNotasAsig = !this.mostrarNotasAsig;
+      }
+    }
   }
 
   public Volver(lugar) {

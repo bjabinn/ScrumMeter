@@ -54,7 +54,6 @@ namespace everisapi.API.Services
           Id = section.Id,
           Nombre = section.Nombre,
           Preguntas = Respuestas.Where(r => r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).Count(),
-          Contestadas = Respuestas.Where(r => r.Estado != 0 && r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).Count()          
         };
 
         var notasSec = _context.NotasSections.Where(r => r.SectionId == section.Id && r.EvaluacionId == idEvaluacion).FirstOrDefault();
@@ -71,6 +70,39 @@ namespace everisapi.API.Services
         }
 
         SectionAdd.Notas = notasSec.Notas;
+
+        //Para calcular el progreso
+        var listaAsignaciones = _context.Asignaciones.Where(r => r.SectionId == section.Id).ToList();
+
+        int contestadas = 0;
+        foreach(AsignacionEntity asig in listaAsignaciones)
+        {
+          var respuestasAsig = Respuestas.Where(p => p.PreguntaEntity.AsignacionEntity.Id == asig.Id).ToList();
+
+          //Para ver si la primera es de las que habilitan a las demás o no
+          //y si está contestada a NO (para contar las demás como contestadas
+          bool flag = false;
+          if(respuestasAsig[0].PreguntaEntity.Correcta == null && respuestasAsig[0].Estado == 2)
+          {
+            flag = true;
+          }
+
+
+          foreach(RespuestaEntity resp in respuestasAsig)
+          {
+            if(flag)
+            {
+              contestadas++;
+            }
+            else if (resp.Estado != 0)
+            {
+              contestadas++;
+            }
+          }
+
+        }
+        
+        SectionAdd.Contestadas = contestadas;
         SectionAdd.Progreso = Math.Round( ((double)SectionAdd.Contestadas / SectionAdd.Preguntas) *100, 1);
 
 

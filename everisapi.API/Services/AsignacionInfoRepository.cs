@@ -69,10 +69,20 @@ namespace everisapi.API.Services
                           select asignacionesEntity).Distinct().ToList();
       foreach (var asignacion in asignaciones)
       {
-        var introducirasig = new AsignacionInfoDto();
-        introducirasig.Id = asignacion.Id;
-        introducirasig.Nombre = asignacion.Nombre;
-        introducirasig.Preguntas = changePregunta(asignacion.PreguntasDeAsignacion, ListaRespuestas);
+        var introducirasig = new AsignacionInfoDto
+        {
+          Id = asignacion.Id,
+          Nombre = asignacion.Nombre,
+          Preguntas = ChangePregunta(asignacion.PreguntasDeAsignacion, ListaRespuestas)
+        };
+
+        var nota = _context.NotasAsignaciones.Where(r => r.EvaluacionId == idEval && r.AsignacionId == asignacion.Id).FirstOrDefault();
+
+        if (nota != null)
+        {
+          introducirasig.Notas = nota.Notas;
+        }
+
         AsignacionesInfo.Add(introducirasig);
       }
 
@@ -94,12 +104,23 @@ namespace everisapi.API.Services
                           where asig.SectionId == idSection
                           select new { asig.Id, asig.Nombre, asig.PreguntasDeAsignacion } into asignacionesEntity
                           select asignacionesEntity).Distinct().ToList();
+
       foreach (var asignacion in asignaciones)
       {
-        var introducirasig = new AsignacionInfoDto();
-        introducirasig.Id = asignacion.Id;
-        introducirasig.Nombre = asignacion.Nombre;
-        introducirasig.Preguntas = changePregunta(asignacion.PreguntasDeAsignacion, ListaRespuestas);
+        var introducirasig = new AsignacionInfoDto
+        {
+          Id = asignacion.Id,
+          Nombre = asignacion.Nombre,
+          Preguntas = ChangePregunta(asignacion.PreguntasDeAsignacion, ListaRespuestas),
+        };
+
+        var nota = _context.NotasAsignaciones.Where(r => r.EvaluacionId == idEval && r.AsignacionId == asignacion.Id).FirstOrDefault();
+
+        if(nota != null)
+        {
+          introducirasig.Notas = nota.Notas;
+        }
+
         AsignacionesInfo.Add(introducirasig);
       }
 
@@ -107,7 +128,7 @@ namespace everisapi.API.Services
     }
 
     //Devuelve todas las asignaciones con datos extendidos filtrado por evaluacion
-    public AsignacionInfoDto GetAsignFromEvalAndAsig(int idEval, int idAsing)
+    public AsignacionInfoDto GetAsignFromEvalAndAsig(int idEval, int idAsig)
     {
 
       AsignacionInfoDto AsignacionesInfo = new AsignacionInfoDto();
@@ -119,14 +140,21 @@ namespace everisapi.API.Services
                           join p in _context.Preguntas on respuestas.PreguntaId equals p.Id
                           select new { p.Id, p.AsignacionId, p.Pregunta, p.Correcta} into preguntas
                           join asig in _context.Asignaciones on preguntas.AsignacionId equals asig.Id
-                          where asig.Id == idAsing
+                          where asig.Id == idAsig
                           select new { asig.Id, asig.Nombre, asig.PreguntasDeAsignacion } into asignacionesEntity
                           select asignacionesEntity).Distinct().FirstOrDefault();
 
 
       AsignacionesInfo.Id = asignacionBD.Id;
       AsignacionesInfo.Nombre = asignacionBD.Nombre;
-      AsignacionesInfo.Preguntas = changePregunta(asignacionBD.PreguntasDeAsignacion, ListaRespuestas);
+      AsignacionesInfo.Preguntas = ChangePregunta(asignacionBD.PreguntasDeAsignacion, ListaRespuestas);
+
+      var nota = _context.NotasAsignaciones.Where(r => r.EvaluacionId == idEval && r.AsignacionId == idAsig).FirstOrDefault();
+
+      if (nota != null)
+      {
+        AsignacionesInfo.Notas = nota.Notas;
+      }
 
       return AsignacionesInfo;
     }
@@ -138,7 +166,7 @@ namespace everisapi.API.Services
     }*/
 
     // Metodo que devolvia una lista
-    public List<PreguntaWithOneRespuestasDto> changePregunta(IEnumerable<PreguntaEntity> Preguntas, IEnumerable<RespuestaDto> Respuestas)
+    public List<PreguntaWithOneRespuestasDto> ChangePregunta(IEnumerable<PreguntaEntity> Preguntas, IEnumerable<RespuestaDto> Respuestas)
     {
       List<PreguntaWithOneRespuestasDto> PreguntasConRespuestas = new List<PreguntaWithOneRespuestasDto>();
       foreach (var pregunta in Preguntas)
@@ -188,6 +216,30 @@ namespace everisapi.API.Services
       return SaveChanges();
     }
 
+
+    //Este metodo nos permite añadir notas para una asignación
+    public bool AddNotas(AsignacionUpdateNotasDto asignacion)
+    {
+
+      var asig = _context.NotasAsignaciones.Where(r => r.EvaluacionId == asignacion.EvId && r.AsignacionId == asignacion.Id).FirstOrDefault();
+
+
+      if(asig == null)
+      {
+        asig = new NotasAsignacionesEntity
+        {
+          AsignacionId = asignacion.Id,
+          EvaluacionId = asignacion.EvId,
+        };
+        _context.NotasAsignaciones.Add(asig);
+
+      }
+
+      asig.Notas = asignacion.Notas;
+
+      return SaveChanges();
+    }
+
     //Este metodo nos permite persistir los cambios en las entidades
     public bool SaveChanges()
     {
@@ -228,8 +280,32 @@ namespace everisapi.API.Services
       _context.Preguntas.Remove(pregunta);
     }
 
-    //Este metodo elimina una asignación
-    public bool DeleteAsig(AsignacionEntity asignacion)
+    //Devuelve todas las asignaciones con notas de esa evaluacion
+    public IEnumerable<AsignacionConNotasDto> GetAsignConNotas(int idEval)
+    {
+      List<AsignacionConNotasDto> AsignacionesInfo = new List<AsignacionConNotasDto>();
+
+      var asignaciones = _context.NotasAsignaciones.Include(r => r.AsignacionEntity).ThenInclude(a => a.SectionEntity).
+        Where(n => n.EvaluacionId == idEval).ToList();
+
+      foreach(NotasAsignacionesEntity asig in asignaciones)
+      {
+        var nuevaAsignacion = new AsignacionConNotasDto
+        {
+          Asignacion = asig.AsignacionEntity.Nombre,
+          Section = asig.AsignacionEntity.SectionEntity.Nombre,
+          Notas = asig.Notas
+        };
+
+        AsignacionesInfo.Add(nuevaAsignacion);
+      }
+
+      return AsignacionesInfo;
+
+    }
+
+      //Este metodo elimina una asignación
+      public bool DeleteAsig(AsignacionEntity asignacion)
     {
 
       _context.Asignaciones.Remove(asignacion);

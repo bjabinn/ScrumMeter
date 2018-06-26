@@ -14,8 +14,9 @@
       <div class="checkbox">
         <form>
           <div>
-            <input type="checkbox" id="notasEv" name="notasEv" value="" class="" (click)="cambiarMostrarNotasEv()" />
-            <label for="notasEv">
+            <input type="checkbox" id="notasEv" name="notasEv" value=""
+                   [ngClass]="{'disableCheck': Evaluacion.notasEv == null || Evaluacion.notasEv.length == '0'}" (click)="cambiarMostrarNotasEv()" />
+            <label for="notasEv" [ngClass]="{'disable': Evaluacion.notasEv == null || Evaluacion.notasEv.length == '0'}">
               <span><!-- This span is needed to create the "checkbox" element --></span>
               Notas de evaluación
             </label>
@@ -26,8 +27,9 @@
       <div class="checkbox">
         <form>
           <div>
-            <input type="checkbox" id="notasOb" name="notasOb" value="" (click)="cambiarMostrarNotasOb()" />
-            <label for="notasOb">
+            <input type="checkbox" id="notasOb" name="notasOb" value=""
+                   [ngClass]="{'disableCheck': Evaluacion.notasOb == null || Evaluacion.notasOb.length == '0'}" (click)="cambiarMostrarNotasOb()" />
+            <label for="notasOb" [ngClass]="{'disable': Evaluacion.notasOb == null || Evaluacion.notasOb.length == '0'}">
               <span><!-- This span is needed to create the "checkbox" element --></span>
               Notas de objetivos
             </label>
@@ -38,10 +40,25 @@
       <div class="checkbox">
         <form>
           <div>
-            <input type="checkbox" id="notasSec" name="notasSec" value="" (click)="cambiarMostrarNotasSec()" />
-            <label for="notasSec">
+            <input type="checkbox" id="notasSec" name="notasSec" value=""
+                   [ngClass]="{'disableCheck': !Evaluacion.flagNotasSec}" (click)="cambiarMostrarNotasSec()" />
+            <label for="notasSec" [ngClass]="{'disable': !Evaluacion.flagNotasSec}">
               <span><!-- This span is needed to create the "checkbox" element --></span>
               Notas de secciones
+            </label>
+          </div>
+        </form>
+      </div>
+
+
+      <div class="checkbox">
+        <form>
+          <div>
+            <input type="checkbox" id="notasAsig" name="notasAsig" value=""
+                   [ngClass]="{'disableCheck': !Evaluacion.flagNotasAsig}" (click)="cambiarMostrarNotasAsig()" />
+            <label for="notasAsig" [ngClass]="{'disable': !Evaluacion.flagNotasAsig}">
+              <span><!-- This span is needed to create the "checkbox" element --></span>
+              Notas de asignaciones
             </label>
           </div>
         </form>
@@ -50,8 +67,9 @@
       <div class="checkbox">
         <form>
           <div>
-            <input type="checkbox" id="notasPreg" name="notasPreg" value="" (click)="cambiarMostrarNotasPreg()" />
-            <label for="notasPreg">
+            <input type="checkbox" id="notasPreg" name="notasPreg" value=""
+                   [ngClass]="{'disableCheck': !Evaluacion.flagNotasPreg}" (click)="cambiarMostrarNotasPreg()" />
+            <label for="notasPreg" [ngClass]="{'disable': !Evaluacion.flagNotasPreg}">
               <span><!-- This span is needed to create the "checkbox" element --></span>
               Notas de preguntas
             </label>
@@ -109,7 +127,28 @@
           </div>
 
 
-          <div *ngIf="cargandoNotasPreg">
+          <div class="notas mx-auto col-12" *ngIf="mostrarNotasAsig">
+            <h4>Notas de asignaciones:</h4>
+
+            <table class="table-fill" style="overflow-x:auto;">
+              <thead>
+                <tr>
+                  <th class="text-left">Sección</th>
+                  <th class="text-left">Asignación</th>
+                  <th class="text-left">Notas</th>
+                </tr>
+              </thead>
+              <tbody class="table-hover">
+                <tr *ngFor="let asig of ListaDeAsignaciones">
+                  <td class="text-left notasPreg" *ngIf="asig.notas != null && asig.notas != ''">{{asig.section | titlecase}}</td>
+                  <td class="text-left notasPreg" *ngIf="asig.notas != null && asig.notas != ''">{{asig.asignacion}}</td>
+                  <td class="text-left notasPreg" *ngIf="asig.notas != null && asig.notas != ''">{{asig.notas}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div *ngIf="cargandoNotas">
             <app-loading></app-loading>
           </div>
 
@@ -124,6 +163,7 @@
                   <th class="text-left">Asignación</th>
                   <th class="text-left">Pregunta</th>
                   <th class="text-left">Respuesta</th>
+                  <th class="text-left">Notas</th>
                 </tr>
               </thead>
               <tbody class="table-hover">
@@ -131,6 +171,11 @@
                   <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.section | titlecase}}</td>
                   <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.asignacion}}</td>
                   <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.pregunta}}</td>
+                  <td class="text-left notasPreg ncResp" *ngIf="respuesta.notas != null && respuesta.notas != ''">
+                    <span *ngIf="respuesta.estado == 0">No contestada</span>
+                    <span *ngIf="respuesta.estado == 1">Sí</span>
+                    <span *ngIf="respuesta.estado == 2">No</span>
+                  </td>
                   <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.notas}}</td>
                 </tr>
               </tbody>
@@ -158,7 +203,7 @@
       </div>
       <div class="center mt-4">
         <button type="button" class="btn btn-info" (click)="Volver('/evaluacionprevia')">Evaluaciones</button>
-        <button type="button" class="btn btn-secondary" (click)="Volver('/home')">Volver</button>
+        <button type="button" class="btn btn-secondary" (click)="Volver('/home')">Inicio</button>
       </div>
     </div>
 

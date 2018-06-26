@@ -42,8 +42,17 @@
     <div class="row">
       <div class="col-xs-12 col-sm-2 col-md-3"></div>
       <div class="col-xs-12 col-sm-8 col-md-6">
-        <h2>Módulo {{InfoAsignacion.id}}: {{InfoAsignacion.nombre}}</h2>
+        <h2>
+          Módulo {{InfoAsignacion.id}}: {{InfoAsignacion.nombre}}
+
+          <button class="transparente ml-4" (click)="AbrirModal(notasAsset)">
+            <img *ngIf="InfoAsignacion.notas != null" height="40" src="assets/nota_si.png" />
+            <img *ngIf="InfoAsignacion.notas == null" height="40" src="assets/nota_no.png" />
+          </button>
+        </h2>
+
       </div>
+
       <div class="col-xs-12 col-sm-2 col-md-3"></div>
     </div>
     <br />
@@ -70,7 +79,7 @@
 
       </div>
       <div class="col-xs-12 col-sm-1 col-md-1 col-lg-2 text-center pb-1">
-        <button class="transparente" (click)="AbrirModal(content, i)">
+        <button class="transparente" (click)="AbrirModalPreg(notasPreg, i)">
           <img *ngIf="preguntaDada.respuesta.notas != null" height="40" src="assets/nota_si.png" />
           <img *ngIf="preguntaDada.respuesta.notas == null" height="40" src="assets/nota_no.png" />
         </button>
@@ -90,7 +99,25 @@
     </div>
   </div>
 
-  <ng-template #content let-cl="close" let-di="dismiss">
+  <ng-template #notasPreg let-cl="close" let-di="dismiss">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Notas Pregunta</h5> <button type="button" class="close" (click)="cl('Cerrar')">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" maxlength="1000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
+      </div>
+      <div class="modal-footer">
+        <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/1000</p>
+        <button type="button" class="btn btn-success" (click)="di('Guardar')">Guardar</button>
+        <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #notasAsset let-cl="close" let-di="dismiss">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Notas Pregunta</h5> <button type="button" class="close" (click)="cl('Cerrar')">

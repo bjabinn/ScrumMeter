@@ -67,6 +67,28 @@ namespace everisapi.API.Migrations
                     b.ToTable("Evaluaciones");
                 });
 
+            modelBuilder.Entity("everisapi.API.Entities.NotasAsignacionesEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AsignacionId");
+
+                    b.Property<int>("EvaluacionId");
+
+                    b.Property<string>("Notas")
+                        .HasMaxLength(1000);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AsignacionId");
+
+                    b.HasIndex("EvaluacionId");
+
+                    b.ToTable("NotasAsignaciones");
+                });
+
             modelBuilder.Entity("everisapi.API.Entities.NotasSectionsEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -138,9 +160,6 @@ namespace everisapi.API.Migrations
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Estado")
-                        .HasMaxLength(5);
-
-                    b.Property<int>("Estado2")
                         .HasMaxLength(5);
 
                     b.Property<int>("EvaluacionId");
@@ -233,6 +252,19 @@ namespace everisapi.API.Migrations
                     b.HasOne("everisapi.API.Entities.ProyectoEntity", "ProyectoEntity")
                         .WithMany("Evaluaciones")
                         .HasForeignKey("ProyectoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("everisapi.API.Entities.NotasAsignacionesEntity", b =>
+                {
+                    b.HasOne("everisapi.API.Entities.AsignacionEntity", "AsignacionEntity")
+                        .WithMany()
+                        .HasForeignKey("AsignacionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("everisapi.API.Entities.EvaluacionEntity", "EvaluacionEntity")
+                        .WithMany()
+                        .HasForeignKey("EvaluacionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -7,6 +7,7 @@ import { Pregunta } from 'app/Models/Pregunta';
 import { Proyecto } from 'app/Models/Proyecto';
 import { Respuesta } from 'app/Models/Respuesta';
 import { AsignacionInfo } from 'app/Models/AsignacionInfo';
+import { AsignacionUpdate } from 'app/Models/AsignacionUpdate';
 import { Router } from "@angular/router";
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -20,7 +21,7 @@ import { Section } from 'app/Models/Section';
 })
 export class NewevaluationComponent implements OnInit {
   public ListaAsignaciones: Array<Asignacion> = [];
-  public InfoAsignacion: AsignacionInfo = { id: null, nombre: '', preguntas: null };
+  public InfoAsignacion: AsignacionInfo = { id: null, nombre: '', preguntas: null, 'notas': null };
   public NumMax: number = 0;
   public PageNow: number = 1;
   public Project: Proyecto = null;
@@ -204,7 +205,7 @@ export class NewevaluationComponent implements OnInit {
     }
   }
 
-  public AbrirModal(content, i) {
+  public AbrirModalPreg(content, i) {
 
     this.anadeNota = null;
 
@@ -254,6 +255,64 @@ export class NewevaluationComponent implements OnInit {
 
             });
 
+
+
+        }
+        //Else, Click fuera, no se guarda
+      })
+  }
+
+
+  public AbrirModal(content) {
+
+    this.anadeNota = null;
+
+    if (this.InfoAsignacion.notas != null) {
+      this.textoModal = this.InfoAsignacion.notas;
+    } else {
+      this.textoModal = "";
+    }
+
+    this.modalService.open(content).result.then(
+      (closeResult) => {
+        //Si cierra, no se guarda
+
+      }, (dismissReason) => {
+        if (dismissReason == 'Guardar') {
+
+          this.Deshabilitar = true;
+
+          if (this.textoModal != "") {
+            this.InfoAsignacion.notas = this.textoModal;
+          } else {
+            this.InfoAsignacion.notas = null;
+          }
+
+          var asig = new AsignacionUpdate(this.Evaluation.id, this.InfoAsignacion.id, this.InfoAsignacion.notas);
+
+
+          this._respuestasService.AddNotaAsig(asig).subscribe(
+            res => {
+
+              this.anadeNota = "Nota añadida correctamente";
+            },
+            error => {
+
+              if (error == 404) {
+                this.ErrorMessage = "Error: ", error, "No pudimos realizar la actualización de la respuesta, lo sentimos.";
+              } else if (error == 500) {
+                this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              } else if (error == 401) {
+                this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+              } else {
+                this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              }
+            },
+            () => {
+              this.Deshabilitar = false;
+
+            });
+            
 
 
         }

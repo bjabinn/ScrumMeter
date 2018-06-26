@@ -7,6 +7,9 @@ export class EvaluacionInfo {
     public fecha: string,
     public notasEv: string,
     public notasOb: string,
-    public estado: boolean
+    public estado: boolean,
+    public flagNotasSec: boolean,
+    public flagNotasAsig: boolean,
+    public flagNotasPreg: boolean
   ) { }
 }

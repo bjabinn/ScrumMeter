@@ -50,5 +50,11 @@ namespace everisapi.API.Services
 
     //Elimina una asignación
     bool DeleteAsig(AsignacionEntity asignacion);
+
+    //Este metodo nos permite añadir notas para una asignación
+    bool AddNotas(AsignacionUpdateNotasDto asignacion);
+
+    //Devuelve todas las asignaciones con notas de esa evaluacion
+    IEnumerable<AsignacionConNotasDto> GetAsignConNotas(int idEval);
   }
 }

@@ -122,6 +122,18 @@ export class SectionService {
       .catch(this.errorHandler);
   }
 
+  //Obtiene todas las asignaciones con notas para esta evaluacion
+  getAsignConNotas(id) {
+    let Token = this._appComponent.ComprobarUserYToken();
+    let headers = new Headers({
+      'Authorization': Token
+    });
+
+    return this._http.get(this.url + 'respuestas/evaluacion/' + id, { headers: headers })
+      .map((response: Response) => response.json())
+      .catch(this.errorHandler);
+  }
+
 
   //Implementamos este metodo para permitir la recogida de los errores y su gestión
   errorHandler(error: Response) {

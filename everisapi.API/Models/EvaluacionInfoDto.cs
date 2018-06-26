@@ -25,5 +25,12 @@ namespace everisapi.API.Models
 
     public bool Estado { get; set; }
 
+    public bool FlagNotasSec { get; set; }
+
+    public bool FlagNotasAsig { get; set; }
+
+    public bool FlagNotasPreg { get; set; }
+
+
   }
 }

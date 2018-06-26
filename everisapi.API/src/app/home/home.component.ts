@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
   public Deshabilitar = false;
   public MostrarInfo = false;
   public SendingInfo = false;
+  public flagContinuar = true;
 
   constructor(
     private _proyectoService: ProyectoService,
