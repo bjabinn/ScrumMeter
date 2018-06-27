@@ -127,15 +127,15 @@
               <td *ngIf="!evaluacion.estado">No completada</td>
               <td>
                 <button class="transparente" (click)="AbrirModal(notasEv, i, 0)">
-                  <img *ngIf="evaluacion.notasEv != null" src="assets/nota_si.png" />
-                  <img *ngIf="evaluacion.notasEv == null" src="assets/nota_no.png" />
+                  <img *ngIf="evaluacion.notasEv != null" src="assets/nota_si.png" title="Añadir notas" />
+                  <img *ngIf="evaluacion.notasEv == null" src="assets/nota_no.png" title="Añadir notas" />
                 </button>
               </td>
 
               <td>
                 <button class="transparente" (click)="AbrirModal(notasOb, i, 1)">
-                  <img *ngIf="evaluacion.notasOb != null" src="assets/nota_si.png" />
-                  <img *ngIf="evaluacion.notasOb == null" src="assets/nota_no.png" />
+                  <img *ngIf="evaluacion.notasOb != null" src="assets/nota_si.png" title="Añadir notas" />
+                  <img *ngIf="evaluacion.notasOb == null" src="assets/nota_no.png" title="Añadir notas" />
                 </button>
               </td>
 

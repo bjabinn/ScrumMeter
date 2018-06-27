@@ -100,6 +100,10 @@
               <td class="text-left">{{datos.nombre | titlecase}}</td>
               <td class="text-left">{{datos.respuestasCorrectas}}%</td>
             </tr>
+            <tr >
+              <td class="text-left total"><strong>Total</strong></td>
+              <td class="text-left total">{{Evaluacion.puntuacion}}%</td>
+            </tr>
           </tbody>
         </table>
 
@@ -129,7 +133,6 @@
 
           <div class="notas mx-auto col-12" *ngIf="mostrarNotasAsig">
             <h4>Notas de asignaciones:</h4>
-
             <table class="table-fill" style="overflow-x:auto;">
               <thead>
                 <tr>

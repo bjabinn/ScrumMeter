@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { StorageDataService } from './services/StorageDataService';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
@@ -10,11 +10,14 @@ import { Router } from '@angular/router';
   providers: [StorageDataService]
 })
 export class AppComponent {
+  public NombreDeUsuario: string;
 
   constructor(
     public _storageDataService: StorageDataService,
     public _router: Router) {
   }
+
+
 
 
   public ComprobarUserYToken() {

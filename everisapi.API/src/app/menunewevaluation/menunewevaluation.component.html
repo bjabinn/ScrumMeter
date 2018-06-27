@@ -37,11 +37,9 @@
       <div class="col-xs-12 col-sm-2 col-md-2">
       </div>
 
-      <div class="col-xs-12 col-sm-1 col-md-1">
-        <button class="transparente mt-3" (click)="AbrirModalNotas(notas, i)">
-          <img *ngIf="dato.notas != null" height="45" src="assets/nota_si.png" />
-          <img *ngIf="dato.notas == null" height="45" src="assets/nota_no.png" />
-        </button>
+      <div class="col-xs-12 col-sm-1 col-md-1" id="barraespacio" *ngIf="ScreenWidth >= 576">
+        <img class="icon" *ngIf="dato.progreso!=100 && dato.progreso > 0" src="assets/green_no.png" title="No completado" alt="No completado">
+        <img class="icon" *ngIf="dato.progreso==100" src="assets/green_si.png" alt="Completado" title="Completado">
       </div>
 
       <div class="col-xs-12 col-sm-3 col-md-3">
@@ -67,15 +65,21 @@
 
         <p class="mt-1 font-italic">Respondidas {{dato.contestadas}} de {{dato.preguntas}} </p>
       </div>
-      <div class="col-xs-12 col-sm-3 col-md-3" id="barraespacio" *ngIf="ScreenWidth >= 576">
-        <img class="icon" *ngIf="dato.progreso!=100 && dato.progreso > 0" src="assets/green_no.png" alt="No compleado">
-        <img class="icon" *ngIf="dato.progreso==100" src="assets/green_si.png" alt="Compleado">
+
+
+      <div class="col-xs-12 col-sm-3 col-md-3">
+        <button class="transparente mt-3" (click)="AbrirModalNotas(notas, i)">
+          <img *ngIf="dato.notas != null" height="45" src="assets/nota_si.png" title="Añadir notas"/>
+          <img *ngIf="dato.notas == null" height="45" src="assets/nota_no.png" title="Añadir notas"/>
+        </button>
       </div>
+
       <br />
     </div>
     <br />
     <div class="wrapper">
-      <button type="button" class="btn btn-outline-success" (click)="AbrirModal(content)">Finalizar</button>
+      <button type="button" class="btn btn-outline-success mr-1" (click)="AbrirModal(content)">Finalizar</button>
+      <button type="button" class="btn btn-primary" (click)="VolverInicio()">Ir a inicio</button>
     </div>
   </div>
 
@@ -95,7 +99,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" (click)="di('Finish')">Finalizar</button>
-        <button type="button" class="btn btn-primary" (click)="di('Home')">Ir a inicio</button>
         <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
       </div>
     </div>

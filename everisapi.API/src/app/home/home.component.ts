@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   public Deshabilitar = false;
   public MostrarInfo = false;
   public SendingInfo = false;
-  public flagContinuar = true;
+  public existeRepetida = false;
 
   constructor(
     private _proyectoService: ProyectoService,
@@ -145,6 +145,43 @@ export class HomeComponent implements OnInit {
   public SeleccionDeProyecto(index: number) {
     this.ProyectoSeleccionado = this.ListaDeProyectos[index];
     this._appComponent._storageDataService.UserProjectSelected = this.ProyectoSeleccionado;
+
+    //Comprueba que no esta vacia el proyecto elegido
+    if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
+      //Comprueba si ya termino de enviarse la información desde la api
+      if (!this.SendingInfo) {
+        this.SendingInfo = true;
+        this._evaluacionService.getIncompleteEvaluacionFromProject(this.ProyectoSeleccionado.id).subscribe(
+          res => {
+            //Lo guarda en el storage
+            this._appComponent._storageDataService.Evaluacion = res;
+            //Si hay un proyecto sin finalizar
+            if (res != null) {
+              this.existeRepetida = true;
+            } else {
+              //Si no encuentra ninguna repetida
+              this.existeRepetida = false;
+            }
+          },
+          error => {
+            //Habilitamos la pagina nuevamente
+            this.Deshabilitar = false;
+            if (error == 404) {
+              this.ErrorMessage = "Error: ", error, " No se puede completar la comprobación en la evaluación lo sentimos.";
+            } else if (error == 500) {
+              this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            } else if (error == 401) {
+              this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+            } else {
+              this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            }
+          },
+          () => {
+            this.SendingInfo = false;
+          });
+      }
+    }
+
   }
 
   //Este metodo crea una nueva evaluación y la manda para guardarla en la base de datos
@@ -216,59 +253,30 @@ export class HomeComponent implements OnInit {
     if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
       //Comprueba si ya termino de enviarse la información desde la api
       if (!this.SendingInfo) {
-        this.SendingInfo = true;
-        //Deshabilito la parte de atras del modal
-        this.Deshabilitar = true;
-        //Comprueba si existe un proyecto seleccionado
-        if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
-          this._evaluacionService.getIncompleteEvaluacionFromProject(this.ProyectoSeleccionado.id).subscribe(
-            res => {
-              //Habilitamos la pagina nuevamente
-              this.Deshabilitar = false;
-              //Si hay un proyecto sin finalizar muestra un modal y deja seleccionar
-              if (res != null) {
+        if (this.existeRepetida) {
                 this.modalService.open(content).result.then(
                   (closeResult) => {
-                    this.SendingInfo = false;
                   }, (dismissReason) => {
-                    //Lo guarda en el storage
-                    this._appComponent._storageDataService.Evaluacion = res;
                     //Si selecciona continuar cargara la valuación que no termino
                     if (dismissReason == 'Continuar') {
-                      this.SendingInfo = false;
                       this._router.navigate(['/menunuevaevaluacion']);
                     } else if (dismissReason == 'Nueva') {
                       //Si selecciona nuevo que es la otra opción cogera la evaluación anterior lo finalizara
                       //cargara una nueva y lo mostrara
                       this.FinishEvaluation();
-                    } else {
-                      this.SendingInfo = false;
-                    }
+                    } 
                   })
               } else {
                 //Si no encuentra ninguna repetida directamente te crea una nueva evaluación
                 this.GuardarEvaluacion();
               }
-            },
-            error => {
-              //Habilitamos la pagina nuevamente
-              this.Deshabilitar = false;
-              if (error == 404) {
-                this.ErrorMessage = "Error: ", error, " No se puede completar la comprobación en la evaluación lo sentimos.";
-              } else if (error == 500) {
-                this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-              } else if (error == 401) {
-                this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-              } else {
-                this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-              }
-            });
-        } else {
-          this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
-        }
-      }
+            }
     } else {
       this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
     }
+  }
+
+  public continuarEvaluacion() {
+    this._router.navigate(['/menunuevaevaluacion']);
   }
 }

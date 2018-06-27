@@ -117,16 +117,17 @@ export class MenunewevaluationComponent implements OnInit {
       });
   }
 
+  public VolverInicio() {
+    this._router.navigate(['/home']);
+  }
+
   public AbrirModal(content) {
     this.modalService.open(content).result.then(
       (closeResult) => {
         //Esto realiza la acción de cerrar la ventana
         //Console.log("Cerro la ventana con: ", content);
       }, (dismissReason) => {
-        if (dismissReason == 'Home') {
-          //Si no desea finalizar lo mandaremos a home
-          this._router.navigate(['/home']);
-        } else if (dismissReason == 'Finish') {
+          if (dismissReason == 'Finish') {
           //Si decide finalizarlo usaremos el metodo para finalizar la evaluación
           this.FinishEvaluation();
         }

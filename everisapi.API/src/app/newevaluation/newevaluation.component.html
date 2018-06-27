@@ -46,8 +46,8 @@
           Módulo {{InfoAsignacion.id}}: {{InfoAsignacion.nombre}}
 
           <button class="transparente ml-4" (click)="AbrirModal(notasAsset)">
-            <img *ngIf="InfoAsignacion.notas != null" height="40" src="assets/nota_si.png" />
-            <img *ngIf="InfoAsignacion.notas == null" height="40" src="assets/nota_no.png" />
+            <img *ngIf="InfoAsignacion.notas != null" height="40" src="assets/nota_si.png" title="Añadir notas"/>
+            <img *ngIf="InfoAsignacion.notas == null" height="40" src="assets/nota_no.png" title="Añadir notas"/>
           </button>
         </h2>
 
@@ -80,8 +80,8 @@
       </div>
       <div class="col-xs-12 col-sm-1 col-md-1 col-lg-2 text-center pb-1">
         <button class="transparente" (click)="AbrirModalPreg(notasPreg, i)">
-          <img *ngIf="preguntaDada.respuesta.notas != null" height="40" src="assets/nota_si.png" />
-          <img *ngIf="preguntaDada.respuesta.notas == null" height="40" src="assets/nota_no.png" />
+          <img *ngIf="preguntaDada.respuesta.notas != null" height="40" src="assets/nota_si.png" title="Añadir notas"/>
+          <img *ngIf="preguntaDada.respuesta.notas == null" height="40" src="assets/nota_no.png" title="Añadir notas"/>
         </button>
       </div>
       <br />

@@ -415,6 +415,15 @@ namespace everisapi.API.Services
 
           var puntos = (double)resp.PreguntaEntity.AsignacionEntity.Peso / maxPuntos;
 
+          if(resp.PreguntaEntity.AsignacionEntity.SectionId == 2)
+          {
+            puntos = puntos * 0.5;
+          }
+          else
+          {
+            puntos = puntos * 0.25;
+          }
+
           puntosCorrectos += puntos;
 
           if (resp.Estado == 1 && resp.PreguntaEntity.Correcta.Equals("Si"))
