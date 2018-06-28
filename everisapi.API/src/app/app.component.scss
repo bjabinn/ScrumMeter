@@ -95,9 +95,6 @@
 #cssmenu > ul > li > a:hover:after {
   background: #99AD01;
 }
-#cerrarsesion{
-    margin-right: 20%;
-}
 
 @media print {
   #no-print, #no-print * {
@@ -107,4 +104,63 @@
   .no-print, .no-print * {
     display: none !important;
   }
+}
+
+.noSelect {
+  -webkit-user-select: none; 
+  -moz-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none;
+}
+
+
+#inicio{
+  max-width: 100px;
+  text-align: center;
+}
+
+#cerrarsesion {
+  max-width: 170px;
+  text-align: center;
+ float: right!important;
+}
+
+.usuario, .proyecto {
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+  margin-top: 20px !important;
+}
+
+.titulo {
+  font-size: 20pt;
+  margin-top: 11px !important;
+  margin-right: 25px !important;
+  margin-left: calc(43vw - 250px) !important;
+}
+
+.titulo.solo {
+  margin-left: calc(50vw - 250px) !important;
+}
+
+.margen2 {
+  margin-top: 7px!important;
+  margin-left: calc(50vw - 250px) !important;
+}
+
+.margen2.solo {
+  margin-left: calc(60vw - 250px) !important;
+}
+
+.titulo2 {
+  font-size: 20pt;
+}
+
+.top2{
+  margin-top: 33px!important;
+}
+
+
+.titulo3 {
+  font-size: 20pt;
+  margin-top: 7px !important;
 }

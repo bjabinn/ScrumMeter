@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, HostListener} from '@angular/core';
 import { StorageDataService } from './services/StorageDataService';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
@@ -10,14 +10,22 @@ import { Router } from '@angular/router';
   providers: [StorageDataService]
 })
 export class AppComponent {
-  public NombreDeUsuario: string;
+  public NombreDeUsuario: string = null;
+  public NombreDeProyecto: string = null;
+  public ScreenWidth;
+
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.ScreenWidth = window.innerWidth;
+  }
+
 
   constructor(
     public _storageDataService: StorageDataService,
     public _router: Router) {
+    this.ScreenWidth = window.innerWidth;
   }
-
-
 
 
   public ComprobarUserYToken() {
@@ -42,4 +50,13 @@ export class AppComponent {
       return "Bearer " + this._storageDataService.TokenUser;
     }
   }
+
+  public anadirUserProyecto(nomUsu: string, nomProy: string) {
+    if (nomUsu != null) {
+      this.NombreDeUsuario = nomUsu;
+    }
+
+    this.NombreDeProyecto = nomProy;
+  }
+
 }

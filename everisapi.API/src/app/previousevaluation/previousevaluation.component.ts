@@ -97,6 +97,12 @@ export class PreviousevaluationComponent implements OnInit {
       () => {
         this.Restablecer();
       });
+
+    if (this.Project.fecha != null) {
+      this._appComponent.anadirUserProyecto(this.UserName, this.Project.nombre);
+    } else {
+      this._appComponent.anadirUserProyecto(this.UserName, "Todos");
+    }
   }
 
   //Este metodo devuelve el número de paginas máximo que hay

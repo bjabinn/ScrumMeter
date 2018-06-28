@@ -119,6 +119,8 @@ export class PdfgeneratorComponent implements OnInit {
       this._router.navigate(['/home']);
     }
 
+    this._appComponent.anadirUserProyecto(null, this.Evaluacion.nombre);
+
   }
 
   //Da los datos a las diferentes listas que usaremos para las graficas

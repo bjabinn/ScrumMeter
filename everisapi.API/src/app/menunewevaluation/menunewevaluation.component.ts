@@ -81,6 +81,8 @@ export class MenunewevaluationComponent implements OnInit {
     } else {
       this._router.navigate(['/home']);
     }
+
+    this._appComponent.anadirUserProyecto(null, this.ProjectSelected.nombre);
   }
 
   //Calcula el total de las ceremonias que llevamos completadas de forma dinamica

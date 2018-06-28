@@ -76,6 +76,8 @@ export class HomeComponent implements OnInit {
           this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         }
       });
+
+    this._appComponent.anadirUserProyecto(this.NombreDeUsuario, null);
   }
 
   //Metodo que asigna los proyectos por permisos y usuario
@@ -145,6 +147,8 @@ export class HomeComponent implements OnInit {
   public SeleccionDeProyecto(index: number) {
     this.ProyectoSeleccionado = this.ListaDeProyectos[index];
     this._appComponent._storageDataService.UserProjectSelected = this.ProyectoSeleccionado;
+    this.existeRepetida = false;
+
 
     //Comprueba que no esta vacia el proyecto elegido
     if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
@@ -158,10 +162,7 @@ export class HomeComponent implements OnInit {
             //Si hay un proyecto sin finalizar
             if (res != null) {
               this.existeRepetida = true;
-            } else {
-              //Si no encuentra ninguna repetida
-              this.existeRepetida = false;
-            }
+            } 
           },
           error => {
             //Habilitamos la pagina nuevamente
