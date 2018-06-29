@@ -1,6 +1,4 @@
-<br>
-<br>
-
+<br />
 <div class="corregir">
   <div class="espacio">
     <div *ngIf="(ErrorMessage != null || ErrorMessage != undefined )" class="alert alert-danger" id="danger">
@@ -14,23 +12,6 @@
       <app-loading></app-loading>
     </div>
   </div>
-
-  <div class="row" id="infopro" *ngIf="MostrarInfo">
-    <div class="col-xs-12 col-sm-5 col-md-5">
-      Usuario: {{UserSelected}}
-    </div>
-    <div class="col-xs-12 col-sm-5 col-md-5">
-      Fecha: {{ProjectSelected.fecha | date:'dd/MM/yyyy'}}
-    </div>
-    <div class="col-xs-12 col-sm-5 col-md-5">
-      <div class="form-horizontal">
-        <div class="form-group">
-          <label for="sel1">Proyecto: {{ProjectSelected.nombre}}</label>
-        </div>
-      </div>
-    </div>
-  </div>
-  <br>
 
   <div *ngIf="ListaDeDatos.length != 0">
     <div class="row" *ngFor="let dato of ListaDeDatos; let i = index" id="bajar">
@@ -68,13 +49,12 @@
 
 
       <div class="col-xs-12 col-sm-3 col-md-3">
-        <button class="transparente mt-3" (click)="AbrirModalNotas(notas, i)">
+        <button class="transparente mb-3 mt-3" (click)="AbrirModalNotas(notas, i)">
           <img *ngIf="dato.notas != null" height="45" src="assets/nota_si.png" title="Añadir notas"/>
           <img *ngIf="dato.notas == null" height="45" src="assets/nota_no.png" title="Añadir notas"/>
         </button>
       </div>
 
-      <br />
     </div>
     <br />
     <div class="wrapper">

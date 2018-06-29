@@ -5,6 +5,7 @@ import { Evaluacion } from 'app/Models/Evaluacion';
 import { EvaluacionInfo } from 'app/Models/EvaluacionInfo';
 import { Proyecto } from 'app/Models/Proyecto';
 import { Section } from 'app/Models/Section';
+import { SectionInfo } from 'app/Models/SectionInfo';
 import { Observable } from 'rxjs/Observable';
 import { setTimeout } from 'timers';
 import { UserService } from 'app/services/UserService';
@@ -19,6 +20,7 @@ export class StorageDataService {
   public UserData: User;
   public DataUnfinished: boolean = false;
   public SectionSelected: Section = null;
+  public SectionSelectedInfo: SectionInfo = null;
   public Evaluacion: Evaluacion = null;
   public EvaluacionToPDF: EvaluacionInfo = null;
   public SectionName: string = null;

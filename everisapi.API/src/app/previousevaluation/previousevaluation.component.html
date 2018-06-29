@@ -35,6 +35,8 @@
               <span>No Completada</span>
             </label>
 
+            <button type="button" class="btn btn-info float-right" (click)="VolverInicio()">Volver</button>
+
           </div>
         </div>
 
@@ -104,8 +106,8 @@
                   <img *ngIf="evaluacion.notasOb == null" src="assets/nota_no.png" title="Añadir notas" />
                 </button>
               </td>
+              <td><button type="button" class="btnpdf" (click)="SaveDataToPDF(evaluacion)">Ver</button></td>
 
-              <td><button type="button" class="btnpdf" (click)="SaveDataToPDF(evaluacion)">Ver Informe</button></td>
             </tr>
             <tr *ngIf="Mostrar && ListaDeEvaluacionesPaginada.length == 0">
               <td colspan="6">
@@ -120,17 +122,15 @@
     </div>
 
     <div class="wrapper" *ngIf="NumMax > 1">
-      <button type="button" class="btn btn-outline-success" (click)="NextPreviousButton(false)">Anterior</button>
+      <button type="button" class="btn btn-success" (click)="NextPreviousButton(false)">Anterior</button>
       <strong>
         {{PageNow}}/{{NumMax}}
       </strong>
-      <button type="button" class="btn btn-outline-success" (click)="NextPreviousButton(true)">Siguiente</button>
+      <button type="button" class="btn btn-success" (click)="NextPreviousButton(true)">Siguiente</button>
     </div>
   </div>
 
-  <div class="wrapper mt-2">
-    <button type="button" class="btn btn-info" (click)="VolverInicio()">Volver</button>
-  </div>
+
 
 </div>
 

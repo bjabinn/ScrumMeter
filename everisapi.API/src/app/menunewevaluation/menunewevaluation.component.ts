@@ -42,10 +42,13 @@ export class MenunewevaluationComponent implements OnInit {
     private _evaluacionService: EvaluacionService,
     private _appComponent: AppComponent,
     private modalService: NgbModal) {
+
     this.ScreenWidth = window.innerWidth;
+
   }
 
   ngOnInit() {
+
     //Empezamos cargando el usuario en el componente mientras verificamos si esta logueado
     //En caso de no estar logeado nos enviara devuelta al login
     //En caso de no tener asignado ningun proyecto nos enviara a home para que lo seleccionemos
@@ -94,8 +97,9 @@ export class MenunewevaluationComponent implements OnInit {
   }
 
   //Permite refirigir y guardar la id de la sección seleccionada
-  public RedirectToAsignaciones(SectionSeleccionada: Section) {
-    this._appComponent._storageDataService.SectionSelected = SectionSeleccionada;
+  public RedirectToAsignaciones(SectionSeleccionada: SectionInfo) {
+    this._appComponent._storageDataService.SectionSelectedInfo = SectionSeleccionada;
+
     this._router.navigate(['/nuevaevaluacion']);
   }
 

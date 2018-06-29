@@ -37,6 +37,11 @@ h2 {
   opacity: 0.5;
 }
 
+.disabledButton {
+  opacity: 0.5;
+  cursor: default;
+}
+
 .loading {
 position: fixed;
 margin-top: 10%;

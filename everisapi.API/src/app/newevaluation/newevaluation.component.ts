@@ -12,6 +12,8 @@ import { Router } from "@angular/router";
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Section } from 'app/Models/Section';
+import { SectionInfo } from 'app/Models/SectionInfo';
+import { SectionModify } from 'app/Models/SectionModify';
 
 @Component({
   selector: 'app-newevaluation',
@@ -28,7 +30,7 @@ export class NewevaluationComponent implements OnInit {
   public Evaluation: Evaluacion = null;
   public AreaAsignada: Asignacion = { 'id': 0, 'nombre': "undefined" };
   public UserName: string = "";
-  public SectionSelected: Section = null;
+  public SectionSelected: SectionInfo = null;
   public Deshabilitar = true;
   public ErrorMessage: string = null;
   public MostrarInfo = false;
@@ -43,7 +45,7 @@ export class NewevaluationComponent implements OnInit {
     private _appComponent: AppComponent,
     private modalService: NgbModal) {
 
-    this.SectionSelected = this._appComponent._storageDataService.SectionSelected;
+    this.SectionSelected = this._appComponent._storageDataService.SectionSelectedInfo;
     //Recogemos el proyecto y el usuario si no coincide alguno lo redirigiremos
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
     this.Evaluation = this._appComponent._storageDataService.Evaluacion;
@@ -263,7 +265,7 @@ export class NewevaluationComponent implements OnInit {
   }
 
 
-  public AbrirModal(content) {
+  public AbrirModalAsig(content) {
 
     this.anadeNota = null;
 
@@ -320,4 +322,59 @@ export class NewevaluationComponent implements OnInit {
       })
   }
 
+
+  public AbrirModalSec(content) {
+
+    this.anadeNota = null;
+
+    if (this.InfoAsignacion.notas != null) {
+      this.textoModal = this.SectionSelected.notas;
+    } else {
+      this.textoModal = "";
+    }
+
+    this.modalService.open(content).result.then(
+      (closeResult) => {
+        //Si cierra, no se guarda
+
+      }, (dismissReason) => {
+        if (dismissReason == 'Guardar') {
+
+          this.Deshabilitar = true;
+
+          if (this.textoModal != "") {
+            this.SectionSelected.notas = this.textoModal;
+          } else {
+            this.SectionSelected.notas = null;
+          }
+
+
+          var SeccionModificada = new SectionModify(this.Evaluation.id, this.SectionSelected.id, this.SectionSelected.notas);
+
+          this._sectionService.addNota(SeccionModificada).subscribe(
+            res => {
+
+              this.anadeNota = "Nota añadida correctamente";
+            },
+            error => {
+
+              if (error == 404) {
+                this.ErrorMessage = "Error: ", error, "No pudimos realizar la actualización de la respuesta, lo sentimos.";
+              } else if (error == 500) {
+                this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              } else if (error == 401) {
+                this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+              } else {
+                this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              }
+            },
+            () => {
+              this.Deshabilitar = false;
+
+            });
+
+        }
+        //Else, Click fuera, no se guarda
+      })
+  }
 }

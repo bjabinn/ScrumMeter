@@ -106,7 +106,7 @@ namespace everisapi.API.Services
       var Evaluaciones = _context.Evaluaciones.
         Include(r => r.ProyectoEntity).
         ThenInclude(p => p.UserEntity).
-        Where(e => e.ProyectoId == IdProject).Skip(5 * pageNumber).Take(5)
+        Where(e => e.ProyectoId == IdProject).Skip(10 * pageNumber).Take(10)
         .OrderByDescending(e => e.Fecha).ToList();
       //Encuentra la informacion de la evaluacion y lo introduce en un objeto
       foreach (var evaluacion in Evaluaciones)
@@ -288,7 +288,7 @@ namespace everisapi.API.Services
       }
 
 
-      return EvaluacionesInformativas.Skip(5 * pageNumber).Take(5).ToList();
+      return EvaluacionesInformativas.Skip(10 * pageNumber).Take(10).ToList();
     }
 
     //Metodo que devuelve un filtrado de evaluaciones paginada sin proyectos

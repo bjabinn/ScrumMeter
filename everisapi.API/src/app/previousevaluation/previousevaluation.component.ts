@@ -107,7 +107,7 @@ export class PreviousevaluationComponent implements OnInit {
 
   //Este metodo devuelve el número de paginas máximo que hay
   public CalcularPaginas() {
-    var NumeroDePaginas = Math.floor((this.nEvaluaciones / 5) * 100) / 100;
+    var NumeroDePaginas = Math.floor((this.nEvaluaciones / 10) * 100) / 100;
     if (NumeroDePaginas % 1 != 0) {
       this.NumMax = Math.floor(NumeroDePaginas) + 1;
     } else {
@@ -132,10 +132,10 @@ export class PreviousevaluationComponent implements OnInit {
 
   //Este metodo devuelve la transforma la lista de evaluaciones dada en una lista paginada
   public paginacionLista(pageNumber: number) {
-    var Skip = pageNumber * 5;
+    var Skip = pageNumber * 10;
     var ListaPaginada = new Array<EvaluacionInfo>();
     var contador = Skip;
-    while (ListaPaginada.length != 5 && contador < this.ListaDeEvaluacionesPaginada.length) {
+    while (ListaPaginada.length != 10 && contador < this.ListaDeEvaluacionesPaginada.length) {
       ListaPaginada.push(this.ListaDeEvaluacionesPaginada[contador]);
       contador++;
     }
