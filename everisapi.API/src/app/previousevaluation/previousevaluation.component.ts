@@ -12,6 +12,7 @@ import { ProyectoService } from 'app/services/ProyectoService';
 import { Role } from 'app/Models/Role';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 
 @Component({
   selector: 'app-previousevaluation',
@@ -37,6 +38,7 @@ export class PreviousevaluationComponent implements OnInit {
   public Timeout: Subscription;
   public textoModal: string;
   public anadeNota = null;
+  public fechaPicker: NgbDate;
 
   constructor(
     private _appComponent: AppComponent,
@@ -318,6 +320,31 @@ export class PreviousevaluationComponent implements OnInit {
 
   public VolverInicio() {
     this._router.navigate(['/home']);
+  }
+
+  public changeDate() {
+    if (this.fechaPicker.day < 10) {
+      this.EvaluacionFiltrar.fecha = "0" + this.fechaPicker.day + "/";
+    } else {
+      this.EvaluacionFiltrar.fecha = this.fechaPicker.day + "/";
+    }
+
+    if (this.fechaPicker.month < 10) {
+      this.EvaluacionFiltrar.fecha = this.EvaluacionFiltrar.fecha + "0" + this.fechaPicker.month + "/" + this.fechaPicker.year;
+    } else {
+      this.EvaluacionFiltrar.fecha = this.EvaluacionFiltrar.fecha + this.fechaPicker.month + "/" + this.fechaPicker.year;
+    }
+
+    this.PageNow = 1;
+    this.GetPaginacion();
+
+  }
+
+  public limpiar() {
+    this.EvaluacionFiltrar.fecha = "";
+
+    this.PageNow = 1;
+    this.GetPaginacion();
   }
 
 }

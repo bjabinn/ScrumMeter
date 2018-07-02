@@ -31,8 +31,8 @@ export class PdfgeneratorComponent implements OnInit {
   //Datos de la barras
   public barChartType: string = 'bar';
   public barChartLegend: boolean = true;
-  public ListaNPreguntas: number[] = [];
-  public ListaNRespuestas: number[] = [];
+  public ListaAgileCompliance: number[] = [50,55,75];
+  public ListaPuntuacion: number[] = [];
   public ListaNombres: string[] = [];
 
   //Para las notas
@@ -127,27 +127,49 @@ export class PdfgeneratorComponent implements OnInit {
   public shareDataToChart() {
     for (var i = 0; i < this.ListaDeDatos.length; i++) {
       this.ListaNombres.push(this.ListaDeDatos[i].nombre);
-      this.ListaNPreguntas.push(this.ListaDeDatos[i].preguntas);
-      this.ListaNRespuestas.push(/*this.ListaDeDatos[i].respuestas*/1);
+      this.ListaPuntuacion.push(this.ListaDeDatos[i].respuestasCorrectas);
     }
     this.Mostrar = true;
   }
 
-  //Datos para la grafica
+  //Opciones para la grafica
   public barChartOptions: any = {
-     scaleShowVerticalLines: true,
-     responsive: true
+    scaleShowVerticalLines: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          steps: 10,
+          stepValue: 10,
+          max: 100,
+          min: 0,
+        }
+      }]
+    }
   };
 
+  //Colores para la grafica
+  public chartColors: Array<any> = [
+    { // first color
+      backgroundColor: 'rgba(92, 183, 92, 0.5)',
+      borderColor: 'rgba(92, 183, 92, 0.5)',
+      pointBackgroundColor: 'rgba(92, 183, 92, 0.5)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(92, 183, 92, 0.5)'
+    },
+    { // second color
+      backgroundColor: 'rgba(52, 122, 183, 0.5)',
+      borderColor: 'rgba(52, 122, 183, 0.5)',
+      pointBackgroundColor: 'rgba(52, 122, 183, 0.5)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(52, 122, 183, 0.5)'
+    }];
   //Estos son los datos introducidos en la grafica para que represente sus formas
   public barChartData: any[] = [
-    { data: this.ListaNPreguntas, label: 'Nº total de preguntas' },
-    { data: this.ListaNRespuestas, label: 'Preguntas Respondidas' }
+    { data: this.ListaAgileCompliance, label: 'Agile Compliance' },
+    { data: this.ListaPuntuacion, label: 'Puntuación' }
   ];
-
-  public chartHovered(e: any): void {
-    console.log(e);
-  }
 
   //Genera un pdf a partir de una captura de pantalla
   //Mediante css eliminamos los componentes que no deseamos

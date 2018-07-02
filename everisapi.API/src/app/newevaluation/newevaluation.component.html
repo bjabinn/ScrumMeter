@@ -95,7 +95,7 @@
       <button type="button" class="btn btn-outline-success" *ngIf="PageNow == NumMax" (click)="NextPreviousButton(0)">Finalizar</button>
     </div>
     <div class="wrapper mt-2">
-      <button type="button" class="btn btn-info" (click)="NextPreviousButton(0)">Volver</button>
+      <button type="button" class="btn btn-info inicio" (click)="NextPreviousButton(0)">Volver</button>
     </div>
   </div>
 
@@ -111,7 +111,7 @@
       </div>
       <div class="modal-footer">
         <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/1000</p>
-        <button type="button" class="btn btn-success" (click)="di('Guardar')">Guardar</button>
+        <button type="button" class="btn btn-success finalizar" (click)="di('Guardar')">Guardar</button>
         <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
       </div>
     </div>
@@ -129,7 +129,7 @@
       </div>
       <div class="modal-footer">
         <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/1000</p>
-        <button type="button" class="btn btn-success" (click)="di('Guardar')">Guardar</button>
+        <button type="button" class="btn btn-success finalizar" (click)="di('Guardar')">Guardar</button>
         <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
       </div>
     </div>
@@ -147,7 +147,7 @@
       </div>
       <div class="modal-footer">
         <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/1000</p>
-        <button type="button" class="btn btn-success" (click)="di('Guardar')">Guardar</button>
+        <button type="button" class="btn btn-success finalizar" (click)="di('Guardar')">Guardar</button>
         <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
       </div>
     </div>

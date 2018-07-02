@@ -222,7 +222,7 @@ namespace everisapi.API.Services
         ThenInclude(p => p.UserEntity).
         Where(e => e.ProyectoId == IdProject &&
         e.Estado == Boolean.Parse(Evaluacion.Estado) &&
-        e.Fecha.Date.ToString("yyyyMMdd").Contains(Evaluacion.Fecha) &&
+        e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) &&
         e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
         ).OrderByDescending(e => e.Fecha).ToList();
       }
@@ -232,7 +232,7 @@ namespace everisapi.API.Services
         Include(r => r.ProyectoEntity).
         ThenInclude(p => p.UserEntity).
         Where(e => e.ProyectoId == IdProject &&
-        e.Fecha.Date.ToString("yyyyMMdd").Contains(Evaluacion.Fecha) &&
+        e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) &&
         e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
         ).OrderByDescending(e => e.Fecha).ToList();
       }
@@ -303,7 +303,7 @@ namespace everisapi.API.Services
         Include(r => r.ProyectoEntity).
         ThenInclude(p => p.UserEntity).
         Where(e => e.Estado == Boolean.Parse(Evaluacion.Estado) &&
-        e.Fecha.Date.ToString("yyyyMMdd").Contains(Evaluacion.Fecha) &&
+        e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) &&
         e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
         ).OrderByDescending(e => e.Fecha).ToList();
       }
@@ -312,7 +312,7 @@ namespace everisapi.API.Services
         Evaluaciones = _context.Evaluaciones.
         Include(r => r.ProyectoEntity).
         ThenInclude(p => p.UserEntity).
-        Where(e => e.Fecha.Date.ToString("yyyyMMdd").Contains(Evaluacion.Fecha) &&
+        Where(e => e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) &&
         e.ProyectoEntity.Nombre.Contains(Evaluacion.Nombre) &&
         e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
         ).OrderByDescending(e => e.Fecha).ToList();

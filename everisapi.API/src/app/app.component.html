@@ -2,10 +2,10 @@
 <div class="no-print" id='cssmenu' *ngIf="_router.url != '/login' && _router.url != '/' && ScreenWidth > 776">
   <ul class="text-center">
     <li class="active text-center" id="inicio"><a routerLink="/home">Inicio</a></li>
-      <li class="text-center titulo noSelect" [ngClass]="{'solo': NombreDeProyecto==null}">AgileMeter</li>
-      <li class="usuario text-center noSelect" *ngIf="NombreDeUsuario != null">Usuario: {{NombreDeUsuario}}</li>
-      <li class="proyecto text-center noSelect" *ngIf="NombreDeProyecto != null">Proyecto: {{NombreDeProyecto}}</li>
-      <li class="text-center active" id="cerrarsesion"><a routerLink="/login">Cerrar sesi&oacute;n</a></li>
+    <li class="text-center titulo noSelect" [ngClass]="{'solo': NombreDeProyecto==null}">AgileMeter</li>
+    <li class="proyecto text-center noSelect" *ngIf="NombreDeProyecto != null">Proyecto: {{NombreDeProyecto}}</li>
+    <li class="text-center active float-right" id="cerrarsesion"><a routerLink="/login">Cerrar sesi&oacute;n</a></li>
+    <li class="usuario text-right float-right noSelect" *ngIf="NombreDeUsuario != null">Usuario: <b>{{NombreDeUsuario}}</b></li>
   </ul>
 </div>
 
@@ -18,8 +18,8 @@
 
       <p class="text-center titulo2 noSelect">AgileMeter</p>
       <p>
-        <span class="usuario2 noSelect" *ngIf="NombreDeUsuario != null">Usuario: {{NombreDeUsuario}}</span>
-        <span class="proyecto2" *ngIf="NombreDeProyecto != null">Proyecto: {{NombreDeProyecto}}</span>
+        <span class="proyecto2" *ngIf="NombreDeProyecto != null">Proyecto: {{NombreDeProyecto}} |</span>
+        <span class="usuario2 noSelect" *ngIf="NombreDeUsuario != null">Usuario: <b>{{NombreDeUsuario}}</b></span>
       </p>
 
     </li>
@@ -32,8 +32,8 @@
 
   <p class="text-center titulo3 noSelect">AgileMeter</p>
   <p>
-    <span class="usuario3 noSelect" *ngIf="NombreDeUsuario != null">Usuario: {{NombreDeUsuario}}</span>
-    <span class="proyecto3" *ngIf="NombreDeProyecto != null">Proyecto: {{NombreDeProyecto}}</span>
+    <span class="proyecto3" *ngIf="NombreDeProyecto != null">Proyecto: {{NombreDeProyecto}} |</span>
+    <span class="usuario3 noSelect" *ngIf="NombreDeUsuario != null">Usuario: <b>{{NombreDeUsuario}}</b></span>
   </p>
 
   <ul class="text-center">

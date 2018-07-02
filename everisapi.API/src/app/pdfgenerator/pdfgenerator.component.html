@@ -82,7 +82,7 @@
     <div class="col-xs-12 col-sm-6 col-md-6 mt-3">
 
       <div id="printcanvas">
-        <div class="data mb-2">
+        <!--div class="data mb-2">
           Proyecto: <b>{{Evaluacion.nombre}}</b>
           <br />
           Fecha: <b>{{Evaluacion.fecha | date:'dd/MM/yyyy'}}</b>
@@ -188,25 +188,26 @@
         </div>
 
 
-        <!--Grafica->
-    <div style="display: block" id="Grafica">
+        <!--Grafica-->
+    <div style="display:block" id="Grafica">
       <canvas id="canvas" baseChart
               [datasets]="barChartData"
               [labels]="ListaNombres"
               [options]="barChartOptions"
               [legend]="barChartLegend"
               [chartType]="barChartType"
-              (chartHover)="chartHovered($event)"></canvas>
+              [colors]="chartColors">
+
+      </canvas>
     </div>
-  </!--div-->
 
       </div>
       <div class="center mt-3">
         <button class="btn btn-outline-success" id="no-print" (click)="downloadPDF()" media="print">Generar PDF</button>
       </div>
       <div class="center mt-4">
-        <button type="button" class="btn btn-info" (click)="Volver('/evaluacionprevia')">Evaluaciones</button>
-        <button type="button" class="btn btn-secondary" (click)="Volver('/home')">Inicio</button>
+        <button type="button" class="btn btn-info volver" (click)="Volver('/evaluacionprevia')">Evaluaciones</button>
+        <button type="button" class="btn btn-secondary inicio" (click)="Volver('/home')">Inicio</button>
       </div>
     </div>
 

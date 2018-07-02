@@ -117,7 +117,7 @@ margin-top: 10%;
 .onoffswitch-inner:before {
   content: "SI";
   padding-left: 23px;
-  background-color: #55d684;
+  background-color: #5cb85c;
   color: #FFFFFF;
 }
 
@@ -174,7 +174,7 @@ margin-top: 10%;
 .onoffswitch-inner-inactivo:before {
   content: "SI";
   padding-left: 23px;
-  background-color: #55d684;
+  background-color: #5cb85c;
   color: #FFFFFF;
 }
 
@@ -204,4 +204,24 @@ margin-top: 10%;
 
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch-inactivo {
   right: 0px;
+}
+
+.finalizar {
+  background-color: #5cb85c !important;
+  border-color: #4cae4c !important;
+  transition-duration: 0.1s !important;
+}
+
+.finalizar:hover {
+  background-color: #428442 !important;
+}
+
+.inicio {
+  background-color: #337ab7 !important;
+  border-color: #2e6da4 !important;
+  transition-duration: 0.1s !important;
+}
+
+.inicio:hover {
+  background-color: #1e4c75 !important;
 }

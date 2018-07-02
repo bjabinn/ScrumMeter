@@ -35,7 +35,7 @@
               <span>No Completada</span>
             </label>
 
-            <button type="button" class="btn btn-info float-right" (click)="VolverInicio()">Volver</button>
+            <button type="button" class="btn btn-info float-right inicio" (click)="VolverInicio()">Volver</button>
 
           </div>
         </div>
@@ -46,13 +46,22 @@
               <th>
                 <div class="input-group" *ngIf="clicked">
 
-                  <input class="form-control" placeholder="dd/mm/yyyy"
-                         name="dp" ngbDatepicker #dF="ngbDatepicker" id="fromDate">
+
+                  <input type="text" class="form-control filtro fecha" placeholder="Fecha" [(ngModel)]="EvaluacionFiltrar.fecha">
+
+                  <input class="form-control filtro" placeholder="YYYY-MM-DD" type="hidden"
+                         name="dp" ngbDatepicker #dF="ngbDatepicker" id="fromDate" [(ngModel)]="fechaPicker" (ngModelChange)="changeDate()">
 
                   <div class="input-group-append">
+
+                    <button class="btn btn-outline-secondary" *ngIf="EvaluacionFiltrar.fecha.length > 0" (click)="limpiar()" type="button">
+                      <img src="assets/delete.png" style="width: 1rem; height: 1rem; cursor: pointer;" />
+                    </button>
+
                     <button class="btn btn-outline-secondary" (click)="dF.toggle()" type="button">
                       <img src="assets/calendar.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
                     </button>
+
 
                   </div>
                 </div>
@@ -62,11 +71,11 @@
               </th>
               <th>
                 <span *ngIf="!clicked">Proyecto</span>
-                <input type="text" class="form-control" placeholder="Proyecto" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.nombre">
+                <input type="text" class="form-control filtro" placeholder="Proyecto" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.nombre">
               </th>
               <th>
                 <span *ngIf="!clicked">Usuario</span>
-                <input type="text" class="form-control" placeholder="Usuario" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.userNombre">
+                <input type="text" class="form-control filtro" placeholder="Usuario" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.userNombre">
               </th>
               <th>
                 <span>Puntuación</span>
@@ -122,11 +131,11 @@
     </div>
 
     <div class="wrapper" *ngIf="NumMax > 1">
-      <button type="button" class="btn btn-success" (click)="NextPreviousButton(false)">Anterior</button>
+      <button type="button" class="btn btn-success cambiar" (click)="NextPreviousButton(false)">Anterior</button>
       <strong>
         {{PageNow}}/{{NumMax}}
       </strong>
-      <button type="button" class="btn btn-success" (click)="NextPreviousButton(true)">Siguiente</button>
+      <button type="button" class="btn btn-success cambiar" (click)="NextPreviousButton(true)">Siguiente</button>
     </div>
   </div>
 
@@ -147,7 +156,7 @@
     </div>
     <div class="modal-footer">
       <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/1000</p>
-      <button type="button" class="btn btn-success" (click)="di('Guardar')">Guardar</button>
+      <button type="button" class="btn btn-success cambiar" (click)="di('Guardar')">Guardar</button>
       <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
     </div>
   </div>
@@ -165,7 +174,7 @@
     </div>
     <div class="modal-footer">
       <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/1000</p>
-      <button type="button" class="btn btn-success" (click)="di('Guardar')">Guardar</button>
+      <button type="button" class="btn btn-success cambiar" (click)="di('Guardar')">Guardar</button>
       <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
     </div>
   </div>

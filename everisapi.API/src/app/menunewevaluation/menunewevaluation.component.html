@@ -58,8 +58,8 @@
     </div>
     <br />
     <div class="wrapper">
-      <button type="button" class="btn btn-outline-success mr-1" (click)="AbrirModal(content)">Finalizar</button>
-      <button type="button" class="btn btn-primary" (click)="VolverInicio()">Ir a inicio</button>
+      <button type="button" class="btn btn-success mr-1 finalizar" (click)="AbrirModal(content)">Finalizar</button>
+      <button type="button" class="btn btn-primary inicio" (click)="VolverInicio()">Ir a inicio</button>
     </div>
   </div>
 
@@ -78,7 +78,7 @@
         <p>Al finalizar el proyecto no lo podrá modificar o eliminar ¿está seguro de realizar esta acción?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" (click)="di('Finish')">Finalizar</button>
+        <button type="button" class="btn btn-success finalizar" (click)="di('Finish')">Finalizar</button>
         <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
       </div>
     </div>
@@ -96,7 +96,7 @@
       </div>
       <div class="modal-footer">
         <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/1000</p>
-        <button type="button" class="btn btn-success" (click)="di('Guardar')">Guardar</button>
+        <button type="button" class="btn btn-success finalizar" (click)="di('Guardar')">Guardar</button>
         <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
       </div>
     </div>
