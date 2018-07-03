@@ -7,10 +7,10 @@
 
 <div *ngIf="Mostrar">
   <div class="row">
-    <!--Datos de la evaluación-->
 
 
-    <div class="ml-2 pl-5 col-xs-12 col-sm-3 col-md-3 mt-5" *ngIf="mostrarCheckboxes">
+
+    <div class="ml-2 pl-5 col-xs-12 col-sm-6 col-md-3 mt-5" *ngIf="mostrarCheckboxes">
       <div class="checkbox">
         <form>
           <div>
@@ -79,131 +79,151 @@
     </div>
 
     <!--Tabla con datos--->
-    <div class="col-xs-12 col-sm-6 col-md-6 mt-3">
+    <div class="col-xs-12 col-sm-5 col-md-4 col-lg-5 mt-3 text-center" id="tablaPuntuaciones">
 
-      <div id="printcanvas">
-        <!--div class="data mb-2">
-          Proyecto: <b>{{Evaluacion.nombre}}</b>
-          <br />
-          Fecha: <b>{{Evaluacion.fecha | date:'dd/MM/yyyy'}}</b>
-        </div>
+      <div class="data mb-2">
+        Proyecto: <b>{{Evaluacion.nombre}}</b>
+        <br />
+        Fecha: <b>{{Evaluacion.fecha | date:'dd/MM/yyyy'}}</b>
+      </div>
 
-        <table class="table-fill" style="overflow-x:auto;">
-          <thead>
-            <tr>
-              <th class="text-left">Asignaciones</th>
-              <th class="text-left">Puntuación</th>
-            </tr>
-          </thead>
-          <tbody class="table-hover">
-            <tr *ngFor="let datos of ListaDeDatos">
-              <td class="text-left">{{datos.nombre | titlecase}}</td>
-              <td class="text-left">{{datos.respuestasCorrectas}}%</td>
-            </tr>
-            <tr >
-              <td class="text-left total"><strong>Total</strong></td>
-              <td class="text-left total">{{Evaluacion.puntuacion}}%</td>
-            </tr>
-          </tbody>
-        </table>
+      <table class="table-fill mx-auto" style="overflow-x:auto;">
+        <thead>
+          <tr>
+            <th class="text-left">Asignaciones</th>
+            <th class="text-left">Puntuación</th>
+          </tr>
+        </thead>
+        <tbody class="table-hover">
+          <tr *ngFor="let datos of ListaDeDatos">
+            <td class="text-left">{{datos.nombre | titlecase}}</td>
+            <td class="text-left">{{datos.respuestasCorrectas}}%</td>
+          </tr>
+          <tr>
+            <td class="text-left total"><strong>Total</strong></td>
+            <td class="text-left total">{{Evaluacion.puntuacion}}%</td>
+          </tr>
+        </tbody>
+      </table>
 
-
-        <div class="cajaNotas row text-center mt-4">
-          <div class="notas mx-auto col-12" *ngIf="mostrarNotasEv">
-            <h4>Notas de evaluación:</h4>
-            <p>{{Evaluacion.notasEv}}</p>
-          </div>
-
-          <div class="notas mx-auto col-12" *ngIf="mostrarNotasOb">
-            <h4>Notas de objetivos:</h4>
-            <p>{{Evaluacion.notasOb}}</p>
-          </div>
-
-          <div class="notas mx-auto col-12" *ngIf="mostrarNotasSec">
-            <h4>Notas de secciones:</h4>
-            <div *ngFor="let datos of ListaDeDatos">
-              <div *ngIf="datos.notas != null && datos.notas != ''">
-                <strong>{{datos.nombre | titlecase}}</strong>
-                <p>{{datos.notas}}</p>
-              </div>
-            </div>
-
-          </div>
-
-
-          <div class="notas mx-auto col-12" *ngIf="mostrarNotasAsig">
-            <h4>Notas de asignaciones:</h4>
-            <table class="table-fill" style="overflow-x:auto;">
-              <thead>
-                <tr>
-                  <th class="text-left">Sección</th>
-                  <th class="text-left">Asignación</th>
-                  <th class="text-left">Notas</th>
-                </tr>
-              </thead>
-              <tbody class="table-hover">
-                <tr *ngFor="let asig of ListaDeAsignaciones">
-                  <td class="text-left notasPreg" *ngIf="asig.notas != null && asig.notas != ''">{{asig.section | titlecase}}</td>
-                  <td class="text-left notasPreg" *ngIf="asig.notas != null && asig.notas != ''">{{asig.asignacion}}</td>
-                  <td class="text-left notasPreg" *ngIf="asig.notas != null && asig.notas != ''">{{asig.notas}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div *ngIf="cargandoNotas">
-            <app-loading></app-loading>
-          </div>
-
-
-          <div class="notas mx-auto col-12" *ngIf="mostrarNotasPreg">
-            <h4>Notas de preguntas:</h4>
-
-            <table class="table-fill" style="overflow-x:auto;">
-              <thead>
-                <tr>
-                  <th class="text-left">Sección</th>
-                  <th class="text-left">Asignación</th>
-                  <th class="text-left">Pregunta</th>
-                  <th class="text-left">Respuesta</th>
-                  <th class="text-left">Notas</th>
-                </tr>
-              </thead>
-              <tbody class="table-hover">
-                <tr *ngFor="let respuesta of ListaDeRespuestas">
-                  <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.section | titlecase}}</td>
-                  <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.asignacion}}</td>
-                  <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.pregunta}}</td>
-                  <td class="text-left notasPreg ncResp" *ngIf="respuesta.notas != null && respuesta.notas != ''">
-                    <span *ngIf="respuesta.estado == 0">No contestada</span>
-                    <span *ngIf="respuesta.estado == 1">Sí</span>
-                    <span *ngIf="respuesta.estado == 2">No</span>
-                  </td>
-                  <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.notas}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-        </div>
-
-
-        <!--Grafica-->
-    <div style="display:block" id="Grafica">
-      <canvas id="canvas" baseChart
-              [datasets]="barChartData"
-              [labels]="ListaNombres"
-              [options]="barChartOptions"
-              [legend]="barChartLegend"
-              [chartType]="barChartType"
-              [colors]="chartColors">
-
-      </canvas>
     </div>
 
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2 text-center mt-4">
+
+      <!--Grafica-->
+      <div id="Grafica" class="mx-auto">
+        <canvas id="canvas" baseChart
+                [datasets]="barChartData"
+                [labels]="ListaNombres"
+                [options]="barChartOptions"
+                [legend]="barChartLegend"
+                [chartType]="barChartType"
+                [colors]="chartColors"></canvas>
       </div>
-      <div class="center mt-3">
-        <button class="btn btn-outline-success" id="no-print" (click)="downloadPDF()" media="print">Generar PDF</button>
+
+    </div>
+
+  </div>
+
+
+  <div class="cajaNotas row mt-4 mr-3 ml-3">
+    <div class="notas col-12" *ngIf="mostrarNotasEv" id="notasEvaluacion">
+      <h4>Notas de evaluación:</h4>
+      <p class="text-justify" [ngClass]="{'textopdf':cargandoPDF}">{{Evaluacion.notasEv}}</p>
+    </div>
+
+    <hr *ngIf="mostrarNotasOb && mostrarNotasEv"/>
+
+    <div class="notas col-12" *ngIf="mostrarNotasOb" id="notasObjetivos">
+      <h4>Notas de objetivos:</h4>
+      <p class="text-justify" [ngClass]="{'textopdf':cargandoPDF}">{{Evaluacion.notasOb}}</p>
+    </div>
+
+    <hr *ngIf="mostrarNotasSec && (mostrarNotasEv || mostrarNotasOb)"/>
+
+    <div class="notas col-12" *ngIf="mostrarNotasSec" id="notasSecciones">
+      <h4>Notas de secciones:</h4>
+      <div *ngFor="let datos of ListaDeDatos">
+        <div *ngIf="datos.notas != null && datos.notas != ''">
+          <strong>{{datos.nombre | titlecase}}</strong>
+          <p class="text-justify" [ngClass]="{'textopdf':cargandoPDF}">{{datos.notas}}</p>
+        </div>
+      </div>
+
+    </div>
+
+    <hr *ngIf="mostrarNotasAsig && (mostrarNotasEv || mostrarNotasOb || mostrarNotasSec)"/>
+
+    <div class="notas col-12" *ngIf="mostrarNotasAsig" id="notasAsignaciones">
+      <h4>Notas de asignaciones:</h4>
+      <table class="table-fill" style="overflow-x:auto;">
+        <thead>
+          <tr>
+            <th class="text-left">Sección</th>
+            <th class="text-left">Asignación</th>
+            <th class="text-left">Notas</th>
+          </tr>
+        </thead>
+        <tbody class="table-hover">
+          <tr *ngFor="let asig of ListaDeAsignaciones">
+            <td class="text-left notasPreg" *ngIf="asig.notas != null && asig.notas != ''">{{asig.section | titlecase}}</td>
+            <td class="text-left notasPreg" *ngIf="asig.notas != null && asig.notas != ''">{{asig.asignacion}}</td>
+            <td class="text-left notasPreg text-justify colNotasAsi" [ngClass]="{'pdf':cargandoPDF}" *ngIf="asig.notas != null && asig.notas != ''">{{asig.notas}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="cargandoNotas">
+      <app-loading></app-loading>
+    </div>
+
+    <hr *ngIf="mostrarNotasPreg && (mostrarNotasEv || mostrarNotasOb || mostrarNotasSec || mostrarNotasAsig)"/>
+
+    <div class="notas col-12" *ngIf="mostrarNotasPreg"  id="notasPreguntas">
+      <h4>Notas de preguntas:</h4>
+
+      <table class="table-fill tablaNotas" style="overflow-x:auto;">
+        <thead>
+          <tr>
+            <th class="text-left">Sección</th>
+            <th class="text-left">Asignación</th>
+            <th class="text-left">Pregunta</th>
+            <th class="text-left">Respuesta</th>
+            <th class="text-left">Notas</th>
+          </tr>
+        </thead>
+        <tbody class="table-hover">
+          <tr *ngFor="let respuesta of ListaDeRespuestas">
+            <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.section | titlecase}}</td>
+            <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.asignacion}}</td>
+            <td class="text-left notasPreg text-justify" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.pregunta}}</td>
+
+            <td class="text-left notasPreg ncResp" *ngIf="respuesta.notas != null && respuesta.notas != '' && respuesta.estado == 0">No contestada</td>
+            <td class="text-left notasPreg ncResp" *ngIf="respuesta.notas != null && respuesta.notas != '' && respuesta.estado == 1">Sí</td>
+            <td class="text-left notasPreg ncResp" *ngIf="respuesta.notas != null && respuesta.notas != '' && respuesta.estado == 2">No</td>
+
+            <td class="text-left notasPreg text-justify colNotasPreg" [ngClass]="{'pdf':cargandoPDF}" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.notas}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+  <div class="row">
+
+    <div class="col-xs-0 col-sm-0 col-md-3 col-lg-3 mt-3 text-center"></div>
+
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-5 mt-3 text-center">
+
+
+      <div class="center">
+        <button class="btn btn-outline-success" *ngIf="!cargandoPDF" id="no-print" (click)="downloadPDF()" media="print">Generar PDF</button>
+        <div *ngIf="cargandoPDF" id="cargarPDF">
+          <app-loading></app-loading>
+        </div>
       </div>
       <div class="center mt-4">
         <button type="button" class="btn btn-info volver" (click)="Volver('/evaluacionprevia')">Evaluaciones</button>
@@ -211,10 +231,11 @@
       </div>
     </div>
 
-    <div class="col-xs-12 col-sm-3 col-md-3"></div>
+    <div class="col-xs-0 col-sm-0 col-md-4 col-lg-3 mt-3 text-center"></div>
+
+
 
   </div>
-
 </div>
 
 

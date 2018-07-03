@@ -7,18 +7,15 @@
   }
 }
 
-#Grafica{
-  min-width:350px;
-  width: 85%;
-  height:auto;
-  align-content: center;
-  margin-left:7.5%
-  }
+#Grafica {
+  min-width: 350px;
+  max-width: 500px;
+}
 
 //Data
 .data {
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 //Button
@@ -33,23 +30,20 @@
   background: white;
   border-radius: 3px;
   border-collapse: collapse;
-  margin: auto;
   max-width: 600px;
   padding: 5px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  animation: float 5s infinite;
+}
+
+label {
+  font-size: 13px!important;
 }
 
 th {
-  color: white;
-  background: #9BAE0C;
-  border-bottom: 4px solid #9ea7af;
-  border-right: 1px solid #343a45;
-  font-size: 14pt;
-  font-weight: bold;
-  padding: 10px;
-  text-align: left;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  background: rgba(145,188,4,0.36);
+  font-size: 13px;
+  padding: 13px;
+  text-align: center;
   vertical-align: middle;
 }
 
@@ -59,33 +53,15 @@ th:first-child {
 
 th:last-child {
   border-top-right-radius: 3px;
-  border-right: none;
-}
-
-tr {
-  border-top: 1px solid #C1C3D1;
-  border-bottom: 1px solid #C1C3D1;
-  color: #000000;
-  font-weight: normal;
-  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
 }
 
 tr:hover td {
-  transition: background 0.7s ease;
+  transition: background 0.1s ease;
   background: #4bedb4;
-  border-top: 1px solid #22262e;
-}
-
-tr:first-child {
-  border-top: none;
-}
-
-tr:last-child {
-  border-bottom: none;
 }
 
 tr:nth-child(odd) td {
-  background-color: #e0eaf9;
+  background-color: #EBEBEB;
 }
 
 tr:nth-child(odd):hover td {
@@ -105,42 +81,15 @@ td {
   padding: 10px;
   text-align: left;
   vertical-align: middle;
-  font-size: 13pt;
-  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-  border-right: 1px solid #C1C3D1;
+  font-size: 13px;
 }
 
 td.notasPreg{
-  font-size: 11pt;
+  font-size: 13px;
+  width:100px!important;
 }
 
-td:last-child {
-  border-right: 0px;
-}
 
-th.text-left {
-  text-align: left;
-}
-
-th.text-center {
-  text-align: center;
-}
-
-th.text-right {
-  text-align: right;
-}
-
-td.text-left {
-  text-align: left;
-}
-
-td.text-center {
-  text-align: center;
-}
-
-td.text-right {
-  text-align: right;
-}
 
 .total{
   border-top: 1px solid black!important;
@@ -150,8 +99,13 @@ td, p {
   white-space: pre-line;
 }
 
+p{
+  font-size: 13px!important;
+}
 
-
+h4 {
+  font-size: 16px !important;
+}
 
 .exp {
   display: table; // to center the item
@@ -399,4 +353,50 @@ label.disable {
 
 .inicio:hover {
   background-color: #428442 !important;
+}
+
+hr {
+  display: block;
+  position: relative;
+  padding: 0;
+  margin: 8px auto;
+  height: 0;
+  width: 100%;
+  max-height: 0;
+  font-size: 1px;
+  line-height: 0;
+  clear: both;
+  border: none;
+  border-top: 1px solid #aaaaaa;
+  border-bottom: 1px solid #ffffff;
+}
+
+#cargarPDF{
+  height: 30px;
+  padding-right: 100px;
+}
+
+.colNotasPreg {
+  max-width: calc(100vw - 500px);
+  overflow-x: auto;
+}
+
+.colNotasAsi {
+  max-width: calc(100vw - 300px);
+  overflow-x: auto;
+}
+
+.colNotasPreg.pdf {
+  max-width: calc(100vw - 1100px);
+  overflow-x: hidden;
+}
+
+.colNotasAsi.pdf {
+  max-width: calc(100vw - 900px);
+  overflow-x: hidden;
+}
+
+.textopdf{
+  max-width: 600px;
+  
 }

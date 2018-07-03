@@ -12,13 +12,13 @@
   <h2>Evaluaciones anteriores</h2>
   <div [ngClass]="('' + (!Mostrar ? 'disabled' : ''))">
     <div class="row">
-      <div class="panel panel-primary filterable">
-        <div class="panel-heading">
+      <div class="panel panel-primary filterable todo">
+        <div class="panel-heading todo">
           <div class="loading" *ngIf="!Mostrar">
             <app-loading></app-loading>
           </div>
           <div class="pull-right">
-            <button class="btn btn-default btn-xs btn-filter" (click)="Restablecer()">Filtros</button>
+            <button class="btn btn-default btn-xs btn-filter" *ngIf="Mostrar" (click)="Restablecer()">Filtros</button>
 
             <label class="radio" *ngIf="clicked" (click)="ChangeFiltro(null)">
               <input name="radio" type="radio" checked>
@@ -35,21 +35,19 @@
               <span>No Completada</span>
             </label>
 
-            <button type="button" class="btn btn-info float-right inicio" (click)="VolverInicio()">Volver</button>
+            <button type="button" class="btn btn-info float-right inicio" *ngIf="Mostrar" (click)="VolverInicio()">Volver</button>
 
           </div>
         </div>
-
-        <table class="table">
+        <table class="table todo">
           <thead>
             <tr class="filters text-center">
               <th>
-                <div class="input-group" *ngIf="clicked">
-
+                <div class="input-group input-group-sm" *ngIf="clicked">
 
                   <input type="text" class="form-control filtro fecha" placeholder="Fecha" [(ngModel)]="EvaluacionFiltrar.fecha">
 
-                  <input class="form-control filtro" placeholder="YYYY-MM-DD" type="hidden"
+                  <input class="form-control form-control-sm filtro" placeholder="YYYY-MM-DD" type="hidden"
                          name="dp" ngbDatepicker #dF="ngbDatepicker" id="fromDate" [(ngModel)]="fechaPicker" (ngModelChange)="changeDate()">
 
                   <div class="input-group-append">
@@ -67,15 +65,14 @@
                 </div>
 
                 <span *ngIf="!clicked">Fecha</span>
-                <!--input type="text" class="form-control" placeholder="Fecha" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.fecha"-->
               </th>
               <th>
                 <span *ngIf="!clicked">Proyecto</span>
-                <input type="text" class="form-control filtro" placeholder="Proyecto" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.nombre">
+                <input type="text" class="form-control form-control-sm filtro" placeholder="Proyecto" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.nombre">
               </th>
               <th>
                 <span *ngIf="!clicked">Usuario</span>
-                <input type="text" class="form-control filtro" placeholder="Usuario" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.userNombre">
+                <input type="text" class="form-control form-control-sm filtro" placeholder="Usuario" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.userNombre">
               </th>
               <th>
                 <span>Puntuación</span>
@@ -127,6 +124,7 @@
             </tr>
           </tbody>
         </table>
+    
       </div>
     </div>
 

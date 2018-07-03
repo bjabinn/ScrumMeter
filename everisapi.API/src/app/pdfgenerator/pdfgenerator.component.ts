@@ -31,7 +31,7 @@ export class PdfgeneratorComponent implements OnInit {
   //Datos de la barras
   public barChartType: string = 'bar';
   public barChartLegend: boolean = true;
-  public ListaAgileCompliance: number[] = [50,55,75];
+  public ListaAgileCompliance: number[] = [50, 55, 75];
   public ListaPuntuacion: number[] = [];
   public ListaNombres: string[] = [];
 
@@ -44,7 +44,10 @@ export class PdfgeneratorComponent implements OnInit {
   public mostrarNotasPreg: boolean = false;
   public ListaDeRespuestas: Array<RespuestaConNotas> = [];
   public ListaDeAsignaciones: Array<AsignacionConNotas> = [];
-  public cargandoNotas: boolean = false;
+  public cargandoNotas:boolean = false;
+
+  //PDF
+  public cargandoPDF:boolean = false;
 
 
   //Datos para pdf
@@ -174,28 +177,71 @@ export class PdfgeneratorComponent implements OnInit {
   //Genera un pdf a partir de una captura de pantalla
   //Mediante css eliminamos los componentes que no deseamos
   public downloadPDF() {
-    //this.mostrarCheckboxes = false;
+    this.cargandoPDF = true;
 
-    var date = this.datePipe.transform(this.Evaluacion.fecha, 'MM-dd-yyyy');
+    setTimeout(this.createPDF(), 500);
+  
+  }
+
+  public createPDF() {
+    var date = this.datePipe.transform(this.Evaluacion.fecha, 'dd-MM-yyyy');
     var nombre = this.Evaluacion.nombre;
-    /*document.title = this.Evaluacion.nombre + date + "AgileMeter";
-    window.print();*/
 
-    //Para que de tiempo a ocultar el panel de las checkboxes
-    setTimeout(()=>{
-      html2canvas(document.getElementById("printcanvas")).then(function (canvas) {
+    var doc = new jsPDF();
+
+
+    var referencia = this;
+
+    //Cadena fea pero funcional para ir guardando los elementos en un pdf uno a uno
+    html2canvas(document.getElementById("tablaPuntuaciones")).then(function (canvas) {
+      var img = canvas.toDataURL("image/png");
+      doc.addImage(img, 'PNG', 15, 20, 0, 0);
+
+      html2canvas(document.getElementById("Grafica")).then(function (canvas) {
         var img = canvas.toDataURL("image/png");
-        var doc = new jsPDF();
         doc.addImage(img, 'PNG', 15, 20, 0, 0);
 
-        var title = nombre + '.' + date + '.' + 'AgileMeter.pdf';
-        doc.save(title);
+        html2canvas(document.getElementById("notasEvaluacion")).then(function (canvas) {
+          // var img = canvas.toDataURL("image/png");
+          //doc.addImage(img, 'PNG', 15, 30, 0, 0);
+
+          html2canvas(document.getElementById("notasObjetivos")).then(function (canvas) {
+            //var img = canvas.toDataURL("image/png");
+            //doc.addImage(img, 'PNG', 15, 40, 0, 0);
+
+            html2canvas(document.getElementById("notasSecciones")).then(function (canvas) {
+              // var img = canvas.toDataURL("image/png");
+              // doc.addImage(img, 'PNG', 15, 50, 0, 0);
+
+              html2canvas(document.getElementById("notasAsignaciones")).then(function (canvas) {
+                //var img = canvas.toDataURL("image/png");
+                //doc.addImage(img, 'PNG', 15, 60, 0, 0);
+
+                html2canvas(document.getElementById("notasPreguntas")).then(function (canvas) {
+                  // var img = canvas.toDataURL("image/png");
+                  //doc.addImage(img, 'PNG', 15, 70, 0, 0);
+
+                  // doc.save(nombre + '.' + date + '.' + 'AgileMeter.pdf');
+
+                  referencia.cargandoPDF = false;
+                });
+
+              });
+
+            });
+
+          });
+
+        });
 
       });
-      //this.mostrarCheckboxes = true;
-    }, 500);
 
+    });
 
+  }
+
+  public apagarCargar() {
+    this.cargandoPDF = false;
   }
 
   public cambiarMostrarNotasEv() {
@@ -206,7 +252,7 @@ export class PdfgeneratorComponent implements OnInit {
 
   public cambiarMostrarNotasOb() {
     if (this.Evaluacion.notasOb != null && this.Evaluacion.notasOb != "") {
-    this.mostrarNotasOb = !this.mostrarNotasOb;
+      this.mostrarNotasOb = !this.mostrarNotasOb;
     }
   }
 

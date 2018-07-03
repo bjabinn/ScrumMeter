@@ -30,11 +30,11 @@ h2{
 
 td, th {
   padding: 3px !important;
-  font-size: 10.5pt !important;
+  font-size: 13px !important;
 }
 
 .form-control {
-  font-size: 10.5pt !important;
+  font-size: 13px !important;
 }
 
 .filtro {
@@ -42,7 +42,7 @@ td, th {
 }
 
 .filterable {
-  font-size: 10.5pt !important;
+  font-size: 13px !important;
   margin-top: 15px;
 }
 .filterable .panel-heading .pull-right {
@@ -71,8 +71,9 @@ table *{
   text-align: center;
 }
 
-table {
-  width: 80vw;
+
+.todo{
+  width: 100%!important;
 }
 
 .transparente {
@@ -132,10 +133,17 @@ img{
   top: 1px;
 }
 
+.btn-filter{
+  font-size: 13px;
+}
+
+.inicio {
+  font-size: 14px;
+}
 
 //Radio Button
 .radio {
-  font-size: 10.5pt !important;
+  font-size: 13px !important;
   display: inline;
   cursor: pointer;
   user-select: none;
@@ -150,6 +158,7 @@ img{
     display: none;
 
     & + span {
+      padding-top: 3px;
       display: inline;
       position: relative;
       padding-left: 20px;
