@@ -9,7 +9,7 @@
 
 #Grafica {
   min-width: 350px;
-  max-width: 500px;
+  max-width: 350px;
 }
 
 //Data
@@ -105,6 +105,14 @@ p{
 
 h4 {
   font-size: 16px !important;
+  background-color: rgba(145,188,4,0.36);
+  padding: 10px;
+}
+
+h5 {
+  font-size: 15px !important;
+  background-color: #EBEBEB;
+  padding: 10px;
 }
 
 .exp {
@@ -377,22 +385,22 @@ hr {
 }
 
 .colNotasPreg {
-  max-width: calc(100vw - 500px);
+  min-width: calc(100vw - 540px);
   overflow-x: auto;
 }
 
 .colNotasAsi {
-  max-width: calc(100vw - 300px);
+  min-width: calc(100vw - 325px);
   overflow-x: auto;
 }
 
 .colNotasPreg.pdf {
-  max-width: calc(100vw - 1100px);
+  min-width: 200px;
   overflow-x: hidden;
 }
 
 .colNotasAsi.pdf {
-  max-width: calc(100vw - 900px);
+  min-width: 400px;
   overflow-x: hidden;
 }
 
