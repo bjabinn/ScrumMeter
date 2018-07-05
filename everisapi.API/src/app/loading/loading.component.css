@@ -1,6 +1,7 @@
 .loading {
   position: fixed;
   left: 50%;
+  z-index: 2;
 }
 
 .loading-bar {

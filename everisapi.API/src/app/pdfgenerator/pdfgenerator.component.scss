@@ -379,6 +379,10 @@ hr {
   border-bottom: 1px solid #ffffff;
 }
 
+hr.textopdf{
+  margin: 8px 0px;
+}
+
 #cargarPDF{
   height: 30px;
   padding-right: 100px;
@@ -407,4 +411,59 @@ hr {
 .textopdf{
   max-width: 600px;
   
+}
+
+
+.btnpdf {
+  -moz-box-shadow: 0px 10px 14px -7px #337ab7;
+  -webkit-box-shadow: 0px 10px 14px -7px #337ab7;
+  box-shadow: 0px 10px 14px -7px #337ab7;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #4c91cd), color-stop(1, #337ab7));
+  background: -moz-linear-gradient(top, #4c91cd 5%, #337ab7 100%);
+  background: -webkit-linear-gradient(top, #4c91cd 5%, #337ab7 100%);
+  background: -o-linear-gradient(top, #4c91cd 5%, #337ab7 100%);
+  background: -ms-linear-gradient(top, #4c91cd 5%, #337ab7 100%);
+  background: linear-gradient(to bottom, #4c91cd 5%, #337ab7 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4c91cd', endColorstr='#337ab7',GradientType=0);
+  background-color: #337ab7;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 10px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #337ab7;
+}
+
+.btnpdf:hover {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #337ab7), color-stop(1, #4c91cd));
+  background: -moz-linear-gradient(top, #337ab7 5%, #4c91cd 100%);
+  background: -webkit-linear-gradient(top, #337ab7 5%, #4c91cd 100%);
+  background: -o-linear-gradient(top, #337ab7 5%, #4c91cd 100%);
+  background: -ms-linear-gradient(top, #337ab7 5%, #4c91cd 100%);
+  background: linear-gradient(to bottom, #337ab7 5%, #4c91cd 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#337ab7', endColorstr='#4c91cd',GradientType=0);
+  background-color: #337ab7;
+}
+
+.btnpdf:active {
+  position: relative;
+  top: 1px;
+}
+
+#ocultar {
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.5);
+  z-index:1;
 }

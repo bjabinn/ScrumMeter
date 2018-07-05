@@ -5,12 +5,17 @@
   </div>
 </div>
 
+<div *ngIf="cargandoPDF" id="cargarPDF">
+  <app-loading></app-loading>
+  <div id="ocultar"></div>
+</div>
+
 <div *ngIf="Mostrar">
   <div class="row">
 
 
 
-    <div class="ml-2 pl-5 col-xs-12 col-sm-6 col-md-3 mt-3" *ngIf="mostrarCheckboxes">
+    <div class="ml-2 pl-5 col-xs-12 col-sm-6 col-md-3 col-lg-4 col-xl-3 mt-3" *ngIf="mostrarCheckboxes">
       <div class="checkbox">
         <form>
           <div>
@@ -77,21 +82,18 @@
         </form>
       </div>
 
-        <div class="center">
-          <button class="btn btn-outline-success" *ngIf="!cargandoPDF" id="no-print" (click)="downloadPDF()" media="print">Generar PDF</button>
-          <div *ngIf="cargandoPDF" id="cargarPDF">
-            <app-loading></app-loading>
-          </div>
-        </div>
-        <div class="center mt-3">
-          <button type="button" class="btn btn-secondary inicio" (click)="Volver('/home')">Inicio</button>
-          <button type="button" class="btn btn-info volver" (click)="Volver('/evaluacionprevia')">Evaluaciones</button>
-        </div>
+      <div class="mt-3">
+
+
+        <button type="button" class="btnpdf mt-1 mt-lg-0" (click)="Volver('/home')">Inicio</button>
+        <button type="button" class="btnpdf mt-1 mt-lg-0" (click)="Volver('/evaluacionprevia')">Evaluaciones</button>
+        <button type="button" class="btnpdf mt-1 mt-lg-0" (click)="downloadPDF()">Generar PDF</button>
+      </div>
 
     </div>
 
     <!--Tabla con datos--->
-    <div class="col-xs-12 col-sm-5 col-md-4 col-lg-5 mt-3 text-center" id="tablaPuntuaciones">
+    <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 col-xl-5 mt-3 text-center" id="tablaPuntuaciones">
 
       <div class="data mb-2">
         Proyecto: <b>{{Evaluacion.nombre}}</b>
@@ -99,7 +101,7 @@
         Fecha: <b>{{Evaluacion.fecha | date:'dd/MM/yyyy'}}</b>
       </div>
 
-      <table class="table-fill mx-auto" style="overflow-x:auto;">
+      <table class="table-fill mx-auto " style="overflow-x:auto;">
         <thead>
           <tr>
             <th class="text-left">Asignaciones</th>
@@ -144,27 +146,27 @@
       <p class="text-justify" [ngClass]="{'textopdf':cargandoPDF}">{{Evaluacion.notasEv}}</p>
     </div>
 
-    <hr *ngIf="mostrarNotasOb && mostrarNotasEv"/>
+    <hr align="left" *ngIf="mostrarNotasOb && mostrarNotasEv" [ngClass]="{'textopdf':cargandoPDF}" />
 
     <div class="notas col-12" *ngIf="mostrarNotasOb" id="notasObjetivos">
       <h4 [ngClass]="{'textopdf':cargandoPDF}">Notas de objetivos</h4>
       <p class="text-justify" [ngClass]="{'textopdf':cargandoPDF}">{{Evaluacion.notasOb}}</p>
     </div>
 
-    <hr *ngIf="mostrarNotasSec && (mostrarNotasEv || mostrarNotasOb)"/>
+    <hr *ngIf="mostrarNotasSec && (mostrarNotasEv || mostrarNotasOb)" [ngClass]="{'textopdf':cargandoPDF}" />
 
     <div class="notas col-12" *ngIf="mostrarNotasSec" id="notasSecciones">
       <h4 [ngClass]="{'textopdf':cargandoPDF}">Notas de secciones</h4>
       <div *ngFor="let datos of ListaDeDatos">
         <div *ngIf="datos.notas != null && datos.notas != ''">
-          <h5>{{datos.nombre | titlecase}}</h5>
+          <h5 [ngClass]="{'textopdf':cargandoPDF}">{{datos.nombre | titlecase}}</h5>
           <p class="text-justify" [ngClass]="{'textopdf':cargandoPDF}">{{datos.notas}}</p>
         </div>
       </div>
 
     </div>
 
-    <hr *ngIf="mostrarNotasAsig && (mostrarNotasEv || mostrarNotasOb || mostrarNotasSec)"/>
+    <hr *ngIf="mostrarNotasAsig && (mostrarNotasEv || mostrarNotasOb || mostrarNotasSec)" [ngClass]="{'textopdf':cargandoPDF}" />
 
     <div class="notas col-12" *ngIf="mostrarNotasAsig" id="notasAsignaciones">
       <h4 [ngClass]="{'textopdf':cargandoPDF}">Notas de asignaciones</h4>
@@ -190,9 +192,9 @@
       <app-loading></app-loading>
     </div>
 
-    <hr *ngIf="mostrarNotasPreg && (mostrarNotasEv || mostrarNotasOb || mostrarNotasSec || mostrarNotasAsig)"/>
+    <hr *ngIf="mostrarNotasPreg && (mostrarNotasEv || mostrarNotasOb || mostrarNotasSec || mostrarNotasAsig)" [ngClass]="{'textopdf':cargandoPDF}" />
 
-    <div class="notas col-12" *ngIf="mostrarNotasPreg"  id="notasPreguntas">
+    <div class="notas col-12" *ngIf="mostrarNotasPreg" id="notasPreguntas">
       <h4 [ngClass]="{'textopdf':cargandoPDF}">Notas de preguntas</h4>
 
       <table class="table-fill tablaNotas" style="overflow-x:auto;">
