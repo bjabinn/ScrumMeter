@@ -47,7 +47,6 @@ export class LoginComponent implements OnInit {
             this.ErrorMessage = "No existe el usuario especificado."
           } else {
             //Si existe comprueba si la contraseña es correcta y es redirigido
-            //console.log(res);
             if (this.Recuerdame) {
               //Si el usuario quiere ser recordado lo guardara en el localStorage
               localStorage.setItem("user", this.nombreDeUsuario);

@@ -129,7 +129,7 @@ export class SectionService {
       'Authorization': Token
     });
 
-    return this._http.get(this.url + 'respuestas/evaluacion/' + id, { headers: headers })
+    return this._http.get(this.url + 'asignaciones/evaluacion/' + id + '/notas', { headers: headers })
       .map((response: Response) => response.json())
       .catch(this.errorHandler);
   }

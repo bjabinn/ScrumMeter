@@ -118,13 +118,13 @@ export class PdfgeneratorComponent implements OnInit {
         },
         error => {
           if (error == 404) {
-            this.ErrorMessage = "Error: ", error, "No pudimos recoger los datos de la sección lo sentimos.";
+            this.ErrorMessage = "Error: " + error + "No pudimos recoger los datos de la sección lo sentimos.";
           } else if (error == 500) {
-            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           } else if (error == 401) {
-            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+            this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
           } else {
-            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
         }
       );
@@ -132,7 +132,11 @@ export class PdfgeneratorComponent implements OnInit {
       this._router.navigate(['/home']);
     }
 
+
+    //Para que no de error en modo development
+    setTimeout(() => {
     this._appComponent.anadirUserProyecto(null, this.Evaluacion.nombre);
+    });
 
   }
 
@@ -256,34 +260,11 @@ export class PdfgeneratorComponent implements OnInit {
           var tamanioImagen = imagen.height / unMmEnPx;
 
           if (tamanioImagen >= tamanioPag) {
-
-            ///////////////
             
-            var veces = Math.ceil(tamanioImagen / tamanioPag);
             this.continuar = false;
 
-            this.imagenGrande(imagen, 0, veces, tamanioPag, tamanioImagen);
+            this.imagenGrande(imagen, 0, tamanioPag, tamanioImagen);
 
-            //doc.save(nombre + '.' + date + '.' + 'AgileMeter.pdf');
-
-            
-            /*
-          //////////////
-          //Igual de momento, cambiar luego
-          tamanioRestante -= tamanioImagen + 20;
-
-          if (tamanioRestante < 0) {
-            this.doc.addPage();
-            alturaTotal = 0;
-            tamanioRestante = tamanioPag;
-          }
-
-          this.doc.addImage(imagen.toDataURL("image/png", 1.0), 'PNG', 15, alturaTotal + 20, 0, 0, '', 'FAST');
-
-          alturaTotal += tamanioImagen;
-
-          ///////////////
-          */
 
           } else {
 
@@ -324,37 +305,47 @@ export class PdfgeneratorComponent implements OnInit {
     }
   }
 
-  public imagenGrande(imagen, iteracion, total, tamanioPag, tamanioImg) {
+  //Cuando hay una imagen que ocupa mas de una pagina
+  public imagenGrande(imagen, iteracion, tamanioPag, tamanioImg) {
     var sumar = 1;
 
     if (iteracion > 0) {
-      sumar = -35;
+      sumar = -40;
+    }
+
+
+    var relacion = tamanioImg / tamanioPag;
+    var totalIteraciones = Math.floor(tamanioImg / tamanioPag);
+
+
+    if (totalIteraciones == 1 && relacion >= 1.1) {
+      totalIteraciones++;
     }
 
     var top = 950;
 
-    if (iteracion == total - 2) {
+    if (iteracion == totalIteraciones - 1 && iteracion != 0) {
 
-      top = Math.ceil((((tamanioImg % tamanioPag) * 950 / tamanioPag) +26*total) % 950);
+      top = Math.ceil((((tamanioImg % tamanioPag) * 950 / tamanioPag) + 30 * totalIteraciones) % 950);
 
       console.log(top);
     }
-
     
-    imgTransform(imagen.toDataURL("image/png", 1.0)).crop(2100, top, 0, (950 * iteracion) + sumar).done(dataUrl => {
+    
+    imgTransform(imagen.toDataURL("image/png", 1.0)).crop(2000, top, 0, (950 * iteracion) + sumar).done(dataUrl => {
 
       this.doc.addPage();
 
       this.doc.addImage(dataUrl, 'PNG', 15, 20, 0, 0, '', 'FAST');
 
-      if (iteracion == total - 2) {
+      if (iteracion == totalIteraciones - 1) {
 
         this.continuar = true;
         this.createPDF();
 
       } else {
 
-        this.imagenGrande(imagen, iteracion + 1, total, tamanioPag, tamanioImg);
+        this.imagenGrande(imagen, iteracion + 1, tamanioPag, tamanioImg);
       }
 
     });
@@ -401,13 +392,13 @@ export class PdfgeneratorComponent implements OnInit {
           },
           error => {
             if (error == 404) {
-              this.ErrorMessage = "Error: ", error, "No pudimos recoger los datos de las preguntas.";
+              this.ErrorMessage = "Error: " + error + "No pudimos recoger los datos de las preguntas.";
             } else if (error == 500) {
-              this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
             } else if (error == 401) {
-              this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+              this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
             } else {
-              this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
             }
           }
         );
@@ -434,13 +425,13 @@ export class PdfgeneratorComponent implements OnInit {
           },
           error => {
             if (error == 404) {
-              this.ErrorMessage = "Error: ", error, "No pudimos recoger los datos de las preguntas.";
+              this.ErrorMessage = "Error: " + error + "No pudimos recoger los datos de las preguntas.";
             } else if (error == 500) {
-              this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
             } else if (error == 401) {
-              this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+              this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
             } else {
-              this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
             }
           }
         );

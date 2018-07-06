@@ -20,6 +20,8 @@ namespace everisapi.API.Models
 
     public string NotasEvaluacion { get; set; }
 
+    public double Puntuacion { get; set; }
+
     [Required]
     public int ProyectoId { get; set; }
 

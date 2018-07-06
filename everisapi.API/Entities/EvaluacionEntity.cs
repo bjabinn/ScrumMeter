@@ -30,7 +30,9 @@ namespace everisapi.API.Entities
 
     [StringLength(1000)]
     public string NotasEvaluacion { get; set; }
-    
+
+    public double Puntuacion { get; set; }
+
 
     public int ProyectoId { get; set; }
     //AsignacionEntity esta relacionando la pregunta con la asignación

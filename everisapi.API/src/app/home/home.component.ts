@@ -67,17 +67,21 @@ export class HomeComponent implements OnInit {
       error => {
         //Si el servidor tiene algún tipo de problema mostraremos este error
         if (error == 404) {
-          this.ErrorMessage = "Error: ", error, " El usuario autenticado no existe.";
+          this.ErrorMessage = "Error: " + error + " El usuario autenticado no existe.";
         } else if (error == 500) {
-          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         } else if (error == 401) {
-          this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
         } else {
-          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         }
       });
 
-    this._appComponent.anadirUserProyecto(this.NombreDeUsuario, null);
+    //Para que no de error en modo development
+    setTimeout(() => {
+      this._appComponent.anadirUserProyecto(this.NombreDeUsuario, null)
+    });
+
   }
 
   //Metodo que asigna los proyectos por permisos y usuario
@@ -95,13 +99,13 @@ export class HomeComponent implements OnInit {
         error => {
           //Si el servidor tiene algún tipo de problema mostraremos este error
           if (error == 404) {
-            this.ErrorMessage = "Error: ", error, " El usuario o proyecto autenticado no existe.";
+            this.ErrorMessage = "Error: " + error + " El usuario o proyecto autenticado no existe.";
           } else if (error == 500) {
-            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           } else if (error == 401) {
-            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+            this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
           } else {
-            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
         });
     } else {
@@ -113,13 +117,13 @@ export class HomeComponent implements OnInit {
         error => {
           //Si el servidor tiene algún tipo de problema mostraremos este error
           if (error == 404) {
-            this.ErrorMessage = "Error: ", error, " El usuario o proyecto autenticado no existe.";
+            this.ErrorMessage = "Error: " + error + " El usuario o proyecto autenticado no existe.";
           } else if (error == 500) {
-            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           } else if (error == 401) {
-            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+            this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
           } else {
-            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
         });
 
@@ -131,13 +135,13 @@ export class HomeComponent implements OnInit {
         error => {
           //Si el servidor tiene algún tipo de problema mostraremos este error
           if (error == 404) {
-            this.ErrorMessage = "Error: ", error, " El usuario o proyecto autenticado no existe.";
+            this.ErrorMessage = "Error: " + error + " El usuario o proyecto autenticado no existe.";
           } else if (error == 500) {
-            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           } else if (error == 401) {
-            this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+            this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
           } else {
-            this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
         });
     }
@@ -168,13 +172,13 @@ export class HomeComponent implements OnInit {
             //Habilitamos la pagina nuevamente
             this.Deshabilitar = false;
             if (error == 404) {
-              this.ErrorMessage = "Error: ", error, " No se puede completar la comprobación en la evaluación lo sentimos.";
+              this.ErrorMessage = "Error: " + error + " No se puede completar la comprobación en la evaluación lo sentimos.";
             } else if (error == 500) {
-              this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
             } else if (error == 401) {
-              this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+              this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
             } else {
-              this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
             }
           },
           () => {
@@ -198,13 +202,13 @@ export class HomeComponent implements OnInit {
       },
       error => {
         if (error == 404) {
-          this.ErrorMessage = "Error: ", error, " La petición de crear una evaluación es incorrecta.";
+          this.ErrorMessage = "Error: " + error + " La petición de crear una evaluación es incorrecta.";
         } else if (error == 500) {
-          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         } else if (error == 401) {
-          this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
         } else {
-          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         }
         this.SendingInfo = false;
       });
@@ -236,13 +240,13 @@ export class HomeComponent implements OnInit {
       },
       error => {
         if (error == 404) {
-          this.ErrorMessage = "Error: ", error, " La petición de modificación de evaluación no puede ser realizada.";
+          this.ErrorMessage = "Error: " + error + " La petición de modificación de evaluación no puede ser realizada.";
         } else if (error == 500) {
-          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         } else if (error == 401) {
-          this.ErrorMessage = "Error: ", error, " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
         } else {
-          this.ErrorMessage = "Error: ", error, " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         }
         this.SendingInfo = false;
       });

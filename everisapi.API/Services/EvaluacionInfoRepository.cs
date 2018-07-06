@@ -59,7 +59,14 @@ namespace everisapi.API.Services
         };
 
 
-        EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);
+        if (evaluacion.Estado == false)
+        {
+          EvaluacionInfo.Puntuacion = CalculaPuntuacion(evaluacion.Id);
+        }
+        else
+        {
+          EvaluacionInfo.Puntuacion = evaluacion.Puntuacion;
+        }
 
         if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
         {
@@ -122,9 +129,16 @@ namespace everisapi.API.Services
           NotasOb = evaluacion.NotasObjetivos
         };
 
-        EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);
+        if (evaluacion.Estado == false)
+        {
+          EvaluacionInfo.Puntuacion = CalculaPuntuacion(evaluacion.Id);
+        }
+        else
+        {
+          EvaluacionInfo.Puntuacion = evaluacion.Puntuacion;
+        }
 
-       if(0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
         {
           EvaluacionInfo.FlagNotasAsig = true;
         }
@@ -190,13 +204,19 @@ namespace everisapi.API.Services
       this.SaveChanges();
     }
 
-    //Modifica el estado de una evaluacion
+    //Modifica una evaluacion
     public bool ModificarEvaluacion(EvaluacionEntity evaluacion)
     {
       EvaluacionEntity evaluacionAnterior = _context.Evaluaciones.Where(e => e.Id == evaluacion.Id).FirstOrDefault();
 
       evaluacionAnterior.NotasEvaluacion = evaluacion.NotasEvaluacion;
       evaluacionAnterior.NotasObjetivos = evaluacion.NotasObjetivos;
+
+      //Se finaliza una evaluacion y se calcula su puntuacion
+      if (evaluacionAnterior.Estado == false && evaluacion.Estado == true)
+      {
+        evaluacionAnterior.Puntuacion = CalculaPuntuacion(evaluacionAnterior.Id);
+      }
 
       evaluacionAnterior.Estado = evaluacion.Estado;
 
@@ -250,7 +270,15 @@ namespace everisapi.API.Services
           NotasOb = evaluacion.NotasObjetivos
         };
 
-        EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);
+
+        if(evaluacion.Estado == false)
+        {
+          EvaluacionInfo.Puntuacion = CalculaPuntuacion(evaluacion.Id);
+        }
+        else
+        {
+          EvaluacionInfo.Puntuacion = evaluacion.Puntuacion;
+        }
 
         if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
         {
@@ -333,7 +361,15 @@ namespace everisapi.API.Services
           NotasOb = evaluacion.NotasObjetivos
         };
 
-        EvaluacionInfo.Puntuacion = calculaPuntuacion(evaluacion.Id);
+        if (evaluacion.Estado == false)
+        {
+          EvaluacionInfo.Puntuacion = CalculaPuntuacion(evaluacion.Id);
+        }
+        else
+        {
+          EvaluacionInfo.Puntuacion = evaluacion.Puntuacion;
+        }
+
 
         if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
         {
@@ -393,7 +429,7 @@ namespace everisapi.API.Services
       return SaveChanges();
     }
 
-    private double calculaPuntuacion(int idEvaluacion)
+    private double CalculaPuntuacion(int idEvaluacion)
     {
       //Calcula la puntuacion de esa evaluación
       var listaRespuestas = _context.Respuestas.

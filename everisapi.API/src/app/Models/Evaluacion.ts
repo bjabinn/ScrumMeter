@@ -7,5 +7,6 @@ export class Evaluacion {
     public estado: boolean,
     public notasObjetivos: string,
     public notasEvaluacion: string,
+    public puntuacion: number,
   ) { }
 }

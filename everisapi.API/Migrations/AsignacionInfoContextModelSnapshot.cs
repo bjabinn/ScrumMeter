@@ -60,6 +60,8 @@ namespace everisapi.API.Migrations
 
                     b.Property<int>("ProyectoId");
 
+                    b.Property<double>("Puntuacion");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProyectoId");
