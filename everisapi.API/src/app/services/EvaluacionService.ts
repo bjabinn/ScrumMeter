@@ -1,18 +1,17 @@
+
+import {throwError as observableThrowError,  Observable ,  of } from 'rxjs';
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+
+
+
 import { GLOBAL } from './global';
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { EvaluacionCreate } from 'app/Models/EvaluacionCreate';
 import { EvaluacionFilterInfo } from 'app/Models/EvaluacionFilterInfo';
 import { EvaluacionInfo } from 'app/Models/EvaluacionInfo';
-import { Observable } from 'rxjs';
-import { ajax } from 'rxjs/observable/dom/ajax';
 import { map, retry, catchError } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 import { User } from 'app/Models/User';
 import { AppComponent } from 'app/app.component';
 
@@ -33,9 +32,9 @@ export class EvaluacionService {
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'evaluaciones', { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'evaluaciones', { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Este metodo recoge una evaluacion si existe mediante una id de evaluacion
@@ -44,9 +43,9 @@ export class EvaluacionService {
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'evaluaciones/' + id, { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'evaluaciones/' + id, { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Este metodo recoge una evaluacion con datos extendidos si existe mediante una id de evaluacion
@@ -55,9 +54,9 @@ export class EvaluacionService {
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'evaluaciones/proyecto/' + id + '/info', { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'evaluaciones/proyecto/' + id + '/info', { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Nos permite recoger información de las envaluaciones filtrada y paginada
@@ -68,9 +67,9 @@ export class EvaluacionService {
       'Content-Type': 'application/json',
       'Authorization': Token
     });
-    return this._http.post(this.url + 'evaluaciones/proyecto/' + idProject + '/info/page/' + NumPag, params, { headers: headers })
-      .map(res => res.json())
-      .catch(this.errorHandler);
+    return this._http.post(this.url + 'evaluaciones/proyecto/' + idProject + '/info/page/' + NumPag, params, { headers: headers }).pipe(
+      map(res => res.json()),
+      catchError(this.errorHandler),);
   }
 
   //Este metodo recoge una evaluacion de un proyecto si existe mediante una id de proyecto
@@ -79,9 +78,9 @@ export class EvaluacionService {
     let headers = new Headers({
       'Authorization': Token,
     });
-    return this._http.get(this.url + 'evaluaciones/proyecto/' + id, { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'evaluaciones/proyecto/' + id, { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Este metodo recoge el número de evaluaciones de un proyecto o todos los proyectos
@@ -90,9 +89,9 @@ export class EvaluacionService {
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'evaluaciones/proyecto/' + id + '/num', { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'evaluaciones/proyecto/' + id + '/num', { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Devuelve una evaluacion si existe una que no se completo en ese proyecto
@@ -101,9 +100,9 @@ export class EvaluacionService {
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'evaluaciones/proyecto/' + id + '/continue', { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'evaluaciones/proyecto/' + id + '/continue', { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Nos permite incluir una evaluacion en la base de datos
@@ -114,9 +113,9 @@ export class EvaluacionService {
       'Content-Type': 'application/json',
       'Authorization': Token
     });
-    return this._http.post(this.url + 'evaluaciones', params, { headers: headers })
-      .map(res => res.json())
-      .catch(this.errorHandler);
+    return this._http.post(this.url + 'evaluaciones', params, { headers: headers }).pipe(
+      map(res => res.json()),
+      catchError(this.errorHandler),);
   }
 
   //Nos permite realizar un update de una evaluacion en la base de datos
@@ -128,14 +127,14 @@ export class EvaluacionService {
       'Authorization': Token
     });
 
-    return this._http.put(this.url + 'evaluaciones', params, { headers: headers })
-      .map(res => res)
-      .catch(this.errorHandler);
+    return this._http.put(this.url + 'evaluaciones', params, { headers: headers }).pipe(
+      map(res => res),
+      catchError(this.errorHandler),);
   }
 
   //Implementamos este metodo para permitir la recogida de los errores y su gestión
   errorHandler(error: Response) {
-    return Observable.throw(error.status);
+    return observableThrowError(error.status);
   }
 }
 

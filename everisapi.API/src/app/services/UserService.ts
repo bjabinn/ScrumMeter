@@ -1,10 +1,13 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
+
+import {catchError, map} from 'rxjs/operators';
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+
+
+
 import { GLOBAL } from './global';
 import { User } from 'app/Models/User';
 import { AppComponent } from 'app/app.component';
@@ -41,14 +44,14 @@ export class UserService {
     let headers = new Headers({
       'Content-Type': 'application/json'
     });
-    return this._http.post(this.url + 'Token', params, { headers: headers })
-      .map(res => res.json())
-      .catch(this.errorHandler);
+    return this._http.post(this.url + 'Token', params, { headers: headers }).pipe(
+      map(res => res.json()),
+      catchError(this.errorHandler),);
   }
 
   //Implementamos este metodo para permitir la recogida de los errores y su gestión
   errorHandler(error: Response) {
-    return Observable.throw(error.status);
+    return observableThrowError(error.status);
   }
 
 }

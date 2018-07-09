@@ -1,11 +1,14 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
+
+import {catchError, map} from 'rxjs/operators';
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+
+
+
 import { GLOBAL } from './global';
 import { AppComponent } from '../app.component';
 import { AsignacionUpdate } from 'app/Models/AsignacionUpdate';
@@ -28,9 +31,9 @@ export class RespuestasService {
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'respuestas/evaluacion/' + idEvaluacion + '/asignacion/' + idAsignacion, { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'respuestas/evaluacion/' + idEvaluacion + '/asignacion/' + idAsignacion, { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Este metodo devuelve un listado con sus preguntas y respuestas de una evaluación y su asignación
@@ -40,9 +43,9 @@ export class RespuestasService {
       'Authorization': Token
     });
 
-    return this._http.get(this.url + 'asignaciones/evaluacion/' + idEvaluacion + '/asignacion/' + idAsig, { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'asignaciones/evaluacion/' + idEvaluacion + '/asignacion/' + idAsig, { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Este metodo se usa cuando se quiere poner todas las respuestas de una asignacion a No Contestado
@@ -54,8 +57,8 @@ export class RespuestasService {
     });
 
 
-    return this._http.get(this.url + 'respuestas/evaluacion/' + idEvaluacion + '/asignacion/' + idAsig + '/update', { headers: headers })
-      .map(res => res);
+    return this._http.get(this.url + 'respuestas/evaluacion/' + idEvaluacion + '/asignacion/' + idAsig + '/update', { headers: headers }).pipe(
+      map(res => res));
   }
 
   //Este metodo altera el valor de la respuesta en la base de datos
@@ -67,8 +70,8 @@ export class RespuestasService {
       'Content-Type': 'application/json'
     });
 
-    return this._http.put(this.url + 'respuestas/update/', params, { headers: headers })
-      .map(res => res);
+    return this._http.put(this.url + 'respuestas/update/', params, { headers: headers }).pipe(
+      map(res => res));
   }
 
   //Este metodo altera la nota de dicha asignacion
@@ -80,13 +83,13 @@ export class RespuestasService {
       'Content-Type': 'application/json'
     });
 
-    return this._http.put(this.url + 'asignaciones/addNotas/', params, { headers: headers })
-      .map(res => res);
+    return this._http.put(this.url + 'asignaciones/addNotas/', params, { headers: headers }).pipe(
+      map(res => res));
   }
 
   //Implementamos este metodo para permitir la recogida de los errores y su gestión
   errorHandler(error: Response) {
-    return Observable.throw(error.status);
+    return observableThrowError(error.status);
   }
 
 }

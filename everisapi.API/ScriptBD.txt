@@ -1,11 +1,10 @@
 /*Para borrar todo*/
 #delete from evaluaciones;
 #delete from respuestas;
-delete from preguntas;
-delete from asignaciones;
+#delete from preguntas;
+#delete from asignaciones;
 
 #Modificamos la columna Estado
-ALTER TABLE respuestas MODIFY COLUMN Estado INT(3) NOT NULL DEFAULT '0';
 
 
 /*ASIGNACIONES*/

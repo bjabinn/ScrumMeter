@@ -6,12 +6,11 @@ import { EvaluacionInfo } from 'app/Models/EvaluacionInfo';
 import { Proyecto } from 'app/Models/Proyecto';
 import { Section } from 'app/Models/Section';
 import { SectionInfo } from 'app/Models/SectionInfo';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  Subscription } from 'rxjs';
 import { setTimeout } from 'timers';
 import { UserService } from 'app/services/UserService';
 import { AppComponent } from 'app/app.component';
 import { Router } from "@angular/router";
-import { Subscription } from 'rxjs';
 
 @Injectable()
 export class StorageDataService {

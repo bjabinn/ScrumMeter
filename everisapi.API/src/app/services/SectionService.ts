@@ -1,10 +1,13 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
+
+import {map, catchError} from 'rxjs/operators';
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+
+
+
 import { GLOBAL } from './global';
 import { SectionModify } from 'app/Models/SectionModify';
 import { AppComponent } from 'app/app.component';
@@ -26,9 +29,9 @@ export class SectionService {
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'sections', { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'sections', { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Este metodo recoge un usuario si existe mediante un nombre de usuario
@@ -37,9 +40,9 @@ export class SectionService {
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'sections/' + id, { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'sections/' + id, { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Este metodo recoge un usuario si existe mediante un nombre de usuario
@@ -48,9 +51,9 @@ export class SectionService {
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'sections/' + id + '/asignaciones', { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'sections/' + id + '/asignaciones', { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Devuelve el numero de preguntas para cada sección segun que proyecto selecciones
@@ -59,9 +62,9 @@ export class SectionService {
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'sections/' + idSection + '/evaluacion/' + idProject + "/preguntas", { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'sections/' + idSection + '/evaluacion/' + idProject + "/preguntas", { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Devuelve el numero de respuestas correctas para cada sección segun que proyecto selecciones
@@ -70,9 +73,9 @@ export class SectionService {
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'sections/' + idSection + '/evaluacion/' + idProject + "/respuestas", { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'sections/' + idSection + '/evaluacion/' + idProject + "/respuestas", { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Recoge todos los datos extendidos de una evaluación
@@ -81,9 +84,9 @@ export class SectionService {
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'sections/evaluacion/' + idEvaluacion, { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'sections/evaluacion/' + idEvaluacion, { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Devuelve las preguntas para una asignación en especifico
@@ -92,9 +95,9 @@ export class SectionService {
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'asignaciones/' + id + '/preguntas', { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'asignaciones/' + id + '/preguntas', { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Añade una nota para la seccion indicada a la base de datos
@@ -106,8 +109,8 @@ export class SectionService {
       'Content-Type': 'application/json'
     });
 
-    return this._http.put(this.url + 'sections/addNotas/', params, { headers: headers })
-      .map(res => res);
+    return this._http.put(this.url + 'sections/addNotas/', params, { headers: headers }).pipe(
+      map(res => res));
   }
 
   //Obtiene todas las respuestas con notas para esta evaluacion
@@ -117,9 +120,9 @@ export class SectionService {
       'Authorization': Token
     });
 
-    return this._http.get(this.url + 'respuestas/evaluacion/' + id, { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'respuestas/evaluacion/' + id, { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
   //Obtiene todas las asignaciones con notas para esta evaluacion
@@ -129,15 +132,15 @@ export class SectionService {
       'Authorization': Token
     });
 
-    return this._http.get(this.url + 'asignaciones/evaluacion/' + id + '/notas', { headers: headers })
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.get(this.url + 'asignaciones/evaluacion/' + id + '/notas', { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
   }
 
 
   //Implementamos este metodo para permitir la recogida de los errores y su gestión
   errorHandler(error: Response) {
-    return Observable.throw(error.status);
+    return observableThrowError(error.status);
   }
 
 }

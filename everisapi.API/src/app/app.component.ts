@@ -25,6 +25,7 @@ export class AppComponent {
     public _storageDataService: StorageDataService,
     public _router: Router) {
     this.ScreenWidth = window.innerWidth;
+
   }
 
 

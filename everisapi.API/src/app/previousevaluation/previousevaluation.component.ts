@@ -7,11 +7,10 @@ import { Router } from '@angular/router';
 import { EvaluacionService } from '../services/EvaluacionService';
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { Observable } from 'rxjs/Rx';
-import { interval } from 'rxjs/observable/interval';
+import { interval ,  Subscription } from 'rxjs';
 import { ProyectoService } from 'app/services/ProyectoService';
 import { Role } from 'app/Models/Role';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs/Subscription';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 
 @Component({
@@ -215,7 +214,7 @@ export class PreviousevaluationComponent implements OnInit {
     if (this.Timeout != null && !this.Timeout != undefined) {
       this.Timeout.unsubscribe();
     }
-    this.Timeout = Observable.interval(750)
+    this.Timeout = interval(750)
       .subscribe(i => {
         this.PageNow = 1, this.GetPaginacion(),
           this.Timeout.unsubscribe()
