@@ -61,13 +61,15 @@ export class MenunewevaluationComponent implements OnInit {
     }
     //Recogemos el nombre del usuario con el que nos logueamos
     this.UserSelected = this._proyectoService.UsuarioLogeado;
-    this.MostrarInfo = true;
+    this.MostrarInfo = false;
 
     //Recogemos todos los datos
     if (this.Evaluacion != null && this.Evaluacion != undefined) {
       this._sectionService.getSectionInfo(this.Evaluacion.id).subscribe(
         res => {
+          console.log(res);
           this.ListaDeDatos = res;
+
         },
         error => {
           if (error == 404) {
@@ -84,6 +86,7 @@ export class MenunewevaluationComponent implements OnInit {
     } else {
       this._router.navigate(['/home']);
     }
+
 
     //Para que no de error en modo development
     setTimeout(() => {

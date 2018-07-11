@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`localhost` TRIGGER `everisprojectdb`.`evaluaciones_AFTER_INSERT` AFTER INSERT ON `evaluaciones` FOR EACH ROW
+CREATE DEFINER=`root`@`localhost` TRIGGER `agilemeter`.`evaluaciones_AFTER_INSERT` AFTER INSERT ON `evaluaciones` FOR EACH ROW
 BEGIN
     DECLARE done INT DEFAULT FALSE;
     DECLARE PreId INT DEFAULT NEW.Id;

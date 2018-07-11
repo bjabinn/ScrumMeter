@@ -109,13 +109,13 @@
           </tr>
         </thead>
         <tbody class="table-hover">
-          <tr *ngFor="let datos of ListaDeDatos">
-            <td class="text-left">{{datos.nombre | titlecase}}</td>
-            <td class="text-left">{{datos.respuestasCorrectas}}%</td>
+          <tr *ngFor="let datos of ListaDeDatos; let i = index">
+            <td class="text-left" [ngClass]="{'suspenso': datos.respuestasCorrectas < ListaSeccionesAgileCompliance[i]}">{{datos.nombre | titlecase}}</td>
+            <td class="text-left" [ngClass]="{'suspenso': datos.respuestasCorrectas < ListaSeccionesAgileCompliance[i]}">{{datos.respuestasCorrectas}}%</td>
           </tr>
           <tr>
-            <td class="text-left total"><strong>Total</strong></td>
-            <td class="text-left total">{{Evaluacion.puntuacion}}%</td>
+            <td class="text-left total" [ngClass]="{'suspenso': Evaluacion.puntuacion < AgileComplianceTotal}"><strong>Total</strong></td>
+            <td class="text-left total" [ngClass]="{'suspenso': Evaluacion.puntuacion < AgileComplianceTotal}">{{Evaluacion.puntuacion}}%</td>
           </tr>
         </tbody>
       </table>

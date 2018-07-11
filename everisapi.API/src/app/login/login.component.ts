@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   public nombreDeUsuario: string = "";
   public passwordDeUsuario: string = "";
   public Recuerdame: boolean = false;
+  public enviando: boolean = false;
 
   constructor(private _userService: UserService,
     private _router: Router,
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
   //si es así sera redirigido a la pagina principal
   public SignUp() {
     this.ErrorMessage = null;
+    this.enviando = true;
 
     //Comprueba si los campos tienen datos
     if (this.nombreDeUsuario != "" && this.passwordDeUsuario != "") {
@@ -68,12 +70,15 @@ export class LoginComponent implements OnInit {
           } else if (error == 500) {
             this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
           } else {
-            this.ErrorMessage = "El nombre de usuario o contraseña no son correctos.";
+            this.ErrorMessage = "Ocurrió un error al conectar con el servidor";
           }
+          this.enviando = false;
+
         }
       );
     } else {
       this.ErrorMessage = "Introduzca todos los campos."
+      this.enviando = false;
     }
   }
 

@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 
 
 
-import { GLOBAL } from './global';
 import { AppComponent } from '../app.component';
 import { AsignacionUpdate } from 'app/Models/AsignacionUpdate';
 import { Respuesta } from 'app/Models/Respuesta';
@@ -21,7 +20,14 @@ export class RespuestasService {
 
   constructor(private _http: Http,
     private _appComponent: AppComponent) {
-    this.url = GLOBAL.url;
+
+    var loc = window.location.href;
+    var index = 0;
+    for (var i = 0; i < 3; i++) {
+      index = loc.indexOf("/", index + 1);
+    }
+
+    this.url = loc.substring(0, index) + "/api/";
   }
 
 

@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 
 
 
-import { GLOBAL } from './global';
 import { AppComponent } from '../app.component';
 
 @Injectable()
@@ -18,7 +17,14 @@ export class ProyectoService {
 
   constructor(private _http: Http,
     private _appComponent: AppComponent) {
-    this.url = GLOBAL.url;
+
+    var loc = window.location.href;
+    var index = 0;
+    for (var i = 0; i < 3; i++) {
+      index = loc.indexOf("/", index + 1);
+    }
+
+    this.url = loc.substring(0, index) + "/api/";
   }
 
   //Este metdo nos permite verificar si el usuario ya esta logeado en la web

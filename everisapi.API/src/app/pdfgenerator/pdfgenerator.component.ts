@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
 import { SectionService } from 'app/services/SectionService';
 import { DatePipe } from '@angular/common';
 import { ProyectoService } from 'app/services/ProyectoService';
+import { Http } from '@angular/http';
+import { map } from 'rxjs/operators';
+
 
 import * as jsPDF from 'jspdf';
 import * as html2canvas from 'html2canvas';
@@ -31,10 +34,12 @@ export class PdfgeneratorComponent implements OnInit {
   public Evaluacion: EvaluacionInfo;
   public Mostrar = false;
   public ErrorMessage = null;
+
   //Datos de la barras
   public barChartType: string = 'bar';
   public barChartLegend: boolean = true;
-  public ListaAgileCompliance: number[] = [50, 55, 75];
+  public AgileComplianceTotal: number = 100;
+  public ListaSeccionesAgileCompliance: number[] = [];
   public ListaPuntuacion: number[] = [];
   public ListaNombres: string[] = [];
 
@@ -68,6 +73,7 @@ export class PdfgeneratorComponent implements OnInit {
     private _appComponent: AppComponent,
     private _router: Router,
     private _sectionService: SectionService,
+    private http: Http,
     private datePipe: DatePipe) {
 
     //Recupera los datos y los comprueba
@@ -105,6 +111,17 @@ export class PdfgeneratorComponent implements OnInit {
         this._router.navigate(['/home']);
       });
 
+    this.http.get('assets/notas_aprobados.json').pipe(
+      map(res => res.json()))
+      .toPromise()
+      .then((notas) => {
+        this.ListaSeccionesAgileCompliance.push(parseInt(notas.ceremonias));
+        this.ListaSeccionesAgileCompliance.push(parseInt(notas.roles));
+        this.ListaSeccionesAgileCompliance.push(parseInt(notas.artefactos));
+
+        this.AgileComplianceTotal = notas.total;
+      });
+
   }
 
   ngOnInit() {
@@ -131,6 +148,8 @@ export class PdfgeneratorComponent implements OnInit {
     } else {
       this._router.navigate(['/home']);
     }
+
+
 
 
     //Para que no de error en modo development
@@ -182,9 +201,10 @@ export class PdfgeneratorComponent implements OnInit {
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(52, 122, 183, 0.5)'
     }];
+
   //Estos son los datos introducidos en la grafica para que represente sus formas
   public barChartData: any[] = [
-    { data: this.ListaAgileCompliance, label: 'Agile Compliance' },
+    { data: this.ListaSeccionesAgileCompliance, label: 'Agile Compliance' },
     { data: this.ListaPuntuacion, label: 'Puntuación' }
   ];
 

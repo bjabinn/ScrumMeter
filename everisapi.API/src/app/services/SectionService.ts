@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 
 
 
-import { GLOBAL } from './global';
 import { SectionModify } from 'app/Models/SectionModify';
 import { AppComponent } from 'app/app.component';
 
@@ -20,7 +19,14 @@ export class SectionService {
 
   constructor(private _http: Http,
     private _appComponent: AppComponent) {
-    this.url = GLOBAL.url;
+
+    var loc = window.location.href;
+    var index = 0;
+    for (var i = 0; i < 3; i++) {
+      index = loc.indexOf("/", index + 1);
+    }
+
+    this.url = loc.substring(0, index) + "/api/";
   }
 
   //Este metodo recoge todos los usuarios de la base de datos
