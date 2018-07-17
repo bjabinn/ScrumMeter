@@ -17,6 +17,8 @@ namespace everisapi.API.Models
 
     public double Puntuacion { get; set; }
 
+    public double Media { get; set; }
+
     public string NotasEv { get; set; }
 
     public string NotasOb { get; set; }
@@ -28,8 +30,7 @@ namespace everisapi.API.Models
     public bool FlagNotasSec { get; set; }
 
     public bool FlagNotasAsig { get; set; }
-
-    public bool FlagNotasPreg { get; set; }
+    
 
 
   }

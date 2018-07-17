@@ -11,20 +11,23 @@ import { SectionService } from 'app/services/SectionService';
 import { DatePipe } from '@angular/common';
 import { ProyectoService } from 'app/services/ProyectoService';
 import { Http } from '@angular/http';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
-
+import { RespuestasService } from '../services/RespuestasService';
+import { Respuesta } from '../Models/Respuesta';
 
 import * as jsPDF from 'jspdf';
 import * as html2canvas from 'html2canvas';
 import * as imgTransform from 'img-transform';
 
 import { forEach } from '@angular/router/src/utils/collection';
+import { concat } from 'rxjs-compat/operator/concat';
 
 @Component({
   selector: 'app-pdfgenerator',
   templateUrl: './pdfgenerator.component.html',
   styleUrls: ['./pdfgenerator.component.scss'],
-  providers: [SectionService, ProyectoService, DatePipe]
+  providers: [SectionService, ProyectoService, DatePipe, RespuestasService]
 })
 export class PdfgeneratorComponent implements OnInit {
 
@@ -53,6 +56,9 @@ export class PdfgeneratorComponent implements OnInit {
   public ListaDeRespuestas: Array<RespuestaConNotas> = [];
   public ListaDeAsignaciones: Array<AsignacionConNotas> = [];
   public cargandoNotas: boolean = false;
+  public textoModal: string;
+  public anadeNota: string = null;
+
 
   //PDF
   public cargandoPDF: boolean = false;
@@ -71,10 +77,12 @@ export class PdfgeneratorComponent implements OnInit {
   constructor(
     private _proyectoService: ProyectoService,
     private _appComponent: AppComponent,
+    private _respuestasService: RespuestasService,
     private _router: Router,
     private _sectionService: SectionService,
     private http: Http,
-    private datePipe: DatePipe) {
+    private datePipe: DatePipe,
+    private modalService: NgbModal) {
 
     //Recupera los datos y los comprueba
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
@@ -210,6 +218,8 @@ export class PdfgeneratorComponent implements OnInit {
 
   //Genera un pdf a partir de una captura de pantalla
   public downloadPDF() {
+    this.anadeNota = null;
+
     this.cargandoPDF = true;
 
     var cajas = ["tablaPuntuaciones", "Grafica", "notasEvaluacion", "notasObjetivos", "notasSecciones", "notasAsignaciones", "notasPreguntas"];
@@ -348,7 +358,6 @@ export class PdfgeneratorComponent implements OnInit {
 
       top = Math.ceil((((tamanioImg % tamanioPag) * 950 / tamanioPag) + 30 * totalIteraciones) % 950);
 
-      console.log(top);
     }
     
     
@@ -398,7 +407,6 @@ export class PdfgeneratorComponent implements OnInit {
   }
 
   public cambiarMostrarNotasPreg() {
-    if (this.Evaluacion.flagNotasPreg) {
 
       //No se ha hecho la peticion al servidor aun
       if (!this.mostrarNotasPreg && this.ListaDeRespuestas.length == 0) {
@@ -426,7 +434,6 @@ export class PdfgeneratorComponent implements OnInit {
       else {
         this.mostrarNotasPreg = !this.mostrarNotasPreg;
       }
-    }
   }
 
 
@@ -466,4 +473,56 @@ export class PdfgeneratorComponent implements OnInit {
   public Volver(lugar) {
     this._router.navigate([lugar]);
   }
+
+
+  public AbrirModalSec(content, i) {
+
+    this.anadeNota = null;
+
+    if (this.ListaDeRespuestas[i].notasAdmin != null) {
+      this.textoModal = this.ListaDeRespuestas[i].notasAdmin;
+    } else {
+      this.textoModal = "";
+    }
+
+    this.modalService.open(content).result.then(
+      (closeResult) => {
+        //Si cierra, no se guarda
+
+      }, (dismissReason) => {
+        if (dismissReason == 'Guardar') {
+
+          if (this.textoModal != "") {
+            this.ListaDeRespuestas[i].notasAdmin = this.textoModal;
+          } else {
+            this.ListaDeRespuestas[i].notasAdmin = null;
+          }
+
+          var resp = new Respuesta(this.ListaDeRespuestas[i].id, this.ListaDeRespuestas[i].estado,
+            1, 1, this.ListaDeRespuestas[i].notas, this.ListaDeRespuestas[i].notasAdmin);
+
+
+          this._respuestasService.AlterRespuesta(resp).subscribe(
+            res => {
+
+              this.anadeNota = "Nota añadida correctamente";
+            },
+            error => {
+
+              if (error == 404) {
+                this.ErrorMessage = "Error: " + error + "No pudimos realizar la actualización de la respuesta, lo sentimos.";
+              } else if (error == 500) {
+                this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              } else if (error == 401) {
+                this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+              } else {
+                this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              }
+            });
+
+        }
+        //Else, Click fuera, no se guarda
+      })
+  }
+
 }

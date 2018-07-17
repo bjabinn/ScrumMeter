@@ -17,8 +17,11 @@ namespace everisapi.API.Entities
     [MaxLength(5)]
     public int Estado { get; set; }
 
-    [StringLength(1000)]
+    [StringLength(4000)]
     public string Notas { get; set; }
+
+    [StringLength(4000)]
+    public string NotasAdmin { get; set; }
 
     public int PreguntaId { get; set; }
     [ForeignKey("PreguntaId")]

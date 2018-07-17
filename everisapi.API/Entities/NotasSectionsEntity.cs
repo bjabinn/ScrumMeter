@@ -13,7 +13,7 @@ namespace everisapi.API.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(4000)]
         public string Notas { get; set; }
 
         public int SectionId { get; set; }

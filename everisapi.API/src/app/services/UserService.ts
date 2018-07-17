@@ -19,7 +19,7 @@ export class UserService {
 
   constructor(private _http: Http,
     private _appComponent: AppComponent) {
-
+    /* //DESCOMENTAR
     var loc = window.location.href;
     var index = 0;
     for (var i = 0; i < 3; i++) {
@@ -27,6 +27,10 @@ export class UserService {
     }
 
     this.url = loc.substring(0, index) + "/api/";
+        */
+
+    //COMENTAR
+    this.url = "http://localhost:60406/api/";
 
   }
 

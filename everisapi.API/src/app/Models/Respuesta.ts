@@ -4,6 +4,7 @@ export class Respuesta {
     public estado: number,
     public preguntaid: number,
     public evaluacionId: number,
-    public notas: string
+    public notas: string,
+    public notasAdmin: string,
   ) { }
 }

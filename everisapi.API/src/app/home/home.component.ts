@@ -18,7 +18,6 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 })
 export class HomeComponent implements OnInit {
   public ErrorMessage: string = null;
-  public ListaDeProyectosAdmin: Array<Proyecto> = [];
   public ListaDeProyectos: Array<Proyecto> = [];
   public permisosDeUsuario: Array<Role> = [];
   public AdminOn = false;
@@ -113,24 +112,6 @@ export class HomeComponent implements OnInit {
       this._proyectoService.getAllProyectos().subscribe(
         res => {
           this.ListaDeProyectos = res;
-        },
-        error => {
-          //Si el servidor tiene algún tipo de problema mostraremos este error
-          if (error == 404) {
-            this.ErrorMessage = "Error: " + error + " El usuario o proyecto autenticado no existe.";
-          } else if (error == 500) {
-            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-          } else if (error == 401) {
-            this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-          } else {
-            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-          }
-        });
-
-      //Tambien recogemos los proyectos del administrador para saber cuales son asignados a el
-      this._proyectoService.getProyectosDeUsuario().subscribe(
-        res => {
-          this.ListaDeProyectosAdmin = res;
         },
         error => {
           //Si el servidor tiene algún tipo de problema mostraremos este error

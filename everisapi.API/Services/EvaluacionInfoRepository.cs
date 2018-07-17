@@ -89,14 +89,21 @@ namespace everisapi.API.Services
 
         }
 
-        if (0 < _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        var listaev = _context.Evaluaciones.Where(r => r.ProyectoId == evaluacion.ProyectoId && r.Estado == true).ToList();
+        double suma = 0;
+   
+        foreach(var ev in listaev)
         {
-          EvaluacionInfo.FlagNotasPreg = true;
+          suma += ev.Puntuacion;
+        }
+
+        if (listaev.Count > 0)
+        {
+          EvaluacionInfo.Media = suma / listaev.Count;
         }
         else
         {
-          EvaluacionInfo.FlagNotasPreg = false;
-
+          EvaluacionInfo.Media = -1;
         }
 
         //Añade el objeto en la lista
@@ -159,14 +166,21 @@ namespace everisapi.API.Services
 
         }
 
-        if (0 < _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        var listaev = _context.Evaluaciones.Where(r => r.ProyectoId == evaluacion.ProyectoId && r.Estado == true).ToList();
+        double suma = 0;
+
+        foreach (var ev in listaev)
         {
-          EvaluacionInfo.FlagNotasPreg = true;
+          suma += ev.Puntuacion;
+        }
+
+        if (listaev.Count > 0)
+        {
+          EvaluacionInfo.Media = suma / listaev.Count;
         }
         else
         {
-          EvaluacionInfo.FlagNotasPreg = false;
-
+          EvaluacionInfo.Media = -1;
         }
 
         //Añade el objeto en la lista
@@ -301,15 +315,23 @@ namespace everisapi.API.Services
 
         }
 
-        if (0 < _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        var listaev = _context.Evaluaciones.Where(r => r.ProyectoId == evaluacion.ProyectoId && r.Estado == true).ToList();
+        double suma = 0;
+
+        foreach (var ev in listaev)
         {
-          EvaluacionInfo.FlagNotasPreg = true;
+          suma += ev.Puntuacion;
+        }
+
+        if (listaev.Count > 0)
+        {
+          EvaluacionInfo.Media = suma / listaev.Count;
         }
         else
         {
-          EvaluacionInfo.FlagNotasPreg = false;
-
+          EvaluacionInfo.Media = -1;
         }
+
 
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
@@ -392,15 +414,24 @@ namespace everisapi.API.Services
 
         }
 
-        if (0 < _context.Respuestas.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        var listaev = _context.Evaluaciones.Where(r => r.ProyectoId == evaluacion.ProyectoId && r.Estado == true).ToList();
+        double suma = 0;
+
+        foreach (var ev in listaev)
         {
-          EvaluacionInfo.FlagNotasPreg = true;
+          suma += ev.Puntuacion;
+        }
+
+        if (listaev.Count > 0)
+        {
+          EvaluacionInfo.Media = suma / listaev.Count;
         }
         else
         {
-          EvaluacionInfo.FlagNotasPreg = false;
-
+          EvaluacionInfo.Media = -1;
         }
+
+
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
       }

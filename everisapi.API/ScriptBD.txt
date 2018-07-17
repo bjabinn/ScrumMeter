@@ -1,11 +1,3 @@
-/*Para borrar todo*/
-#delete from evaluaciones;
-#delete from respuestas;
-#delete from preguntas;
-#delete from asignaciones;
-
-#Modificamos la columna Estado
-
 
 /*ASIGNACIONES*/
 INSERT INTO `asignaciones`(`Id`, `Nombre`, `SectionId`, `Peso`) VALUES (1, "Daily", 1, 5),

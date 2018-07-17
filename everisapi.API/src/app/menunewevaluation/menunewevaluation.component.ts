@@ -67,7 +67,6 @@ export class MenunewevaluationComponent implements OnInit {
     if (this.Evaluacion != null && this.Evaluacion != undefined) {
       this._sectionService.getSectionInfo(this.Evaluacion.id).subscribe(
         res => {
-          console.log(res);
           this.ListaDeDatos = res;
 
         },

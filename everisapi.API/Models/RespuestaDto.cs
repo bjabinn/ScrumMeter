@@ -16,5 +16,8 @@ namespace everisapi.API.Models
     public int EvaluacionId { get; set; }
 
     public string Notas { get; set; }
+
+    public string NotasAdmin { get; set; }
+
   }
 }

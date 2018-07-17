@@ -126,8 +126,6 @@ namespace everisapi.API.Controllers
 
         //Si todo salio bien dara un mensaje 200 con todo correcto
 
-
-        Console.Write("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         return Ok("Actualización correcta.");
 
       }
@@ -144,7 +142,8 @@ namespace everisapi.API.Controllers
     {
       try
       {
-        if(RespuestaUpdate == null || !_respuestasInfoRepository.ExiteRespuesta(RespuestaUpdate.Id))
+
+        if (RespuestaUpdate == null || !_respuestasInfoRepository.ExiteRespuesta(RespuestaUpdate.Id))
         {
           return NotFound();
         }

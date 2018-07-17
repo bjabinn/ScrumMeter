@@ -57,6 +57,7 @@ namespace everisapi.API.Services
       {
         respuestaAnterior.Estado = Respuesta.Estado;
         respuestaAnterior.Notas = Respuesta.Notas;
+        respuestaAnterior.NotasAdmin = Respuesta.NotasAdmin;
 
         return SaveChanges();
       }
@@ -102,7 +103,7 @@ namespace everisapi.API.Services
         Include(r => r.PreguntaEntity).
         ThenInclude(p => p.AsignacionEntity).
         ThenInclude(p => p.SectionEntity).
-        Where(r => r.Notas != null && r.Notas != "" && r.EvaluacionId == idEvaluacion).ToList();
+        Where(r => r.EvaluacionId == idEvaluacion).ToList();
 
 
       List<RespuestaConNotasDto> lista = new List<RespuestaConNotasDto>();
@@ -110,8 +111,11 @@ namespace everisapi.API.Services
       foreach (RespuestaEntity resp in respuestas) {
         lista.Add(new RespuestaConNotasDto
         {
+          Id = resp.Id,
           Estado = resp.Estado,
+          Correcta = resp.PreguntaEntity.Correcta,
           Notas = resp.Notas,
+          NotasAdmin = resp.NotasAdmin,
           Asignacion = resp.PreguntaEntity.AsignacionEntity.Nombre,
           Section = resp.PreguntaEntity.AsignacionEntity.SectionEntity.Nombre,
           Pregunta = resp.PreguntaEntity.Pregunta

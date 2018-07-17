@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { EvaluacionInfo } from 'app/Models/EvaluacionInfo';
 import { EvaluacionFilterInfo } from 'app/Models/EvaluacionFilterInfo';
 import { Proyecto } from 'app/Models/Proyecto';
@@ -12,6 +12,9 @@ import { ProyectoService } from 'app/services/ProyectoService';
 import { Role } from 'app/Models/Role';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { BaseChartDirective } from 'ng2-charts/ng2-charts';
+import { DatePipe } from '@angular/common';
+import { setTimeout } from 'timers';
 
 @Component({
   selector: 'app-previousevaluation',
@@ -39,12 +42,30 @@ export class PreviousevaluationComponent implements OnInit {
   public anadeNota = null;
   public fechaPicker: NgbDate;
 
+
+  public Admin: boolean = false;
+  public ListaDeProyectos: Array<Proyecto> = [];
+  public ProyectoSeleccionado: boolean = false;
+
+
+  //Datos de la barras
+  public barChartType: string = 'line';
+  public barChartLegend: boolean = false;
+  public AgileComplianceTotal: number = 100;
+  public ListaSeccionesAgileCompliance: number[] = [];
+  public ListaPuntuacion: number[] = [];
+  public ListaNombres: string[] = [];
+
+  @ViewChild(BaseChartDirective) public chart: BaseChartDirective;
+
+
   constructor(
     private _appComponent: AppComponent,
     private _router: Router,
     private _evaluacionService: EvaluacionService,
     private _proyectoService: ProyectoService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal
+  ) { }
 
   ngOnInit() {
     //Recogemos los proyectos y realizamos comprobaciones
@@ -60,13 +81,12 @@ export class PreviousevaluationComponent implements OnInit {
       res => {
 
         this.permisosDeUsuario = res;
-        var Admin = false;
         //Si no hay errores y son recogidos busca si tienes permisos de usuario
         for (let num = 0; num < this.permisosDeUsuario.length; num++) {
           if (this.permisosDeUsuario[num].role == "Administrador") {
             if (this.Project == null || this.Project == undefined || this.Project.id == -1) {
               this.Project = { id: 0, nombre: '', fecha: null };
-              Admin = true;
+              this.Admin = true;
             }
           }
         }
@@ -74,7 +94,7 @@ export class PreviousevaluationComponent implements OnInit {
         //Comprueba que tenga  un proyecto seleccionado y si no es asi lo devuelve a home
         if (this.Project == null || this.Project == undefined) {
           this._router.navigate(['/home']);
-        } else if (this.Project.id == -1 && !Admin) {
+        } else if (this.Project.id == -1 && !this.Admin) {
           this._router.navigate(['/home']);
         } else {
           this.MostrarInfo = true;
@@ -100,6 +120,7 @@ export class PreviousevaluationComponent implements OnInit {
       });
 
     if (this.Project.fecha != null) {
+      //Para que no de error en modo development
       setTimeout(() => {
         this._appComponent.anadirUserProyecto(this.UserName, this.Project.nombre);
       });
@@ -130,11 +151,74 @@ export class PreviousevaluationComponent implements OnInit {
       this.EvaluacionFiltrar.userNombre = "";
       this.EvaluacionFiltrar.estado = "";
       this.EvaluacionFiltrar.puntuacion = "";
+      this.ProyectoSeleccionado = false;
+
       this.GetPaginacion();
       this.clicked = false;
-    } else {
-      this.clicked = true;
     }
+    else {
+      this.clicked = true;
+
+      if (this.ListaDeProyectos.length == 0) {
+
+        //Segun el tipo de rol que tengas te permitira tener todos los proyectos o solo los tuyos
+        //El servicio se encargara de enviar una respuesta con el listado de proyecto
+        //El usuario necesario ya tendria que haber sido cargado en el logueo
+        if (!this.Admin) {
+          //Aqui se entra solo si no tienes permisos de administrador dandote los proyectos que te tocan
+          this._proyectoService.getProyectosDeUsuario().subscribe(
+            res => {
+              this.ListaDeProyectos = res;
+            },
+            error => {
+              //Si el servidor tiene algún tipo de problema mostraremos este error
+              if (error == 404) {
+                this.ErrorMessage = "Error: " + error + " El usuario o proyecto autenticado no existe.";
+              } else if (error == 500) {
+                this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              } else if (error == 401) {
+                this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+              } else {
+                this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              }
+            });
+        } else {
+          //Aqui entra si eres administrador dandote todos los proyectos
+          this._proyectoService.getAllProyectos().subscribe(
+            res => {
+              this.ListaDeProyectos = res;
+
+            },
+            error => {
+              //Si el servidor tiene algún tipo de problema mostraremos este error
+              if (error == 404) {
+                this.ErrorMessage = "Error: " + error + " El usuario o proyecto autenticado no existe.";
+              } else if (error == 500) {
+                this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              } else if (error == 401) {
+                this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+              } else {
+                this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              }
+            });
+        }
+
+      }
+
+    }
+  }
+
+  public SeleccionDeProyecto(index: number) {
+
+    if (isNaN(index)) {
+      this.ProyectoSeleccionado = false;
+      this.EvaluacionFiltrar.nombre = "";
+    } else {
+      this.ProyectoSeleccionado = true;
+      this.EvaluacionFiltrar.nombre = this.ListaDeProyectos[index].nombre;
+    }
+
+    this.TryHttpRequest(false);
   }
 
   //Este metodo devuelve la transforma la lista de evaluaciones dada en una lista paginada
@@ -149,39 +233,7 @@ export class PreviousevaluationComponent implements OnInit {
     this.ListaDeEvaluacionesPaginada = ListaPaginada;
   }
 
-  //Utiliza los datos del filtrado para realizar un filtrado en el array
-  /* public Busqueda() {
-     var BuscaPersonalizada: Array<EvaluacionInfo> = this.ListaDeEvaluacionesPaginada;
-     this.CalcularPaginas();
-     //Si no filtra por completos o incompletos
-     if (this.FiltrarCompletados == null) {
-       BuscaPersonalizada = this.ListaDeEvaluacionesPaginada.filter(
-         x => x.fecha.includes(this.ListaDeEvaluacionesPaginada.fecha) &&
-           x.nombre.includes(this.ListaDeEvaluacionesPaginada.nombre) &&
-           x.userNombre.includes(this.ListaDeEvaluacionesPaginada.userNombre) &&
-           String(x.nRespuestas).includes(this.nrespuestas));
-     } else {
-       //Filtrando por completos
-       if (this.FiltrarCompletados) {
-         BuscaPersonalizada = this.ListaDeEvaluacionesPaginada.filter(
-           x => x.estado &&
-             x.fecha.includes(this.ListaDeEvaluacionesPaginada.fecha) &&
-             x.nombre.includes(this.ListaDeEvaluacionesPaginada.nombre) &&
-             x.userNombre.includes(this.ListaDeEvaluacionesPaginada.userNombre) &&
-             String(x.nRespuestas).includes(this.nrespuestas));
-       } else {
-         //Filtrando por incompletos
-         BuscaPersonalizada = this.ListaDeEvaluacionesPaginada.filter(
-           x => x.estado == false &&
-             x.fecha.includes(this.ListaDeEvaluacionesPaginada.fecha) &&
-             x.nombre.includes(this.ListaDeEvaluacionesPaginada.nombre) &&
-             x.userNombre.includes(this.ListaDeEvaluacionesPaginada.userNombre) &&
-             String(x.nRespuestas).includes(this.nrespuestas));
-       }
-     }
-     return BuscaPersonalizada;
-   }*/
-
+ 
   //Guarda los datos en el storage y cambia de ruta hacia la generación de grafica
   public SaveDataToPDF(evaluacion: EvaluacionInfo) {
     this._appComponent._storageDataService.EvaluacionToPDF = evaluacion;
@@ -210,15 +262,24 @@ export class PreviousevaluationComponent implements OnInit {
 
   //Este metodo es llamado cuando cambias un valor de filtrado y en 750 milisegundos te manda a la primera pagina y recarga el componente con
   //los nuevos elementos
-  public TryHttpRequest() {
+  public TryHttpRequest(timeout: boolean) {
     if (this.Timeout != null && !this.Timeout != undefined) {
       this.Timeout.unsubscribe();
     }
-    this.Timeout = interval(750)
-      .subscribe(i => {
-        this.PageNow = 1, this.GetPaginacion(),
-          this.Timeout.unsubscribe()
-      });
+
+    if (timeout) {
+      this.Timeout = interval(500)
+        .subscribe(i => {
+          this.PageNow = 1, this.GetPaginacion(),
+            this.Timeout.unsubscribe()
+        });
+    }
+    else {
+
+      this.PageNow = 1;
+      this.GetPaginacion();
+    }
+
   }
 
   //Recarga los elementos en la pagina en la que se encuentra 
@@ -230,6 +291,7 @@ export class PreviousevaluationComponent implements OnInit {
           this.nEvaluaciones = res.numEvals;
           this.ListaDeEvaluacionesPaginada = res.evaluacionesResult;
           this.CalcularPaginas();
+          this.shareDataToChart();
           this.Mostrar = true;
         },
         error => {
@@ -352,5 +414,56 @@ export class PreviousevaluationComponent implements OnInit {
     this.PageNow = 1;
     this.GetPaginacion();
   }
+
+  //Da los datos a las diferentes listas que usaremos para las graficas
+  public shareDataToChart() {
+
+    var listaPunt = [];
+    var listaNom = [];
+
+
+    for (var i = this.ListaDeEvaluacionesPaginada.length - 1; i >= 0; i--) {
+      var pipe = new DatePipe('en-US');
+
+      listaPunt.push(this.ListaDeEvaluacionesPaginada[i].puntuacion);
+      listaNom.push(pipe.transform(this.ListaDeEvaluacionesPaginada[i].fecha, 'dd/MM/yyyy, HH:mm'));
+    }
+
+    this.ListaPuntuacion = listaPunt;
+    this.ListaNombres = listaNom;
+
+  }
+
+  //Opciones para la grafica
+  public barChartOptions: any = {
+    scaleShowVerticalLines: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          steps: 10,
+          stepValue: 10,
+          max: 100,
+          min: 0,
+        }
+      }]
+    }
+  };
+
+  //Colores para la grafica
+  public chartColors: Array<any> = [
+    { // first color
+      backgroundColor: 'rgba(92, 183, 92, 0.5)',
+      borderColor: 'rgba(92, 183, 92, 0.5)',
+      pointBackgroundColor: 'rgba(92, 183, 92, 0.5)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(92, 183, 92, 0.5)'
+    }];
+
+  //Estos son los datos introducidos en la grafica para que represente sus formas
+  public barChartData: any[] = [
+    { data: [10,20,30], label: 'Puntuación' }
+  ];
+
 
 }

@@ -3,6 +3,9 @@
   <div *ngIf="(ErrorMessage != null || ErrorMessage != undefined )" class="alert alert-danger" id="danger">
     <strong>{{ErrorMessage}}</strong>
   </div>
+  <div *ngIf="anadeNota != null" class=" alert alert-success">
+    {{anadeNota}}
+  </div>
 </div>
 
 <div *ngIf="cargandoPDF" id="cargarPDF">
@@ -72,11 +75,10 @@
       <div class="checkbox">
         <form>
           <div>
-            <input type="checkbox" id="notasPreg" name="notasPreg" value=""
-                   [ngClass]="{'disableCheck': !Evaluacion.flagNotasPreg}" (click)="cambiarMostrarNotasPreg()" />
-            <label for="notasPreg" [ngClass]="{'disable': !Evaluacion.flagNotasPreg}">
+            <input type="checkbox" id="notasPreg" name="notasPreg" value="" (click)="cambiarMostrarNotasPreg()" />
+            <label for="notasPreg">
               <span><!-- This span is needed to create the "checkbox" element --></span>
-              Notas de preguntas
+              Tabla de preguntas
             </label>
           </div>
         </form>
@@ -117,12 +119,21 @@
             <td class="text-left total" [ngClass]="{'suspenso': Evaluacion.puntuacion < AgileComplianceTotal}"><strong>Total</strong></td>
             <td class="text-left total" [ngClass]="{'suspenso': Evaluacion.puntuacion < AgileComplianceTotal}">{{Evaluacion.puntuacion}}%</td>
           </tr>
+          <tr>
+            <td>Media</td>
+            <td class="media" *ngIf="Evaluacion.media == -1">No existen evaluaciones</td>
+
+            <td class="media" *ngIf="Evaluacion.media != -1" height="100%">{{Evaluacion.media | number:'1.0-1'}}%</td>
+          </tr>
         </tbody>
       </table>
+
 
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2 text-center mt-4">
+
+
 
       <!--Grafica-->
       <div id="Grafica" class="mx-auto">
@@ -204,20 +215,35 @@
             <th class="text-left">Asignación</th>
             <th class="text-left">Pregunta</th>
             <th class="text-left">Respuesta</th>
+            <th class="text-left">Respuesta Correcta</th>
             <th class="text-left">Notas</th>
+            <th class="text-left">Notas Administrador</th>
           </tr>
         </thead>
         <tbody class="table-hover">
-          <tr *ngFor="let respuesta of ListaDeRespuestas">
-            <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.section | titlecase}}</td>
-            <td class="text-left notasPreg" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.asignacion}}</td>
-            <td class="text-left notasPreg text-justify" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.pregunta}}</td>
+          <tr *ngFor="let respuesta of ListaDeRespuestas; let i = index">
+            <td class="text-left notasPreg">{{respuesta.section | titlecase}}</td>
+            <td class="text-left notasPreg">{{respuesta.asignacion}}</td>
+            <td class="text-left notasPreg text-justify">{{respuesta.pregunta}}</td>
 
-            <td class="text-left notasPreg ncResp" *ngIf="respuesta.notas != null && respuesta.notas != '' && respuesta.estado == 0">No contestada</td>
-            <td class="text-left notasPreg ncResp" *ngIf="respuesta.notas != null && respuesta.notas != '' && respuesta.estado == 1">Sí</td>
-            <td class="text-left notasPreg ncResp" *ngIf="respuesta.notas != null && respuesta.notas != '' && respuesta.estado == 2">No</td>
+            <td class="text-left notasPreg ncResp" *ngIf="respuesta.estado == 0">No contestada</td>
+            <td class="text-left notasPreg ncResp" *ngIf="respuesta.estado == 1">Sí</td>
+            <td class="text-left notasPreg ncResp" *ngIf="respuesta.estado == 2">No</td>
 
-            <td class="text-left notasPreg text-justify colNotasPreg" [ngClass]="{'pdf':cargandoPDF}" *ngIf="respuesta.notas != null && respuesta.notas != ''">{{respuesta.notas}}</td>
+            <td class="text-left notasPreg ncResp" *ngIf="respuesta.correcta == null">Sí (habilitante)</td>
+            <td class="text-left notasPreg ncResp" *ngIf="respuesta.correcta != null">{{respuesta.correcta}}</td>
+
+            <td class="text-left notasPreg text-justify colNotasPreg" [ngClass]="{'pdf':cargandoPDF}">{{respuesta.notas}}</td>
+
+            <td class="text-left notasPreg text-justify colNotasPreg" [ngClass]="{'pdf':cargandoPDF}">
+              {{respuesta.notasAdmin}}
+
+              <button class="transparente ml-4 text-right" (click)="AbrirModalSec(notasAdmin, i)" *ngIf="!cargandoPDF">
+                <img *ngIf="respuesta.notasAdmin != null" height="30" src="assets/nota_si.png" title="Añadir notas" />
+                <img *ngIf="respuesta.notasAdmin == null" height="30" src="assets/nota_no.png" title="Añadir notas" />
+              </button>
+
+            </td>
           </tr>
         </tbody>
       </table>
@@ -252,3 +278,20 @@
 <div id="my_mm" style="height:1mm;display:none"></div>
 
 
+<ng-template #notasAdmin let-cl="close" let-di="dismiss">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Notas Respuestas Administrador</h5> <button type="button" class="close" (click)="cl('Cerrar')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <textarea class="form-control" maxlength="4000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
+    </div>
+    <div class="modal-footer">
+      <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/4000</p>
+      <button type="button" class="btn btn-success cambiar" (click)="di('Guardar')">Guardar</button>
+      <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
+    </div>
+  </div>
+</ng-template>

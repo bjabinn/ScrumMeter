@@ -25,10 +25,10 @@ namespace everisapi.API.Entities
     = new List<RespuestaEntity>();
 
     
-    [StringLength(1000)]
+    [StringLength(4000)]
     public string NotasObjetivos { get; set; }
 
-    [StringLength(1000)]
+    [StringLength(4000)]
     public string NotasEvaluacion { get; set; }
 
     public double Puntuacion { get; set; }

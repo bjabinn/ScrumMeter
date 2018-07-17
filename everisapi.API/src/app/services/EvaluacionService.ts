@@ -23,6 +23,7 @@ export class EvaluacionService {
   constructor(private _http: Http,
     private _appComponent: AppComponent) {
 
+    /* //DESCOMENTAR
     var loc = window.location.href;
     var index = 0;
     for (var i = 0; i < 3; i++) {
@@ -30,6 +31,9 @@ export class EvaluacionService {
     }
 
     this.url = loc.substring(0, index) + "/api/";
+    */
+    //COMENTAR
+    this.url = "http://localhost:60406/api/";
   }
 
   //Este metodo recoge todas las evaluaciones de la base de datos

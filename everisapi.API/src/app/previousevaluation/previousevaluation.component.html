@@ -67,12 +67,22 @@
                 <span *ngIf="!clicked">Fecha</span>
               </th>
               <th>
-                <span *ngIf="!clicked">Proyecto</span>
-                <input type="text" class="form-control form-control-sm filtro" placeholder="Proyecto" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.nombre">
+                <span *ngIf="!clicked || this.Project.fecha != null">Proyecto</span>
+
+                <div *ngIf="ListaDeProyectos.length == 0 && clicked" id="cargarPDF">
+                  <app-loading></app-loading>
+                  <div id="ocultar"></div>
+                </div>
+
+                <select class="custom-select form-control form-control-sm" *ngIf="ListaDeProyectos.length > 0 && clicked && this.Project.fecha == null" (change)="SeleccionDeProyecto($event.target.value)">
+                  <option selected>- Seleccione un proyecto </option>
+                  <option *ngFor="let proyecto of ListaDeProyectos; let i = index" value={{i}}>{{proyecto.nombre}}</option>
+                </select>
+
               </th>
               <th>
                 <span *ngIf="!clicked">Usuario</span>
-                <input type="text" class="form-control form-control-sm filtro" placeholder="Usuario" *ngIf="clicked" (ngModelChange)="TryHttpRequest()" [(ngModel)]="EvaluacionFiltrar.userNombre">
+                <input type="text" class="form-control form-control-sm filtro" placeholder="Usuario" *ngIf="clicked" (ngModelChange)="TryHttpRequest(true)" [(ngModel)]="EvaluacionFiltrar.userNombre">
               </th>
               <th>
                 <span>Puntuación</span>
@@ -124,9 +134,21 @@
             </tr>
           </tbody>
         </table>
-    
+
       </div>
     </div>
+
+    <!--Grafica-->
+    <div id="Grafica" *ngIf="Mostrar && (this.Project.fecha != null || ProyectoSeleccionado) &&  ListaDeEvaluacionesPaginada.length != 0" class="mx-auto">
+      <canvas *ngIf="barChartData" id="canvas" baseChart #chart
+              [datasets]="barChartData"
+              [labels]="ListaNombres"
+              [options]="barChartOptions"
+              [legend]="barChartLegend"
+              [chartType]="barChartType"
+              [colors]="chartColors"></canvas>
+    </div>
+
 
     <div class="wrapper" *ngIf="NumMax > 1">
       <button type="button" class="btn btn-success cambiar" (click)="NextPreviousButton(false)">Anterior</button>
@@ -150,10 +172,10 @@
       </button>
     </div>
     <div class="modal-body">
-      <textarea class="form-control" maxlength="1000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
+      <textarea class="form-control" maxlength="4000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
     </div>
     <div class="modal-footer">
-      <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/1000</p>
+      <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/4000</p>
       <button type="button" class="btn btn-success cambiar" (click)="di('Guardar')">Guardar</button>
       <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
     </div>
@@ -168,10 +190,10 @@
       </button>
     </div>
     <div class="modal-body">
-      <textarea class="form-control" maxlength="1000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
+      <textarea class="form-control" maxlength="4000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
     </div>
     <div class="modal-footer">
-      <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/1000</p>
+      <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/4000</p>
       <button type="button" class="btn btn-success cambiar" (click)="di('Guardar')">Guardar</button>
       <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
     </div>

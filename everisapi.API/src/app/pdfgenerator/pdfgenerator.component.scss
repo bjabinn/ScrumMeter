@@ -18,6 +18,10 @@
   font-size: 13px;
 }
 
+.media {
+  font-size: 13px !important;
+}
+
 //Button
 
 .center {
@@ -389,7 +393,7 @@ hr.textopdf{
 }
 
 .colNotasPreg {
-  min-width: calc(100vw - 540px);
+  min-width: calc(50vw - 290px);
   overflow-x: auto;
 }
 
@@ -399,7 +403,7 @@ hr.textopdf{
 }
 
 .colNotasPreg.pdf {
-  min-width: 200px;
+  min-width: 100px;
   overflow-x: hidden;
 }
 
@@ -471,4 +475,13 @@ hr.textopdf{
 .suspenso{
   font-weight: bold;
   color: red;
+}
+
+.transparente {
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
 }
