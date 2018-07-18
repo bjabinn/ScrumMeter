@@ -19,7 +19,8 @@ export class SectionService {
 
   constructor(private _http: Http,
     private _appComponent: AppComponent) {
-        /* //DESCOMENTAR
+
+    /*//DESCOMENTAR
     var loc = window.location.href;
     var index = 0;
     for (var i = 0; i < 3; i++) {
@@ -27,7 +28,8 @@ export class SectionService {
     }
 
     this.url = loc.substring(0, index) + "/api/";
-        */
+    */
+
     //COMENTAR
     this.url = "http://localhost:60406/api/";
   }

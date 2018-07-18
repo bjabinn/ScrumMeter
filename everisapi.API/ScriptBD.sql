@@ -1,3 +1,21 @@
+/*Modificamos algunos valores por defecto*/
+Alter table preguntas modify column Correcta longtext NULL DEFAULT NULL;
+
+Alter table respuestas modify column Notas varchar(4000) NULL DEFAULT NULL;
+Alter table respuestas modify column NotasAdmin varchar(4000) NULL DEFAULT NULL;
+Alter table respuestas modify column Estado Int(11) NULL DEFAULT '0';
+
+Alter table notassections modify column Notas varchar(4000) NULL DEFAULT NULL;
+Alter table notasasignaciones modify column Notas varchar(4000) NULL DEFAULT NULL;
+
+Alter table evaluaciones modify column NotasEvaluacion varchar(4000) NULL DEFAULT NULL;
+Alter table evaluaciones modify column NotasObjetivos varchar(4000) NULL DEFAULT NULL;
+Alter table evaluaciones modify column Puntuacion double NULL DEFAULT '0';
+
+Alter table asignaciones modify column Peso INT(11) NULL DEFAULT '0';
+
+
+
 
 /*ASIGNACIONES*/
 INSERT INTO `asignaciones`(`Id`, `Nombre`, `SectionId`, `Peso`) VALUES (1, "Daily", 1, 5),
@@ -138,79 +156,3 @@ INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 13 , '¿El Burndown se actualiza diariamente?', 'Si'),
 ( 13 , '¿El equipo conoce y entiende sus métricas?', 'Si');
 
-
-/*RESPUESTAS DE PRUEBA*/
-
-/*
-INSERT INTO `respuestas`(`Estado`, `PreguntaId`, `EvaluacionId`) VALUES
-(0 , 1 , 1),
-(0 , 2 , 1),
-(0 , 3 , 1),
-(0 , 4 , 1),
-(0 , 5 , 1),
-(0 , 6 , 1),
-(0 , 7 , 1),
-(0 , 8 , 1),
-(0 , 9 , 1),
-(0 , 10 , 1),
-(0 , 11 , 1),
-(0 , 12 , 1),
-(0 , 13 , 1),
-(0 , 14 , 1),
-(0 , 15 , 1),
-(0 , 16 , 1),
-(0 , 17 , 1),
-(0 , 18 , 1),
-(0 , 19 , 1),
-(0 , 20 , 1),
-(0 , 21 , 1),
-(0 , 22 , 1),
-(0 , 23 , 1),
-(0 , 24 , 1),
-(0 , 25 , 1),
-(0 , 26 , 1),
-(0 , 27 , 1),
-(0 , 28 , 1),
-(0 , 29 , 1),
-(0 , 30 , 1),
-(0 , 31 , 1),
-(0 , 32 , 1),
-(0 , 33 , 1),
-(0 , 34 , 1),
-(0 , 35 , 1),
-(0 , 36 , 1),
-(0 , 37 , 1),
-(0 , 38 , 1),
-(0 , 39 , 1),
-(0 , 40 , 1),
-(0 , 41 , 1),
-(0 , 42 , 1),
-(0 , 43 , 1),
-(0 , 44 , 1),
-(0 , 45 , 1),
-(0 , 46 , 1),
-(0 , 47 , 1),
-(0 , 48 , 1),
-(0 , 49 , 1),
-(0 , 50 , 1),
-(0 , 51 , 1),
-(0 , 52 , 1),
-(0 , 53 , 1),
-(0 , 54 , 1),
-(0 , 55 , 1),
-(0 , 56 , 1),
-(0 , 57 , 1),
-(0 , 58 , 1),
-(0 , 59 , 1),
-(0 , 60 , 1),
-(0 , 61 , 1),
-(0 , 62 , 1),
-(0 , 63 , 1),
-(0 , 64 , 1),
-(0 , 65 , 1),
-(0 , 66 , 1),
-(0 , 67 , 1),
-(0 , 68 , 1),
-(0 , 69 , 1)
-;
-*/

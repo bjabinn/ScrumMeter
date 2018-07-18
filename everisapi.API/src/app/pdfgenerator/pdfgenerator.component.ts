@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { EvaluacionInfo } from 'app/Models/EvaluacionInfo';
 import { Proyecto } from 'app/Models/Proyecto';
@@ -37,6 +37,7 @@ export class PdfgeneratorComponent implements OnInit {
   public Evaluacion: EvaluacionInfo;
   public Mostrar = false;
   public ErrorMessage = null;
+  public AdminOn: boolean = false;
 
   //Datos de la barras
   public barChartType: string = 'bar';
@@ -70,10 +71,6 @@ export class PdfgeneratorComponent implements OnInit {
   public doc = null;
   public iteracionResultados: number = 0;
 
-
-  //Datos para pdf
-  @ViewChild('content') content: ElementRef;
-
   constructor(
     private _proyectoService: ProyectoService,
     private _appComponent: AppComponent,
@@ -103,15 +100,15 @@ export class PdfgeneratorComponent implements OnInit {
     var ArrayRoles = [];
     this._proyectoService.getRolesUsuario().subscribe(
       res => {
-        var AdminOn = false;
+        this.AdminOn = false;
         ArrayRoles = res;
         //Si no hay errores y son recogidos busca si tienes permisos de usuario
         for (let num = 0; num < ArrayRoles.length; num++) {
           if (ArrayRoles[num].role == "Administrador") {
-            AdminOn = true;
+            this.AdminOn = true;
           }
         }
-        if (this.Project.id == null && !AdminOn) {
+        if (this.Project.id == null && !this.AdminOn) {
           this._router.navigate(['/home']);
         }
       },

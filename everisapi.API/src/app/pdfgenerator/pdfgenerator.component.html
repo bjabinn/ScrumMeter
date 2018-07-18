@@ -19,6 +19,19 @@
 
 
     <div class="ml-2 pl-5 col-xs-12 col-sm-6 col-md-3 col-lg-4 col-xl-3 mt-3" *ngIf="mostrarCheckboxes">
+
+      <div class="checkbox">
+        <form>
+          <div>
+            <input type="checkbox" id="notasPreg" name="notasPreg" value="" (click)="cambiarMostrarNotasPreg()" />
+            <label for="notasPreg">
+              <span><!-- This span is needed to create the "checkbox" element --></span>
+              Tabla de preguntas
+            </label>
+          </div>
+        </form>
+      </div>
+
       <div class="checkbox">
         <form>
           <div>
@@ -72,17 +85,7 @@
         </form>
       </div>
 
-      <div class="checkbox">
-        <form>
-          <div>
-            <input type="checkbox" id="notasPreg" name="notasPreg" value="" (click)="cambiarMostrarNotasPreg()" />
-            <label for="notasPreg">
-              <span><!-- This span is needed to create the "checkbox" element --></span>
-              Tabla de preguntas
-            </label>
-          </div>
-        </form>
-      </div>
+
 
       <div class="mt-3">
 
@@ -238,7 +241,7 @@
             <td class="text-left notasPreg text-justify colNotasPreg" [ngClass]="{'pdf':cargandoPDF}">
               {{respuesta.notasAdmin}}
 
-              <button class="transparente ml-4 text-right" (click)="AbrirModalSec(notasAdmin, i)" *ngIf="!cargandoPDF">
+              <button class="transparente ml-4 text-right" (click)="AbrirModalSec(notasAdmin, i)" *ngIf="!cargandoPDF && AdminOn">
                 <img *ngIf="respuesta.notasAdmin != null" height="30" src="assets/nota_si.png" title="Añadir notas" />
                 <img *ngIf="respuesta.notasAdmin == null" height="30" src="assets/nota_no.png" title="Añadir notas" />
               </button>

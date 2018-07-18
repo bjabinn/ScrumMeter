@@ -12,7 +12,7 @@ import { ProyectoService } from 'app/services/ProyectoService';
 import { Role } from 'app/Models/Role';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
-import { BaseChartDirective } from 'ng2-charts/ng2-charts';
+import { ChartsModule, BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { DatePipe } from '@angular/common';
 import { setTimeout } from 'timers';
 
@@ -53,7 +53,7 @@ export class PreviousevaluationComponent implements OnInit {
   public barChartLegend: boolean = false;
   public AgileComplianceTotal: number = 100;
   public ListaSeccionesAgileCompliance: number[] = [];
-  public ListaPuntuacion: number[] = [];
+  public ListaPuntuacion: { label: string, backgroundColor: string, borderColor: string, data: Array<any> }[] = [];
   public ListaNombres: string[] = [];
 
   @ViewChild(BaseChartDirective) public chart: BaseChartDirective;
@@ -123,12 +123,12 @@ export class PreviousevaluationComponent implements OnInit {
       //Para que no de error en modo development
       setTimeout(() => {
         this._appComponent.anadirUserProyecto(this.UserName, this.Project.nombre);
-      });
+      },0);
     } else {
       //Para que no de error en modo development
       setTimeout(() => {
         this._appComponent.anadirUserProyecto(this.UserName, "Todos");
-      });
+      },0);
 
     }
   }
@@ -418,19 +418,30 @@ export class PreviousevaluationComponent implements OnInit {
   //Da los datos a las diferentes listas que usaremos para las graficas
   public shareDataToChart() {
 
+    this.ListaPuntuacion = [];
+    this.ListaNombres = [];
     var listaPunt = [];
-    var listaNom = [];
 
 
     for (var i = this.ListaDeEvaluacionesPaginada.length - 1; i >= 0; i--) {
       var pipe = new DatePipe('en-US');
-
       listaPunt.push(this.ListaDeEvaluacionesPaginada[i].puntuacion);
-      listaNom.push(pipe.transform(this.ListaDeEvaluacionesPaginada[i].fecha, 'dd/MM/yyyy, HH:mm'));
+      this.ListaNombres.push(pipe.transform(this.ListaDeEvaluacionesPaginada[i].fecha, 'dd/MM/yyyy, HH:mm'));
     }
 
-    this.ListaPuntuacion = listaPunt;
-    this.ListaNombres = listaNom;
+    this.ListaPuntuacion.push({
+      data: listaPunt, label: 'Puntuación', backgroundColor: 'rgba(92, 183, 92, 0.5)',
+      borderColor: 'rgba(92, 183, 92, 0.5)', });
+
+
+    setTimeout(() => {
+
+      if (this.chart && this.chart.chart && this.chart.chart.config) {
+        this.chart.chart.config.data.labels = this.ListaNombres;
+        this.chart.chart.config.data.datasets = this.ListaPuntuacion;
+        this.chart.chart.update();
+      }
+    }, 300);
 
   }
 
@@ -462,7 +473,7 @@ export class PreviousevaluationComponent implements OnInit {
 
   //Estos son los datos introducidos en la grafica para que represente sus formas
   public barChartData: any[] = [
-    { data: [10,20,30], label: 'Puntuación' }
+    { data: this.ListaPuntuacion, label: 'Puntuación' }
   ];
 
 
