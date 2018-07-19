@@ -1,4 +1,5 @@
 /*Modificamos algunos valores por defecto*/
+
 Alter table preguntas modify column Correcta longtext NULL DEFAULT NULL;
 
 Alter table respuestas modify column Notas varchar(4000) NULL DEFAULT NULL;
@@ -15,9 +16,40 @@ Alter table evaluaciones modify column Puntuacion double NULL DEFAULT '0';
 Alter table asignaciones modify column Peso INT(11) NULL DEFAULT '0';
 
 
+############################################
+/*Añadimos algunos datos a la tabla (proyectos, usuarios, etc)*/
+INSERT INTO `agilemeter`.`users` (`Nombre`,`Password`) VALUES
+('Admin','c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f'),
+('Test','532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25'),
+('User','b512d97e7cbf97c273e4db073bbb547aa65a84589227f8f3d9e4a72b9372a24d');
 
 
+INSERT INTO `agilemeter`.`sections` (`Id`,`Nombre`) VALUES
+(1,'CEREMONIAS'),
+(2,'ROLES'),
+(3,'ARTEFACTOS');
+
+INSERT INTO `agilemeter`.`roles` (`Id`,`Role`) VALUES
+(1,'Usuario'),
+(2,'Administrador');
+
+
+INSERT INTO `agilemeter`.`user_roles` (`Id`,`RoleId`,`UserNombre`) VALUES
+(1,1,'User'),
+(2,1,'Admin'),
+(3,1,'Admin');
+
+INSERT INTO `agilemeter`.`proyectos` (`Id`,`Fecha`,`Nombre`,`UserNombre`) VALUES
+(1,'2018-07-10 00:00:00','BCA','Admin'),
+(2,'2018-07-10 00:00:00','TESCO','Admin'),
+(3,'2018-07-10 00:00:00','BestDay','User'),
+(4,'2018-07-10 00:00:00','TVE','User'),
+(5,'2018-07-10 00:00:00','Proyecto Test','Test');
+
+
+############################################
 /*ASIGNACIONES*/
+
 INSERT INTO `asignaciones`(`Id`, `Nombre`, `SectionId`, `Peso`) VALUES (1, "Daily", 1, 5),
 (2, "Retrospective", 1, 30), (3, "Sprint Review", 1, 20), (4, "Sprint Planning", 1, 15), (5, "Refinement", 1, 10);
 
@@ -27,6 +59,8 @@ INSERT INTO `asignaciones`(`Id`, `Nombre`, `SectionId`, `Peso`) VALUES (6, "Prod
 INSERT INTO `asignaciones`(`Id`, `Nombre`, `SectionId`, `Peso`) VALUES (9, "Product Backlog", 3, 30),
 (10, "Sprint Backlog", 3, 20), (11, "Incremento", 3, 15), (12, "Iteracion", 3, 5), (13, "Metricas", 3, 10);
 
+
+############################################
 /*PREGUNTAS*/
 
 INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES

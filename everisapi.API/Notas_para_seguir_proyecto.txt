@@ -2,7 +2,7 @@
 Con npm install debería instalarse todo lo necesario para Angular, si no, ir viendo qué errores da e ir instalando esos paquetes.
 Ejecutar el código de .NET en Visual Studio para que se creen las tablas en base de datos.
 Añadir trigger After Insert en tabla Evaluaciones, fichero Trigger.sql
-Lanzar ScriptBD.sql en la BD (para añdir preguntas, asignaciones y valores por defecto de algunos campos)
+Lanzar ScriptBD.sql en la BD (para añdir preguntas, asignaciones, proyectos, etc.)
 
 
 
