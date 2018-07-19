@@ -96,7 +96,7 @@ namespace everisapi.API.Services
       }
     }
 
-    //Introduciendo la id de evaluacion sacaremos una lista con todas las respuestas que tengan notas
+    //Introduciendo la id de evaluacion sacaremos una lista con todas las respuestas 
     public IEnumerable<RespuestaConNotasDto> GetRespuestasConNotas(int idEvaluacion)
     {
       var respuestas = _context.Respuestas.

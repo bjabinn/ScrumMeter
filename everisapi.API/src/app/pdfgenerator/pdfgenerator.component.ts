@@ -116,6 +116,7 @@ export class PdfgeneratorComponent implements OnInit {
         this._router.navigate(['/home']);
       });
 
+    //Notas para aprobados
     this.http.get('assets/notas_aprobados.json').pipe(
       map(res => res.json()))
       .toPromise()
@@ -214,6 +215,8 @@ export class PdfgeneratorComponent implements OnInit {
   ];
 
   //Genera un pdf a partir de una captura de pantalla
+  //Esta funcion se encarga de coger todo lo que se quiera de pantalla y guardarlo en un vector
+  //Este proceso no es instantaneo, así que se va llamando a la funcion createPDF cada vez hasta que están todos completados
   public downloadPDF() {
     this.anadeNota = null;
 
@@ -258,9 +261,13 @@ export class PdfgeneratorComponent implements OnInit {
 
   }
 
+  //Funcion para coger los elementos que se han guardado en un vector y crear con ellos un pdf
   public createPDF() {
+
+    //Cuando se han cargado todos los elementos en el vector
     if (this.total === this.totalCompletado) {
 
+      //Cuando se quiere crear un nuevo pdf
       if (this.primeraVez) {
 
         this.doc = new jsPDF('p', 'mm', 'A4');
@@ -268,14 +275,20 @@ export class PdfgeneratorComponent implements OnInit {
         this.primeraVez = false;
       }
 
+      //Suma de la altura
       var alturaTotal = 0;
 
+      //Dimensiones de la pagina
       var tamanioPag = 297;
 
       var tamanioRestante = tamanioPag;
 
+      //Usa dimensiones en mm, asi que tenemos que calcular cuanto mide
       var unMmEnPx = parseInt(window.getComputedStyle(document.getElementById("my_mm")).height.toString().split('px')[0]);
 
+
+      //Por cada imagen
+      //Esta funcion vuelve a ser llamada al dividir imágenes, por eso tendremos que llevar la cuenta de por donde nos quedamos
       for (var j = this.iteracionResultados; j < this.resultados.length && this.continuar; j++) {
 
         var imagen = this.resultados[j];
@@ -286,6 +299,7 @@ export class PdfgeneratorComponent implements OnInit {
 
           var tamanioImagen = imagen.height / unMmEnPx;
 
+          //Si la imagen es mas grande que la pagina se llama a otra funcion que la dividira
           if (tamanioImagen >= tamanioPag) {
             
             this.continuar = false;
@@ -295,6 +309,7 @@ export class PdfgeneratorComponent implements OnInit {
 
           } else {
 
+            //Añadimos la imagen a la pagina existente o creamos una nueva página
             tamanioRestante -= tamanioImagen + 20;
 
             if (tamanioRestante < 0) {
@@ -313,7 +328,7 @@ export class PdfgeneratorComponent implements OnInit {
 
       }
 
-
+      //Si se ha terminado de crear el pdf
       if (this.continuar) {
         var date = this.datePipe.transform(this.Evaluacion.fecha, 'dd-MM-yyyy');
         var nombre = this.Evaluacion.nombre;
@@ -332,8 +347,14 @@ export class PdfgeneratorComponent implements OnInit {
     }
   }
 
-  //Cuando hay una imagen que ocupa mas de una pagina
+  //Cuando hay una imagen que ocupa mas de una pagina se llama a esta funcion, que divide el pdf y la imagen en varias páginas
+  //Es una funcion recursiva que se llama a si misma para ir cortando la imagen
+  //Esto se hace porque es la unica forma de conservar el orden al ser un proceso asíncrono
   public imagenGrande(imagen, iteracion, tamanioPag, tamanioImg) {
+
+    //Las dimensiones para añadir imagenes son muy raras
+    //El tamaño de la imagen lo da mal
+    //Todo lo que se ve ha sido sacado por prueba y error (hay que mejorarlo)
     var sumar = 1;
 
     if (iteracion > 0) {
@@ -344,11 +365,12 @@ export class PdfgeneratorComponent implements OnInit {
     var relacion = tamanioImg / tamanioPag;
     var totalIteraciones = Math.floor(tamanioImg / tamanioPag);
 
-
+    //Numero de iteraciones
     if (totalIteraciones == 1 && relacion >= 1.1) {
       totalIteraciones++;
     }
 
+    //Cuanto sumar a la imagen por arriba para continuar
     var top = 950;
 
     if (iteracion == totalIteraciones - 1 && iteracion != 0) {
@@ -357,13 +379,14 @@ export class PdfgeneratorComponent implements OnInit {
 
     }
     
-    
+    //Transformamos la i
     imgTransform(imagen.toDataURL("image/png", 1.0)).crop(2000, top, 0, (950 * iteracion) + sumar).done(dataUrl => {
 
       this.doc.addPage();
 
       this.doc.addImage(dataUrl, 'PNG', 15, 20, 0, 0, '', 'FAST');
 
+      //Si se ha terminado, se llama a la funcion anterior para continuar con la creacion del pdf
       if (iteracion == totalIteraciones - 1) {
 
         this.continuar = true;
@@ -380,29 +403,33 @@ export class PdfgeneratorComponent implements OnInit {
 
 
 
-
+  //Para no mostrar la pantalla de cargando
   public apagarCargar() {
     this.cargandoPDF = false;
   }
 
+  //Para mostrar o no las notas de evaluacion
   public cambiarMostrarNotasEv() {
     if (this.Evaluacion.notasEv != null && this.Evaluacion.notasEv != "") {
       this.mostrarNotasEv = !this.mostrarNotasEv;
     }
   }
 
+  //Para mostrar o no las notas de objetivos
   public cambiarMostrarNotasOb() {
     if (this.Evaluacion.notasOb != null && this.Evaluacion.notasOb != "") {
       this.mostrarNotasOb = !this.mostrarNotasOb;
     }
   }
 
+  //Para mostrar o no las notas de seccion
   public cambiarMostrarNotasSec() {
     if (this.Evaluacion.flagNotasSec) {
       this.mostrarNotasSec = !this.mostrarNotasSec;
     }
   }
 
+  //Para mostrar o no las notas de preguntas
   public cambiarMostrarNotasPreg() {
 
       //No se ha hecho la peticion al servidor aun
@@ -434,6 +461,7 @@ export class PdfgeneratorComponent implements OnInit {
   }
 
 
+  //Para mostrar o no las notas de asignacion
   public cambiarMostrarNotasAsig() {
     if (this.Evaluacion.flagNotasAsig) {
 
@@ -467,12 +495,13 @@ export class PdfgeneratorComponent implements OnInit {
     }
   }
 
+  //Para volver a la pantalla de evaluaciones
   public Volver(lugar) {
     this._router.navigate([lugar]);
   }
 
-
-  public AbrirModalSec(content, i) {
+  //Para abrir el modal de notas de admin
+  public AbrirModal(content, i) {
 
     this.anadeNota = null;
 

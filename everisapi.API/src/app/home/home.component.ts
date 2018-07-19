@@ -262,6 +262,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  //Para seguir con la evaluacion seleccionada
   public continuarEvaluacion() {
     this._router.navigate(['/menunuevaevaluacion']);
   }

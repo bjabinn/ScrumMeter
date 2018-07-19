@@ -129,10 +129,12 @@ export class MenunewevaluationComponent implements OnInit {
       });
   }
 
+  //Volver a la pagina principal
   public VolverInicio() {
     this._router.navigate(['/home']);
   }
 
+  //Para abrir la advertencia de finalizar proyecto
   public AbrirModal(content) {
     this.modalService.open(content).result.then(
       (closeResult) => {
@@ -146,6 +148,7 @@ export class MenunewevaluationComponent implements OnInit {
       })
   }
 
+  //Para abrir las notas de secciones
   public AbrirModalNotas(content, i) {
 
     this.anadeNota = null;

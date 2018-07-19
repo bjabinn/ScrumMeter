@@ -130,6 +130,7 @@ export class NewevaluationComponent implements OnInit {
 
     var Respuesta;
 
+    //Cambia el estado
     if (this.InfoAsignacion.preguntas[idarray].respuesta.estado == 1) {
       this.InfoAsignacion.preguntas[idarray].respuesta.estado = 2;
     } else {
@@ -161,6 +162,7 @@ export class NewevaluationComponent implements OnInit {
 
     } else {
 
+      //Guardamos la respuesta
       Respuesta = this.InfoAsignacion.preguntas[idarray].respuesta;
       this._respuestasService.AlterRespuesta(Respuesta).subscribe(
         res => {
@@ -206,6 +208,7 @@ export class NewevaluationComponent implements OnInit {
     }
   }
 
+  //Para abrir las notas de preguntas
   public AbrirModalPreg(content, i) {
 
     this.anadeNota = null;
@@ -264,6 +267,7 @@ export class NewevaluationComponent implements OnInit {
   }
 
 
+  //Para abrir las notas de asignaciones
   public AbrirModalAsig(content) {
 
     this.anadeNota = null;
@@ -322,6 +326,7 @@ export class NewevaluationComponent implements OnInit {
   }
 
 
+  //Para abrir las notas de secciones
   public AbrirModalSec(content) {
 
     this.anadeNota = null;

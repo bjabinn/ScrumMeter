@@ -56,6 +56,7 @@ export class PreviousevaluationComponent implements OnInit {
   public ListaPuntuacion: { label: string, backgroundColor: string, borderColor: string, data: Array<any> }[] = [];
   public ListaNombres: string[] = [];
 
+  //Para actualizar la grafica
   @ViewChild(BaseChartDirective) public chart: BaseChartDirective;
 
 
@@ -208,12 +209,16 @@ export class PreviousevaluationComponent implements OnInit {
     }
   }
 
+  //Para el desplegable de elegir proyecto
   public SeleccionDeProyecto(index: number) {
 
+    //Ningun proyecto elegido
     if (isNaN(index)) {
       this.ProyectoSeleccionado = false;
       this.EvaluacionFiltrar.nombre = "";
-    } else {
+    }
+    //Elegido algun proyecto
+    else {
       this.ProyectoSeleccionado = true;
       this.EvaluacionFiltrar.nombre = this.ListaDeProyectos[index].nombre;
     }
@@ -260,13 +265,14 @@ export class PreviousevaluationComponent implements OnInit {
     }
   }
 
-  //Este metodo es llamado cuando cambias un valor de filtrado y en 750 milisegundos te manda a la primera pagina y recarga el componente con
+  //Este metodo es llamado cuando cambias un valor de filtrado y en 500 milisegundos te manda a la primera pagina y recarga el componente con
   //los nuevos elementos
   public TryHttpRequest(timeout: boolean) {
     if (this.Timeout != null && !this.Timeout != undefined) {
       this.Timeout.unsubscribe();
     }
 
+    //Cuando se escribe nombre
     if (timeout) {
       this.Timeout = interval(500)
         .subscribe(i => {
@@ -274,6 +280,8 @@ export class PreviousevaluationComponent implements OnInit {
             this.Timeout.unsubscribe()
         });
     }
+
+    //Cuando se cambia de proyecto
     else {
 
       this.PageNow = 1;
@@ -308,6 +316,7 @@ export class PreviousevaluationComponent implements OnInit {
 
   }
 
+  //Modal de notas evaluacion y objetivos
   //tipo=0 -> Evaluacion
   //tipo=1 -> Objetivos
   public AbrirModal(content, numeroEv, tipo) {
@@ -390,6 +399,7 @@ export class PreviousevaluationComponent implements OnInit {
     this._router.navigate(['/home']);
   }
 
+  //Para cambiar la fecha y que aparezca en el formato correcto en la caja tenemos que liar to esto
   public changeDate() {
     if (this.fechaPicker.day < 10) {
       this.EvaluacionFiltrar.fecha = "0" + this.fechaPicker.day + "/";
@@ -408,6 +418,7 @@ export class PreviousevaluationComponent implements OnInit {
 
   }
 
+  //Limpiamos la caja de fecha
   public limpiar() {
     this.EvaluacionFiltrar.fecha = "";
 
@@ -423,6 +434,7 @@ export class PreviousevaluationComponent implements OnInit {
     var listaPunt = [];
 
 
+    //Cogemos los datoa a añadir
     for (var i = this.ListaDeEvaluacionesPaginada.length - 1; i >= 0; i--) {
       var pipe = new DatePipe('en-US');
       listaPunt.push(this.ListaDeEvaluacionesPaginada[i].puntuacion);
@@ -434,6 +446,7 @@ export class PreviousevaluationComponent implements OnInit {
       borderColor: 'rgba(92, 183, 92, 0.5)', });
 
 
+    //Para actualizar la grafica una vez esté visible
     setTimeout(() => {
 
       if (this.chart && this.chart.chart && this.chart.chart.config) {

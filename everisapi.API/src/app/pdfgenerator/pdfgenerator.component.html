@@ -241,7 +241,7 @@
             <td class="text-left notasPreg text-justify colNotasPreg" [ngClass]="{'pdf':cargandoPDF}">
               {{respuesta.notasAdmin}}
 
-              <button class="transparente ml-4 text-right" (click)="AbrirModalSec(notasAdmin, i)" *ngIf="!cargandoPDF && AdminOn">
+              <button class="transparente ml-4 text-right" (click)="AbrirModal(notasAdmin, i)" *ngIf="!cargandoPDF && AdminOn">
                 <img *ngIf="respuesta.notasAdmin != null" height="30" src="assets/nota_si.png" title="Añadir notas" />
                 <img *ngIf="respuesta.notasAdmin == null" height="30" src="assets/nota_no.png" title="Añadir notas" />
               </button>

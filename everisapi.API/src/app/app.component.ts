@@ -14,7 +14,7 @@ export class AppComponent {
   public NombreDeProyecto: string = null;
   public ScreenWidth;
 
-
+  //Para la barra de arriba
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.ScreenWidth = window.innerWidth;
@@ -37,7 +37,6 @@ export class AppComponent {
     var UserStorage = { 'nombre': localStorage.getItem("user"), 'password': localStorage.getItem("passuser") }
 
     //Recoger del localstorage tambien
-
     //Si no tiene nada nos devuelve a login sino nos da el token
     if (Token == null || Token == undefined || User == null || User == undefined || Token == "" || User.nombre == "" || User.password == "") {
       TokenStorage = localStorage.getItem("tokenuser");
@@ -52,6 +51,7 @@ export class AppComponent {
     }
   }
 
+  //Para añadir texto a la barra de arriba
   public anadirUserProyecto(nomUsu: string, nomProy: string) {
     if (nomUsu != null) {
       this.NombreDeUsuario = nomUsu;
@@ -61,3 +61,6 @@ export class AppComponent {
   }
 
 }
+
+/* Suerte XD */
+
