@@ -1,45 +1,45 @@
 /*Modificamos algunos valores por defecto*/
 
-Alter table preguntas modify column Correcta longtext NULL DEFAULT NULL;
+Alter table Preguntas modify column Correcta longtext NULL DEFAULT NULL;
 
-Alter table respuestas modify column Notas varchar(4000) NULL DEFAULT NULL;
-Alter table respuestas modify column NotasAdmin varchar(4000) NULL DEFAULT NULL;
-Alter table respuestas modify column Estado Int(11) NULL DEFAULT '0';
+Alter table Respuestas modify column Notas varchar(4000) NULL DEFAULT NULL;
+Alter table Respuestas modify column NotasAdmin varchar(4000) NULL DEFAULT NULL;
+Alter table Respuestas modify column Estado Int(11) NULL DEFAULT '0';
 
-Alter table notassections modify column Notas varchar(4000) NULL DEFAULT NULL;
-Alter table notasasignaciones modify column Notas varchar(4000) NULL DEFAULT NULL;
+Alter table Notassections modify column Notas varchar(4000) NULL DEFAULT NULL;
+Alter table Notasasignaciones modify column Notas varchar(4000) NULL DEFAULT NULL;
 
-Alter table evaluaciones modify column NotasEvaluacion varchar(4000) NULL DEFAULT NULL;
-Alter table evaluaciones modify column NotasObjetivos varchar(4000) NULL DEFAULT NULL;
-Alter table evaluaciones modify column Puntuacion double NULL DEFAULT '0';
+Alter table Evaluaciones modify column NotasEvaluacion varchar(4000) NULL DEFAULT NULL;
+Alter table Evaluaciones modify column NotasObjetivos varchar(4000) NULL DEFAULT NULL;
+Alter table Evaluaciones modify column Puntuacion double NULL DEFAULT '0';
 
-Alter table asignaciones modify column Peso INT(11) NULL DEFAULT '0';
+Alter table Asignaciones modify column Peso INT(11) NULL DEFAULT '0';
 
 
 ############################################
 /*Añadimos algunos datos a la tabla (proyectos, usuarios, etc)*/
-INSERT INTO `agilemeter`.`users` (`Nombre`,`Password`) VALUES
+INSERT INTO `agilemeter`.`Users` (`Nombre`,`Password`) VALUES
 ('Admin','c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f'),
 ('Test','532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25'),
 ('User','b512d97e7cbf97c273e4db073bbb547aa65a84589227f8f3d9e4a72b9372a24d');
 
 
-INSERT INTO `agilemeter`.`sections` (`Id`,`Nombre`) VALUES
+INSERT INTO `agilemeter`.`Sections` (`Id`,`Nombre`) VALUES
 (1,'CEREMONIAS'),
 (2,'ROLES'),
 (3,'ARTEFACTOS');
 
-INSERT INTO `agilemeter`.`roles` (`Id`,`Role`) VALUES
+INSERT INTO `agilemeter`.`Roles` (`Id`,`Role`) VALUES
 (1,'Usuario'),
 (2,'Administrador');
 
 
-INSERT INTO `agilemeter`.`user_roles` (`Id`,`RoleId`,`UserNombre`) VALUES
+INSERT INTO `agilemeter`.`User_Roles` (`Id`,`RoleId`,`UserNombre`) VALUES
 (1,1,'User'),
 (2,1,'Admin'),
 (3,1,'Admin');
 
-INSERT INTO `agilemeter`.`proyectos` (`Id`,`Fecha`,`Nombre`,`UserNombre`) VALUES
+INSERT INTO `agilemeter`.`Proyectos` (`Id`,`Fecha`,`Nombre`,`UserNombre`) VALUES
 (1,'2018-07-10 00:00:00','BCA','Admin'),
 (2,'2018-07-10 00:00:00','TESCO','Admin'),
 (3,'2018-07-10 00:00:00','BestDay','User'),
@@ -50,20 +50,20 @@ INSERT INTO `agilemeter`.`proyectos` (`Id`,`Fecha`,`Nombre`,`UserNombre`) VALUES
 ############################################
 /*ASIGNACIONES*/
 
-INSERT INTO `asignaciones`(`Id`, `Nombre`, `SectionId`, `Peso`) VALUES (1, "Daily", 1, 5),
+INSERT INTO `Asignaciones`(`Id`, `Nombre`, `SectionId`, `Peso`) VALUES (1, "Daily", 1, 5),
 (2, "Retrospective", 1, 30), (3, "Sprint Review", 1, 20), (4, "Sprint Planning", 1, 15), (5, "Refinement", 1, 10);
 
-INSERT INTO `asignaciones`(`Id`, `Nombre`, `SectionId`, `Peso`) VALUES (6, "Product Owner", 2, 20),
+INSERT INTO `Asignaciones`(`Id`, `Nombre`, `SectionId`, `Peso`) VALUES (6, "Product Owner", 2, 20),
 (7, "Scrum Master", 2, 60), (8, "Equipo Desarrollo", 2, 20);
 
-INSERT INTO `asignaciones`(`Id`, `Nombre`, `SectionId`, `Peso`) VALUES (9, "Product Backlog", 3, 30),
+INSERT INTO `Asignaciones`(`Id`, `Nombre`, `SectionId`, `Peso`) VALUES (9, "Product Backlog", 3, 30),
 (10, "Sprint Backlog", 3, 20), (11, "Incremento", 3, 15), (12, "Iteracion", 3, 5), (13, "Metricas", 3, 10);
 
 
 ############################################
 /*PREGUNTAS*/
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
+INSERT INTO `Preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 1 , '¿Se realiza la daily?', NULL),
 ( 1 , '¿El equipo completo participa?', 'Si'),
 ( 1 , '¿Se emplean como máximo 15 min?', 'Si'),
@@ -72,7 +72,8 @@ INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 1 , '¿Se realiza siempre a la misma hora y lugar?', 'Si'),
 ( 1 , '¿Participa gente que no pertenece al equipo?', 'No');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
+
+INSERT INTO `Preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 2 , '¿Se realiza la Retrospective al final de cada sprint?', NULL),
 ( 2 , '¿Se plantean propuestas SMART?', 'Si'),
 ( 2 , '¿Se implementan las propuestas?', 'Si'),
@@ -82,7 +83,7 @@ INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 2 , '¿Todo el equipo expresa su punto de vista?', 'Si'),
 ( 2 , '¿Se analizan las métricas y su impacto durante la retro?', 'Si');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
+INSERT INTO `Preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 3 , '¿Se realiza la Sprint Review al final de cada sprint?', NULL),
 ( 3 , '¿Se muestra software funcionando y probado?', 'Si'),
 ( 3 , '¿Se recibe feedback de interesados y PO?', 'Si'),
@@ -90,7 +91,7 @@ INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 3 , '¿Se revisa si se ha alcanzado el objetivo del Sprint?', 'Si'),
 ( 3 , '¿Se muestran los items acabados al 99%?', 'No');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
+INSERT INTO `Preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 4 , '¿Se realiza Sprint Planning por cada Sprint?', NULL),
 ( 4 , '¿El PO está disponible para dudas?', 'Si'),
 ( 4 , '¿Está el PB preparado para el Sprint Planning?', 'Si'),
@@ -102,7 +103,7 @@ INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 4 , '¿Las tareas son estimadas?', 'Si'),
 ( 4 , '¿Se adquiere un compromiso por parte del equipo?', 'Si'); 
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
+INSERT INTO `Preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 5 , '¿Se realiza Refinement?', NULL),
 ( 5 , '¿Es el PO quien decide cuando se hace un refinement?', 'Si'),
 ( 5 , '¿El PO lleva las US definidas para discutir?', 'Si'),
@@ -113,7 +114,7 @@ INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 5 , '¿Participa todo el equipo?', 'Si'),
 ( 5 , '¿Participa en la estimación personas ajenas al equipo?', 'No');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
+INSERT INTO `Preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 6 , '¿Existe el rol de PO en el equipo?', NULL),
 ( 6 , '¿El PO tiene poder para priorizar los elementos del PB?', 'Si'),
 ( 6 , '¿El PO tiene el conocimiento suficiente para priorizar?', 'Si'),
@@ -125,7 +126,7 @@ INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 6 , '¿El PO toma decisiones técnicas?', 'No');
 
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
+INSERT INTO `Preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 7, '¿Existe el rol de SM en el equipo?', NULL),
 ( 7, '¿El SM se sienta con el equipo?', 'Si'),
 ( 7, '¿El SM se enfoca en la resolución de impedimentos?', 'Si'),
@@ -138,7 +139,7 @@ INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 7, '¿El SM permite que el equipo experimente y se equivoque?', 'Si'),
 ( 7, '¿Los líderes o managers de la organización conocen y/o comparten los principios ágiles?', 'Si');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
+INSERT INTO `Preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 8 , '¿El equipo tiene todas las habilidades necesarias?', 'Si'),
 ( 8 , '¿Existen miembros del equipo encasillados, no conociendo absolutamente nada de otras áreas?', 'Si'),
 ( 8 , '¿Los miembros del equipo se sientan juntos?', 'Si'),
@@ -149,7 +150,7 @@ INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 8 , '¿Se realizan reuniones adicionales que estén fuera del framework de Scrum?', 'No'),
 ( 8 , '¿El equipo usa o dispone de herramientas para organizar sus tareas?', 'Si');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
+INSERT INTO `Preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 9 , '¿Existe PB?', NULL),
 ( 9 , '¿EL PB es visible y refleja la visión del producto?', 'Si'),
 ( 9 , '¿Los PBI se priorizan por su valor de negocio?', 'Si'),
@@ -158,13 +159,13 @@ INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 9 , '¿Los PBI son tan pequeños como para abordarse en un Sprint?', 'Si'),
 ( 9 , '¿El PO entiende el propósito de todos los PBI?', 'Si');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
+INSERT INTO `Preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 10 , '¿Existe SB?', NULL),
 ( 10 , '¿El SB es visible y refleja el compromiso para el Sprint?', 'Si'),
 ( 10 , '¿El SB se actualiza diariamente?', 'Si'),
 ( 10 , '¿El SB es propiedad exclusiva del equipo?', 'Si');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
+INSERT INTO `Preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 11 , '¿Existe DoD?', NULL),
 ( 11 , '¿El DoD es alcanzable dentro de cada iteración?', 'Si'),
 ( 11 , '¿El equipo respeta el DoD?', 'Si'),
@@ -172,7 +173,7 @@ INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 11 , '¿Se actualiza el DoD?', 'Si'),
 ( 11 , '¿Tanto PO como equipo están de acuerdo con el DoD?', 'Si');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
+INSERT INTO `Preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 12 , '¿Existe iteraciones de tiempo fijo?', NULL),
 ( 12 , '¿La longitud de las iteraciones está entre 2-4 semanas?', 'Si'),
 ( 12 , '¿Siempre terminan a tiempo?', 'Si'),
@@ -180,7 +181,7 @@ INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 12 , '¿El equipo normalmente entrega lo que comprometió?', 'Si'),
 ( 12 , '¿Se ha cancelado alguna iteración que ha sido un fracaso?', 'Si');
 
-INSERT INTO `preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
+INSERT INTO `Preguntas`(`AsignacionId`, `Pregunta`, `Correcta`) VALUES
 ( 13 , '¿Se mide la velodidad del equipo?', NULL),
 ( 13 , '¿Todos los PBI se estiman y se computan en la velocidad?', 'Si'),
 ( 13 , '¿El PO usa la velocidad para planificar a futuro?', 'Si'),
