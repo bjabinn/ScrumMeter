@@ -119,15 +119,17 @@ export class PdfgeneratorComponent implements OnInit {
     //Notas para aprobados
     this.http.get('assets/notas_aprobados.json').pipe(
       map(res => res.json()))
-      .toPromise()
-      .then((notas) => {
-        this.ListaSeccionesAgileCompliance.push(parseInt(notas.ceremonias));
-        this.ListaSeccionesAgileCompliance.push(parseInt(notas.roles));
-        this.ListaSeccionesAgileCompliance.push(parseInt(notas.artefactos));
-
-        this.AgileComplianceTotal = notas.total;
-      });
-
+      .subscribe(
+        (notas) => {
+          for (var nota of notas) {
+            if (nota.name === "total") {
+              this.AgileComplianceTotal = nota.value;
+            } else {
+              this.ListaSeccionesAgileCompliance.push(parseInt(nota.value))
+            }
+          }
+        }
+      );
   }
 
   ngOnInit() {
@@ -160,7 +162,7 @@ export class PdfgeneratorComponent implements OnInit {
 
     //Para que no de error en modo development
     setTimeout(() => {
-    this._appComponent.anadirUserProyecto(null, this.Evaluacion.nombre);
+      this._appComponent.anadirUserProyecto(null, this.Evaluacion.nombre);
     });
 
   }
@@ -279,7 +281,7 @@ export class PdfgeneratorComponent implements OnInit {
       var alturaTotal = 0;
 
       //Dimensiones de la pagina
-      var tamanioPag = 297;
+      var tamanioPag = 200;
 
       var tamanioRestante = tamanioPag;
 
@@ -301,7 +303,7 @@ export class PdfgeneratorComponent implements OnInit {
 
           //Si la imagen es mas grande que la pagina se llama a otra funcion que la dividira
           if (tamanioImagen >= tamanioPag) {
-            
+
             this.continuar = false;
 
             this.imagenGrande(imagen, 0, tamanioPag, tamanioImagen);
@@ -378,7 +380,7 @@ export class PdfgeneratorComponent implements OnInit {
       top = Math.ceil((((tamanioImg % tamanioPag) * 950 / tamanioPag) + 30 * totalIteraciones) % 950);
 
     }
-    
+
     //Transformamos la i
     imgTransform(imagen.toDataURL("image/png", 1.0)).crop(2000, top, 0, (950 * iteracion) + sumar).done(dataUrl => {
 
@@ -432,32 +434,32 @@ export class PdfgeneratorComponent implements OnInit {
   //Para mostrar o no las notas de preguntas
   public cambiarMostrarNotasPreg() {
 
-      //No se ha hecho la peticion al servidor aun
-      if (!this.mostrarNotasPreg && this.ListaDeRespuestas.length == 0) {
-        this.cargandoNotas = true;
+    //No se ha hecho la peticion al servidor aun
+    if (!this.mostrarNotasPreg && this.ListaDeRespuestas.length == 0) {
+      this.cargandoNotas = true;
 
-        this._sectionService.getRespuestasConNotas(this.Evaluacion.id).subscribe(
-          res => {
-            this.ListaDeRespuestas = res;
-            this.cargandoNotas = false;
-            this.mostrarNotasPreg = true;
-          },
-          error => {
-            if (error == 404) {
-              this.ErrorMessage = "Error: " + error + "No pudimos recoger los datos de las preguntas.";
-            } else if (error == 500) {
-              this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-            } else if (error == 401) {
-              this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-            } else {
-              this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-            }
+      this._sectionService.getRespuestasConNotas(this.Evaluacion.id).subscribe(
+        res => {
+          this.ListaDeRespuestas = res;
+          this.cargandoNotas = false;
+          this.mostrarNotasPreg = true;
+        },
+        error => {
+          if (error == 404) {
+            this.ErrorMessage = "Error: " + error + "No pudimos recoger los datos de las preguntas.";
+          } else if (error == 500) {
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          } else {
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
-        );
-      }
-      else {
-        this.mostrarNotasPreg = !this.mostrarNotasPreg;
-      }
+        }
+      );
+    }
+    else {
+      this.mostrarNotasPreg = !this.mostrarNotasPreg;
+    }
   }
 
 
