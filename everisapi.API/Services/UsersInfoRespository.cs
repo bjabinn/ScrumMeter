@@ -34,7 +34,7 @@ namespace everisapi.API.Services
       var ProyectosUsuario = _context.UserProyectos.Where(up => up.UserNombre == userNombre).ToList();
       
       foreach (UserProyectoEntity userProyecto in ProyectosUsuario){
-         var proyecto = _context.Proyectos.Where(p => p.Id == userProyecto.Id).FirstOrDefault();
+         var proyecto = _context.Proyectos.Where(p => p.Id == userProyecto.ProyectoId).FirstOrDefault();
          proyectos.Add(proyecto);
       }
 
