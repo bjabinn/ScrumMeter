@@ -11,8 +11,8 @@ using System;
 namespace everisapi.API.Migrations
 {
     [DbContext(typeof(AsignacionInfoContext))]
-    [Migration("20180716072128_cambioNotas")]
-    partial class cambioNotas
+    [Migration("20181023105227_AddUserProyecto")]
+    partial class AddUserProyecto
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -324,6 +324,19 @@ namespace everisapi.API.Migrations
 
                     b.HasOne("everisapi.API.Entities.UserEntity", "User")
                         .WithMany("User_Role")
+                        .HasForeignKey("UserNombre")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+            
+            modelBuilder.Entity("everisapi.API.Entities.UserProyectoEntity", b =>
+                {
+                    b.HasOne("everisapi.API.Entities.ProyectoEntity", "Proyecto")
+                        .WithMany()
+                        .HasForeignKey("ProyectoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("everisapi.API.Entities.UserEntity", "User")
+                        .WithMany()
                         .HasForeignKey("UserNombre")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

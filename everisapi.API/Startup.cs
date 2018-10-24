@@ -119,6 +119,7 @@ namespace everisapi.API
         cfg.CreateMap<Models.SectionWithoutAreaDto, Entities.SectionEntity>();
         cfg.CreateMap<Models.SectionDto, Entities.SectionEntity>();
         cfg.CreateMap<Models.RespuestaDto, Entities.RespuestaEntity>();
+        cfg.CreateMap<Models.UserProyectoDto, Entities.UserProyectoEntity>();
       });
 
       //Incluimos todos los cors

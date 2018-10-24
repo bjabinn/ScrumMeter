@@ -43,6 +43,8 @@ namespace everisapi.API.Entities
 
         public DbSet<NotasAsignacionesEntity> NotasAsignaciones { get; set; }
 
+        public DbSet<UserProyectoEntity> UserProyectos { get; set; }
+
 
   }
 }
