@@ -103,7 +103,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let evaluacion of ListaDeEvaluacionesPaginada; let i = index">
-              <td>{{evaluacion.fecha | date:'dd/MM/yyyy, HH:mm'}}</td>
+              <td>{{evaluacion.fecha | date:'dd/MM/yyyy'}}</td>
               <td>{{evaluacion.nombre}}</td>
               <td>{{evaluacion.userNombre}}</td>
               <td>{{evaluacion.puntuacion}}%</td>
