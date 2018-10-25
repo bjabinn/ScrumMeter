@@ -108,12 +108,12 @@ namespace everisapi.API.Controllers
           return NotFound();
         }
         //Recoge todos los roles para este usuario en específico
-        var RolesAsignados = _userInfoRepository.GetRolesUsuario(Usuario);
+        var RolAsignado = _userInfoRepository.GetRolesUsuario(Usuario);
 
         //Devolvera sus roles aunque esten vacios
-        var RolesResult = Mapper.Map<List<RoleDto>>(RolesAsignados);
+        var RolResult = Mapper.Map<RoleDto>(RolAsignado);
 
-        return Ok(RolesResult);
+        return Ok(RolResult);
 
       }
       catch (Exception ex)

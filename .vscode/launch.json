@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/everisapi.API/bin/Debug/netcoreapp2.0/everisapi.API.dll",
+            "program": "${workspaceFolder}/everisapi.API/bin/Debug/netcoreapp2.1/everisapi.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/everisapi.API",
             "stopAtEntry": false,

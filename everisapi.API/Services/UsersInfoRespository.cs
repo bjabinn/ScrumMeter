@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using everisapi.API.Models;
 
+
 namespace everisapi.API.Services
 {
   public class UsersInfoRespository : IUsersInfoRepository
@@ -31,13 +32,22 @@ namespace everisapi.API.Services
     {
       List<ProyectoEntity> proyectos = new List<ProyectoEntity>();
       
-      var ProyectosUsuario = _context.UserProyectos.Where(up => up.UserNombre == userNombre).ToList();
+      UserEntity usuario = _context.Users.Where(u => u.Nombre == userNombre).FirstOrDefault();
       
-      foreach (UserProyectoEntity userProyecto in ProyectosUsuario){
-         var proyecto = _context.Proyectos.Where(p => p.Id == userProyecto.ProyectoId).FirstOrDefault();
-         proyectos.Add(proyecto);
+      if(usuario.RoleId == (int)Roles.Admin)
+      {
+        proyectos = _context.Proyectos.OrderBy(p => p.Nombre).ToList();
       }
-
+      else
+      {
+        var ProyectosUsuario = _context.UserProyectos.Where(up => up.UserNombre == userNombre).ToList();
+      
+        foreach (UserProyectoEntity userProyecto in ProyectosUsuario){
+          var proyecto = _context.Proyectos.Where(p => p.Id == userProyecto.ProyectoId).FirstOrDefault();
+          proyectos.Add(proyecto);          
+        }  
+      }
+     
       return proyectos;
 
     }
@@ -61,7 +71,7 @@ namespace everisapi.API.Services
       else
       {
         //Si no es así devolveremos solo el usuario
-        return _context.Users.Include(u => u.User_Role).Where(u => u.Nombre == userNombre).FirstOrDefault();
+        return _context.Users.Where(u => u.Nombre == userNombre).FirstOrDefault();
       }
     }
 
@@ -79,17 +89,13 @@ namespace everisapi.API.Services
     }
 
     //Devuelve todos los roles de usuario
-    public IEnumerable<RoleEntity> GetRolesUsuario(UserEntity usuario)
+    public RoleEntity GetRolesUsuario(UserEntity usuario)
     {
-      var RolesAsignados = _context.User_Roles.Where(ur => ur.User == usuario).ToList();
-      List<RoleEntity> RolesEntregar = new List<RoleEntity>();
-      foreach (User_RoleEntity usuario_roles in RolesAsignados)
-      {
-        var Resolver = _context.Roles.Where(r => r.Id == usuario_roles.RoleId).FirstOrDefault();
-        RolesEntregar.Add(Resolver);
-
-      }
-      return RolesEntregar;
+      RoleEntity RolUsuario = new RoleEntity();
+      
+      RolUsuario = _context.Roles.Where(r => r.Id == usuario.RoleId).FirstOrDefault();        
+      
+      return RolUsuario;
     }
 
     //Devuelve una lista con todos los datos del proyecto por su id
@@ -127,19 +133,7 @@ namespace everisapi.API.Services
       var UserAlter = _context.Users.Where(u => u.Nombre == usuario.Nombre).FirstOrDefault();
       UserAlter.Nombre = usuario.Nombre;
       UserAlter.Password = usuario.Password;
-      //Le quitamos los anteriores roles
-      var ListaRole = _context.Users.Include(u => u.User_Role).Where(u => u.Nombre == usuario.Nombre).FirstOrDefault().User_Role;
-      foreach (var role in ListaRole)
-      {
-        _context.User_Roles.Remove(role);
-      }
-
-      //Se los volvemos a incluir
-      foreach (var role in usuario.User_Role)
-      {
-        _context.User_Roles.Add(role);
-      }
-
+      
       return SaveChanges();
     }
 
@@ -155,13 +149,9 @@ namespace everisapi.API.Services
     //Elimina todos los proyectos y roles de los que depende el usuario
     public void DeleteRolesOrProjects(UserEntity usuario)
     {
-      var Usuario = _context.Users.Include(u => u.User_Role).Include(u => u.ProyectosDeUsuario).ThenInclude(p => p.Evaluaciones).Where(u => u.Nombre == usuario.Nombre).FirstOrDefault();
-      if (Usuario.User_Role.Count != 0 && Usuario.ProyectosDeUsuario.Count != 0)
-      {
-        foreach (var role in Usuario.User_Role)
-        {
-          _context.User_Roles.Remove(role);
-        }
+      var Usuario = _context.Users.Include(u => u.ProyectosDeUsuario).ThenInclude(p => p.Evaluaciones).Where(u => u.Nombre == usuario.Nombre).FirstOrDefault();
+      if (Usuario.ProyectosDeUsuario.Count != 0)
+      {        
 
         foreach (var proyecto in Usuario.ProyectosDeUsuario)
         {
