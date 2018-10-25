@@ -14,7 +14,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { ChartsModule, BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { DatePipe } from '@angular/common';
-import { setTimeout } from 'timers';
+// import { setTimeout } from 'timers';
 
 @Component({
   selector: 'app-previousevaluation',
