@@ -16,8 +16,5 @@ namespace everisapi.API.Entities
         [Required]
         public string Role { get; set; }
 
-        [Required]
-        public ICollection<User_RoleEntity> User_Role { get; set; }
-        = new List<User_RoleEntity>();
     }
 }

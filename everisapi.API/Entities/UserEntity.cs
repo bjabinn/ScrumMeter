@@ -21,7 +21,9 @@ namespace everisapi.API.Entities
         = new List<ProyectoEntity>();
 
         [Required]
-        public ICollection<User_RoleEntity> User_Role { get; set; }
-        = new List<User_RoleEntity>();
+        public int RoleId { get; set; }
+        [ForeignKey("RoleId")]
+        public RoleEntity Role { get; set; }
+
     }
 }

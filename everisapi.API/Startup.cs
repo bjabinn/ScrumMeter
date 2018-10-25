@@ -114,8 +114,6 @@ namespace everisapi.API
         cfg.CreateMap<Models.ProyectoDto, Entities.ProyectoEntity>();
         cfg.CreateMap<Models.ProyectoCreateUpdateDto, Entities.ProyectoEntity>();
         cfg.CreateMap<Models.RoleDto, Entities.RoleEntity>();
-        cfg.CreateMap<Models.User_RoleCreateDto, Entities.User_RoleEntity>();
-        cfg.CreateMap<Models.User_RoleDto, Entities.User_RoleEntity>();
         cfg.CreateMap<Models.SectionWithoutAreaDto, Entities.SectionEntity>();
         cfg.CreateMap<Models.SectionDto, Entities.SectionEntity>();
         cfg.CreateMap<Models.RespuestaDto, Entities.RespuestaEntity>();

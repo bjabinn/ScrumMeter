@@ -33,8 +33,6 @@ namespace everisapi.API.Entities
 
         public DbSet<RoleEntity> Roles { get; set; }
 
-        public DbSet<User_RoleEntity> User_Roles { get; set; }
-
         public DbSet<SectionEntity> Sections { get; set; }
 
         public DbSet<RespuestaEntity> Respuestas { get; set; }
