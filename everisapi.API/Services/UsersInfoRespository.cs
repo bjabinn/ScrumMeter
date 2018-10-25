@@ -197,5 +197,21 @@ namespace everisapi.API.Services
     {
       return _context.Proyectos.Any(p => p.Id == ProyectoId);
     }
+
+    public bool AddUserToProject(UserEntity usuario, int ProyectoId)
+    { 
+      UserProyectoEntity userProyecto = new UserProyectoEntity();
+
+      userProyecto.Id = _context.UserProyectos.OrderByDescending(u => u.Id).FirstOrDefault().Id + 1;
+      userProyecto.UserNombre = usuario.Nombre;
+      userProyecto.ProyectoId = ProyectoId;
+
+      _context.UserProyectos.Add(userProyecto);
+
+      return SaveChanges();
+    }
+
   }
 }
+
+

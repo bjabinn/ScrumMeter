@@ -62,5 +62,10 @@ namespace everisapi.API.Services
 
     //Devuelve si existe un proyecto
     bool ProyectoExiste(int ProyectoId);
+
+    //Asigna un usuario a un proyecto
+    bool AddUserToProject(UserEntity usuario, int proyectoId);
   }
+
+  
 }
