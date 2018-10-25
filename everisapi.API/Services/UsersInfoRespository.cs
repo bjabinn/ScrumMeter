@@ -8,6 +8,7 @@ using AutoMapper;
 using everisapi.API.Models;
 
 
+
 namespace everisapi.API.Services
 {
   public class UsersInfoRespository : IUsersInfoRepository
@@ -109,7 +110,7 @@ namespace everisapi.API.Services
     //Devuelve si el usuario esta bien logeado o no
     public bool UserAuth(UsersSinProyectosDto UserForAuth)
     {
-      return _context.Users.Any(u => u.Nombre == UserForAuth.Nombre && u.Password == UserForAuth.Password);
+      return _context.Users.Any(u => u.Nombre == UserForAuth.Nombre);
     }
 
     /*GUARDAR DATOS EN USUARIO*/
