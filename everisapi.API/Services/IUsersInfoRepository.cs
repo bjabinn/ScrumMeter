@@ -28,7 +28,7 @@ namespace everisapi.API.Services
     bool UserAuth(UsersSinProyectosDto UserForAuth);
 
     //Devuelve todos los roles de este usuario
-    IEnumerable<RoleEntity> GetRolesUsuario(UserEntity usuario);
+    RoleEntity GetRolesUsuario(UserEntity usuario);
 
     //Devuelve todos los proyectos de todos los usuarios
     IEnumerable<ProyectoEntity> GetFullProyectos();
