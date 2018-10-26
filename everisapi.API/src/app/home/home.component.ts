@@ -9,6 +9,7 @@ import { AppComponent } from '../app.component';
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { EvaluacionCreate } from 'app/Models/EvaluacionCreate';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Assessment } from '../Models/Assessment';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 export class HomeComponent implements OnInit {
   public ErrorMessage: string = null;
   public ListaDeProyectos: Array<Proyecto> = [];
+  public AllAssessments: Assessment[] = [];
   public permisosDeUsuario: Array<Role> = [];
   public AdminOn = false;
   public ProyectoSeleccionado: Proyecto;
@@ -61,6 +63,7 @@ export class HomeComponent implements OnInit {
         //Llamamos al metodo para asignar proyectos
         this.MostrarInfo = true;
         this.RecogerProyectos();
+        this.GetAssessments();
 
       },
       error => {
@@ -81,6 +84,14 @@ export class HomeComponent implements OnInit {
       this._appComponent.anadirUserProyecto(this.NombreDeUsuario, null)
     });
 
+  }
+
+  public GetAssessments(): any {
+    this._proyectoService.getAllAssessments().subscribe(
+      res => {
+        this.AllAssessments = res;
+      }
+    )
   }
 
   //Metodo que asigna los proyectos por permisos y usuario

@@ -62,6 +62,16 @@ export class ProyectoService {
       catchError(this.errorHandler),);
   }
 
+  getAllAssessments(){
+    let Token = this._appComponent.ComprobarUserYToken();
+    let headers = new Headers({
+      'Authorization': Token
+    });
+    return this._http.get(this.url + 'users/allassessments', { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
+  }
+
   //Este metodo recoge todos los proyectos de un usuario de la base de datos
   getProyectosDeUsuario() {
     let Token = this._appComponent.ComprobarUserYToken();

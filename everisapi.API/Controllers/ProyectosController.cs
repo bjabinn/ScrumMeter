@@ -49,6 +49,28 @@ namespace everisapi.API.Controllers
       }
     }
 
+     /*METODOS GET DE PREGUNTAS*/
+    [HttpGet("allassessments")]
+    public IActionResult GetAllAssessments()
+    {
+      try
+      {
+
+        //Recogemos una lista de proyecto del usuario
+        var allAssessments = _usersInfoRepository.GetAllAssessments();
+
+        //Transformamos la lista anterior en una nueva con los datos que necesitamos
+        //Ya que otros son relevantes
+        var FullResult = Mapper.Map<IEnumerable<AssessmentDto>>(allAssessments);
+        return Ok(FullResult);
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Ocurrio un error al pedir todos los assessments de todos los usuarios: " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
+      }
+    }
+
     //Recoge todos los proyecto de un usuario mediante su nombre
     [HttpGet("{nombreUsuario}/proyectos")]
     public IActionResult GetProyectosUsuario(string nombreUsuario)
