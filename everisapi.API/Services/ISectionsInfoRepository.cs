@@ -17,6 +17,7 @@ namespace everisapi.API.Services
 
     //Devuelve todos los sections con sus preguntas y respuestas para un proyecto
     IEnumerable<SectionInfoDto> GetSectionsInfoFromEval(int idEvaluacion);
+    IEnumerable<SectionInfoDto> GetSectionsInfoFromEvalNew(int idEvaluacion,int assessmentId);
 
     //Devuelve una de las asignaciones del section
     AsignacionEntity GetAsignacionFromSection(SectionEntity section, int idAsignacion);

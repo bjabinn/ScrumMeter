@@ -11,9 +11,10 @@ using System;
 namespace everisapi.API.Migrations
 {
     [DbContext(typeof(AsignacionInfoContext))]
-    partial class AsignacionInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20181029085809_LinkAssessmentWithSections")]
+    partial class LinkAssessmentWithSections
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,8 +64,6 @@ namespace everisapi.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AssessmentId");
-
                     b.Property<bool>("Estado");
 
                     b.Property<DateTime>("Fecha");
@@ -80,8 +79,6 @@ namespace everisapi.API.Migrations
                     b.Property<double>("Puntuacion");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AssessmentId");
 
                     b.HasIndex("ProyectoId");
 
@@ -281,11 +278,6 @@ namespace everisapi.API.Migrations
 
             modelBuilder.Entity("everisapi.API.Entities.EvaluacionEntity", b =>
                 {
-                    b.HasOne("everisapi.API.Entities.AssessmentEntity", "Assessment")
-                        .WithMany()
-                        .HasForeignKey("AssessmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("everisapi.API.Entities.ProyectoEntity", "ProyectoEntity")
                         .WithMany("Evaluaciones")
                         .HasForeignKey("ProyectoId")

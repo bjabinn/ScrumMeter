@@ -13,5 +13,9 @@ namespace everisapi.API.Models
 
     public ICollection<AsignacionDto> Asignaciones { get; set; }
     = new List<AsignacionDto>();
+
+    public int AssessmentId {get;set;}
+
+    public AssessmentDto Assessment {get;set;}
   }
 }

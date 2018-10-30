@@ -16,5 +16,7 @@ namespace everisapi.API.Models
 
     public int ProyectoId { get; set; }
 
+    public int AssessmentId {get;set;}
+
   }
 }

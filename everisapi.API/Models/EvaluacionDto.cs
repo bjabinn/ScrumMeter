@@ -20,5 +20,7 @@ namespace everisapi.API.Models
     = new List<RespuestaDto>();
 
     public int ProyectoId { get; set; }
+
+    public int AssessmentId {get;set;}
   }
 }

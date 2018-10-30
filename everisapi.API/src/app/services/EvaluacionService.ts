@@ -117,6 +117,17 @@ export class EvaluacionService {
       catchError(this.errorHandler),);
   }
 
+  //Devuelve una evaluacion si existe una que no se completo en ese proyecto
+  getIncompleteEvaluacionFromProjectAndAssessment(projectId,assessmentId) {
+    let Token = this._appComponent.ComprobarUserYToken();
+    let headers = new Headers({
+      'Authorization': Token
+    });
+    return this._http.get(this.url + `evaluaciones/proyecto/${projectId}/assessment/${assessmentId}/continue`, { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
+  }
+
   //Nos permite incluir una evaluacion en la base de datos
   addEvaluacion(evaluacion: EvaluacionCreate) {
     let Token = this._appComponent.ComprobarUserYToken();

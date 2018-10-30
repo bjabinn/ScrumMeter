@@ -13,6 +13,7 @@ export class AppComponent {
   public NombreDeUsuario: string = null;
   public NombreDeProyecto: string = null;
   public ScreenWidth;
+  public AssessmentName:string = null;
 
   //Para la barra de arriba
   @HostListener('window:resize', ['$event'])
@@ -52,12 +53,14 @@ export class AppComponent {
   }
 
   //Para añadir texto a la barra de arriba
-  public anadirUserProyecto(nomUsu: string, nomProy: string) {
+  public anadirUserProyecto(nomUsu: string, nomProy: string, assessmentName?:string) {
     if (nomUsu != null) {
       this.NombreDeUsuario = nomUsu;
     }
 
     this.NombreDeProyecto = nomProy;
+
+    this.AssessmentName = assessmentName;
   }
 
 }
