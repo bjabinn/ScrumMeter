@@ -9,9 +9,9 @@ namespace everisapi.API.Models
     {
         public string Nombre { get; set; }
 
-        public string Password { get; set; }
+        //public string Password { get; set; }
 
-        public ICollection<User_RoleCreateDto> User_Role { get; set; }
-        = new List<User_RoleCreateDto>();
+        public RoleDto Role { get; set; }
+        
     }
 }

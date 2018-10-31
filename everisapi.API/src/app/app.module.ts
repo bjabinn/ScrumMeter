@@ -16,17 +16,24 @@ import { PdfgeneratorComponent } from './pdfgenerator/pdfgenerator.component';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptorService } from './services/RequestInterceptor.service';
+import { BackOfficeComponent } from './back-office/back-office.component';
+import { UserManagementComponent } from './back-office/components/user-management/user-management.component';
+import { AddUserProjectComponent } from './back-office/components/add-user-project/add-user-project.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
+    BackOfficeComponent,
     NewevaluationComponent,
     PreviousevaluationComponent,
     MenunewevaluationComponent,
     PdfgeneratorComponent,
-    LoadingComponent
+    LoadingComponent,
+    UserManagementComponent,
+    AddUserProjectComponent
+ 
   ],
   imports: [
     BrowserModule,

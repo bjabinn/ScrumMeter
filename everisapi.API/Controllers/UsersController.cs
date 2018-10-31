@@ -32,14 +32,14 @@ namespace everisapi.API.Controllers
 
     //Introduciendo la petición de la route devuelve todos los usuarios
     [Authorize]
-    [HttpGet()]
+    [HttpGet("allusers")]
     public IActionResult GetUsers()
     {
       try
       {
         var UsersEntities = _userInfoRepository.GetUsers();
 
-        var results = Mapper.Map<IEnumerable<UsersSinProyectosDto>>(UsersEntities);
+        var results = Mapper.Map<IEnumerable<UsersWithRolesDto>>(UsersEntities);
 
         _logger.LogInformation("Mandamos correctamente todos los usuarios");
 
@@ -139,15 +139,15 @@ namespace everisapi.API.Controllers
       }
 
       //Encriptamos la contraseña
-      using (var sha256 = SHA256.Create())
-      {
-        // Le damos la contraseña
-        var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(UsuarioAdd.Password));
-        // Recogemos el hash como string
-        var hash = BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
-        // Y se lo damos 
-        UsuarioAdd.Password = hash;
-      }
+      // using (var sha256 = SHA256.Create())
+      // {
+      //   // Le damos la contraseña
+      //   var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(UsuarioAdd.Password));
+      //   // Recogemos el hash como string
+      //   var hash = BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+      //   // Y se lo damos 
+      //   UsuarioAdd.Password = hash;
+      // }
 
       //Comprueba que se guardo bien y lo envia
       if (_userInfoRepository.AddUser(Mapper.Map<UserEntity>(UsuarioAdd)))
@@ -176,15 +176,15 @@ namespace everisapi.API.Controllers
       }
 
       //Encriptamos la contraseña
-      using (var sha256 = SHA256.Create())
-      {
-        // Le damos la contraseña
-        var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(UsuarioUpdate.Password));
-        // Recogemos el hash como string
-        var hash = BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
-        // Y se lo damos 
-        UsuarioUpdate.Password = hash;
-      }
+      // using (var sha256 = SHA256.Create())
+      // {
+      //   // Le damos la contraseña
+      //   var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(UsuarioUpdate.Password));
+      //   // Recogemos el hash como string
+      //   var hash = BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+      //   // Y se lo damos 
+      //   UsuarioUpdate.Password = hash;
+      // }
 
       //Comprueba que se guardo bien y lo envia
       if (_userInfoRepository.AlterUser(Mapper.Map<UserEntity>(UsuarioUpdate)))
