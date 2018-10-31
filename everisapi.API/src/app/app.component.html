@@ -2,7 +2,11 @@
 <div class="no-print" id='cssmenu' *ngIf="_router.url != '/login' && _router.url != '/' && ScreenWidth > 776">
   <ul class="text-center">
     <li class="active text-center" id="inicio"><a routerLink="/home">Inicio</a></li>
+<<<<<<< HEAD
+    <li class="active text-center" id="backoffice"><a routerLink="/backoffice">Backoffice</a></li>
+=======
     <li class="proyecto text-center noSelect" *ngIf="AssessmentName != null">Evaluación: {{this._storageDataService.AssessmentSelected.assessmentName}}</li>
+>>>>>>> 19e7178b7402deb3ccfd3f8f19873a98773a0f60
     <li class="text-center titulo noSelect" [ngClass]="{'solo': NombreDeProyecto==null}">AgileMeter</li>
     <li class="proyecto text-center noSelect" *ngIf="NombreDeProyecto != null">Proyecto: {{NombreDeProyecto}}</li>
     <li class="text-center active float-right" id="cerrarsesion"><a routerLink="/login">Cerrar sesi&oacute;n</a></li>
@@ -15,6 +19,7 @@
 
   <ul class="text-center">
     <li class="active text-center top2" id="inicio"><a routerLink="/home">Inicio</a></li>
+    <li class="active text-center" id="backoffice"><a routerLink="/backoffice">Backoffice</a></li>
     <li class="text-center margen2" [ngClass]="{'solo': NombreDeProyecto==null}">
 
       <p class="text-center titulo2 noSelect">AgileMeter</p>

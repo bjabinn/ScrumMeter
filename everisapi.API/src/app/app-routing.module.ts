@@ -9,16 +9,25 @@ import { MenunewevaluationComponent } from './menunewevaluation/menunewevaluatio
 import { NewevaluationComponent } from './newevaluation/newevaluation.component';
 import { PreviousevaluationComponent } from './previousevaluation/previousevaluation.component';
 import { PdfgeneratorComponent } from './pdfgenerator/pdfgenerator.component';
+import { BackOfficeComponent } from './back-office/back-office.component';
+import { UserManagementComponent } from './back-office/components/user-management/user-management.component';
+import { AddUserProjectComponent } from './back-office/components/add-user-project/add-user-project.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'backoffice', component:  BackOfficeComponent,
+    children: [{path: 'usermanagement', component:  UserManagementComponent},
+    {path: 'adduserproject', component: AddUserProjectComponent}
+  ]  
+  },
   { path: 'menunuevaevaluacion', component: MenunewevaluationComponent },
   { path: 'nuevaevaluacion', component: NewevaluationComponent },
   { path: 'pdfgenerator', component: PdfgeneratorComponent },
   { path: 'evaluacionprevia', component: PreviousevaluationComponent },
   { path: '**', component: LoginComponent }
+  
 ];
 
 @NgModule({

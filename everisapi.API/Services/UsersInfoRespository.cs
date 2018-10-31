@@ -84,7 +84,7 @@ namespace everisapi.API.Services
     public IEnumerable<UserEntity> GetUsers()
     {
       //Devolvemos todos los usuarios ordenadas por Nombre
-      return _context.Users.OrderBy(c => c.Nombre).ToList();
+      return _context.Users.Include(r => r.Role).OrderBy(c => c.Nombre).ToList();
     }
 
     //Devuelve si el usuario existe

@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
   public NombreDeUsuario: string = null;
   public NombreDeProyecto: string = null;
+  public RolDeUsuario: boolean = false;
   public ScreenWidth;
   public AssessmentName:string = null;
 

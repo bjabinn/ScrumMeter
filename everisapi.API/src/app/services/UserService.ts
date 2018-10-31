@@ -35,19 +35,18 @@ export class UserService {
   }
 
   //Este metodo recoge todos los usuarios de la base de datos
-  /*getUsers(){
-      return this._http.get(this.url + 'users')  
-          .map((response: Response) => response.json())  
-          .catch(this.errorHandler);
-  }*/
+  getUsers(){
+    let Token = this._appComponent.ComprobarUserYToken();
+    let headers = new Headers({
+      'Authorization': Token
+    });
+    return this._http.get(this.url + 'users/AllUsers', { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
+  }
 
-  //Este metodo recoge un usuario si existe mediante un nombre de usuario
-  //Metodo de prueba
-  /*SignUpMe(nombreUsuario) {
-    return this._http.get(this.url + 'users/' + nombreUsuario)
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
-  }*/
+  
+
 
   //Nos permite recoger un token si existe el usuario
   SignUpMe(Usuario: User) {
