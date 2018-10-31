@@ -59,6 +59,10 @@ namespace everisapi.API.Services
       return _context.Proyectos.OrderBy(p => p.Nombre).ToList();
     }
 
+    public IEnumerable<AssessmentEntity> GetAllAssessments(){
+      return _context.Assessment.OrderBy(a => a.AssessmentName).ToList();
+    }
+
     //Recoge un usuario por su nombre 
     public UserEntity GetUser(string userNombre, bool IncluirProyectos = true)
     {
@@ -110,7 +114,7 @@ namespace everisapi.API.Services
     //Devuelve si el usuario esta bien logeado o no
     public bool UserAuth(UsersSinProyectosDto UserForAuth)
     {
-      return _context.Users.Any(u => u.Nombre == UserForAuth.Nombre);
+      return _context.Users.Any(u => u.Nombre.Equals(UserForAuth.Nombre));
     }
 
     /*GUARDAR DATOS EN USUARIO*/

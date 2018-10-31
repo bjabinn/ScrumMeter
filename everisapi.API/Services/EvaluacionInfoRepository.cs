@@ -208,6 +208,11 @@ namespace everisapi.API.Services
       return _context.Evaluaciones.Where(e => e.ProyectoId == IdProject && !e.Estado).OrderByDescending(e => e.Fecha).FirstOrDefault();
     }
 
+     public EvaluacionEntity EvaluationIncompletaFromProjectAndAssessment(int projectId,int assessmentId)
+    {
+      return _context.Evaluaciones.Where(e => e.ProyectoId == projectId && e.AssessmentId == assessmentId && !e.Estado).OrderByDescending(e => e.Fecha).FirstOrDefault();
+    }
+
 
     //Incluye una nueva evaluación a la base de datos
     public void IncluirEvaluacion(EvaluacionEntity evaluacion)

@@ -9,6 +9,7 @@ import { AppComponent } from '../app.component';
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { EvaluacionCreate } from 'app/Models/EvaluacionCreate';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Assessment } from '../Models/Assessment';
 
 @Component({
   selector: 'app-home',
@@ -19,9 +20,11 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 export class HomeComponent implements OnInit {
   public ErrorMessage: string = null;
   public ListaDeProyectos: Array<Proyecto> = [];
+  public AllAssessments: Assessment[] = [];
   public permisosDeUsuario: Array<Role> = [];
   public AdminOn = false;
   public ProyectoSeleccionado: Proyecto;
+  public AssessmentSelected: Assessment;
   public NombreDeUsuario: string;
   public Deshabilitar = false;
   public MostrarInfo = false;
@@ -61,6 +64,7 @@ export class HomeComponent implements OnInit {
         //Llamamos al metodo para asignar proyectos
         this.MostrarInfo = true;
         this.RecogerProyectos();
+        this.GetAssessments();
 
       },
       error => {
@@ -81,6 +85,12 @@ export class HomeComponent implements OnInit {
       this._appComponent.anadirUserProyecto(this.NombreDeUsuario, null)
     });
 
+  }
+
+  public GetAssessments(): any {
+    this._proyectoService.getAllAssessments().subscribe(
+      res => {this.AllAssessments = res; }
+    )
   }
 
   //Metodo que asigna los proyectos por permisos y usuario
@@ -136,11 +146,11 @@ export class HomeComponent implements OnInit {
 
 
     //Comprueba que no esta vacia el proyecto elegido
-    if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
+    if (this.checkIfIsSet(this.ProyectoSeleccionado) && this.checkIfIsSet(this.AssessmentSelected)) {
       //Comprueba si ya termino de enviarse la información desde la api
       if (!this.SendingInfo) {
         this.SendingInfo = true;
-        this._evaluacionService.getIncompleteEvaluacionFromProject(this.ProyectoSeleccionado.id).subscribe(
+        this._evaluacionService.getIncompleteEvaluacionFromProjectAndAssessment(this.ProyectoSeleccionado.id,this.AssessmentSelected.assessmentId).subscribe(
           res => {
             //Lo guarda en el storage
             this._appComponent._storageDataService.Evaluacion = res;
@@ -170,11 +180,59 @@ export class HomeComponent implements OnInit {
 
   }
 
+  public SeleccionDeAssessment(index: number) {
+    console.log("assessment",index);
+    
+    this.AssessmentSelected = this.AllAssessments[index];
+    console.log(this.AssessmentSelected);
+    
+    this._appComponent._storageDataService.AssessmentSelected = this.AssessmentSelected;
+    this.existeRepetida = false;
+
+
+    //Comprueba que no esta vacia el proyecto elegido
+    if (this.checkIfIsSet(this.ProyectoSeleccionado) && this.checkIfIsSet(this.AssessmentSelected)) {
+      //Comprueba si ya termino de enviarse la información desde la api
+      if (!this.SendingInfo) {
+        this.SendingInfo = true;
+        this._evaluacionService.getIncompleteEvaluacionFromProjectAndAssessment(this.ProyectoSeleccionado.id,this.AssessmentSelected.assessmentId).subscribe(
+          res => {
+            //Lo guarda en el storage
+            this._appComponent._storageDataService.Evaluacion = res;
+            //Si hay un proyecto sin finalizar
+            console.log("XXXXX",res);
+            if (res != null) {
+              this.existeRepetida = true;
+            } 
+          },
+          error => {
+            //Habilitamos la pagina nuevamente
+            this.Deshabilitar = false;
+            if (error == 404) {
+              this.ErrorMessage = "Error: " + error + " No se puede completar la comprobación en la evaluación lo sentimos.";
+            } else if (error == 500) {
+              this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            } else if (error == 401) {
+              this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+            } else {
+              this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            }
+          },
+          () => {
+            this.SendingInfo = false;
+          });
+      }
+    }
+
+  }
+
   //Este metodo crea una nueva evaluación y la manda para guardarla en la base de datos
   public GuardarEvaluacion() {
 
-    var NuevaEvaluacion: EvaluacionCreate = { 'estado': false, 'proyectoid': this.ProyectoSeleccionado.id };
-
+    var NuevaEvaluacion: EvaluacionCreate = { 'estado': false, 'proyectoid': this.ProyectoSeleccionado.id, 'assessmentId': this.AssessmentSelected.assessmentId };
+    console.log("assessmeeeent", this.AssessmentSelected);
+    console.log(NuevaEvaluacion);
+    
     this._evaluacionService.addEvaluacion(NuevaEvaluacion).subscribe(
       res => {
         this._appComponent._storageDataService.Evaluacion = res;
@@ -233,10 +291,15 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  checkIfIsSet(x: any):boolean{
+    if(x != null && x != undefined) return true;
+  }
+
   //Muestra un modal con lo que se debe hacer en cada caso
   showModal(content) {
+       
     //Comprueba que no esta vacia el proyecto elegido
-    if (this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
+    if (this.checkIfIsSet(this.ProyectoSeleccionado) && this.checkIfIsSet(this.AssessmentSelected)) {
       //Comprueba si ya termino de enviarse la información desde la api
       if (!this.SendingInfo) {
         if (this.existeRepetida) {
@@ -258,7 +321,9 @@ export class HomeComponent implements OnInit {
               }
             }
     } else {
-      this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
+      let item = this.checkIfIsSet(this.ProyectoSeleccionado) ? "una evaluación": "un proyecto";
+      this.ErrorMessage = `Seleccione ${item} para realizar esta acción.`;
+      setTimeout(()=>this.ErrorMessage="",2000);
     }
   }
 

@@ -242,6 +242,25 @@ namespace everisapi.API.Controllers
       }
     }
 
+
+    [HttpGet("proyecto/{projectId}/assessment/{assessmentId}/continue")]
+    public IActionResult GetIncompleteEvaluationFromProjectAndAssessment(int projectId,int assessmentId)
+    {
+      try
+      {
+        //Recoge si existe la evaluación si es asi la devuelve si no es así muestra un error
+        var Evaluacion = _evaluacionInfoRepository.EvaluationIncompletaFromProjectAndAssessment(projectId,assessmentId);
+
+        return Ok(Evaluacion);
+
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir la evaluación con id " + projectId + ": " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
+      }
+    }
+
     //Este metodo nos permite introducir una evaluación
     [HttpPost()]
     public IActionResult CreateEvaluacion([FromBody] EvaluacionCreateUpdateDto EvaluacionRecogida)

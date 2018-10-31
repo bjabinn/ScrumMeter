@@ -8,5 +8,6 @@ export class Evaluacion {
     public notasObjetivos: string,
     public notasEvaluacion: string,
     public puntuacion: number,
+    public assessmentId?: number
   ) { }
 }

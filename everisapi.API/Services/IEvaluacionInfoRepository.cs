@@ -30,6 +30,8 @@ namespace everisapi.API.Services
     //Devuelve una evaluacion si existiera una evaluacion inacabada en la base de datos filtrado por id de projecto
     EvaluacionEntity EvaluationIncompletaFromProject(int IdProject);
 
+    EvaluacionEntity EvaluationIncompletaFromProjectAndAssessment(int IdProject,int assessmentId);
+
     //Añadir una evaluación en un proyecto
     void IncluirEvaluacion(EvaluacionEntity evaluacion);
 

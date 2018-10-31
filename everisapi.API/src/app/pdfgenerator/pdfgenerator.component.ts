@@ -136,7 +136,7 @@ export class PdfgeneratorComponent implements OnInit {
 
     //Recoge los datos de las secciones
     if (this.Evaluacion != null && this.Evaluacion != undefined) {
-      this._sectionService.getSectionInfo(this.Evaluacion.id).subscribe(
+      this._sectionService.getSectionInfo(this.Evaluacion.id,this._appComponent._storageDataService.AssessmentSelected.assessmentId).subscribe(
         res => {
           this.ListaDeDatos = res;
           this.shareDataToChart();

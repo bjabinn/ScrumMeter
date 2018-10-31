@@ -31,6 +31,7 @@ namespace everisapi.API.Models
 
     public bool FlagNotasAsig { get; set; }
     
+    public int AssessmentId {get;set;}
 
 
   }

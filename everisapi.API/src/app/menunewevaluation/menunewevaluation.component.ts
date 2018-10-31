@@ -65,10 +65,9 @@ export class MenunewevaluationComponent implements OnInit {
 
     //Recogemos todos los datos
     if (this.Evaluacion != null && this.Evaluacion != undefined) {
-      this._sectionService.getSectionInfo(this.Evaluacion.id).subscribe(
+      this._sectionService.getSectionInfo(this.Evaluacion.id,this._appComponent._storageDataService.AssessmentSelected.assessmentId).subscribe(
         res => {
           this.ListaDeDatos = res;
-
         },
         error => {
           if (error == 404) {
@@ -89,7 +88,7 @@ export class MenunewevaluationComponent implements OnInit {
 
     //Para que no de error en modo development
     setTimeout(() => {
-    this._appComponent.anadirUserProyecto(null, this.ProjectSelected.nombre);
+    this._appComponent.anadirUserProyecto(null, this.ProjectSelected.nombre,this._appComponent._storageDataService.AssessmentSelected.assessmentName);
     });
 
   }

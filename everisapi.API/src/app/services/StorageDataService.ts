@@ -11,6 +11,7 @@ import { setTimeout } from 'timers';
 import { UserService } from 'app/services/UserService';
 import { AppComponent } from 'app/app.component';
 import { Router } from "@angular/router";
+import { Assessment } from '../Models/Assessment';
 
 @Injectable()
 export class StorageDataService {
@@ -25,6 +26,7 @@ export class StorageDataService {
   public SectionName: string = null;
   public TokenUser: string = "";
   public subscriptionTimer: Subscription;
+  public AssessmentSelected: Assessment = null;
 
 
   public GetToken() {

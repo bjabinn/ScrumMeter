@@ -20,5 +20,7 @@ namespace everisapi.API.Models
 
     public string Estado { get; set; }
 
+    public int AssessmentId {get;set;}
+
   }
 }

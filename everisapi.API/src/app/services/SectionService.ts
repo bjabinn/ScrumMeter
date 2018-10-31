@@ -90,12 +90,12 @@ export class SectionService {
   }
 
   //Recoge todos los datos extendidos de una evaluación
-  getSectionInfo(idEvaluacion) {
+  getSectionInfo(idEvaluacion,assessmentId) {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'sections/evaluacion/' + idEvaluacion, { headers: headers }).pipe(
+    return this._http.get(`${this.url}sections/evaluacion/${idEvaluacion}/assessment/${assessmentId}`, { headers: headers }).pipe(
       map((response: Response) => response.json()),
       catchError(this.errorHandler),);
   }

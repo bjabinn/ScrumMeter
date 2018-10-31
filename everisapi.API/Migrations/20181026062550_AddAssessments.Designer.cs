@@ -11,9 +11,10 @@ using System;
 namespace everisapi.API.Migrations
 {
     [DbContext(typeof(AsignacionInfoContext))]
-    partial class AsignacionInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20181026062550_AddAssessments")]
+    partial class AddAssessments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,28 +43,11 @@ namespace everisapi.API.Migrations
                     b.ToTable("Asignaciones");
                 });
 
-            modelBuilder.Entity("everisapi.API.Entities.AssessmentEntity", b =>
-                {
-                    b.Property<int>("AssessmentId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AssessmentName")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.HasKey("AssessmentId");
-
-                    b.ToTable("Assessment");
-                });
-
             modelBuilder.Entity("everisapi.API.Entities.EvaluacionEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AssessmentId");
 
                     b.Property<bool>("Estado");
 
@@ -80,8 +64,6 @@ namespace everisapi.API.Migrations
                     b.Property<double>("Puntuacion");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AssessmentId");
 
                     b.HasIndex("ProyectoId");
 
@@ -222,15 +204,11 @@ namespace everisapi.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AssessmentId");
-
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(120);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AssessmentId");
 
                     b.ToTable("Sections");
                 });
@@ -281,11 +259,6 @@ namespace everisapi.API.Migrations
 
             modelBuilder.Entity("everisapi.API.Entities.EvaluacionEntity", b =>
                 {
-                    b.HasOne("everisapi.API.Entities.AssessmentEntity", "Assessment")
-                        .WithMany()
-                        .HasForeignKey("AssessmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("everisapi.API.Entities.ProyectoEntity", "ProyectoEntity")
                         .WithMany("Evaluaciones")
                         .HasForeignKey("ProyectoId")
@@ -343,14 +316,6 @@ namespace everisapi.API.Migrations
                     b.HasOne("everisapi.API.Entities.PreguntaEntity", "PreguntaEntity")
                         .WithMany()
                         .HasForeignKey("PreguntaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("everisapi.API.Entities.SectionEntity", b =>
-                {
-                    b.HasOne("everisapi.API.Entities.AssessmentEntity", "Assessment")
-                        .WithMany()
-                        .HasForeignKey("AssessmentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
