@@ -5,25 +5,26 @@
 }
 
 .titulo {
-  margin-left: 15%;
+  // margin-left: 15%;
   width: 310px;
   height: 70px;
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   color: #FFF;
   text-align: center;
-  letter-spacing: 4px;
+  // letter-spacing: 1px;
   background: linear-gradient(50deg, #99AD00, #99AD01);
   padding: 15px 20px;
-  transition: all .5s ease;
-  border-radius: 3px;
+  // transition: all .5s ease;
+  // border-radius: 3px;
   cursor: pointer;
+  padding-top:22px;
 
   a {
     width: 310px;
     height: 50px;
     text-decoration: none;
-    color: #FFF;
+    // color: #FFF;
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -32,18 +33,32 @@
   }
 }
 
-.titulo:hover, .tituloCont:hover {
-  box-shadow: 0 20px 5px -10px rgba(#000, 0.4);
-  transform: translateY(10px);
+.titulo:hover {
+  // box-shadow: 0 20px 5px -10px rgba(#000, 0.4);
+  // transform: translateY(10px);
+  color:#7b8a02;
+  background: white;/*rgba(153, 173, 0, 0.03137254901960784);;*/
+  border: 1px solid #99AD00;
+}
+#home_buttons{
+  margin: 0 auto;
+  // padding: 20px 20px;
+  text-align: left;
+  max-width: 1025px;
 }
 
 #infopro {
-  border: 2px solid #99AD00;
+  border: 1px solid #99AD00;
   margin: 0 auto;
   padding: 20px 20px;
   text-align: left;
   max-width: 1100px;
-  border-radius: 5px;
+  // border-radius: 5px;
+
+  .not-rounded{
+    border-radius: 0px !important;
+    margin-top:10px;
+  }
 }
 
 
@@ -99,16 +114,23 @@
   font-family: 'Roboto', sans-serif;
   color: #FFF;
   text-align: center;
-  letter-spacing: 4px;
-  background: #347ab7;
+  letter-spacing: 1px;
+  background: #3498b7;
   padding: 10px 5px;
-  transition: all .5s ease;
-  border-radius: 3px;
+  // transition: all .5s ease;
+  // border-radius: 3px;
   cursor: pointer;
+  padding-top:20px;
+
+    &:hover{
+      color:#23728a;
+      background: white;/*rgba(0, 147, 173, 0.031);*/
+      border: 1px solid #3498b7;
+    }
 
   a {
     text-decoration: none;
-    color: #FFF;
+    // color: #FFF;
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -124,12 +146,13 @@
   font-family: 'Roboto', sans-serif;
   color: #FFF;
   text-align: center;
-  letter-spacing: 4px;
+  letter-spacing: 1px;
   background: rgba(52, 122, 183, 0.27);
   padding: 10px 5px;
-  transition: all .5s ease;
-  border-radius: 3px;
+  // transition: all .5s ease;
+  // border-radius: 3px;
   cursor: not-allowed;
+  padding-top: 20px;
 
   a {
     text-decoration: none;
@@ -139,5 +162,14 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
+  } 
+  
 }
+
+.eval-ant{
+  margin-left:auto;
+}
+
+
+
+

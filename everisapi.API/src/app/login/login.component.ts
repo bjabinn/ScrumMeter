@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
       var User = { 'nombre': this.nombreDeUsuario, 'password': this.passwordDeUsuario };
       this._userService.SignUpMe(User).subscribe(
         res => {
+
           //Si no existe muestra un error
           if (!res) {
             this.ErrorMessage = "No existe el usuario especificado."

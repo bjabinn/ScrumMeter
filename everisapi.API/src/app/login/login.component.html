@@ -29,8 +29,8 @@
                 <input id="password" type="password" class="form-control" name="password" placeholder="Contrase&ntilde;a" [(ngModel)]="passwordDeUsuario">
               </div>
               <br>
-              <input *ngIf="enviando" type="submit" name="login" class="btn btn-success disabled" value="Acceder">
-              <input *ngIf="!enviando" type="submit" name="login" class="btn btn-success" value="Acceder" (click)="SignUp()">
+              <input *ngIf="enviando" type="submit" name="login" class="btn btn-success disabled btn-acceder" value="Acceder">
+              <input *ngIf="!enviando" type="submit" name="login" class="btn btn-success btn-acceder" value="Acceder" (click)="SignUp()">
 
               <div *ngIf="enviando">
                 <app-loading></app-loading>
