@@ -9,6 +9,8 @@ import { ProyectoService } from '../services/ProyectoService';
   styleUrls: ['./back-office.component.scss'],
   providers: [ProyectoService]
 })
+
+
 export class BackOfficeComponent implements OnInit {
 
   //public AdminOn = false;
