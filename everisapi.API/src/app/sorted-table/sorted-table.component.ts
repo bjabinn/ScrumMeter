@@ -2,10 +2,11 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { EvaluacionInfo } from 'app/Models/EvaluacionInfo';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-
+import{PreviousevaluationComponent} from 'app/previousevaluation/previousevaluation.component'
 export interface Evaluacion {
   id: number,
   fecha: string;
+  nombre: string,
   userNombre: string;
   puntuacion: number;
   estado: boolean;
@@ -26,6 +27,7 @@ export interface Evaluacion {
     ]),
   ],
 })
+
 export class SortedTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -34,7 +36,7 @@ export class SortedTableComponent implements OnInit {
   //isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('fecha');
   expandedElement: Evaluacion;
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['fecha', 'usuario', 'puntuacion', 'estado', 'notasEv', 'notasOb', 'informe'];
+  displayedColumns = ['fecha', 'usuario', 'metodologia', 'puntuacion', 'estado', 'notas', 'informe'];
 
   ngOnInit() {
     //console.log(this.dataSource);   
@@ -50,4 +52,9 @@ export class SortedTableComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   
+  constructor(private prevEval: PreviousevaluationComponent){}
+
+  SaveDataToPDF(evaluacion: EvaluacionInfo): void {
+    this.prevEval.SaveDataToPDF(evaluacion) ;
+  }
 }

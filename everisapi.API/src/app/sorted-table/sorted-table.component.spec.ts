@@ -1,19 +1,19 @@
 
 import { fakeAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SortedTableExampleComponent } from './sorted-table-example.component';
+import { SortedTableComponent } from './sorted-table.component';
 
-describe('SortedTableExampleComponent', () => {
-  let component: SortedTableExampleComponent;
-  let fixture: ComponentFixture<SortedTableExampleComponent>;
+describe('SortedTableComponent', () => {
+  let component: SortedTableComponent;
+  let fixture: ComponentFixture<SortedTableComponent>;
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SortedTableExampleComponent ]
+      declarations: [ SortedTableComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SortedTableExampleComponent);
+    fixture = TestBed.createComponent(SortedTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

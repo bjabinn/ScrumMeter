@@ -9,15 +9,23 @@ table {
   
   mat-cell {
     font-size: 12px !important;
-    display:flex !important;
+    /* display:flex !important; */
     justify-content: center !important;
   }
 
-  td.mat-header-cell {
+
+  th.mat-header-cell {
     font-weight: bold !important;
     font-size: 12px !important;
-    display:flex !important;
-    justify-content: center !important;
+    color: #222222;
+   
+    /* height: 40px; */
+  }
+  ::ng-deep  .mat-sort-header-container  {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
   }
 
   td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
@@ -27,6 +35,10 @@ table {
     text-align: center;
 }
 
+.comments-form-field{
+  min-width: 100%;
+}
+
   mat-cell:first-child, mat-footer-cell:first-child, mat-header-cell:first-child {
     padding-left: 0px;
   }
@@ -34,7 +46,7 @@ table {
     padding-right: 0px;
   }
 
-  img.estado{
+  img.estado, img.comment, img.informe{
     width: 30px;
     height: 30px;
   }
@@ -42,11 +54,6 @@ table {
   img.edit{
     width: 60%;
     height: 60%;
-  }
-
-  img.informe{
-    width: 30px;
-    height: 30px;
   }
 
   button.transparente{
@@ -97,7 +104,8 @@ table {
   }
   
   .example-element-description {
-    padding: 16px;
+    padding: 6px;
+    min-width: 30%;
   }
   
   .example-element-description-attribution {
