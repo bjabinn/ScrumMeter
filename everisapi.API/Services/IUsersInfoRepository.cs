@@ -68,6 +68,9 @@ namespace everisapi.API.Services
 
     //Asigna un usuario a un proyecto
     bool AddUserToProject(UserEntity usuario, int proyectoId);
+
+    //Devuelve todos los roles disponibles
+    IEnumerable<RoleEntity> GetAllRoles();
   }
 
   
