@@ -11,7 +11,7 @@
 
   <h2>Evaluaciones anteriores</h2>
   <div [ngClass]="('' + (!Mostrar ? 'disabled' : ''))">
-    <div class="row">
+    <div class="row" hidden>
       <div class="panel panel-primary filterable todo">
         <div class="panel-heading todo">
           <div class="loading" *ngIf="!Mostrar">
@@ -136,6 +136,11 @@
         </table>
 
       </div>
+    </div>
+
+    <div id="sortedtable">
+      <sorted-table *ngIf="ListaDeEvaluacionesPaginada" [dataInput]="ListaDeEvaluacionesPaginada">loading</sorted-table>
+      
     </div>
 
     <!--Grafica-->

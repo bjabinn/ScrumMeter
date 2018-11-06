@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -19,6 +20,8 @@ import { RequestInterceptorService } from './services/RequestInterceptor.service
 import { BackOfficeComponent } from './back-office/back-office.component';
 import { UserManagementComponent } from './back-office/components/user-management/user-management.component';
 import { AddUserProjectComponent } from './back-office/components/add-user-project/add-user-project.component';
+import { SortedTableComponent } from './sorted-table/sorted-table.component';
+import { MatTableModule, MatPaginatorModule, MatSortModule, MatInputModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { AddUserProjectComponent } from './back-office/components/add-user-proje
     PdfgeneratorComponent,
     LoadingComponent,
     UserManagementComponent,
-    AddUserProjectComponent
+    AddUserProjectComponent,
+    SortedTableComponent
  
   ],
   imports: [
@@ -41,7 +45,13 @@ import { AddUserProjectComponent } from './back-office/components/add-user-proje
     routing,
     HttpModule,
     ChartsModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    MatInputModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
