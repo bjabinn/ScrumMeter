@@ -1,5 +1,3 @@
-
-<br> <br>
 <div class="corregir">
   <div class="espacio">
     <div *ngIf="ErrorMessage?.length>0" class="alert alert-danger" id="danger">
@@ -13,16 +11,16 @@
       <!-- <div class="col-xs-12 col-sm-3 col-md-3">
       </div> -->
 
-      <div class="col-xs-12 col-sm-3 col-md-4 mt-2">
-        <select class="custom-select" *ngIf="ListaDeProyectos.length > 0" (change)="SeleccionDeProyecto($event.target.value)">
+      <div class="col-xs-12 col-sm-3 col-md-4">
+        <select class="custom-select not-rounded" *ngIf="ListaDeProyectos.length > 0" (change)="SeleccionDeProyecto($event.target.value)">
           <option selected [disabled]="this.ProyectoSeleccionado">- Seleccione un proyecto </option>
           <option *ngFor="let proyecto of ListaDeProyectos; let i = index" value={{i}}>{{proyecto.nombre}}</option>
         </select>
 
       </div>
 
-      <div class="col-xs-12 col-sm-3 col-md-4 mt-2">
-        <select class="custom-select" *ngIf="AllAssessments.length > 0" (change)="SeleccionDeAssessment($event.target.value)" >
+      <div class="col-xs-12 col-sm-3 col-md-4">
+        <select class="custom-select not-rounded" *ngIf="AllAssessments.length > 0" (change)="SeleccionDeAssessment($event.target.value)">
           <option selected [disabled]="this.AssessmentSelected">- Seleccione una evaluación </option>
           <option *ngFor="let assessment of AllAssessments; let i = index" value={{i}}>{{assessment.assessmentName}}</option>
         </select>
@@ -30,42 +28,43 @@
 
 
 
-      <div class="col-xs-12 col-sm-3 col-md-4 mt-2">
+      <div class="col-xs-12 col-sm-3 col-md-4">
 
         <span *ngIf="ListaDeProyectos.length == 0">
           <app-loading></app-loading>
         </span>
 
         <div class="tituloContDisable" *ngIf="ListaDeProyectos.length > 0 && !existeRepetida">
-          <a>Continuar <br />Evaluaci&oacute;n</a>
+          <a>CONTINUAR EVALUACIÓN</a>
         </div>
 
-      <div class="tituloCont" *ngIf="ListaDeProyectos.length > 0 && existeRepetida" (click)="continuarEvaluacion()">
-        <a>Continuar <br />Evaluaci&oacute;n</a>
+        <div class="tituloCont" *ngIf="ListaDeProyectos.length > 0 && existeRepetida" (click)="continuarEvaluacion()">
+          <a>CONTINUAR EVALUACIÓN</a>
+        </div>
       </div>
-    </div>
-<!-- 
-        <div class="col-xs-12 col-sm-3 col-md-3 mt-2">
-        </div> -->
 
+      <div class="col-xs-12 col-sm-3 col-md-3 ">
       </div>
+
+    </div>
     <br> <br>
 
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-1"></div>
-      <div class="col-xs-12 col-sm-12 col-md-5">
+    <div class="row" id="home_buttons">
+      <!-- <div class="col-xs-12 col-sm-12 col-md-1"></div> -->
+      <div class="col-xs-12 col-sm-12 col-md-6 p-0">
         <div class="titulo" (click)="showModal(content)">
-          <a>Nueva <br />Evaluaci&oacute;n</a>
+          <a>NUEVA EVALUACI&Oacute;N</a>
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-12 col-md-5">
-        <div class="titulo bajarmedia" (click)="EvaluacionesAnteriores()">
-          <a>Evaluaciones <br />Anteriores</a>
+      <div class="col-xs-12 col-sm-12 col-md-6 p-0">
+        <div class="titulo bajarmedia eval-ant" (click)="EvaluacionesAnteriores()">
+          <a>EVALUACIONES ANTERIORES</a>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-1"></div>
+      <!-- <div class="col-xs-12 col-sm-12 col-md-1"></div> -->
     </div>
+
 
   </div>
 

@@ -233,5 +233,29 @@ namespace everisapi.API.Controllers
         return BadRequest();
       }
     }
+
+    //Introduciendo el nombre del usuario recogemos todos sus roles
+    [HttpGet("allroles")]
+    public IActionResult GetAllRoles()
+    {
+
+      try
+      {
+        var RolesEntities = _userInfoRepository.GetAllRoles();
+
+        var results = Mapper.Map<IEnumerable<RoleDto>>(RolesEntities);
+
+        _logger.LogInformation("Mandamos correctamente todos los roles");
+
+        return Ok(results);
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical($"Se recogio un error al recibir todos los datos de los roles: " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
+      }
+    }
+
   }
+  
 }

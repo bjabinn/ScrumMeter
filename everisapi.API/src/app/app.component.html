@@ -1,14 +1,46 @@
 <!--Ventana mas grande-->
-<div class="no-print" id='cssmenu' *ngIf="_router.url != '/login' && _router.url != '/' && ScreenWidth > 776">
-  <ul class="text-center">
-    <li class="active text-center" id="inicio"><a routerLink="/home">Inicio</a></li>
-    <li class="active text-center" id="backoffice"><a routerLink="/backoffice">Backoffice</a></li>
-    <li class="proyecto text-center noSelect" *ngIf="AssessmentName != null">Evaluación: {{this._storageDataService.AssessmentSelected.assessmentName}}</li>
-    <li class="text-center titulo noSelect" [ngClass]="{'solo': NombreDeProyecto==null}">AgileMeter</li>
-    <li class="proyecto text-center noSelect" *ngIf="NombreDeProyecto != null">Proyecto: {{NombreDeProyecto}}</li>
-    <li class="text-center active float-right" id="cerrarsesion"><a routerLink="/login">Cerrar sesi&oacute;n</a></li>
-    <li class="usuario text-right float-right noSelect" *ngIf="NombreDeUsuario != null">Usuario: <b>{{NombreDeUsuario}}</b></li>
-  </ul>
+<div class="container-fluid p-0">
+  <div class="no-print" id='cssmenu' *ngIf="_router.url != '/login' && _router.url != '/' && ScreenWidth > 776">
+    <div class="text-centerc row p-0 m-0">
+
+      <div class="col-3 p-0">
+        <div class="row p-0 m-0">
+          <div class="col-5 p-0" id="inicio"><a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></div>
+
+          <div class="col p-0" id="backoffice"><a routerLink="/backoffice" routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact: true}">Backoffice</a></div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="row p-0">
+          <div *ngIf="AssessmentName == null || NombreDeProyecto == null" class="col-3"></div>
+          <div class="text-center col-3 evaluacion p-0" *ngIf="AssessmentName != null && NombreDeProyecto != null"><strong>Evaluación:</strong>
+              {{NombreDeProyecto}} - {{this._storageDataService.AssessmentSelected.assessmentName}} </div>
+          <div class="text-center col-6 title-center">AgileMeter</div>
+          <div class="col-3"></div>
+        </div>
+      </div>
+      <!--       
+      <div class="proyecto text-center col" *ngIf="AssessmentName != null">Evaluación:
+        {{this._storageDataService.AssessmentSelected.assessmentName}}</div>
+       
+
+      
+      <div class="proyecto text-center col" *ngIf="NombreDeProyecto != null">Proyecto: {{NombreDeProyecto}}</div> -->
+
+
+      <div class="col-3 p-0 right-navbar">
+        <div class="row p-0 m-0">
+          <div class="text-right col p-0" *ngIf="NombreDeUsuario != null">Usuario: <b>{{NombreDeUsuario}}</b></div>
+          <div class="text-right col-5 p-0" id="cerrarsesion"><a routerLink="/login">Cerrar sesi&oacute;n</a></div>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
 </div>
 
 <!--Ventana mediana-->
@@ -27,7 +59,7 @@
 
     </li>
     <li class="text-center active top2" id="cerrarsesion"><a routerLink="/login">Cerrar sesi&oacute;n</a></li>
-  </ul> 
+  </ul>
 </div>
 
 <!--Ventana pequeña-->

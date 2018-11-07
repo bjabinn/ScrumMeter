@@ -103,6 +103,12 @@ namespace everisapi.API.Services
       return RolUsuario;
     }
 
+    //Devuelve todos los roles
+    public  IEnumerable<RoleEntity> GetAllRoles()
+    { 
+      return _context.Roles.OrderBy(r => r.Role).ToList();
+    }
+
     //Devuelve una lista con todos los datos del proyecto por su id
     public ProyectoEntity GetFullProject(int id)
     {

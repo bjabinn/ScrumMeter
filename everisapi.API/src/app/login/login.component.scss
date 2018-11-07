@@ -6,6 +6,10 @@
 .loginmodal-container {
   margin-left: 65px;
   margin-right: 65px;
+
+  input{
+    border-radius:0px !important;
+  }
 }
 
 body, html {
@@ -22,7 +26,7 @@ body, html {
   /* shadows and rounded borders */
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
-  border-radius: 4px;
+  // border-radius: 4px;
   -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
@@ -30,6 +34,13 @@ body, html {
 
 .corporation {
   max-width: 150px;
+}
+
+.btn-acceder{
+    color: #fff;
+    background-color: #98aa00;
+    border-color: #98aa00;
+    border-radius: 0px;
 }
 
 h1 {

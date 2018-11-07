@@ -1,17 +1,28 @@
 <div class="">
-  <!-- <select class="custom-select" *ngIf="ListaDeUsuarios.length > 0">
-    <option selected [disabled]="this.ProyectoSeleccionado">- Seleccione un usuario </option>
+  
+  <select class="custom-select" *ngIf="ListaDeUsuarios.length > 0" (change)="SeleccionDeUsuario($event.target.value)">
+    <option selected [disabled]="this.UsuarioSeleccionado">- Seleccione un usuario </option>
     <option *ngFor="let usuario of ListaDeUsuarios; let i = index" value={{i}}>{{usuario.nombre}}</option>
   </select>
 
+  <p>
+      <span class="" *ngIf="this.UsuarioSeleccionado != null">Rol del usuario: {{UsuarioSeleccionado.role.role}}</span>   
+  </p>
 
-
-<p>
-  Start editing to see some magic happen :)
-</p>
-<input type="text" [(ngModel)]="query">
-<ul>
-<li *ngFor="let usuario of ListaDeUsuarios | startsWith : query">{{usuario.nombre}}</li>
-</ul> -->
+  <div *ngFor="let role of ListaDeRoles">
+    <label for="roles" class="roleSelection">
+      <input id="{{role.id}}" [value]='role.id' type="radio" name="Roles" [(ngModel)]="radioSelected">
+      {{role.role}}
+    </label>
+  </div>
+  
+  <div *ngFor="let role of ListaDeRoles" class="list-group segmented-control">
+    <div class="inline-block" (click) ="SeleccionDeRol()">  
+    <label for="roles" class="list-group-item">
+          <input id="{{role.id}}" [value]='role.id' type="radio" name="items" [(ngModel)]="radioSelected">
+          {{role.role}}
+    </label>
+    </div>  
+  </div>
 
 </div>
