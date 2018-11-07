@@ -258,9 +258,11 @@ img{
 
 .button-disabled{
   opacity: 0.5;
+  cursor:pointer;
 }
 .botonTabla, .botonGrafica{
   margin:0px;
+  cursor: default;
 }
 
 .container{
