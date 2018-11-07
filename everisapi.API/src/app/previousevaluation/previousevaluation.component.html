@@ -141,13 +141,12 @@
     </div>
 
     <div class="botonesTablaOGrafica">
-        <button class="transparente botonGrafica" (click)="MostrarGrafica = true; MostrarTabla = false">
-            <img [class.button-disabled]="MostrarGrafica" src="assets/chart.png" title="Ver gráfica" />
+        <button class="transparente botonTabla" (click)="MostrarGrafica = false; MostrarTabla = true">
+            <img [class.button-disabled]="!MostrarTabla" src="assets/table.png" title="Ver tabla" />
           </button>
-
-          <button class="transparente botonTabla" (click)="MostrarGrafica = false; MostrarTabla = true">
-              <img [class.button-disabled]="MostrarTabla" src="assets/table.png" title="Ver tabla" />
-            </button>
+        <button class="transparente botonGrafica" (click)="MostrarGrafica = true; MostrarTabla = false">
+            <img [class.button-disabled]="!MostrarGrafica" src="assets/chart.png" title="Ver gráfica" />
+          </button>         
     </div>
 
     <div id="sortedtable" *ngIf="MostrarTabla">
