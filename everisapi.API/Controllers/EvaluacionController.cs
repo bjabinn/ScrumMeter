@@ -160,13 +160,13 @@ namespace everisapi.API.Controllers
         {
           var Evals = _evaluacionInfoRepository.GetEvaluationInfoAndPageFiltered(id, pageNumber, EvaluacionParaFiltrar);
           NumEvals = Evals.Count();
-          EvaluacionesFiltradas = Evals.Skip(10 * pageNumber).Take(10).ToList();
+          EvaluacionesFiltradas = Evals.ToList();//Skip(10 * pageNumber).Take(10).
         }
         else
         {
           var Evals = _evaluacionInfoRepository.GetEvaluationInfoAndPageFilteredAdmin(pageNumber, EvaluacionParaFiltrar);
           NumEvals = Evals.Count();
-          EvaluacionesFiltradas = Evals.Skip(10 * pageNumber).Take(10).ToList();
+          EvaluacionesFiltradas = Evals.ToList();//Skip(10 * pageNumber).Take(10).
         }
 
         //Hacemos un mapeo de la pregunta que recogimos
