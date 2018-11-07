@@ -1,11 +1,154 @@
+table {
+  width: 100%;
+
+}
+
+mat-table {
+  width: 100% !important;
+}
+
+mat-cell {
+  font-size: 12px !important;
+  /* display:flex !important; */
+  justify-content: center !important;
+}
+
+
+th.mat-header-cell {
+  font-weight: bold !important;
+  font-size: 12px !important;
+  color: #222222;
+
+  /* height: 40px; */
+}
+
+::ng-deep .mat-sort-header-container {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+td.mat-cell,
+td.mat-footer-cell,
+th.mat-header-cell {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  font-size: 12px;
+  text-align: center;
+  padding-left:25px;
+}
+
+.comments-form-field {
+  min-width: 100%;
+}
+
+mat-cell:first-child,
+mat-footer-cell:first-child,
+mat-header-cell:first-child {
+  padding-left: 0px;
+}
+
+mat-cell:last-child,
+mat-footer-cell:last-child,
+mat-header-cell:last-child {
+  padding-right: 0px;
+}
+
+img.estado,
+img.comment,
+img.informe {
+  width: 30px;
+  height: 30px;
+}
+
+img.edit {
+  width: 60%;
+  height: 60%;
+}
+
+button.transparente {
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  width: 60px;
+}
+
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: #f5f5f5;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 20px;
+  min-width: 50%;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+
+
+
+
+
+
+
+
+
+// fsdfasdfasdfasdfasdfa
+
+
 @media print {
-  #no-print, #no-print * {
+
+  #no-print,
+  #no-print * {
     display: none !important;
   }
-  .no-print, .no-print * {
+
+  .no-print,
+  .no-print * {
     display: none !important;
   }
 }
+
+
 
 #Grafica {
   min-width: 350px;
@@ -28,6 +171,10 @@
   text-align: center;
 }
 
+.cdk-column-pregunta{
+  text-align:left !important;
+}
+
 //Table design
 
 .table-fill {
@@ -37,79 +184,94 @@
   max-width: 600px;
   padding: 5px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+
+
+  th {
+    background: rgba(145, 188, 4, 0.36);
+    font-size: 13px;
+    padding: 13px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  th:first-child {
+    border-top-left-radius: 3px;
+  }
+
+  th:last-child {
+    border-top-right-radius: 3px;
+  }
+
+  tr:hover td {
+    transition: background 0.1s ease;
+    background: #4bedb4;
+  }
+
+  tr:nth-child(odd) td {
+    background-color: #EBEBEB;
+  }
+
+  tr:nth-child(odd):hover td {
+    background: #4bedb4;
+  }
+
+  tr:last-child td:first-child {
+    border-bottom-left-radius: 3px;
+  }
+
+  tr:last-child td:last-child {
+    border-bottom-right-radius: 3px;
+  }
+
+  td {
+    background: #FFFFFF;
+    padding: 10px;
+    text-align: left;
+    vertical-align: middle;
+    font-size: 13px;
+  }
+
+  td.notasPreg {
+    font-size: 13px;
+    width: 100px !important;
+  }
+
+
+
+  .total {
+    border-top: 1px solid black !important;
+  }
+
+  td,
+  p {
+    white-space: pre-line;
+  }
+
 }
 
 label {
-  font-size: 13px!important;
+  font-size: 13px !important;
 }
 
-th {
-  background: rgba(145,188,4,0.36);
-  font-size: 13px;
-  padding: 13px;
-  text-align: center;
-  vertical-align: middle;
+.respuesta-correcta {
+  color: greenyellow !important;
 }
 
-th:first-child {
-  border-top-left-radius: 3px;
+.respuesta-incorrecta {
+  color: #e82801 !important;
 }
 
-th:last-child {
-  border-top-right-radius: 3px;
+.respuesta-no-contestada {
+  color: rgba(45, 165, 225, 0.57) !important;
 }
 
-tr:hover td {
-  transition: background 0.1s ease;
-  background: #4bedb4;
-}
-
-tr:nth-child(odd) td {
-  background-color: #EBEBEB;
-}
-
-tr:nth-child(odd):hover td {
-  background: #4bedb4;
-}
-
-tr:last-child td:first-child {
-  border-bottom-left-radius: 3px;
-}
-
-tr:last-child td:last-child {
-  border-bottom-right-radius: 3px;
-}
-
-td {
-  background: #FFFFFF;
-  padding: 10px;
-  text-align: left;
-  vertical-align: middle;
-  font-size: 13px;
-}
-
-td.notasPreg{
-  font-size: 13px;
-  width:100px!important;
-}
-
-
-
-.total{
-  border-top: 1px solid black!important;
-}
-
-td, p {
-  white-space: pre-line;
-}
-
-p{
-  font-size: 13px!important;
+p {
+  font-size: 13px !important;
 }
 
 h4 {
   font-size: 16px !important;
-  background-color: rgba(145,188,4,0.36);
+  background-color: rgba(145, 188, 4, 0.36);
   padding: 10px;
 }
 
@@ -138,6 +300,7 @@ label {
   color: #000;
   cursor: pointer;
   position: relative; // important
+
   // Now we'll create the checkbox object
   span {
     display: inline-block;
@@ -150,7 +313,8 @@ label {
     border-radius: 50%;
     vertical-align: -6px;
     margin-right: 10px;
-    transition: background-color 150ms 200ms, transform 350ms cubic-bezier(.78,-1.22,.17,1.89); // custom ease effect for bouncy animation
+    transition: background-color 150ms 200ms, transform 350ms cubic-bezier(.78, -1.22, .17, 1.89); // custom ease effect for bouncy animation
+
     // Now we'll create the "tick" using pseudo elements - those will be basically two lines that will be rotated to form the "tick"
     &:before {
       content: "";
@@ -180,6 +344,7 @@ label {
       transform-origin: 0% 0%;
     }
   }
+
   // Time to add some life to it
   &:hover {
     span {
@@ -198,12 +363,14 @@ label {
 
 input[type="checkbox"] {
   display: none; // hide the system checkbox
+
   // Let's add some effects after the checkbox is checked
   &:checked {
-    + label {
+    +label {
       span {
         background-color: #9BAE0C;
         transform: scale(1.25); // enlarge the box
+
         &:after {
           width: 10px;
           background: #000;
@@ -217,10 +384,13 @@ input[type="checkbox"] {
         }
       }
 
-      &:hover { // copy the states for onMouseOver to avoid flickering
+      &:hover {
+
+        // copy the states for onMouseOver to avoid flickering
         span {
           background-color: #1790b5;
           transform: scale(1.25); // enlarge the box
+
           &:after {
             width: 10px;
             background: #000;
@@ -238,8 +408,8 @@ input[type="checkbox"] {
   }
 }
 
-.disable{
-  color: grey!important;
+.disable {
+  color: grey !important;
   cursor: default;
 }
 
@@ -249,7 +419,7 @@ input[type="checkbox"].disableCheck {
   // Let's add some effects after the checkbox is checked
 
   &:checked {
-    + label {
+    +label {
       span {
         background-color: grey;
         transform: scale(1) !important;
@@ -265,10 +435,13 @@ input[type="checkbox"].disableCheck {
         }
       }
 
-      &:hover { // copy the states for onMouseOver to avoid flickering
+      &:hover {
+
+        // copy the states for onMouseOver to avoid flickering
         span {
           background-color: grey;
-          transform: scale(1)!important; // enlarge the box
+          transform: scale(1) !important; // enlarge the box
+
           &:after {
             width: 10px;
             background: grey;
@@ -289,6 +462,7 @@ label.disable {
   display: inline-block; // to make it easier to click
   color: grey;
   position: relative; // important
+
   // Now we'll create the checkbox object
   span {
     display: inline-block;
@@ -301,7 +475,8 @@ label.disable {
     border-radius: 50%;
     vertical-align: -6px;
     margin-right: 10px;
-    transition: background-color 150ms 200ms, transform 350ms cubic-bezier(.78,-1.22,.17,1.89); // custom ease effect for bouncy animation
+    transition: background-color 150ms 200ms, transform 350ms cubic-bezier(.78, -1.22, .17, 1.89); // custom ease effect for bouncy animation
+
     // Now we'll create the "tick" using pseudo elements - those will be basically two lines that will be rotated to form the "tick"
     &:before {
       content: "";
@@ -331,6 +506,7 @@ label.disable {
       transform-origin: 0% 0%;
     }
   }
+
   // Time to add some life to it
   &:hover {
     span {
@@ -383,11 +559,11 @@ hr {
   border-bottom: 1px solid #ffffff;
 }
 
-hr.textopdf{
+hr.textopdf {
   margin: 8px 0px;
 }
 
-#cargarPDF{
+#cargarPDF {
   height: 30px;
   padding-right: 100px;
 }
@@ -412,9 +588,9 @@ hr.textopdf{
   overflow-x: hidden;
 }
 
-.textopdf{
+.textopdf {
   max-width: 600px;
-  
+
 }
 
 
@@ -428,7 +604,7 @@ hr.textopdf{
   background: -o-linear-gradient(top, #4c91cd 5%, #337ab7 100%);
   background: -ms-linear-gradient(top, #4c91cd 5%, #337ab7 100%);
   background: linear-gradient(to bottom, #4c91cd 5%, #337ab7 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4c91cd', endColorstr='#337ab7',GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4c91cd', endColorstr='#337ab7', GradientType=0);
   background-color: #337ab7;
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
@@ -451,7 +627,7 @@ hr.textopdf{
   background: -o-linear-gradient(top, #337ab7 5%, #4c91cd 100%);
   background: -ms-linear-gradient(top, #337ab7 5%, #4c91cd 100%);
   background: linear-gradient(to bottom, #337ab7 5%, #4c91cd 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#337ab7', endColorstr='#4c91cd',GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#337ab7', endColorstr='#4c91cd', GradientType=0);
   background-color: #337ab7;
 }
 
@@ -468,11 +644,11 @@ hr.textopdf{
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255,255,255,0.5);
-  z-index:1;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 1;
 }
 
-.suspenso{
+.suspenso {
   font-weight: bold;
   color: red;
 }

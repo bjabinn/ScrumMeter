@@ -13,8 +13,11 @@ import { ProyectoService } from 'app/services/ProyectoService';
 import { Http } from '@angular/http';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { RespuestasService } from '../services/RespuestasService';
 import { Respuesta } from '../Models/Respuesta';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { ViewChild, Input } from '@angular/core';
 
 import * as jsPDF from 'jspdf';
 import * as html2canvas from 'html2canvas';
@@ -23,13 +26,39 @@ import * as imgTransform from 'img-transform';
 import { forEach } from '@angular/router/src/utils/collection';
 import { concat } from 'rxjs-compat/operator/concat';
 
+
+export interface RespuestaConNotasTabla {
+
+  id: number,
+  estado: number,
+  pregunta: string,
+  correcta: string,
+  notas: string,
+  notasAdmin: string,
+  section: string,
+  asignacion: string
+
+}
+
+
+
 @Component({
   selector: 'app-pdfgenerator',
   templateUrl: './pdfgenerator.component.html',
   styleUrls: ['./pdfgenerator.component.scss'],
-  providers: [SectionService, ProyectoService, DatePipe, RespuestasService]
+  providers: [SectionService, ProyectoService, DatePipe, RespuestasService],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed, void', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      transition('expanded <=> void', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    ]),
+  ]
 })
 export class PdfgeneratorComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   public ListaDeDatos: Array<SectionInfo> = [];
   public UserName: string = "";
@@ -47,6 +76,10 @@ export class PdfgeneratorComponent implements OnInit {
   public ListaPuntuacion: number[] = [];
   public ListaNombres: string[] = [];
 
+
+
+
+
   //Para las notas
   public mostrarCheckboxes: boolean = true;
   public mostrarNotasEv: boolean = false;
@@ -55,10 +88,13 @@ export class PdfgeneratorComponent implements OnInit {
   public mostrarNotasAsig: boolean = false;
   public mostrarNotasPreg: boolean = false;
   public ListaDeRespuestas: Array<RespuestaConNotas> = [];
+  public respuestasSource: MatTableDataSource<RespuestaConNotasTabla>;
   public ListaDeAsignaciones: Array<AsignacionConNotas> = [];
   public cargandoNotas: boolean = false;
   public textoModal: string;
   public anadeNota: string = null;
+  public displayedColumns = ['seccion', 'modulo', 'pregunta', 'respuesta', 'notas', 'notas-admin'];
+
 
 
   //PDF
@@ -136,10 +172,12 @@ export class PdfgeneratorComponent implements OnInit {
 
     //Recoge los datos de las secciones
     if (this.Evaluacion != null && this.Evaluacion != undefined) {
-      this._sectionService.getSectionInfo(this.Evaluacion.id,this._appComponent._storageDataService.AssessmentSelected.assessmentId).subscribe(
+      if (this._appComponent._storageDataService.AssessmentSelected === undefined) { this._appComponent._storageDataService.AssessmentSelected.assessmentId = 1 }
+      this._sectionService.getSectionInfo(this.Evaluacion.id, this._appComponent._storageDataService.AssessmentSelected.assessmentId).subscribe(
         res => {
           this.ListaDeDatos = res;
           this.shareDataToChart();
+
         },
         error => {
           if (error == 404) {
@@ -443,6 +481,11 @@ export class PdfgeneratorComponent implements OnInit {
           this.ListaDeRespuestas = res;
           this.cargandoNotas = false;
           this.mostrarNotasPreg = true;
+          this.respuestasSource = new MatTableDataSource(res);
+          console.log(this.respuestasSource.data);
+
+          this.respuestasSource.sort = this.sort;
+          this.respuestasSource.paginator = this.paginator;
         },
         error => {
           if (error == 404) {
@@ -460,6 +503,65 @@ export class PdfgeneratorComponent implements OnInit {
     else {
       this.mostrarNotasPreg = !this.mostrarNotasPreg;
     }
+  }
+
+  checkRespuestaCorrecta(row): string {
+    //Pregunta correcta == null --> Si (habilitante)
+    //Pregunta correcta != null --> Si o No
+    console.log("" + row.pregunta, row.correcta);
+
+    let classString: string;
+    let respuestaString: string = this.displayRespuesta(row);
+
+
+    //Si (habilitante)
+    if (row.correcta == null) {
+      //Contestado -> Si
+      switch (row.estado) {
+        case 0:
+          classString = "respuesta-no-contestada";
+          break
+        case 1:
+          classString = "respuesta-correcta";
+          break
+        case 2:
+          classString = "respuesta-incorrecta";
+          break
+      }
+    } else {
+      if (respuestaString == row.correcta) {
+        classString = "respuesta-correcta";
+      } else {
+        //No contestada
+        if (row.estado == 0) {
+          classString = "respuesta-no-contestada";
+        } else {
+          classString = "respuesta-incorrecta";
+        }
+      }
+    }
+
+
+    return "material-icons " + classString;
+  }
+
+  displayRespuesta(row: RespuestaConNotasTabla): string {
+    let respuesta: string = "";
+    switch (row.estado) {
+      case 0:
+        respuesta = "No Contestada";
+        break
+      case 1:
+        respuesta = "Si";
+        break;
+      case 2:
+        respuesta = "No";
+        break;
+
+      default:
+        break;
+    }
+    return respuesta;
   }
 
 
