@@ -41,6 +41,8 @@ export class PreviousevaluationComponent implements OnInit {
   public textoModal: string;
   public anadeNota = null;
   public fechaPicker: NgbDate;
+  public MostrarTabla: boolean = true;
+  public MostrarGrafica: boolean = false;
 
 
   public Admin: boolean = false;
@@ -438,7 +440,7 @@ export class PreviousevaluationComponent implements OnInit {
     for (var i = this.ListaDeEvaluacionesPaginada.length - 1; i >= 0; i--) {
       var pipe = new DatePipe('en-US');
       listaPunt.push(this.ListaDeEvaluacionesPaginada[i].puntuacion);
-      this.ListaNombres.push(pipe.transform(this.ListaDeEvaluacionesPaginada[i].fecha, 'dd/MM/yyyy, HH:mm'));
+      this.ListaNombres.push(pipe.transform(this.ListaDeEvaluacionesPaginada[i].fecha, 'dd/MM/yyyy'));
     }
 
     this.ListaPuntuacion.push({
@@ -460,7 +462,8 @@ export class PreviousevaluationComponent implements OnInit {
 
   //Opciones para la grafica
   public barChartOptions: any = {
-    scaleShowVerticalLines: true,
+    scaleShowVerticalLines: false,
+    showLines: true,
     scales: {
       yAxes: [{
         ticks: {
@@ -468,6 +471,17 @@ export class PreviousevaluationComponent implements OnInit {
           stepValue: 10,
           max: 100,
           min: 0,
+          callback: function(value, index, values) {
+            return value + '%';
+         }
+        },
+        gridLines: {
+          display:true
+        }
+      }],
+      xAxes: [{
+        gridLines: {
+          display:false
         }
       }]
     }

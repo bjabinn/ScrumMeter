@@ -10,8 +10,7 @@
 
 #Grafica {
   margin-top: 30px;
-  min-width: 350px;
-  max-width: 350px;
+  width: 100%;
 }
 
 #ocultar {
@@ -240,4 +239,30 @@ img{
 
 .fecha{
   pointer-events: none;
+}
+
+.botonesTablaOGrafica{
+  // float: right;
+  margin-bottom: -55px;
+  margin-left: 90%;
+  display: flex;
+}
+
+.container-grafica{
+  margin-top: 66px;
+}
+
+.panelGrafica{
+  padding-top: 15px;
+}
+
+.button-disabled{
+  opacity: 0.5;
+}
+.botonTabla, .botonGrafica{
+  margin:0px;
+}
+
+.container{
+  margin-bottom: 40px;
 }

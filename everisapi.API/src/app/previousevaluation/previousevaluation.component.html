@@ -11,6 +11,8 @@
 
   <h2>Evaluaciones anteriores</h2>
   <div [ngClass]="('' + (!Mostrar ? 'disabled' : ''))">
+
+    
     <div class="row" hidden>
       <div class="panel panel-primary filterable todo">
         <div class="panel-heading todo">
@@ -138,12 +140,24 @@
       </div>
     </div>
 
-    <div id="sortedtable">
+    <div class="botonesTablaOGrafica">
+        <button class="transparente botonGrafica" (click)="MostrarGrafica = true; MostrarTabla = false">
+            <img [class.button-disabled]="MostrarGrafica" src="assets/chart.png" title="Ver gráfica" />
+          </button>
+
+          <button class="transparente botonTabla" (click)="MostrarGrafica = false; MostrarTabla = true">
+              <img [class.button-disabled]="MostrarTabla" src="assets/table.png" title="Ver tabla" />
+            </button>
+    </div>
+
+    <div id="sortedtable" *ngIf="MostrarTabla">
       <sorted-table *ngIf="ListaDeEvaluacionesPaginada" [dataInput]="ListaDeEvaluacionesPaginada">loading</sorted-table>
       
     </div>
 
     <!--Grafica-->
+    <div class="container-grafica" [hidden]="!MostrarGrafica">
+    <div class="mat-elevation-z8 panelGrafica">
     <div id="Grafica" *ngIf="Mostrar && (this.Project.fecha != null || ProyectoSeleccionado) &&  ListaDeEvaluacionesPaginada.length != 0" class="mx-auto">
       <canvas *ngIf="barChartData" id="canvas" baseChart #chart
               [datasets]="barChartData"
@@ -153,16 +167,17 @@
               [chartType]="barChartType"
               [colors]="chartColors"></canvas>
     </div>
+    </div>
+    </div>
 
-
-    <div class="wrapper" *ngIf="NumMax > 1">
+    <!-- <div class="wrapper" *ngIf="NumMax > 1">
       <button type="button" class="btn btn-success cambiar" (click)="NextPreviousButton(false)">Anterior</button>
       <strong>
         {{PageNow}}/{{NumMax}}
       </strong>
       <button type="button" class="btn btn-success cambiar" (click)="NextPreviousButton(true)">Siguiente</button>
     </div>
-  </div>
+  </div> -->
 
 
 
