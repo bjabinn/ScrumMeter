@@ -4,8 +4,8 @@ FROM debian:stretch-slim
 RUN groupadd -r mysql && useradd -r -g mysql mysql
 
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg dirmngr && rm -rf /var/lib/apt/lists/*
-ENV http_proxy http://10.116.8.100:8080
-ENV https_proxy http://10.116.8.100:8080
+ENV http_proxy http://10.0.8.102:8080
+ENV https_proxy http://10.0.8.102:8080
 ENV MYSQL_ALLOW_EMPTY_PASSWORD true
 ENV MYSQL_DATABASE agilemeter
 
