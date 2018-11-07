@@ -1,30 +1,10 @@
-// // input[type="radio"]{
-// //     visibility:hidden; 
-// // }
-
-// input[type="radio"]:checked{ 
-//     background-color: #027AFB;
-// 		color: white;
-// }
-
-
-// // .roleSelection{
-// // 	border-top: 1px solid #027AFB;
-// // 	border-bottom: 1px solid #027AFB;
-// // 	padding: 10px 30px;
-// // 	margin: -4px;
-// // 	margin-left: -14px;
-// // 	color: White;
-// // }
-
-// .roleSelection {
-// 	border-left: 1px solid #027AFB;
-// 	border-top-left-radius: 10px;
-// 	border-bottom-left-radius: 10px;
-// 	border-right: 1px solid #027AFB;
-// }
 .segmented-control input[type="radio"] {
-    display: inline-block;
+	display: none;
+	cursor: pointer;
+}
+
+.segmented-control{
+	display: inline-block;
 }
 
 .segmented-control .list-group-item {
@@ -35,3 +15,17 @@
 	margin-left:-4px;
 	margin-right: 0;
 }
+
+
+
+  .segmented-control label {
+	display: inline-block;
+	background-color: white;
+	cursor: pointer;
+
+	&.seleccionado{
+		background-color: #99AD01;
+		color: white;
+	}
+  }
+

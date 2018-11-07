@@ -1,28 +1,21 @@
-<div class="">
+<div class="row">
   
-  <select class="custom-select" *ngIf="ListaDeUsuarios.length > 0" (change)="SeleccionDeUsuario($event.target.value)">
-    <option selected [disabled]="this.UsuarioSeleccionado">- Seleccione un usuario </option>
-    <option *ngFor="let usuario of ListaDeUsuarios; let i = index" value={{i}}>{{usuario.nombre}}</option>
-  </select>
-
-  <p>
-      <span class="" *ngIf="this.UsuarioSeleccionado != null">Rol del usuario: {{UsuarioSeleccionado.role.role}}</span>   
-  </p>
-
-  <div *ngFor="let role of ListaDeRoles">
-    <label for="roles" class="roleSelection">
-      <input id="{{role.id}}" [value]='role.id' type="radio" name="Roles" [(ngModel)]="radioSelected">
-      {{role.role}}
-    </label>
+  <div class="col-4">
+    <select class="custom-select" *ngIf="ListaDeUsuarios.length > 0" (change)="SeleccionDeUsuario($event.target.value)">
+      <option selected [disabled]="this.UsuarioSeleccionado">- Seleccione un usuario </option>
+      <option *ngFor="let usuario of ListaDeUsuarios; let i = index" value={{i}}>{{usuario.nombre}}</option>
+    </select>
   </div>
+ 
+  <div *ngIf="this.UsuarioSeleccionado != null" class="col-5">
+    <div *ngFor="let role of ListaDeRoles" class="list-group segmented-control">
+      <label for="{{role.id}}" class="list-group-item" [class.seleccionado]="radioSelected?.id == role?.id || this.UsuarioSeleccionado.role.id == role?.id" >
+            <input id="{{role.id}}" [checked]="role?.id == this.UsuarioSeleccionado.role.id" [value]='role' type="radio" name="roles" [(ngModel)]="radioSelected" (change) ="SeleccionDeRol(radioSelected)">
+            {{role.role}}
+      </label>
+    </div>
+  </div>
+
   
-  <div *ngFor="let role of ListaDeRoles" class="list-group segmented-control">
-    <div class="inline-block" (click) ="SeleccionDeRol()">  
-    <label for="roles" class="list-group-item">
-          <input id="{{role.id}}" [value]='role.id' type="radio" name="items" [(ngModel)]="radioSelected">
-          {{role.role}}
-    </label>
-    </div>  
-  </div>
 
 </div>

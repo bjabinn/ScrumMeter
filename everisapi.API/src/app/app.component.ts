@@ -2,6 +2,8 @@ import { Component, HostListener} from '@angular/core';
 import { StorageDataService } from './services/StorageDataService';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
+import { ProyectoService } from './services/ProyectoService';
+
 
 @Component({
   selector: 'app-root',

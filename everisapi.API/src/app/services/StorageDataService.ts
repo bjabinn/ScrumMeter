@@ -8,10 +8,11 @@ import { Section } from 'app/Models/Section';
 import { SectionInfo } from 'app/Models/SectionInfo';
 import { Observable ,  Subscription } from 'rxjs';
 import { setTimeout } from 'timers';
-import { UserService } from 'app/services/UserService';
+import { ProyectoService } from 'app/services/ProyectoService';
 import { AppComponent } from 'app/app.component';
 import { Router } from "@angular/router";
 import { Assessment } from '../Models/Assessment';
+
 
 @Injectable()
 export class StorageDataService {
@@ -27,6 +28,7 @@ export class StorageDataService {
   public TokenUser: string = "";
   public subscriptionTimer: Subscription;
   public AssessmentSelected: Assessment = null;
+  public RoleAdmin: boolean;
 
 
   public GetToken() {
@@ -43,6 +45,7 @@ export class StorageDataService {
   }
 
   public GetUser() {
+    
     if (this.TokenUser == null || this.TokenUser == undefined || this.TokenUser == "") {
       let token = localStorage.getItem("tokenuser");
       if (token == null || token == undefined || token == "") {
@@ -54,6 +57,8 @@ export class StorageDataService {
       return { 'nombre': localStorage.getItem('user'), 'password': localStorage.getItem('passuser') };
     }
   }
+
+ 
 
   public RefreshToken(NewToken: string) {
     if (this.TokenUser == null || this.TokenUser == undefined || this.TokenUser == "") {
