@@ -1,8 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-.corregir {
-  margin-right: 5%;
+.transition-animation{
+  -webkit-transition: all .7s ease;
+  -moz-transition: all .7s ease;
+  -ms-transition: all .7s ease;
+  -o-transition: all .7s ease;
+  transition: all .7s ease;
 }
+
 
 .titulo {
   // margin-left: 15%;
@@ -19,7 +24,7 @@
   // border-radius: 3px;
   cursor: pointer;
   padding-top:22px;
-
+  @extend .transition-animation;
   a {
     width: 310px;
     height: 50px;
@@ -39,21 +44,30 @@
   color:#7b8a02;
   background: white;/*rgba(153, 173, 0, 0.03137254901960784);;*/
   border: 1px solid #99AD00;
+  @extend .transition-animation;
 }
 #home_buttons{
   margin: 0 auto;
   // padding: 20px 20px;
   text-align: left;
-  max-width: 1025px;
+  max-width: 760px;
 }
 
 #infopro {
-  border: 1px solid #99AD00;
+  // border: 1px solid #99AD00;
   margin: 0 auto;
   padding: 20px 20px;
   text-align: left;
-  max-width: 1100px;
+  max-width: 77%;
   // border-radius: 5px;
+
+  background: #fff;
+  border-radius: 2px;
+  
+  // box-shadow: 0 0px 12px rgba(0, 0, 0, 0.19), 0 0px 9px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 0px 20px rgba(0, 0, 0, 0.09), 0 0px 12px rgba(0, 0, 0, 0.22);
+  
+  
 
   .not-rounded{
     border-radius: 0px !important;
@@ -121,11 +135,12 @@
   // border-radius: 3px;
   cursor: pointer;
   padding-top:20px;
-
+  @extend .transition-animation;
     &:hover{
       color:#23728a;
       background: white;/*rgba(0, 147, 173, 0.031);*/
       border: 1px solid #3498b7;
+      @extend .transition-animation;
     }
 
   a {

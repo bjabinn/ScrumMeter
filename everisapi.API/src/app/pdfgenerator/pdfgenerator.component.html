@@ -79,7 +79,7 @@
                    [ngClass]="{'disableCheck': !Evaluacion.flagNotasAsig}" (click)="cambiarMostrarNotasAsig()" />
             <label for="notasAsig" [ngClass]="{'disable': !Evaluacion.flagNotasAsig}">
               <span><!-- This span is needed to create the "checkbox" element --></span>
-              Notas de asignaciones
+              Notas de módulos
             </label>
           </div>
         </form>
@@ -109,7 +109,7 @@
       <table class="table-fill mx-auto " style="overflow-x:auto;">
         <thead>
           <tr>
-            <th class="text-left">Asignaciones</th>
+            <th class="text-left">Secciones</th>
             <th class="text-left">Puntuación</th>
           </tr>
         </thead>
@@ -183,12 +183,12 @@
     <hr *ngIf="mostrarNotasAsig && (mostrarNotasEv || mostrarNotasOb || mostrarNotasSec)" [ngClass]="{'textopdf':cargandoPDF}" />
 
     <div class="notas col-12" *ngIf="mostrarNotasAsig" id="notasAsignaciones">
-      <h4 [ngClass]="{'textopdf':cargandoPDF}">Notas de asignaciones</h4>
+      <h4 [ngClass]="{'textopdf':cargandoPDF}">Notas de módulos</h4>
       <table class="table-fill" style="overflow-x:auto;">
         <thead>
           <tr>
             <th class="text-left">Sección</th>
-            <th class="text-left">Asignación</th>
+            <th class="text-left">Módulo</th>
             <th class="text-left">Notas</th>
           </tr>
         </thead>
@@ -215,7 +215,7 @@
         <thead>
           <tr>
             <th class="text-left">Sección</th>
-            <th class="text-left">Asignación</th>
+            <th class="text-left">Módulo</th>
             <th class="text-left">Pregunta</th>
             <th class="text-left">Respuesta</th>
             <th class="text-left">Respuesta Correcta</th>
