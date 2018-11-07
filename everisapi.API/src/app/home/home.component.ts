@@ -45,6 +45,8 @@ export class HomeComponent implements OnInit {
       this._router.navigate(['/login']);
     }
 
+    this.getUserRole();
+
     //Recogemos el nombre del usuario con el que nos logueamos
     this.NombreDeUsuario = this._proyectoService.UsuarioLogeado;
 
@@ -330,5 +332,29 @@ export class HomeComponent implements OnInit {
   //Para seguir con la evaluacion seleccionada
   public continuarEvaluacion() {
     this._router.navigate(['/menunuevaevaluacion']);
+  }
+
+  public getUserRole(){
+    this._proyectoService.getRolesUsuario().subscribe(
+      res => {
+        var permisosDeUsuario = res;
+        console.log("permisos de usuario en getUserRole", permisosDeUsuario);
+        //Si no hay errores y son recogidos busca si tienes permisos de usuario
+          if (permisosDeUsuario.role == "Administrador") {
+            //this._appComponent.RolDeUsuario = true;
+            console.log("this._appComponent.RolDeUsuario", this._appComponent.RolDeUsuario);
+            console.log("this._appComponent._storageDataService.RoleAdmin", this._appComponent._storageDataService.RoleAdmin);
+            this._appComponent._storageDataService.RoleAdmin = true;
+          }else{
+            this._appComponent._storageDataService.RoleAdmin = false;
+          }
+        
+        //Llamamos al metodo para asignar proyectos
+        
+
+      },
+      error => {
+        
+      });
   }
 }

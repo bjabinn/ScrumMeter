@@ -25,6 +25,7 @@ export class UserManagementComponent implements OnInit {
   public ListaDeUsuarios: UserWithRole[] = [];
   public UsuarioSeleccionado: UserWithRole;
   public ListaDeRoles: Role[] = [];
+  public radioSelected;
   
   
   constructor(
@@ -41,7 +42,8 @@ export class UserManagementComponent implements OnInit {
       this._router.navigate(['/login']);
     }
     this.getAllUsers();
-    this.getAllRolesFront();
+    this.getAllRoles();
+    this.radioSelected = this.ListaDeRoles[0];
 
     }
 
@@ -49,10 +51,7 @@ export class UserManagementComponent implements OnInit {
   public getAllUsers(){
 
      this._UserService.getUsers().subscribe(
-      res => {this.ListaDeUsuarios = res; 
-        //console.log(this.ListaDeUsuarios);
-      }
-      ,
+      res => {this.ListaDeUsuarios = res;},
       error => {
         //Si el servidor tiene algún tipo de problema mostraremos este error
         if (error == 404) {
@@ -67,7 +66,7 @@ export class UserManagementComponent implements OnInit {
       });  
   }
 
-  public getAllRolesFront(){
+  public getAllRoles(){
 
     this._UserService.getAllRoles().subscribe(
      res => {this.ListaDeRoles = res; 
@@ -86,9 +85,11 @@ export class UserManagementComponent implements OnInit {
        } else {
          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
        }
-     });
+     });    
+ }
 
-    
+ public getAllProjects(){
+   
  }
 
   public SeleccionDeUsuario(index: number) {
@@ -96,50 +97,16 @@ export class UserManagementComponent implements OnInit {
     
     this.UsuarioSeleccionado = this.ListaDeUsuarios[index];
 
+    this.radioSelected = this.UsuarioSeleccionado;
+
     console.log(this.UsuarioSeleccionado);
     
-    //his._appComponent._storageDataService.UsuarioSeleccionado = this.UsuarioSeleccionado;
-    //this.existeRepetida = false;
-
-
-    //Comprueba que no esta vacia el proyecto elegido
-    // if (this.checkIfIsSet(this.UsuarioSeleccionado)) {
-    //   //Comprueba si ya termino de enviarse la información desde la api
-    //   if (!this.SendingInfo) {
-    //     this.SendingInfo = true;
-    //     this._evaluacionService.getIncompleteEvaluacionFromProjectAndAssessment(this.ProyectoSeleccionado.id,this.AssessmentSelected.assessmentId).subscribe(
-    //       res => {
-    //         //Lo guarda en el storage
-    //         this._appComponent._storageDataService.Evaluacion = res;
-    //         //Si hay un proyecto sin finalizar
-    //         console.log("XXXXX",res);
-    //         if (res != null) {
-    //           this.existeRepetida = true;
-    //         } 
-    //       },
-    //       error => {
-    //         //Habilitamos la pagina nuevamente
-    //         this.Deshabilitar = false;
-    //         if (error == 404) {
-    //           this.ErrorMessage = "Error: " + error + " No se puede completar la comprobación en la evaluación lo sentimos.";
-    //         } else if (error == 500) {
-    //           this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-    //         } else if (error == 401) {
-    //           this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-    //         } else {
-    //           this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-    //         }
-    //       },
-    //       () => {
-    //         this.SendingInfo = false;
-    //       });
-    //   }
-    // }
-
   }
 
   public SeleccionDeRol(){
-console.log("asdasd");
+    
+    this.UsuarioSeleccionado.role = this.radioSelected;
+    console.log("rol", this.radioSelected);
   }
 
 

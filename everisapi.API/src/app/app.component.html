@@ -7,7 +7,7 @@
         <div class="row p-0 m-0">
           <div class="col-5 p-0" id="inicio"><a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></div>
 
-          <div class="col p-0" id="backoffice"><a routerLink="/backoffice" routerLinkActive="active"
+          <div *ngIf="this._storageDataService.RoleAdmin == true" class="col p-0" id="backoffice"><a routerLink="/backoffice" routerLinkActive="active"
               [routerLinkActiveOptions]="{exact: true}">Backoffice</a></div>
         </div>
       </div>
