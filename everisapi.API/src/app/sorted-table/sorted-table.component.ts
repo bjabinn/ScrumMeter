@@ -12,6 +12,7 @@ export interface Evaluacion {
   estado: boolean;
   notasEv: string;
   notasOb: string;
+  assessmentName: string;
 }
 
 @Component({

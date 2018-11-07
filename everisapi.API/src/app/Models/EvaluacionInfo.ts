@@ -10,6 +10,8 @@ export class EvaluacionInfo {
     public notasOb: string,
     public estado: boolean,
     public flagNotasSec: boolean,
-    public flagNotasAsig: boolean
+    public flagNotasAsig: boolean,
+    public assessmentId: number,
+    public assessmentName: string
   ) { }
 }

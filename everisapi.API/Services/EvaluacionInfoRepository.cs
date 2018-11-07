@@ -41,8 +41,9 @@ namespace everisapi.API.Services
       List<EvaluacionInfoDto> EvaluacionesInformativas = new List<EvaluacionInfoDto>();
       var Evaluaciones = _context.Evaluaciones.
         Include(r => r.ProyectoEntity).
-        ThenInclude(p => p.UserEntity).OrderByDescending(e => e.Fecha)
-        .Where(e => e.ProyectoId == IdProject).ToList();
+        ThenInclude(p => p.UserEntity).OrderByDescending(e => e.Fecha).
+         Include(a => a.Assessment).
+        Where(e => e.ProyectoId == IdProject).ToList();
 
       //Encuentra la informacion de la evaluacion y lo introduce en un objeto
       foreach (var evaluacion in Evaluaciones)
@@ -120,7 +121,8 @@ namespace everisapi.API.Services
       var Evaluaciones = _context.Evaluaciones.
         Include(r => r.ProyectoEntity).
         ThenInclude(p => p.UserEntity).
-        Where(e => e.ProyectoId == IdProject).Skip(10 * pageNumber).Take(10)
+         Include(a => a.Assessment).
+        Where(e => e.ProyectoId == IdProject)//.Skip(10 * pageNumber)
         .OrderByDescending(e => e.Fecha).ToList();
       //Encuentra la informacion de la evaluacion y lo introduce en un objeto
       foreach (var evaluacion in Evaluaciones)
@@ -133,7 +135,9 @@ namespace everisapi.API.Services
           Nombre = evaluacion.ProyectoEntity.Nombre,
           UserNombre = evaluacion.ProyectoEntity.UserNombre,
           NotasEv = evaluacion.NotasEvaluacion,
-          NotasOb = evaluacion.NotasObjetivos
+          NotasOb = evaluacion.NotasObjetivos,
+          AssessmentName = evaluacion.Assessment.AssessmentName,
+          AssessmentId = evaluacion.AssessmentId
         };
 
         if (evaluacion.Estado == false)
@@ -259,6 +263,7 @@ namespace everisapi.API.Services
         Evaluaciones = _context.Evaluaciones.
         Include(r => r.ProyectoEntity).
         ThenInclude(p => p.UserEntity).
+        Include(a => a.Assessment).
         Where(e => e.ProyectoId == IdProject &&
         e.Estado == Boolean.Parse(Evaluacion.Estado) &&
         e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) &&
@@ -270,6 +275,7 @@ namespace everisapi.API.Services
         Evaluaciones = _context.Evaluaciones.
         Include(r => r.ProyectoEntity).
         ThenInclude(p => p.UserEntity).
+        Include(a => a.Assessment).
         Where(e => e.ProyectoId == IdProject &&
         e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) &&
         e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
@@ -286,7 +292,9 @@ namespace everisapi.API.Services
           Nombre = evaluacion.ProyectoEntity.Nombre,
           UserNombre = evaluacion.ProyectoEntity.UserNombre,
           NotasEv = evaluacion.NotasEvaluacion,
-          NotasOb = evaluacion.NotasObjetivos
+          NotasOb = evaluacion.NotasObjetivos,
+          AssessmentName = evaluacion.Assessment.AssessmentName,
+          AssessmentId = evaluacion.AssessmentId
         };
 
 
@@ -343,7 +351,7 @@ namespace everisapi.API.Services
       }
 
 
-      return EvaluacionesInformativas.Skip(10 * pageNumber).Take(10).ToList();
+      return EvaluacionesInformativas.ToList();//.Skip(10 * pageNumber)
     }
 
     //Metodo que devuelve un filtrado de evaluaciones paginada sin proyectos
@@ -357,6 +365,7 @@ namespace everisapi.API.Services
         Evaluaciones = _context.Evaluaciones.
         Include(r => r.ProyectoEntity).
         ThenInclude(p => p.UserEntity).
+         Include(a => a.Assessment).
         Where(e => e.Estado == Boolean.Parse(Evaluacion.Estado) &&
         e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) &&
         e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
@@ -367,6 +376,7 @@ namespace everisapi.API.Services
         Evaluaciones = _context.Evaluaciones.
         Include(r => r.ProyectoEntity).
         ThenInclude(p => p.UserEntity).
+         Include(a => a.Assessment).
         Where(e => e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) &&
         e.ProyectoEntity.Nombre.Contains(Evaluacion.Nombre) &&
         e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
@@ -385,7 +395,9 @@ namespace everisapi.API.Services
           Nombre = evaluacion.ProyectoEntity.Nombre,
           UserNombre = evaluacion.ProyectoEntity.UserNombre,
           NotasEv = evaluacion.NotasEvaluacion,
-          NotasOb = evaluacion.NotasObjetivos
+          NotasOb = evaluacion.NotasObjetivos,
+          AssessmentName = evaluacion.Assessment.AssessmentName,
+          AssessmentId = evaluacion.AssessmentId
         };
 
         if (evaluacion.Estado == false)
