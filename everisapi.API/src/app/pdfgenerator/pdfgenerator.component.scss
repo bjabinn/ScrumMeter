@@ -595,29 +595,18 @@ hr.textopdf {
 
 
 .btnpdf {
-  -moz-box-shadow: 0px 10px 14px -7px #337ab7;
-  -webkit-box-shadow: 0px 10px 14px -7px #337ab7;
-  box-shadow: 0px 10px 14px -7px #337ab7;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #4c91cd), color-stop(1, #337ab7));
-  background: -moz-linear-gradient(top, #4c91cd 5%, #337ab7 100%);
-  background: -webkit-linear-gradient(top, #4c91cd 5%, #337ab7 100%);
-  background: -o-linear-gradient(top, #4c91cd 5%, #337ab7 100%);
-  background: -ms-linear-gradient(top, #4c91cd 5%, #337ab7 100%);
-  background: linear-gradient(to bottom, #4c91cd 5%, #337ab7 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4c91cd', endColorstr='#337ab7', GradientType=0);
-  background-color: #337ab7;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
+  
+  background-color: #99AD00;
   display: inline-block;
   cursor: pointer;
   color: #ffffff;
-  font-family: Arial;
-  font-size: 12px;
-  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
   padding: 4px 10px;
   text-decoration: none;
-  text-shadow: 0px 1px 0px #337ab7;
+  height: 35px;
+  border: none;
+  margin-left: 10px;
 }
 
 .btnpdf:hover {
@@ -626,9 +615,11 @@ hr.textopdf {
   background: -webkit-linear-gradient(top, #337ab7 5%, #4c91cd 100%);
   background: -o-linear-gradient(top, #337ab7 5%, #4c91cd 100%);
   background: -ms-linear-gradient(top, #337ab7 5%, #4c91cd 100%);
-  background: linear-gradient(to bottom, #337ab7 5%, #4c91cd 100%);
+  background: linear-gradient(to bottom, #fefefe 5%, #fefefe 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#337ab7', endColorstr='#4c91cd', GradientType=0);
-  background-color: #337ab7;
+  color: #99AD00;
+  border: 1px solid #99AD00;
+
 }
 
 .btnpdf:active {
