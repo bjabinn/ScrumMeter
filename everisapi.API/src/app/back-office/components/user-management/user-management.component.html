@@ -22,7 +22,7 @@
     <div class="col-6">
       <mat-form-field>
         <mat-select [formControl]="userCtrl" placeholder="Usuario" #singleSelect>
-          <ngx-mat-select-search [placeholderLabel]="'Buscar...'" [formControl]="userFilterCtrl"></ngx-mat-select-search>
+          <ngx-mat-select-search [placeholderLabel]="'Buscar...'" [noEntriesFoundLabel]="'No se han encontrado resultados'" [formControl]="userFilterCtrl"></ngx-mat-select-search>
           <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
             {{user.nombre}}
           </mat-option>
@@ -46,7 +46,7 @@
   <div class="col-6">    
   <mat-form-field>
       <mat-select [formControl]="projectMultiCtrl" placeholder="Proyectos" [multiple]="true" #multiSelect>
-        <ngx-mat-select-search [placeholderLabel]="'Buscar...'" [formControl]="projectMultiFilterCtrl"></ngx-mat-select-search>
+        <ngx-mat-select-search [placeholderLabel]="'Buscar...'" [noEntriesFoundLabel]="'No se han encontrado resultados'" [formControl]="projectMultiFilterCtrl"></ngx-mat-select-search>
         <mat-option *ngFor="let project of filteredProjectsMulti | async" [value]="project">
           {{project.nombre}}
         </mat-option>
