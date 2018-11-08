@@ -37,6 +37,10 @@ $small: 40em;
   border-radius: 5px;
 }
 
+.questions-box{
+  min-height: 420px;
+}
+
 .finalizar-button{
   width: 100%;
   border: 0px;
@@ -44,6 +48,10 @@ $small: 40em;
   text-align: center;
   padding: 0;
   height: 45px;
+
+  &:hover{
+    border:1px solid #99AD00;
+  }
 }
 
 h2 {

@@ -62,76 +62,82 @@
         <li class=""><a href="#">Contact</a></li>
       </ul>
     </div>
-    <div class="row m-0" id="preguntas" *ngFor="let preguntaDada of InfoAsignacion.preguntas; let i = index">
-      <div class="col-xs-12 col-sm-2 col-md-2"></div>
-      <div class="col-xs-12 col-sm-5 col-md-5">
-        {{i + 1}}. {{preguntaDada.pregunta}}
-      </div>
-      <div class="col-xs-12 col-sm-2 col-md-2 col-lg-1 text-center" id="switch">
 
-        <div class="container" [ngClass]="{'disabled': InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0}">
-          <div class="button-wrap">
-            <div class="onoffswitch">
-              <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="{{preguntaDada.respuesta.id}}"
-                (click)="ChangeEstadoDB(i)" [checked]="(preguntaDada.respuesta.estado == 1)">
-              <label class="onoffswitch-label" for="{{preguntaDada.respuesta.id}}">
-                <span [ngClass]="{'onoffswitch-inner-inactivo': preguntaDada.respuesta.estado == 0,
+    <!-- Inicio preguntas  -->
+    <div class="questions-box">
+      <div class="row m-0" id="preguntas" *ngFor="let preguntaDada of InfoAsignacion.preguntas; let i = index">
+        <div class="col-xs-12 col-sm-2 col-md-2"></div>
+        <div class="col-xs-12 col-sm-5 col-md-5">
+          {{i + 1}}. {{preguntaDada.pregunta}}
+        </div>
+        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-1 text-center" id="switch">
+
+          <div class="container" [ngClass]="{'disabled': InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0}">
+            <div class="button-wrap">
+              <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="{{preguntaDada.respuesta.id}}"
+                  (click)="ChangeEstadoDB(i)" [checked]="(preguntaDada.respuesta.estado == 1)">
+                <label class="onoffswitch-label" for="{{preguntaDada.respuesta.id}}">
+                  <span [ngClass]="{'onoffswitch-inner-inactivo': preguntaDada.respuesta.estado == 0,
                       'onoffswitch-inner': preguntaDada.respuesta.estado != 0}"></span>
-                <span [ngClass]="{'onoffswitch-switch-inactivo': preguntaDada.respuesta.estado == 0,
+                  <span [ngClass]="{'onoffswitch-switch-inactivo': preguntaDada.respuesta.estado == 0,
                       'onoffswitch-switch': preguntaDada.respuesta.estado != 0}"></span>
-              </label>
+                </label>
+              </div>
             </div>
           </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-1 col-md-1 col-lg-2 text-center pb-1">
+          <button *ngIf="preguntaDada.respuesta.notas != null && !(InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0)"
+            class="transparente position-relative" (click)="AbrirModalPreg(notasPreg, i)">
+            <!-- <img height="40" src="assets/note-add.svg" title="Añadir notas" />
+           -->
+            <span *ngIf="preguntaDada.respuesta.notas != null" class="one-badge">1</span>
+            <i *ngIf="preguntaDada.respuesta.notas != null" class="material-icons comment-added" title="Añadir notas">
+              fiber_manual_record
+            </i>
+
+            <i class="material-icons add-comment" alt="Añadir comentario">add_circle</i>
+
+          </button>
+
+          <button *ngIf="preguntaDada.respuesta.notas == null && !(InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0)"
+            class="transparente" (click)="AbrirModalPreg(notasPreg, i)">
+            <!-- <img height="40" src="assets/note-add-outline.svg" title="Añadir notas" /> -->
+            <!-- <i class="zmdi zmdi-comment-outline"></i> -->
+            <i class="material-icons add-comment" alt="Añadir comentario">add_circle</i>
+          </button>
+
+          <button *ngIf="preguntaDada.respuesta.notas != null && InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0"
+            class="transparente position-relative">
+            <!-- <img height="40" src="assets/note-add.svg" class="disabledButton" title="Añadir notas" />
+           -->
+            <span *ngIf="preguntaDada.respuesta.notas != null" class="one-badge">1</span>
+            <i *ngIf="preguntaDada.respuesta.notas != null" class="material-icons comment-added" title="Añadir notas">
+              fiber_manual_record
+            </i>
+            <i class="material-icons add-comment" alt="Añadir comentario">add_circle</i>
+          </button>
+
+          <button *ngIf="preguntaDada.respuesta.notas == null && InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0"
+            class="transparente">
+            <!-- <img height="40" src="assets/note-add-outline.svg" class="disabledButton" title="Añadir notas" /> -->
+            <i class="material-icons add-comment" alt="Añadir comentario">add_circle</i>
+          </button>
         </div>
 
+        <br />
       </div>
-      <div class="col-xs-12 col-sm-1 col-md-1 col-lg-2 text-center pb-1">
-        <button *ngIf="preguntaDada.respuesta.notas != null && !(InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0)"
-          class="transparente position-relative" (click)="AbrirModalPreg(notasPreg, i)">
-          <!-- <img height="40" src="assets/note-add.svg" title="Añadir notas" />
-           -->
-          <span *ngIf="SectionSelected.notas != null" class="one-badge">1</span>
-          <i *ngIf="SectionSelected.notas != null" class="material-icons comment-added" title="Añadir notas">
-            fiber_manual_record
-          </i>
-
-          <i class="material-icons add-comment" alt="Añadir comentario">add_circle</i>
-
-        </button>
-
-        <button *ngIf="preguntaDada.respuesta.notas == null && !(InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0)"
-          class="transparente" (click)="AbrirModalPreg(notasPreg, i)">
-          <!-- <img height="40" src="assets/note-add-outline.svg" title="Añadir notas" /> -->
-          <!-- <i class="zmdi zmdi-comment-outline"></i> -->
-          <i class="material-icons add-comment" alt="Añadir comentario">add_circle</i>
-        </button>
-
-        <button *ngIf="preguntaDada.respuesta.notas != null && InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0"
-          class="transparente position-relative">
-          <!-- <img height="40" src="assets/note-add.svg" class="disabledButton" title="Añadir notas" />
-           -->
-          <span *ngIf="SectionSelected.notas != null" class="one-badge">1</span>
-          <i *ngIf="SectionSelected.notas != null" class="material-icons comment-added" title="Añadir notas">
-            fiber_manual_record
-          </i>
-          <i class="material-icons add-comment" alt="Añadir comentario">add_circle</i>
-        </button>
-
-        <button *ngIf="preguntaDada.respuesta.notas == null && InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0"
-          class="transparente">
-          <!-- <img height="40" src="assets/note-add-outline.svg" class="disabledButton" title="Añadir notas" /> -->
-          <i class="material-icons add-comment" alt="Añadir comentario">add_circle</i>
-        </button>
-      </div>
-
-      <br />
     </div>
+    <!-- Fin de preguntas -->
+
     <div class="wrapper row m-0" *ngIf="InfoAsignacion.preguntas != null && InfoAsignacion.preguntas.length != 0">
       <!-- <button type="button" class="btn btn-outline-success" [ngClass]="{'disabled': PageNow == 1}" (click)="NextPreviousButton(2)">Anterior</button> -->
 
       <div class="col-2"></div>
       <div class="col">
-        <div class="row m-0 p-0 mt-4">
+        <div class="row m-0 p-0">
           <div class="col-3"></div>
           <div class="col-6 questions-pagination">
             <div class="d-inline-block vert-align">
@@ -147,13 +153,14 @@
             </div>
             <div class="d-inline-block vert-align">
               <div style="height:3px"></div>
-              <i class="material-icons pointer b-f-buttons" [ngClass]="{'disabled': PageNow == NumMax}"  (click)="NextPreviousButton(1)">
+              <i class="material-icons pointer b-f-buttons" [ngClass]="{'disabled': PageNow == NumMax}" (click)="NextPreviousButton(1)">
                 arrow_forward_ios
               </i>
             </div>
           </div>
           <div class="col-2">
-            <button type="button" *ngIf="PageNow != NumMax" class="main-button mat-elevation-z5 finalizar-button" (click)="NextPreviousButton(0)">Volver</button>
+            <button type="button" *ngIf="PageNow != NumMax" class="main-button mat-elevation-z5 finalizar-button"
+              (click)="NextPreviousButton(0)">Volver</button>
             <button type="button" class="main-button mat-elevation-z5 finalizar-button" *ngIf="PageNow == NumMax"
               (click)="NextPreviousButton(0)">Finalizar</button>
           </div>
