@@ -204,7 +204,7 @@ export class NewevaluationComponent implements OnInit {
       this.getAsignacionActual(this.Evaluation.id, this.AreaAsignada.id);
 
     } else if (Option == 0) {
-      this._router.navigate(['/menunuevaevaluacion']);
+      this._router.navigate(['/pdfgenerator']);
     }
   }
 
