@@ -6,12 +6,25 @@ $blue: #92bbfc;
 $small: 40em;
 
 .corregir {
-  margin-right: 5%;
+  // margin-right: 5%;
 }
 
 #preguntas {
   text-align: left;
 }
+
+.b-f-buttons{
+  font-size:19px;
+}
+
+.vert-align{
+  vertical-align: middle;
+}
+
+.questions-pagination{
+  padding-top:14px;
+}
+
 
 #infopro {
   border: 1px solid #99AD00;
@@ -22,6 +35,15 @@ $small: 40em;
   font-size: 16px;
   margin-top: 15px;
   border-radius: 5px;
+}
+
+.finalizar-button{
+  width: 100%;
+  border: 0px;
+  vertical-align: middle;
+  text-align: center;
+  padding: 0;
+  height: 45px;
 }
 
 h2 {
@@ -179,6 +201,10 @@ h2 {
     top: -5px;
     right: 0px;
     font-size: 20px;
+  }
+
+  &.pointer:not(.disabled){
+    cursor: pointer;
   }
 
 }
