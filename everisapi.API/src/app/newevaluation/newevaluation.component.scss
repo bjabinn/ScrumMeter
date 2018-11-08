@@ -90,6 +90,36 @@ h2 {
   }
 }
 
+.one-badge{
+  position: absolute;
+  z-index: 4;
+  color: white;
+  top: -3px;
+  right: 8px;
+  font-size: 10px;
+}
+
+.asignacion-notas{
+  .one-badge{
+    position: absolute;
+    z-index: 4;
+    color: white;
+    top: 3px;
+    right: 8px;
+    font-size: 10px;
+  }
+
+  .material-icons{
+    &.comment-added{
+      color: red;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      font-size: 20px;
+    }
+  }
+}
+
 
 
 .espacio {
@@ -101,7 +131,7 @@ h2 {
   background-repeat: no-repeat;
   border: none;
   cursor: pointer;
-  overflow: hidden;
+  overflow: visible;
   outline: none;
 }
 
@@ -138,8 +168,19 @@ h2 {
   border-radius: 20px;
 }
 
-.add-comment {
-  color: #97a900;
+.material-icons {
+  &.add-comment {
+    color: #97a900;
+  }
+
+  &.comment-added{
+    color: red;
+    position: absolute;
+    top: -5px;
+    right: 0px;
+    font-size: 20px;
+  }
+
 }
 
 .onoffswitch-inner {

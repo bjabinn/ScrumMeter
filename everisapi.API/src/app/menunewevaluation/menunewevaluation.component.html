@@ -50,8 +50,10 @@
 
       <div class="col-xs-12 col-sm-3 col-md-3">
         <button class="transparente mb-3 mt-3" (click)="AbrirModalNotas(notas, i)">
-          <img *ngIf="dato.notas != null" height="45" src="assets/nota_si.png" title="Añadir notas"/>
-          <img *ngIf="dato.notas == null" height="45" src="assets/nota_no.png" title="Añadir notas"/>
+          <!-- <img *ngIf="dato.notas != null" height="45" src="assets/nota_si.png" title="Añadir notas"/>
+          <img *ngIf="dato.notas == null" height="45" src="assets/nota_no.png" title="Añadir notas"/> -->
+          <img class="comment" *ngIf="dato.notas != null" src="assets/comment filled.png" title="Hay notas" />
+        <img class="comment" *ngIf="dato.notas == null" src="assets/comment empty.png" title="No hay notas" />
         </button>
       </div>
 
