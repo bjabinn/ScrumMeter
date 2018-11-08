@@ -1,21 +1,79 @@
-<div class="row">
+<div class="container">
   
-  <div class="col-4">
-    <select class="custom-select" *ngIf="ListaDeUsuarios.length > 0" (change)="SeleccionDeUsuario($event.target.value)">
-      <option selected [disabled]="this.UsuarioSeleccionado">- Seleccione un usuario </option>
-      <option *ngFor="let usuario of ListaDeUsuarios; let i = index" value={{i}}>{{usuario.nombre}}</option>
-    </select>
-  </div>
- 
-  <div *ngIf="this.UsuarioSeleccionado != null" class="col-5">
-    <div *ngFor="let role of ListaDeRoles" class="list-group segmented-control">
-      <label for="{{role.id}}" class="list-group-item" [class.seleccionado]="radioSelected?.id == role?.id || this.UsuarioSeleccionado.role.id == role?.id" >
-            <input id="{{role.id}}" [checked]="role?.id == this.UsuarioSeleccionado.role.id" [value]='role' type="radio" name="roles" [(ngModel)]="radioSelected" (change) ="SeleccionDeRol(radioSelected)">
-            {{role.role}}
-      </label>
+  <!-- <div class="row">
+    <div class="col-6">
+      <select class="custom-select" *ngIf="ListaDeUsuarios.length > 0" (change)="SeleccionDeUsuario($event.target.value)">
+        <option selected [disabled]="this.UsuarioSeleccionado">- Seleccione un usuario </option>
+        <option *ngFor="let usuario of ListaDeUsuarios; let i = index" value={{i}}>{{usuario.nombre}}</option>
+      </select>
     </div>
+    
+    <div *ngIf="this.UsuarioSeleccionado != null" class="col-6">
+      <div *ngFor="let role of ListaDeRoles" class="list-group segmented-control">
+        <label for="{{role.id}}" class="list-group-item" [class.seleccionado]="radioSelected?.id == role?.id || this.UsuarioSeleccionado.role.id == role?.id" >
+              <input id="{{role.id}}" [checked]="role?.id == this.UsuarioSeleccionado.role.id" [value]='role' type="radio" name="roles" [(ngModel)]="radioSelected" (change) ="SeleccionDeRol(radioSelected)">
+              {{role.role}}
+        </label>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="row">
+    <div class="col-6">
+      <mat-form-field>
+        <mat-select [formControl]="userCtrl" placeholder="Usuario" #singleSelect>
+          <ngx-mat-select-search [placeholderLabel]="'Buscar...'" [formControl]="userFilterCtrl"></ngx-mat-select-search>
+          <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
+            {{user.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    
+        <div *ngIf="userCtrl.value != null" class="col-6">
+            <div *ngFor="let role of ListaDeRoles" class="list-group segmented-control">
+              <label for="{{role.id}}" class="list-group-item" [class.seleccionado]="role.id == userCtrl.value?.role.id || rolControl == role">
+                    <input id="{{role.id}}" [checked]="role?.id == userCtrl.value?.role.id" [value]='role' type="radio" name="roles" [(ngModel)]="rolControl" (change) ="SeleccionDeRol()">
+                    {{role.role}}
+              </label>
+            </div>
+          </div>
+      
+    
   </div>
 
-  
+<div class="row" style="margin-top:30px">
+  <div class="col-6">    
+  <mat-form-field>
+      <mat-select [formControl]="projectMultiCtrl" placeholder="Proyectos" [multiple]="true" #multiSelect>
+        <ngx-mat-select-search [placeholderLabel]="'Buscar...'" [formControl]="projectMultiFilterCtrl"></ngx-mat-select-search>
+        <mat-option *ngFor="let project of filteredProjectsMulti | async" [value]="project">
+          {{project.nombre}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>  
+    <div class="col-6">
+    <p>
+      Proyectos asignados:
+    </p>
+    <ul *ngFor="let project of projectMultiCtrl?.value">
+      <li>{{project.nombre}}</li>
+    </ul>
 
+    <!-- <mat-selection-list #projectMultiCtrl>
+        <mat-list-option *ngFor="let project of projectMultiCtrl?.value">
+            {{project.nombre}}
+        </mat-list-option>
+      </mat-selection-list> -->
+       
+      <!-- <p>
+        Options selected: {{shoes.selectedOptions.selected.length}}
+      </p> -->
+
+
+
+  </div>
+  </div>
+  
 </div>

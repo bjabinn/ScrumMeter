@@ -22,6 +22,9 @@ import { UserManagementComponent } from './back-office/components/user-managemen
 import { AddUserProjectComponent } from './back-office/components/add-user-project/add-user-project.component';
 import { SortedTableComponent } from './sorted-table/sorted-table.component';
 import { MatTableModule, MatPaginatorModule, MatSortModule, MatInputModule } from '@angular/material';
+import { MatFormFieldModule, MatSelectModule } from '@angular/material';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,11 @@ import { MatTableModule, MatPaginatorModule, MatSortModule, MatInputModule } fro
     MatSortModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    NgxMatSelectSearchModule,
+    MatListModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

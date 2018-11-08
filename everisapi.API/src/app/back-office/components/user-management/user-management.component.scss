@@ -7,16 +7,12 @@
 	display: inline-block;
 }
 
-.segmented-control .list-group-item {
-    display: inline-block;
-}
+
 .segmented-control .list-group-item {
 	margin-bottom: 0;
 	margin-left:-4px;
 	margin-right: 0;
 }
-
-
 
   .segmented-control label {
 	display: inline-block;
@@ -25,7 +21,15 @@
 
 	&.seleccionado{
 		background-color: #99AD01;
+		z-index: 1000;
 		color: white;
 	}
   }
+
+  .mat-form-field {
+    display: inline-block;
+    position: relative;
+    text-align: left;
+    width: 300px;
+}
 
