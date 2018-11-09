@@ -21,6 +21,7 @@ namespace everisapi.API
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseUrls("http://*:60406")
                 .Build();
     }
 }

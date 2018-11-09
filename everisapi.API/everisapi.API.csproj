@@ -24,7 +24,7 @@
         <PackageReference Include="Microsoft.CodeAnalysis" Version="2.8.0" />
     </ItemGroup>
     <ItemGroup>
-        <None Include="appSettings.json" CopyToPublishDirectory="Always" />
+        <None Include="appsettings.json" CopyToPublishDirectory="Always" />
     </ItemGroup>
     <ItemGroup>
         <!-- <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" /><DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" /> -->

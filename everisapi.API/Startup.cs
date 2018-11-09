@@ -86,7 +86,7 @@ namespace everisapi.API
       }
       else
       {
-        app.UseExceptionHandler();
+        app.UseExceptionHandler("/error");
       }
 
       //Creamos la estructura de la base de datos con sus datos
