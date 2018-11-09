@@ -239,27 +239,27 @@
         <!--  Estado -->
         <ng-container matColumnDef="notas">
           <th mat-header-cell *matHeaderCellDef>Notas</th>
-          <td mat-cell *matCellDef="let row">x </td>
+          <td mat-cell *matCellDef="let row"> {{row.notas}} </td>
         </ng-container>
 
         <!--  Notas -->
         <ng-container matColumnDef="notas-admin">
           <th mat-header-cell *matHeaderCellDef>Notas Administrador</th>
-          <td mat-cell *matCellDef="let row">x</td>
+          <td mat-cell *matCellDef="let row"> {{row.notasAdmin}} </td>
         </ng-container>
 
         <!--  Notas evaluacion -->
 
 
         <!--  Informe -->
-        <ng-container matColumnDef="informe">
+        <!-- <ng-container matColumnDef="informe">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Informe</th>
           <td mat-cell *matCellDef="let row">
             <button class="transparente" (click)="SaveDataToPDF(row)">
               <img class="informe" src="assets/report.png" title="Ver informe" />
             </button>
           </td>
-        </ng-container>
+        </ng-container> -->
 
 
 
