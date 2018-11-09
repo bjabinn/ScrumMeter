@@ -15,8 +15,15 @@
 .comment{
   height: 40px !important;
 }
-.corregir {
-  margin-right: 5%;
+// .corregir {
+//   margin-right: 5%;
+// }
+
+
+.m-finalizar{
+  height: 39px;
+  width: 20%;
+  margin-left: 40%;
 }
 
 #barraespacio {
@@ -117,9 +124,9 @@ h2 {
   }
 }
 
-.espacio {
-  margin: 25px;
-}
+// .espacio {
+//   margin: 25px;
+// }
 @media only screen and (max-width: 575px) {
   #bajar {
     margin: 10px;
