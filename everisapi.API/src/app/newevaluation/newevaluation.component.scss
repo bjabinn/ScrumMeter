@@ -98,11 +98,11 @@ h2 {
 }
 
 .transition-animation{
-  -webkit-transition: all .5s ease;
-  -moz-transition: all .5s ease;
-  -ms-transition: all .5s ease;
-  -o-transition: all .5s ease;
-  transition: all .5s ease;
+  -webkit-transition: all .8s ease !important;
+  -moz-transition: all .8s ease !important;
+  -ms-transition: all .8s ease !important;
+  -o-transition: all .8s ease !important;
+  transition: all .8s ease !important;
 }
 
 .dots {
@@ -244,7 +244,7 @@ h2 {
   display: block;
   overflow: hidden;
   cursor: pointer;
-  border: 1px solid #6c790145;
+  // border: 1px solid #6c790145;
   border-radius: 20px;
 }
 
