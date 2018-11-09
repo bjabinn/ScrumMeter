@@ -45,6 +45,7 @@ export class NewevaluationComponent implements OnInit {
     private _appComponent: AppComponent,
     private modalService: NgbModal) {
 
+
     this.SectionSelected = this._appComponent._storageDataService.SectionSelectedInfo;
     //Recogemos el proyecto y el usuario si no coincide alguno lo redirigiremos
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
@@ -241,6 +242,7 @@ export class NewevaluationComponent implements OnInit {
             res => {
 
               this.anadeNota = "Nota añadida correctamente";
+              setTimeout(()=>{this.anadeNota = null},2000);
             },
             error => {
 
@@ -300,6 +302,7 @@ export class NewevaluationComponent implements OnInit {
             res => {
 
               this.anadeNota = "Nota añadida correctamente";
+              setTimeout(()=>{this.anadeNota = null},2000);
             },
             error => {
 
@@ -359,6 +362,7 @@ export class NewevaluationComponent implements OnInit {
             res => {
 
               this.anadeNota = "Nota añadida correctamente";
+              setTimeout(()=>{this.anadeNota = null},2000);
             },
             error => {
 

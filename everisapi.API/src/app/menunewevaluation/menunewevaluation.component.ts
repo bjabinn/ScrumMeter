@@ -180,6 +180,7 @@ export class MenunewevaluationComponent implements OnInit {
             res => {
 
               this.anadeNota = "Nota añadida correctamente";
+              setTimeout(()=>{this.anadeNota = null},2000);
             },
             error => {
 

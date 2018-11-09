@@ -1,6 +1,6 @@
-<br />
-<div class="corregir">
-  <div class="espacio">
+
+<div class="corregir position-relative">
+  <div class="position-absolute error-msg">
     <div *ngIf="(ErrorMessage != null || ErrorMessage != undefined )" class="alert alert-danger" id="danger">
       <strong>{{ErrorMessage}}</strong>
     </div>
@@ -13,8 +13,8 @@
     </div>
   </div>
 
-  <div *ngIf="ListaDeDatos.length != 0">
-    <div class="row" *ngFor="let dato of ListaDeDatos; let i = index" id="bajar">
+  <div *ngIf="ListaDeDatos.length != 0" class="pt-5">
+    <div class="row m-0" *ngFor="let dato of ListaDeDatos; let i = index" id="bajar">
       <div class="col-xs-12 col-sm-2 col-md-2">
       </div>
 
