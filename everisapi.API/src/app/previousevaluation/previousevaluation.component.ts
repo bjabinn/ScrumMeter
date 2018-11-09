@@ -243,7 +243,7 @@ export class PreviousevaluationComponent implements OnInit {
  
   //Guarda los datos en el storage y cambia de ruta hacia la generación de grafica
   public SaveDataToPDF(evaluacion: EvaluacionInfo) {
-    this._appComponent._storageDataService.EvaluacionToPDF = evaluacion;
+    this._appComponent._storageDataService.EvaluacionToPDF = evaluacion;    
     this._router.navigate(['/pdfgenerator']);
   }
 
@@ -299,7 +299,8 @@ export class PreviousevaluationComponent implements OnInit {
       .subscribe(
         res => {
           this.nEvaluaciones = res.numEvals;
-          this.ListaDeEvaluacionesPaginada = res.evaluacionesResult;
+          this.ListaDeEvaluacionesPaginada = res.evaluacionesResult;  
+          
           this.CalcularPaginas();
           this.shareDataToChart();
           this.Mostrar = true;

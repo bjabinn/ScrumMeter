@@ -18,7 +18,7 @@ export interface Evaluacion {
 @Component({
   selector: 'sorted-table',
   templateUrl: './sorted-table.component.html',
-  styleUrls: ['./sorted-table.component.css'],
+  styleUrls: ['./sorted-table.component.scss'],
   animations: [
     trigger('detailExpand', [
     state('collapsed, void', style({ height: '0px', minHeight: '0', display: 'none' })),

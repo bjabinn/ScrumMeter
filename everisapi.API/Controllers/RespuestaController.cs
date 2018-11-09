@@ -181,7 +181,7 @@ namespace everisapi.API.Controllers
     {
       try
       {
-        var respuestas = _respuestasInfoRepository.GetRespuestasConNotas(idevaluacion);
+        var respuestas = _respuestasInfoRepository.GetRespuestasConNotas(idevaluacion,0);
 
         _logger.LogInformation("Mandamos correctamente todas las respuestas.");
 
@@ -193,6 +193,25 @@ namespace everisapi.API.Controllers
         return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
+
+    [HttpGet("evaluacion/{idevaluacion}/assessment/{assessmentid}")]
+    public IActionResult GetRespuestasConNotasConAssessments(int idevaluacion,int assessmentid)
+    {
+      try
+      {
+        var respuestas = _respuestasInfoRepository.GetRespuestasConNotas(idevaluacion,assessmentid);
+
+        _logger.LogInformation("Mandamos correctamente todas las respuestas.");
+
+        return Ok(respuestas);
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir las respuestas con idevaluacion " + idevaluacion +  " : " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
+      }
+    }
+
 
     /*ADD RESPUESTAS*/
     [HttpPost("add")]

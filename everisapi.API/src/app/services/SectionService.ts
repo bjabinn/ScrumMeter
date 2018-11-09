@@ -125,15 +125,21 @@ export class SectionService {
   }
 
   //Obtiene todas las respuestas con notas para esta evaluacion
-  getRespuestasConNotas(id) {
+  getRespuestasConNotas(id,assessmentId?) {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
       'Authorization': Token
     });
-
-    return this._http.get(this.url + 'respuestas/evaluacion/' + id, { headers: headers }).pipe(
+    if(assessmentId){
+      return this._http.get(`${this.url}respuestas/evaluacion/${id}/assessment/${assessmentId}`, { headers: headers }).pipe(
+        map((response: Response) => response.json()),
+        catchError(this.errorHandler),);
+    }else{
+       return this._http.get(this.url + 'respuestas/evaluacion/' + id, { headers: headers }).pipe(
       map((response: Response) => response.json()),
       catchError(this.errorHandler),);
+    }
+   
   }
 
   //Obtiene todas las asignaciones con notas para esta evaluacion

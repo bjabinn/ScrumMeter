@@ -1,5 +1,5 @@
-<div class="corregir">
-  <div class="espacio">
+<div class="corregir position-relative">
+  <div class="position-absolute error-msg">
     <div *ngIf="ErrorMessage?.length>0" class="alert alert-danger" id="danger">
       <strong>{{ErrorMessage}}</strong>
     </div>
@@ -57,7 +57,7 @@
         </div>
       </div>
 
-      <div class="col-md-1 p-0"></div>
+      <div class="col-md-2 p-0"></div>
 
       <div class="col-xs-12 col-sm-12 col-md-5 p-0">
         <div class="titulo bajarmedia eval-ant mat-elevation-z5" (click)="EvaluacionesAnteriores()">

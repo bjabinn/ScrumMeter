@@ -1,4 +1,3 @@
-
 <div class="espacio">
   <div *ngIf="(ErrorMessage != null || ErrorMessage != undefined )" class="alert alert-danger" id="danger">
     <strong>{{ErrorMessage}}</strong>
@@ -23,7 +22,8 @@
           <div>
             <input type="checkbox" id="notasPreg" name="notasPreg" value="" (click)="cambiarMostrarNotasPreg()" />
             <label for="notasPreg">
-              <span><!-- This span is needed to create the "checkbox" element --></span>
+              <span>
+                <!-- This span is needed to create the "checkbox" element --></span>
               Tabla de preguntas
             </label>
           </div>
@@ -33,10 +33,11 @@
       <div class="checkbox">
         <form>
           <div>
-            <input type="checkbox" id="notasEv" name="notasEv" value=""
-                   [ngClass]="{'disableCheck': Evaluacion.notasEv == null || Evaluacion.notasEv.length == '0'}" (click)="cambiarMostrarNotasEv()" />
+            <input type="checkbox" id="notasEv" name="notasEv" value="" [ngClass]="{'disableCheck': Evaluacion.notasEv == null || Evaluacion.notasEv.length == '0'}"
+              (click)="cambiarMostrarNotasEv()" />
             <label for="notasEv" [ngClass]="{'disable': Evaluacion.notasEv == null || Evaluacion.notasEv.length == '0'}">
-              <span><!-- This span is needed to create the "checkbox" element --></span>
+              <span>
+                <!-- This span is needed to create the "checkbox" element --></span>
               Notas de evaluación
             </label>
           </div>
@@ -46,10 +47,11 @@
       <div class="checkbox">
         <form>
           <div>
-            <input type="checkbox" id="notasOb" name="notasOb" value=""
-                   [ngClass]="{'disableCheck': Evaluacion.notasOb == null || Evaluacion.notasOb.length == '0'}" (click)="cambiarMostrarNotasOb()" />
+            <input type="checkbox" id="notasOb" name="notasOb" value="" [ngClass]="{'disableCheck': Evaluacion.notasOb == null || Evaluacion.notasOb.length == '0'}"
+              (click)="cambiarMostrarNotasOb()" />
             <label for="notasOb" [ngClass]="{'disable': Evaluacion.notasOb == null || Evaluacion.notasOb.length == '0'}">
-              <span><!-- This span is needed to create the "checkbox" element --></span>
+              <span>
+                <!-- This span is needed to create the "checkbox" element --></span>
               Notas de objetivos
             </label>
           </div>
@@ -59,10 +61,11 @@
       <div class="checkbox">
         <form>
           <div>
-            <input type="checkbox" id="notasSec" name="notasSec" value=""
-                   [ngClass]="{'disableCheck': !Evaluacion.flagNotasSec}" (click)="cambiarMostrarNotasSec()" />
+            <input type="checkbox" id="notasSec" name="notasSec" value="" [ngClass]="{'disableCheck': !Evaluacion.flagNotasSec}"
+              (click)="cambiarMostrarNotasSec()" />
             <label for="notasSec" [ngClass]="{'disable': !Evaluacion.flagNotasSec}">
-              <span><!-- This span is needed to create the "checkbox" element --></span>
+              <span>
+                <!-- This span is needed to create the "checkbox" element --></span>
               Notas de secciones
             </label>
           </div>
@@ -73,10 +76,11 @@
       <div class="checkbox">
         <form>
           <div>
-            <input type="checkbox" id="notasAsig" name="notasAsig" value=""
-                   [ngClass]="{'disableCheck': !Evaluacion.flagNotasAsig}" (click)="cambiarMostrarNotasAsig()" />
+            <input type="checkbox" id="notasAsig" name="notasAsig" value="" [ngClass]="{'disableCheck': !Evaluacion.flagNotasAsig}"
+              (click)="cambiarMostrarNotasAsig()" />
             <label for="notasAsig" [ngClass]="{'disable': !Evaluacion.flagNotasAsig}">
-              <span><!-- This span is needed to create the "checkbox" element --></span>
+              <span>
+                <!-- This span is needed to create the "checkbox" element --></span>
               Notas de módulos
             </label>
           </div>
@@ -110,7 +114,8 @@
         </thead>
         <tbody class="table-hover">
           <tr *ngFor="let datos of ListaDeDatos; let i = index">
-            <td class="text-left" [ngClass]="{'suspenso': datos.respuestasCorrectas < ListaSeccionesAgileCompliance[i]}">{{datos.nombre | titlecase}}</td>
+            <td class="text-left" [ngClass]="{'suspenso': datos.respuestasCorrectas < ListaSeccionesAgileCompliance[i]}">{{datos.nombre
+              | titlecase}}</td>
             <td class="text-left" [ngClass]="{'suspenso': datos.respuestasCorrectas < ListaSeccionesAgileCompliance[i]}">{{datos.respuestasCorrectas}}%</td>
           </tr>
           <tr>
@@ -135,13 +140,8 @@
 
       <!--Grafica-->
       <div id="Grafica" class="mx-auto">
-        <canvas id="canvas" baseChart
-                [datasets]="barChartData"
-                [labels]="ListaNombres"
-                [options]="barChartOptions"
-                [legend]="barChartLegend"
-                [chartType]="barChartType"
-                [colors]="chartColors"></canvas>
+        <canvas id="canvas" baseChart [datasets]="barChartData" [labels]="ListaNombres" [options]="barChartOptions"
+          [legend]="barChartLegend" [chartType]="barChartType" [colors]="chartColors"></canvas>
       </div>
 
     </div>
@@ -205,164 +205,79 @@
 
     <!-- Nueva tabla preguntas  -->
     <div class="mat-elevation-z8 example-container m-auto" *ngIf="mostrarNotasPreg">
-        <table mat-table [dataSource]="respuestasSource" aria-label="Elements">
-      
-          <!-- Seccion  -->
-          <ng-container matColumnDef="seccion">
-            <th mat-header-cell *matHeaderCellDef >Sección</th>
-            <td mat-cell *matCellDef="let row">{{row.section}}</td>
-          </ng-container>
-      
-          <!-- Modulo  -->
-          <ng-container matColumnDef="modulo">
-            <th mat-header-cell *matHeaderCellDef >Módulo</th>
-            <td mat-cell *matCellDef="let row">{{row.asignacion}}</td>
-          </ng-container>
-      
-          <!-- Pregunta  -->
-          <ng-container matColumnDef="pregunta">
-            <th mat-header-cell *matHeaderCellDef >Pregunta</th>
-            <td mat-cell *matCellDef="let row">{{row.pregunta}}</td>
-          </ng-container>
+      <table mat-table [dataSource]="respuestasSource" aria-label="Elements">
 
-      
-      
-          <!--  Respuesta  -->
-          <ng-container matColumnDef="respuesta">
-            <th mat-header-cell *matHeaderCellDef >Respuesta</th>           
-            <td mat-cell *matCellDef="let row">
-              <i class="material-icons" [class]="checkRespuestaCorrecta(row)">fiber_manual_record</i>
-              {{displayRespuesta(row)}} 
-            </td>            
-          </ng-container>
-      
-          <!--  Estado -->
-          <ng-container matColumnDef="notas">
-            <th mat-header-cell *matHeaderCellDef >Notas</th>
-            <td mat-cell *matCellDef="let row">x            </td>
-          </ng-container>
-      
-          <!--  Notas -->
-          <ng-container matColumnDef="notas-admin">
-            <th mat-header-cell *matHeaderCellDef >Notas Administrador</th>
-            <td mat-cell *matCellDef="let row">x</td>
-          </ng-container>
-      
-          <!--  Notas evaluacion -->
-          <!-- <ng-container matColumnDef="notasOb">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Notas Objetivos</th>
-              <td mat-cell *matCellDef="let row">
-                  <button class="transparente" (click)="AbrirModal(notasOb, i, 0)">
-                      <img class="edit" *ngIf="row.notasOb != null" src="assets/edit filled.png" title="Añadir notas" />
-                      <img class="edit" *ngIf="row.notasOb == null" src="assets/edit empty.png" title="Añadir notas" />
-                    </button>
-                  </td>
-            </ng-container> -->
-      
-          <!--  Informe -->
-          <ng-container matColumnDef="informe">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Informe</th>
-            <td mat-cell *matCellDef="let row">
-              <button class="transparente" (click)="SaveDataToPDF(row)">
-                <img class="informe" src="assets/report.png" title="Ver informe" />
-              </button>
-            </td>
-          </ng-container>
-      
-      
-          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-          <!-- <ng-container matColumnDef="expandedDetail">
-            <td mat-cell *matCellDef="let element" [attr.colspan]="14">
-              <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                <div class="example-element-description">
-                  Desglose de puntuación
-                  <span class="example-element-description-attribution"> -- xxxx </span>
-                </div>
-                <div class="example-element-description">
-                  <mat-form-field class="comments-form-field">
-                    <textarea matInput placeholder="Notas Evaluación" [(ngModel)]="element.notasEv"> 
-                  </textarea>
-                  </mat-form-field>
-                </div>
-                <div class="example-element-description">
-                  <mat-form-field class="comments-form-field">
-                    <textarea matInput placeholder="Notas Objetivos" [(ngModel)]="element.notasOb" > 
-                  </textarea>
-                  </mat-form-field>
-                </div>
-      
-              </div>
-            </td>
-          </ng-container> -->
-      
-      
-      
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row  *matRowDef="let row; columns: displayedColumns;" ></tr>
-<!--       
-      
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
-            [class.example-expanded-row]="expandedElement === element" (click)="expandedElement = (expandedElement == element ? null : element)">
-          </tr>
-          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-       -->
-      
-      
-      
-      
-          <!-- texto -->
-      
-        </table>
-      
-      
-        <mat-paginator #paginator [length]="respuestasSource?.data.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[10, 20, 50]">
-        </mat-paginator>
-      </div>
+        <!-- Seccion  -->
+        <ng-container matColumnDef="seccion">
+          <th mat-header-cell *matHeaderCellDef>Sección</th>
+          <td mat-cell *matCellDef="let row">{{row.section}}</td>
+        </ng-container>
 
-    <!-- <div class="notas col-12" *ngIf="mostrarNotasPreg" id="notasPreguntas">
-      <h4 [ngClass]="{'textopdf':cargandoPDF}">Notas de preguntas</h4>
+        <!-- Modulo  -->
+        <ng-container matColumnDef="modulo">
+          <th mat-header-cell *matHeaderCellDef>Módulo</th>
+          <td mat-cell *matCellDef="let row">{{row.asignacion}}</td>
+        </ng-container>
 
-      <table class="table-fill tablaNotas" style="overflow-x:auto;">
-        <thead>
-          <tr>
-            <th class="text-left">Sección</th>
-            <th class="text-left">Módulo</th>
-            <th class="text-left">Pregunta</th>
-            <th class="text-left">Respuesta</th>
-            <th class="text-left">Respuesta Correcta</th>
-            <th class="text-left">Notas</th>
-            <th class="text-left">Notas Administrador</th>
-          </tr>
-        </thead>
-        <tbody class="table-hover">
-          <tr *ngFor="let respuesta of ListaDeRespuestas; let i = index">
-            <td class="text-left notasPreg">{{respuesta.section | titlecase}}</td>
-            <td class="text-left notasPreg">{{respuesta.asignacion}}</td>
-            <td class="text-left notasPreg text-justify">{{respuesta.pregunta}}</td>
+        <!-- Pregunta  -->
+        <ng-container matColumnDef="pregunta">
+          <th mat-header-cell *matHeaderCellDef>Pregunta</th>
+          <td mat-cell *matCellDef="let row">{{row.pregunta}}</td>
+        </ng-container>
 
-            <td class="text-left notasPreg ncResp" *ngIf="respuesta.estado == 0">No contestada</td>
-            <td class="text-left notasPreg ncResp" *ngIf="respuesta.estado == 1">Sí</td>
-            <td class="text-left notasPreg ncResp" *ngIf="respuesta.estado == 2">No</td>
 
-            <td class="text-left notasPreg ncResp" *ngIf="respuesta.correcta == null">Sí (habilitante)</td>
-            <td class="text-left notasPreg ncResp" *ngIf="respuesta.correcta != null">{{respuesta.correcta}}</td>
 
-            <td class="text-left notasPreg text-justify colNotasPreg" [ngClass]="{'pdf':cargandoPDF}">{{respuesta.notas}}</td>
+        <!--  Respuesta  -->
+        <ng-container matColumnDef="respuesta">
+          <th mat-header-cell *matHeaderCellDef>Respuesta</th>
+          <td mat-cell *matCellDef="let row">
+            <i class="material-icons" [class]="checkRespuestaCorrecta(row)">fiber_manual_record</i>
+            {{displayRespuesta(row)}}
+          </td>
+        </ng-container>
 
-            <td class="text-left notasPreg text-justify colNotasPreg" [ngClass]="{'pdf':cargandoPDF}">
-              {{respuesta.notasAdmin}}
+        <!--  Estado -->
+        <ng-container matColumnDef="notas">
+          <th mat-header-cell *matHeaderCellDef>Notas</th>
+          <td mat-cell *matCellDef="let row">x </td>
+        </ng-container>
 
-              <button class="transparente ml-4 text-right" (click)="AbrirModal(notasAdmin, i)" *ngIf="!cargandoPDF && AdminOn">
-                <img *ngIf="respuesta.notasAdmin != null" height="30" src="assets/nota_si.png" title="Añadir notas" />
-                <img *ngIf="respuesta.notasAdmin == null" height="30" src="assets/nota_no.png" title="Añadir notas" />
-              </button>
+        <!--  Notas -->
+        <ng-container matColumnDef="notas-admin">
+          <th mat-header-cell *matHeaderCellDef>Notas Administrador</th>
+          <td mat-cell *matCellDef="let row">x</td>
+        </ng-container>
 
-            </td>
-          </tr>
-        </tbody>
+        <!--  Notas evaluacion -->
+
+
+        <!--  Informe -->
+        <ng-container matColumnDef="informe">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Informe</th>
+          <td mat-cell *matCellDef="let row">
+            <button class="transparente" (click)="SaveDataToPDF(row)">
+              <img class="informe" src="assets/report.png" title="Ver informe" />
+            </button>
+          </td>
+        </ng-container>
+
+
+
+
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
       </table>
-    </div> -->
+
+
+
+    </div>
+
+
+
   </div>
 
 
