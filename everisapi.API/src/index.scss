@@ -27,6 +27,10 @@ body{font-family: Raleway, sans-serif;}
     background: white;/*rgba(153, 173, 0, 0.03137254901960784);;*/
     border: 1px solid #99AD00;
   }
+
+  &:focus{
+    outline:none;
+  }
 }
 
 .secondary-button{
@@ -50,6 +54,10 @@ body{font-family: Raleway, sans-serif;}
     color:#2b7f99;
     background: white !important;/*rgba(153, 173, 0, 0.03137254901960784);;*/
     border: 1px solid #2b7f99 !important;
+  }
+
+  &:focus{
+    outline: none;
   }
 }
 

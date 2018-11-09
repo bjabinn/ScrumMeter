@@ -36,6 +36,7 @@ export class NewevaluationComponent implements OnInit {
   public MostrarInfo = false;
   public textoModal: string;
   public anadeNota: string = null;
+  public pagesArray: number[];
 
   //Recogemos todos los datos de la primera area segun su id y las colocamos en la lista
   constructor(
@@ -93,6 +94,8 @@ export class NewevaluationComponent implements OnInit {
     } else {
       this._router.navigate(['/home']);
     }
+    this.pagesArray = [1,2,3,4,5];
+    
   }
 
   ngOnInit() {
