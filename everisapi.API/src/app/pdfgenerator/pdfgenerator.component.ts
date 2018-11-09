@@ -477,9 +477,10 @@ export class PdfgeneratorComponent implements OnInit {
     if (!this.mostrarNotasPreg && this.ListaDeRespuestas.length == 0) {
       this.cargandoNotas = true;
 
-      this._sectionService.getRespuestasConNotas(this.Evaluacion.id).subscribe(
+      this._sectionService.getRespuestasConNotas(this.Evaluacion.id,this._appComponent._storageDataService.EvaluacionToPDF.assessmentId).subscribe(
         res => {
           this.ListaDeRespuestas = res;
+
           this.cargandoNotas = false;
           this.mostrarNotasPreg = true;
           this.respuestasSource = new MatTableDataSource(res);

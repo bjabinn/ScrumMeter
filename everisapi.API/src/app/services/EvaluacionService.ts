@@ -10,7 +10,7 @@ import { Evaluacion } from 'app/Models/Evaluacion';
 import { EvaluacionCreate } from 'app/Models/EvaluacionCreate';
 import { EvaluacionFilterInfo } from 'app/Models/EvaluacionFilterInfo';
 import { EvaluacionInfo } from 'app/Models/EvaluacionInfo';
-import { map, retry, catchError } from 'rxjs/operators';
+import { map, tap, catchError } from 'rxjs/operators';
 import { User } from 'app/Models/User';
 import { AppComponent } from 'app/app.component';
 
@@ -81,6 +81,7 @@ export class EvaluacionService {
     });
     return this._http.post(this.url + 'evaluaciones/proyecto/' + idProject + '/info/page/' + NumPag, params, { headers: headers }).pipe(
       map(res => res.json()),
+      // tap(r => console.log("OBSERVAAAAAAAAAAAAABLE",r)),
       catchError(this.errorHandler),);
   }
 

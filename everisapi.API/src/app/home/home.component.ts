@@ -80,6 +80,7 @@ export class HomeComponent implements OnInit {
         } else {
           this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         }
+        setTimeout(()=>this.ErrorMessage="",2000);
       });
 
     //Para que no de error en modo development
@@ -118,6 +119,7 @@ export class HomeComponent implements OnInit {
           } else {
             this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
+          setTimeout(()=>this.ErrorMessage="",2000);
         });
     } else {
       //Aqui entra si eres administrador dandote todos los proyectos
@@ -136,6 +138,7 @@ export class HomeComponent implements OnInit {
           } else {
             this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
+          setTimeout(()=>this.ErrorMessage="",2000);
         });
     }
   }
@@ -173,6 +176,7 @@ export class HomeComponent implements OnInit {
             } else {
               this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
             }
+            setTimeout(()=>this.ErrorMessage="",2000);
           },
           () => {
             this.SendingInfo = false;
@@ -219,6 +223,7 @@ export class HomeComponent implements OnInit {
             } else {
               this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
             }
+            setTimeout(()=>this.ErrorMessage="",2000);
           },
           () => {
             this.SendingInfo = false;
@@ -251,6 +256,7 @@ export class HomeComponent implements OnInit {
         } else {
           this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         }
+        setTimeout(()=>this.ErrorMessage="",2000);
         this.SendingInfo = false;
       });
   }
@@ -261,6 +267,7 @@ export class HomeComponent implements OnInit {
       this._router.navigate(['/evaluacionprevia']);
     } else {
       this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
+      setTimeout(()=>this.ErrorMessage="",2000);
     }
   }
 
@@ -289,6 +296,7 @@ export class HomeComponent implements OnInit {
         } else {
           this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         }
+        setTimeout(()=>this.ErrorMessage="",2000);
         this.SendingInfo = false;
       });
   }
