@@ -53,6 +53,14 @@ $primary-color:#99AD00;
   font-size: 1rem;
 }
 
+.title-agile{
+  margin-top:-2px;
+}
+
+.hello-customer{
+  margin-top:2px;
+}
+
 
 #cssmenu {
   max-width: 82%;
@@ -74,6 +82,8 @@ $primary-color:#99AD00;
 
 
     #cerrarsesion {
+      margin-top: -1px;
+      margin-bottom: 4px;
       a{
         color: $primary-color;
         text-align: right;
