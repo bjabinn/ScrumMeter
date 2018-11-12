@@ -25,6 +25,8 @@ import { MatTableModule, MatPaginatorModule, MatSortModule, MatInputModule } fro
 import { MatFormFieldModule, MatSelectModule } from '@angular/material';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {MatListModule} from '@angular/material/list';
+import { QuestionsManagerComponent } from './back-office/components/questions-manager/questions-manager.component';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import {MatListModule} from '@angular/material/list';
     LoadingComponent,
     UserManagementComponent,
     AddUserProjectComponent,
-    SortedTableComponent
+    SortedTableComponent,
+    QuestionsManagerComponent,
+  
  
   ],
   imports: [
