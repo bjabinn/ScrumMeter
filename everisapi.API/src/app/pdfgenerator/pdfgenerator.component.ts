@@ -481,10 +481,11 @@ export class PdfgeneratorComponent implements OnInit {
         res => {
           this.ListaDeRespuestas = res;
 
+          
           this.cargandoNotas = false;
           this.mostrarNotasPreg = true;
           this.respuestasSource = new MatTableDataSource(res);
-          console.log(this.respuestasSource.data);
+          // console.log(this.respuestasSource.data);
 
           this.respuestasSource.sort = this.sort;
           this.respuestasSource.paginator = this.paginator;
@@ -510,7 +511,7 @@ export class PdfgeneratorComponent implements OnInit {
   checkRespuestaCorrecta(row): string {
     //Pregunta correcta == null --> Si (habilitante)
     //Pregunta correcta != null --> Si o No
-    console.log("" + row.pregunta, row.correcta);
+    
 
     let classString: string;
     let respuestaString: string = this.displayRespuesta(row);

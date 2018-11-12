@@ -5,9 +5,9 @@
 
       <div class="col-3 p-0">
         <div class="row p-0 m-0">
-          <div class="col-5 p-0" id="inicio"><a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></div>
+          <div class="col-5 p-0 us-none" id="inicio"><a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></div>
 
-          <div *ngIf="this._storageDataService.RoleAdmin == true" class="col p-0" id="backoffice"><a routerLink="/backoffice"
+          <div *ngIf="this._storageDataService.RoleAdmin == true" class="col p-0 us-none" id="backoffice"><a routerLink="/backoffice"
               routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Backoffice</a></div>
 
           <div class="text-center col evaluacion p-0" *ngIf="this._storageDataService.RoleAdmin != true && AssessmentName != null && NombreDeProyecto != null">
@@ -28,7 +28,7 @@
               {{NombreDeProyecto}} - {{this._storageDataService.AssessmentSelected.assessmentName}}
             </strong>
           </div>
-          <div class="text-center col-6 title-center">AgileMeter</div>
+          <div class="text-center col-6 title-center us-none">AgileMeter</div>
           <div class="col-3"></div>
         </div>
       </div>

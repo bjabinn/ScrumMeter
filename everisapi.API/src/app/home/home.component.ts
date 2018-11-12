@@ -187,10 +187,10 @@ export class HomeComponent implements OnInit {
   }
 
   public SeleccionDeAssessment(index: number) {
-    console.log("assessment",index);
+    // console.log("assessment",index);
     
     this.AssessmentSelected = this.AllAssessments[index];
-    console.log(this.AssessmentSelected);
+    // console.log(this.AssessmentSelected);
     
     this._appComponent._storageDataService.AssessmentSelected = this.AssessmentSelected;
     this.existeRepetida = false;
@@ -206,7 +206,7 @@ export class HomeComponent implements OnInit {
             //Lo guarda en el storage
             this._appComponent._storageDataService.Evaluacion = res;
             //Si hay un proyecto sin finalizar
-            console.log("XXXXX",res);
+            // console.log("XXXXX",res);
             if (res != null) {
               this.existeRepetida = true;
             } 
@@ -237,8 +237,8 @@ export class HomeComponent implements OnInit {
   public GuardarEvaluacion() {
 
     var NuevaEvaluacion: EvaluacionCreate = { 'estado': false, 'proyectoid': this.ProyectoSeleccionado.id, 'assessmentId': this.AssessmentSelected.assessmentId };
-    console.log("assessmeeeent", this.AssessmentSelected);
-    console.log(NuevaEvaluacion);
+    // console.log("assessmeeeent", this.AssessmentSelected);
+    // console.log(NuevaEvaluacion);
     
     this._evaluacionService.addEvaluacion(NuevaEvaluacion).subscribe(
       res => {
@@ -346,12 +346,12 @@ export class HomeComponent implements OnInit {
     this._proyectoService.getRolesUsuario().subscribe(
       res => {
         var permisosDeUsuario = res;
-        console.log("permisos de usuario en getUserRole", permisosDeUsuario);
+        // console.log("permisos de usuario en getUserRole", permisosDeUsuario);
         //Si no hay errores y son recogidos busca si tienes permisos de usuario
           if (permisosDeUsuario.role == "Administrador") {
             //this._appComponent.RolDeUsuario = true;
-            console.log("this._appComponent.RolDeUsuario", this._appComponent.RolDeUsuario);
-            console.log("this._appComponent._storageDataService.RoleAdmin", this._appComponent._storageDataService.RoleAdmin);
+            // console.log("this._appComponent.RolDeUsuario", this._appComponent.RolDeUsuario);
+            // console.log("this._appComponent._storageDataService.RoleAdmin", this._appComponent._storageDataService.RoleAdmin);
             this._appComponent._storageDataService.RoleAdmin = true;
           }else{
             this._appComponent._storageDataService.RoleAdmin = false;
