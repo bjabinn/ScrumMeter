@@ -131,8 +131,8 @@ h2 {
     display: block;
     float: left;
     margin: 0 4px;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     cursor: pointer;
     @extend .transition-animation;
     
@@ -142,8 +142,8 @@ h2 {
     }
 
     &.current{
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       @extend .transition-animation;
 
       a{
