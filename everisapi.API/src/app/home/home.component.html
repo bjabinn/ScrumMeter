@@ -1,6 +1,6 @@
 <div class="corregir position-relative">
   <div class="position-absolute error-msg">
-    <div *ngIf="ErrorMessage?.length>0" class="alert alert-danger" id="danger">
+    <div class="alert alert-danger" [ngClass]="{'fadeOut':!fadeInError, 'fadeIn':ErrorMessage?.length>0 && fadeInError}" id="danger">
       <strong>{{ErrorMessage}}</strong>
     </div>
   </div>

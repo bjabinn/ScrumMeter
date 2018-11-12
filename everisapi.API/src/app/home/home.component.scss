@@ -8,6 +8,18 @@
   width:100%;
   border-radius:0px;
   text-align:center;
+
+  @extend .transition-animation;
+
+  .fadeIn{
+    @extend .transition-animation;
+    opacity: 1;
+  }
+
+  .fadeOut{
+    @extend .transition-animation;
+    opacity: 0;
+  }
 }
 
 .transition-animation{
