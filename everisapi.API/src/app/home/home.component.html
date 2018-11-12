@@ -15,7 +15,7 @@
               <h3>Seleccione un proyecto</h3>
             </div>
           </div>
-          <div class="row">
+          <div class="row mt-3">
             <div class="col-4">
               <select class="custom-select not-rounded margin-select" *ngIf="ListaDeProyectos.length > 0" (change)="SeleccionDeProyecto($event.target.value)">
                 <option selected [disabled]="this.ProyectoSeleccionado">- Seleccione un proyecto </option>
