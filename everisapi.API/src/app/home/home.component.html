@@ -52,90 +52,18 @@
             </div>
             <div class="col-4">
 
-              <div class="secondary-button cont-eval mat-elevation-z4 card-disabled w-85 m-auto" *ngIf="ListaDeProyectos.length > 0 && !existeRepetida">
-                <a>CONTINUAR EVALUACIÓN</a>
-              </div>
 
-              <div class="secondary-button cont-eval mat-elevation-z4 w-85 m-auto" *ngIf="ListaDeProyectos.length > 0 && existeRepetida"
+
+              <div class="secondary-button cont-eval mat-elevation-z4 w-85 m-auto" [class.card-disabled]="ListaDeProyectos.length > 0 && !existeRepetida"
                 (click)="continuarEvaluacion()">
                 <a>CONTINUAR EVALUACIÓN</a>
               </div>
             </div>
           </div>
-          <!-- <div class="row mt-3">
-            <div class="col-4">
-              <div class="main-button mat-elevation-z5 w-100 new-eval" (click)="showModal(content)">
-                <a>NUEVA EVALUACI&Oacute;N</a>
-              </div>
-            </div>
-          </div> -->
+
         </div>
       </div>
     </div>
-
-    <!-- <div class="row" id="infopro"> -->
-    <!-- <div class="col-xs-12 col-sm-3 col-md-3">
-      </div> -->
-
-    <!-- 
-
-
-
-      <div class="col-xs-12 col-sm-3 col-md-4">
-
-
-      </div>
-
-      <div class="col-xs-12 col-sm-3 col-md-4">
-        <select class="custom-select not-rounded" *ngIf="AllAssessments.length > 0" (change)="SeleccionDeAssessment($event.target.value)">
-          <option selected [disabled]="this.AssessmentSelected">- Seleccione una evaluación </option>
-          <option *ngFor="let assessment of AllAssessments; let i = index" value={{i}}>{{assessment.assessmentName}}</option>
-        </select>
-      </div>
-
-
-
-      <div class="col-xs-12 col-sm-3 col-md-4">
-
-        <span *ngIf="ListaDeProyectos.length == 0">
-          <app-loading></app-loading>
-        </span>
-
-        <div class="tituloContDisable" *ngIf="ListaDeProyectos.length > 0 && !existeRepetida">
-          <a>CONTINUAR EVALUACIÓN</a>
-        </div>
-
-        <div class="secondary-button tituloCont mat-elevation-z4" *ngIf="ListaDeProyectos.length > 0 && existeRepetida"
-          (click)="continuarEvaluacion()">
-          <a>CONTINUAR EVALUACIÓN</a>
-        </div>
-      </div>
-
-      <div class="col-xs-12 col-sm-3 col-md-3 ">
-      </div>
-
-    </div> -->
-    <!-- <br> <br> -->
-
-    <!-- <div class="row" id="home_buttons"> -->
-    <!-- <div class="col-xs-12 col-sm-12 col-md-1"></div> -->
-    <!-- <div class="col-xs-12 col-sm-12 col-md-5 p-0">
-        <div class="main-button titulo mat-elevation-z5" (click)="showModal(content)">
-          <a>NUEVA EVALUACI&Oacute;N</a>
-        </div>
-      </div>
-
-      <div class="col-md-2 p-0"></div>
-
-      <div class="col-xs-12 col-sm-12 col-md-5 p-0">
-        <div class="main-button titulo bajarmedia eval-ant mat-elevation-z5" (click)="EvaluacionesAnteriores()">
-          <a>EVALUACIONES ANTERIORES</a>
-        </div>
-      </div> -->
-    <!-- <div class="col-xs-12 col-sm-12 col-md-1"></div> -->
-    <!-- </div> -->
-
-
   </div>
 
   <ng-template #content let-cl="close" let-di="dismiss">
