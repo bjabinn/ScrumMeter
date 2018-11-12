@@ -73,16 +73,15 @@
   <ng-template #content let-cl="close" let-di="dismiss">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Advertencia</h5> <button type="button" class="close" (click)="cl('Cerrar')">
+        <h5 class="modal-title">Importante</h5> <button type="button" class="close" (click)="cl('Cerrar')">
           <span aria-hidden="true">×</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>Ya existe una evaluación sin terminar</p>
+        <p>¿Desea empezar una nueva evaluación? Al aceptar, se finalizará la evaluación anterior.   </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="main-button mat-elevation-z4" (click)="di('Continuar')">Continuar</button>
-        <button type="button" class="main-button mat-elevation-z4" (click)="di('Nueva')">Nueva</button>
         <button type="button" class="main-button mat-elevation-z4" (click)="cl('Cerrar')">Cancelar</button>
       </div>
     </div>
