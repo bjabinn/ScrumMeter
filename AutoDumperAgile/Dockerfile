@@ -77,7 +77,7 @@ RUN { \
 VOLUME /var/lib/mysql
 
 COPY docker-entrypoint.sh /usr/local/bin/
-COPY dumpAssessments.sql /docker-entrypoint-initdb.d
+COPY dumplatest.sql /docker-entrypoint-initdb.d
 RUN ln -s usr/local/bin/docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
 EXPOSE 3306
