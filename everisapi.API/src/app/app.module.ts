@@ -25,6 +25,7 @@ import { MatTableModule, MatPaginatorModule, MatSortModule, MatInputModule } fro
 import { MatFormFieldModule, MatSelectModule } from '@angular/material';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {MatListModule} from '@angular/material/list';
+import {DebounceDirective} from './debounceDirective';
 
 @NgModule({
   declarations: [
@@ -39,8 +40,8 @@ import {MatListModule} from '@angular/material/list';
     LoadingComponent,
     UserManagementComponent,
     AddUserProjectComponent,
-    SortedTableComponent
- 
+    SortedTableComponent,
+    DebounceDirective
   ],
   imports: [
     BrowserModule,

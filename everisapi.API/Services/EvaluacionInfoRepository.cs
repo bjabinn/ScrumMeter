@@ -55,8 +55,8 @@ namespace everisapi.API.Services
           Estado = evaluacion.Estado,
           Nombre = evaluacion.ProyectoEntity.Nombre,
           UserNombre = evaluacion.ProyectoEntity.UserNombre,
-          NotasEv = evaluacion.NotasEvaluacion,
-          NotasOb = evaluacion.NotasObjetivos
+          NotasEvaluacion = evaluacion.NotasEvaluacion,
+          NotasObjetivos = evaluacion.NotasObjetivos
         };
 
 
@@ -134,8 +134,8 @@ namespace everisapi.API.Services
           Estado = evaluacion.Estado,
           Nombre = evaluacion.ProyectoEntity.Nombre,
           UserNombre = evaluacion.ProyectoEntity.UserNombre,
-          NotasEv = evaluacion.NotasEvaluacion,
-          NotasOb = evaluacion.NotasObjetivos,
+          NotasEvaluacion = evaluacion.NotasEvaluacion,
+          NotasObjetivos = evaluacion.NotasObjetivos,
           AssessmentName = evaluacion.Assessment.AssessmentName,
           AssessmentId = evaluacion.AssessmentId
         };
@@ -231,7 +231,6 @@ namespace everisapi.API.Services
     public bool ModificarEvaluacion(EvaluacionEntity evaluacion)
     {
       EvaluacionEntity evaluacionAnterior = _context.Evaluaciones.Where(e => e.Id == evaluacion.Id).FirstOrDefault();
-
       evaluacionAnterior.NotasEvaluacion = evaluacion.NotasEvaluacion;
       evaluacionAnterior.NotasObjetivos = evaluacion.NotasObjetivos;
 
@@ -291,8 +290,8 @@ namespace everisapi.API.Services
           Estado = evaluacion.Estado,
           Nombre = evaluacion.ProyectoEntity.Nombre,
           UserNombre = evaluacion.ProyectoEntity.UserNombre,
-          NotasEv = evaluacion.NotasEvaluacion,
-          NotasOb = evaluacion.NotasObjetivos,
+          NotasEvaluacion = evaluacion.NotasEvaluacion,
+          NotasObjetivos = evaluacion.NotasObjetivos,
           AssessmentName = evaluacion.Assessment.AssessmentName,
           AssessmentId = evaluacion.AssessmentId
         };
@@ -394,8 +393,8 @@ namespace everisapi.API.Services
           Estado = evaluacion.Estado,
           Nombre = evaluacion.ProyectoEntity.Nombre,
           UserNombre = evaluacion.ProyectoEntity.UserNombre,
-          NotasEv = evaluacion.NotasEvaluacion,
-          NotasOb = evaluacion.NotasObjetivos,
+          NotasEvaluacion = evaluacion.NotasEvaluacion,
+          NotasObjetivos = evaluacion.NotasObjetivos,
           AssessmentName = evaluacion.Assessment.AssessmentName,
           AssessmentId = evaluacion.AssessmentId
         };

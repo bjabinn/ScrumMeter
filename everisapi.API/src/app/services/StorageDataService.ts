@@ -29,6 +29,7 @@ export class StorageDataService {
   public subscriptionTimer: Subscription;
   public AssessmentSelected: Assessment = null;
   public RoleAdmin: boolean;
+  public Role: string;
 
 
   public GetToken() {

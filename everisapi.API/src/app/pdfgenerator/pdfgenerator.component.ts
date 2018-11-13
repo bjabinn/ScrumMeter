@@ -67,6 +67,7 @@ export class PdfgeneratorComponent implements OnInit {
   public Mostrar = false;
   public ErrorMessage = null;
   public AdminOn: boolean = false;
+  public UserRole: string = ""; 
 
   //Datos de la barras
   public barChartType: string = 'bar';
@@ -138,6 +139,7 @@ export class PdfgeneratorComponent implements OnInit {
       res => {
         this.AdminOn = false;
         ArrayRoles = res;
+        this.UserRole = res[0]; //there is only a role for each user
         //Si no hay errores y son recogidos busca si tienes permisos de usuario
         for (let num = 0; num < ArrayRoles.length; num++) {
           if (ArrayRoles[num].role == "Administrador") {
@@ -451,14 +453,14 @@ export class PdfgeneratorComponent implements OnInit {
 
   //Para mostrar o no las notas de evaluacion
   public cambiarMostrarNotasEv() {
-    if (this.Evaluacion.notasEv != null && this.Evaluacion.notasEv != "") {
+    if (this.Evaluacion.notasEvaluacion != null && this.Evaluacion.notasEvaluacion != "") {
       this.mostrarNotasEv = !this.mostrarNotasEv;
     }
   }
 
   //Para mostrar o no las notas de objetivos
   public cambiarMostrarNotasOb() {
-    if (this.Evaluacion.notasOb != null && this.Evaluacion.notasOb != "") {
+    if (this.Evaluacion.notasObjetivos != null && this.Evaluacion.notasObjetivos != "") {
       this.mostrarNotasOb = !this.mostrarNotasOb;
     }
   }
