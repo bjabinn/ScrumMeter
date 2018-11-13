@@ -25,6 +25,7 @@ import { MatTableModule, MatPaginatorModule, MatSortModule, MatInputModule } fro
 import { MatFormFieldModule, MatSelectModule } from '@angular/material';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {MatListModule} from '@angular/material/list';
+import {DebounceDirective} from './debounceDirective';
 import { QuestionsManagerComponent } from './back-office/components/questions-manager/questions-manager.component';
 
 
@@ -42,6 +43,7 @@ import { QuestionsManagerComponent } from './back-office/components/questions-ma
     UserManagementComponent,
     AddUserProjectComponent,
     SortedTableComponent,
+    DebounceDirective,
     QuestionsManagerComponent,
   
  
