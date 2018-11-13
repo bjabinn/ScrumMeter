@@ -12,13 +12,13 @@
     </ng-container>
 
     <!-- Usuario  -->
-    <ng-container matColumnDef="usuario">
+    <ng-container matColumnDef="userNombre">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</th>
       <td mat-cell *matCellDef="let row">{{row.userNombre}}</td>
     </ng-container>
 
     <!-- Nombre  -->
-    <ng-container matColumnDef="metodologia">
+    <ng-container matColumnDef="assessmentName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Assesment</th>
       <td mat-cell *matCellDef="let row">{{row.assessmentName}}</td>
     </ng-container>
@@ -42,7 +42,7 @@
 
     <!--  Notas -->
     <ng-container matColumnDef="notas">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Notas</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Notas</th>
       <td mat-cell *matCellDef="let row">
         <img class="comment" *ngIf="(row.notasEvaluacion != null && row.notasEvaluacion != '') || (row.notasObjetivos != null && row.notasObjetivos != '')" src="assets/comment filled.png" title="Hay notas" />
         <img class="comment" *ngIf="(row.notasEvaluacion == null || row.notasEvaluacion == '') && (row.notasObjetivos == null || row.notasObjetivos == '')" src="assets/comment empty.png" title="No hay notas" />
@@ -62,7 +62,7 @@
 
     <!--  Informe -->
     <ng-container matColumnDef="informe">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Informe</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Informe</th>
       <td mat-cell *matCellDef="let row">
         <button class="transparente" (click)="SaveDataToPDF(row)">
           <img class="informe" src="assets/report.png" title="Ver informe" />
