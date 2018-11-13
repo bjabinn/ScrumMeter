@@ -13,8 +13,6 @@ namespace everisapi.API.Models
 
     public string Nombre { get; set; }
 
-    public string UserNombre { get; set; }
-
     public double Puntuacion { get; set; }
 
     public double Media { get; set; }
@@ -34,5 +32,7 @@ namespace everisapi.API.Models
     public int AssessmentId {get;set;}
 
     public string AssessmentName {get;set;}
+
+    public string UserNombre { get; set; }
   }
 }

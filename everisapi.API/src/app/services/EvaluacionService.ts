@@ -144,6 +144,7 @@ export class EvaluacionService {
 
   //Nos permite realizar un update de una evaluacion en la base de datos
   updateEvaluacion(evaluacion: Evaluacion) {
+    evaluacion.userNombre = localStorage.getItem("user");
     let Token = this._appComponent.ComprobarUserYToken();
     let params = JSON.stringify(evaluacion);
     let headers = new Headers({

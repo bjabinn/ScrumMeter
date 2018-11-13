@@ -12,8 +12,6 @@ namespace everisapi.API.Models
 
     public string Nombre { get; set; }
 
-    public string UserNombre { get; set; }
-
     public string Puntuacion { get; set; }
 
     public string Fecha { get; set; }
@@ -21,6 +19,8 @@ namespace everisapi.API.Models
     public string Estado { get; set; }
 
     public int AssessmentId {get;set;}
+
+    public string UserNombre { get; set; }
 
   }
 }

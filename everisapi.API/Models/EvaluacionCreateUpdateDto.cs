@@ -28,5 +28,8 @@ namespace everisapi.API.Models
     [Required]
     public int AssessmentId { get; set; }
 
+    [Required]
+    public string UserNombre { get; set; }
+
   }
 }

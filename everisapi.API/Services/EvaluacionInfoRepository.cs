@@ -54,7 +54,7 @@ namespace everisapi.API.Services
           Fecha = evaluacion.Fecha,
           Estado = evaluacion.Estado,
           Nombre = evaluacion.ProyectoEntity.Nombre,
-          UserNombre = evaluacion.ProyectoEntity.UserNombre,
+          UserNombre = evaluacion.UserNombre,
           NotasEvaluacion = evaluacion.NotasEvaluacion,
           NotasObjetivos = evaluacion.NotasObjetivos
         };
@@ -133,7 +133,7 @@ namespace everisapi.API.Services
           Fecha = evaluacion.Fecha,
           Estado = evaluacion.Estado,
           Nombre = evaluacion.ProyectoEntity.Nombre,
-          UserNombre = evaluacion.ProyectoEntity.UserNombre,
+          UserNombre = evaluacion.UserNombre,
           NotasEvaluacion = evaluacion.NotasEvaluacion,
           NotasObjetivos = evaluacion.NotasObjetivos,
           AssessmentName = evaluacion.Assessment.AssessmentName,
@@ -265,8 +265,8 @@ namespace everisapi.API.Services
         Include(a => a.Assessment).
         Where(e => e.ProyectoId == IdProject &&
         e.Estado == Boolean.Parse(Evaluacion.Estado) &&
-        e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) &&
-        e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
+        e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) //&&
+        //e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
         ).OrderByDescending(e => e.Fecha).ToList();
       }
       else
@@ -276,8 +276,8 @@ namespace everisapi.API.Services
         ThenInclude(p => p.UserEntity).
         Include(a => a.Assessment).
         Where(e => e.ProyectoId == IdProject &&
-        e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) &&
-        e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
+        e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) //&&
+        //e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
         ).OrderByDescending(e => e.Fecha).ToList();
       }
       //Encuentra la informacion de la evaluacion y lo introduce en un objeto
@@ -289,7 +289,7 @@ namespace everisapi.API.Services
           Fecha = evaluacion.Fecha,
           Estado = evaluacion.Estado,
           Nombre = evaluacion.ProyectoEntity.Nombre,
-          UserNombre = evaluacion.ProyectoEntity.UserNombre,
+          UserNombre = evaluacion.UserNombre,
           NotasEvaluacion = evaluacion.NotasEvaluacion,
           NotasObjetivos = evaluacion.NotasObjetivos,
           AssessmentName = evaluacion.Assessment.AssessmentName,
@@ -366,8 +366,8 @@ namespace everisapi.API.Services
         ThenInclude(p => p.UserEntity).
          Include(a => a.Assessment).
         Where(e => e.Estado == Boolean.Parse(Evaluacion.Estado) &&
-        e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) &&
-        e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
+        e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) //&&
+        //e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
         ).OrderByDescending(e => e.Fecha).ToList();
       }
       else
@@ -377,8 +377,8 @@ namespace everisapi.API.Services
         ThenInclude(p => p.UserEntity).
          Include(a => a.Assessment).
         Where(e => e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) &&
-        e.ProyectoEntity.Nombre.Contains(Evaluacion.Nombre) &&
-        e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
+        e.ProyectoEntity.Nombre.Contains(Evaluacion.Nombre) //&&
+        //e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
         ).OrderByDescending(e => e.Fecha).ToList();
       }
 
@@ -392,7 +392,7 @@ namespace everisapi.API.Services
           Fecha = evaluacion.Fecha,
           Estado = evaluacion.Estado,
           Nombre = evaluacion.ProyectoEntity.Nombre,
-          UserNombre = evaluacion.ProyectoEntity.UserNombre,
+          UserNombre = evaluacion.UserNombre,
           NotasEvaluacion = evaluacion.NotasEvaluacion,
           NotasObjetivos = evaluacion.NotasObjetivos,
           AssessmentName = evaluacion.Assessment.AssessmentName,
