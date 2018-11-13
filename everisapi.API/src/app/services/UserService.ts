@@ -1,8 +1,8 @@
 
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable } from 'rxjs';
 
-import {catchError, map} from 'rxjs/operators';
-import { Injectable, Inject } from '@angular/core';
+import { catchError, map } from 'rxjs/operators';
+import { Injectable, Inject, isDevMode } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 
@@ -19,44 +19,42 @@ export class UserService {
 
   constructor(private _http: Http,
     private _appComponent: AppComponent) {
+    if (isDevMode()) {
+      this.url = "http://localhost:60406/api/";
+    } else {
+      var loc = window.location.href;
+      var index = 0;
+      for (var i = 0; i < 3; i++) {
+        index = loc.indexOf("/", index + 1);
+      }
 
-    /*//DESCOMENTAR
-    var loc = window.location.href;
-    var index = 0;
-    for (var i = 0; i < 3; i++) {
-      index = loc.indexOf("/", index + 1);
+      this.url = loc.substring(0, index) + "/api/";
     }
-
-    this.url = loc.substring(0, index) + "/api/";
-    */
-
-    //COMENTAR
-    this.url = "http://localhost:60406/api/";
   }
 
   //Este metodo recoge todos los usuarios de la base de datos
-  getUsers(){
+  getUsers() {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
       'Authorization': Token
     });
     return this._http.get(this.url + 'users/AllUsers', { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Este metodo recoge todos los roles de la base de datos
-  getAllRoles(){
+  getAllRoles() {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
       'Authorization': Token
     });
     return this._http.get(this.url + 'users/AllRoles', { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
-  
+
 
 
   //Nos permite recoger un token si existe el usuario
@@ -67,7 +65,7 @@ export class UserService {
     });
     return this._http.post(this.url + 'Token', params, { headers: headers }).pipe(
       map(res => res.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Implementamos este metodo para permitir la recogida de los errores y su gestión

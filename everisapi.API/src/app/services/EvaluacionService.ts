@@ -1,6 +1,6 @@
 
-import {throwError as observableThrowError,  Observable ,  of } from 'rxjs';
-import { Injectable, Inject } from '@angular/core';
+import { throwError as observableThrowError, Observable, of } from 'rxjs';
+import { Injectable, Inject, isDevMode } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 
@@ -23,19 +23,19 @@ export class EvaluacionService {
   constructor(private _http: Http,
     private _appComponent: AppComponent) {
 
-    /*//DESCOMENTAR
-    var loc = window.location.href;
-    var index = 0;
-    for (var i = 0; i < 3; i++) {
-      index = loc.indexOf("/", index + 1);
+    if (isDevMode()) {
+      this.url = "http://localhost:60406/api/";
+    } else {
+      var loc = window.location.href;
+      var index = 0;
+      for (var i = 0; i < 3; i++) {
+        index = loc.indexOf("/", index + 1);
+      }
+
+      this.url = loc.substring(0, index) + "/api/";
     }
 
-    this.url = loc.substring(0, index) + "/api/";
-    */
 
-    //COMENTAR
-    this.url = "http://localhost:60406/api/";
-    
   }
 
   //Este metodo recoge todas las evaluaciones de la base de datos
@@ -46,7 +46,7 @@ export class EvaluacionService {
     });
     return this._http.get(this.url + 'evaluaciones', { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Este metodo recoge una evaluacion si existe mediante una id de evaluacion
@@ -57,7 +57,7 @@ export class EvaluacionService {
     });
     return this._http.get(this.url + 'evaluaciones/' + id, { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Este metodo recoge una evaluacion con datos extendidos si existe mediante una id de evaluacion
@@ -68,7 +68,7 @@ export class EvaluacionService {
     });
     return this._http.get(this.url + 'evaluaciones/proyecto/' + id + '/info', { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Nos permite recoger información de las envaluaciones filtrada y paginada
@@ -82,7 +82,7 @@ export class EvaluacionService {
     return this._http.post(this.url + 'evaluaciones/proyecto/' + idProject + '/info/page/' + NumPag, params, { headers: headers }).pipe(
       map(res => res.json()),
       // tap(r => console.log("OBSERVAAAAAAAAAAAAABLE",r)),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Este metodo recoge una evaluacion de un proyecto si existe mediante una id de proyecto
@@ -93,7 +93,7 @@ export class EvaluacionService {
     });
     return this._http.get(this.url + 'evaluaciones/proyecto/' + id, { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Este metodo recoge el número de evaluaciones de un proyecto o todos los proyectos
@@ -104,7 +104,7 @@ export class EvaluacionService {
     });
     return this._http.get(this.url + 'evaluaciones/proyecto/' + id + '/num', { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Devuelve una evaluacion si existe una que no se completo en ese proyecto
@@ -115,18 +115,18 @@ export class EvaluacionService {
     });
     return this._http.get(this.url + 'evaluaciones/proyecto/' + id + '/continue', { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Devuelve una evaluacion si existe una que no se completo en ese proyecto
-  getIncompleteEvaluacionFromProjectAndAssessment(projectId,assessmentId) {
+  getIncompleteEvaluacionFromProjectAndAssessment(projectId, assessmentId) {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
       'Authorization': Token
     });
     return this._http.get(this.url + `evaluaciones/proyecto/${projectId}/assessment/${assessmentId}/continue`, { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Nos permite incluir una evaluacion en la base de datos
@@ -139,7 +139,7 @@ export class EvaluacionService {
     });
     return this._http.post(this.url + 'evaluaciones', params, { headers: headers }).pipe(
       map(res => res.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Nos permite realizar un update de una evaluacion en la base de datos
@@ -150,10 +150,10 @@ export class EvaluacionService {
       'Content-Type': 'application/json',
       'Authorization': Token
     });
-    
+
     return this._http.put(this.url + 'evaluaciones', params, { headers: headers }).pipe(
       map(res => res),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Implementamos este metodo para permitir la recogida de los errores y su gestión

@@ -77,14 +77,14 @@ export class NewevaluationComponent implements OnInit {
             let i = 0;
             this.pagesArray = [];
 
-            console.log(this.NumMax);
+            // console.log(this.NumMax);
 
 
             while (this.NumMax > i) {
               i++;
 
               this.pagesArray.push(i);
-              console.log(this.pagesArray[i]);
+              // console.log(this.pagesArray[i]);
 
             }
 
@@ -211,6 +211,8 @@ export class NewevaluationComponent implements OnInit {
   //2 retroceder
   public NextPreviousButton(Option: number) {
     this.anadeNota = null;
+    // console.log("opcion --- ",Option);
+    
 
     if (Option == 1) {
       this.Deshabilitar = true;
@@ -226,7 +228,7 @@ export class NewevaluationComponent implements OnInit {
       this.getAsignacionActual(this.Evaluation.id, this.AreaAsignada.id);
 
     } else if (Option == 0) {
-      this._router.navigate(['/pdfgenerator']);
+      this._router.navigate(['/menunuevaevaluacion']);
     }
   }
 
