@@ -1,8 +1,8 @@
 
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable } from 'rxjs';
 
-import {map, catchError} from 'rxjs/operators';
-import { Injectable, Inject } from '@angular/core';
+import { map, catchError } from 'rxjs/operators';
+import { Injectable, Inject, isDevMode } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 
@@ -20,18 +20,17 @@ export class SectionService {
   constructor(private _http: Http,
     private _appComponent: AppComponent) {
 
-    /*//DESCOMENTAR
-    var loc = window.location.href;
-    var index = 0;
-    for (var i = 0; i < 3; i++) {
-      index = loc.indexOf("/", index + 1);
+    if (isDevMode()) {
+      this.url = "http://localhost:60406/api/";
+    } else {
+      var loc = window.location.href;
+      var index = 0;
+      for (var i = 0; i < 3; i++) {
+        index = loc.indexOf("/", index + 1);
+      }
+
+      this.url = loc.substring(0, index) + "/api/";
     }
-
-    this.url = loc.substring(0, index) + "/api/";
-    */
-
-    //COMENTAR
-    this.url = "http://localhost:60406/api/";
   }
 
   //Este metodo recoge todos los usuarios de la base de datos
@@ -42,7 +41,7 @@ export class SectionService {
     });
     return this._http.get(this.url + 'sections', { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Este metodo recoge un usuario si existe mediante un nombre de usuario
@@ -53,7 +52,7 @@ export class SectionService {
     });
     return this._http.get(this.url + 'sections/' + id, { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Este metodo recoge un usuario si existe mediante un nombre de usuario
@@ -64,7 +63,7 @@ export class SectionService {
     });
     return this._http.get(this.url + 'sections/' + id + '/asignaciones', { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Devuelve el numero de preguntas para cada sección segun que proyecto selecciones
@@ -75,7 +74,7 @@ export class SectionService {
     });
     return this._http.get(this.url + 'sections/' + idSection + '/evaluacion/' + idProject + "/preguntas", { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Devuelve el numero de respuestas correctas para cada sección segun que proyecto selecciones
@@ -86,18 +85,18 @@ export class SectionService {
     });
     return this._http.get(this.url + 'sections/' + idSection + '/evaluacion/' + idProject + "/respuestas", { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Recoge todos los datos extendidos de una evaluación
-  getSectionInfo(idEvaluacion,assessmentId) {
+  getSectionInfo(idEvaluacion, assessmentId) {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
       'Authorization': Token
     });
     return this._http.get(`${this.url}sections/evaluacion/${idEvaluacion}/assessment/${assessmentId}`, { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Devuelve las preguntas para una asignación en especifico
@@ -108,7 +107,7 @@ export class SectionService {
     });
     return this._http.get(this.url + 'asignaciones/' + id + '/preguntas', { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Añade una nota para la seccion indicada a la base de datos
@@ -125,21 +124,21 @@ export class SectionService {
   }
 
   //Obtiene todas las respuestas con notas para esta evaluacion
-  getRespuestasConNotas(id,assessmentId?) {
+  getRespuestasConNotas(id, assessmentId?) {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
       'Authorization': Token
     });
-    if(assessmentId){
+    if (assessmentId) {
       return this._http.get(`${this.url}respuestas/evaluacion/${id}/assessment/${assessmentId}`, { headers: headers }).pipe(
         map((response: Response) => response.json()),
-        catchError(this.errorHandler),);
-    }else{
-       return this._http.get(this.url + 'respuestas/evaluacion/' + id, { headers: headers }).pipe(
-      map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+        catchError(this.errorHandler));
+    } else {
+      return this._http.get(this.url + 'respuestas/evaluacion/' + id, { headers: headers }).pipe(
+        map((response: Response) => response.json()),
+        catchError(this.errorHandler));
     }
-   
+
   }
 
   //Obtiene todas las asignaciones con notas para esta evaluacion
@@ -151,7 +150,7 @@ export class SectionService {
 
     return this._http.get(this.url + 'asignaciones/evaluacion/' + id + '/notas', { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
 

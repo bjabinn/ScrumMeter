@@ -145,7 +145,7 @@
     <!-- Inicio preguntas  -->
     <div class="questions-box mt-4">
       <div class="row m-0" id="preguntas" *ngFor="let preguntaDada of InfoAsignacion.preguntas; let i = index">
-        <div class="col-xs-12 col-sm-2 col-md-2"></div>
+        <div class="col-xs-12 col-sm-2 col-md-3"></div>
         <div class="col-xs-12 col-sm-5 col-md-5">
           {{i + 1}}. {{preguntaDada.pregunta}}
         </div>
@@ -167,7 +167,7 @@
           </div>
 
         </div>
-        <div class="col-xs-12 col-sm-1 col-md-1 col-lg-2 text-center pb-1">
+        <div class="col-xs-12 col-sm-1 col-md-1 col-lg-2 pb-1">
           <button *ngIf="preguntaDada.respuesta.notas != null && !(InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0)"
             class="transparente position-relative" (click)="AbrirModalPreg(notasPreg, i)">
             <!-- <img height="40" src="assets/note-add.svg" title="Añadir notas" />

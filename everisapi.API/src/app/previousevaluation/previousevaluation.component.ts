@@ -65,7 +65,7 @@ export class PreviousevaluationComponent implements OnInit {
   constructor(
     private _appComponent: AppComponent,
     private _router: Router,
-    private _evaluacionService: EvaluacionService,
+    public _evaluacionService: EvaluacionService,
     private _proyectoService: ProyectoService,
     private modalService: NgbModal
   ) { }
@@ -78,7 +78,7 @@ export class PreviousevaluationComponent implements OnInit {
       this._router.navigate(['/login']);
     }
     this.UserName = this._proyectoService.UsuarioLogeado;
-
+    //this.getUserRole();
     //Recogemos el rol del usuario
     this._proyectoService.getRolesUsuario().subscribe(
       res => {
@@ -102,7 +102,7 @@ export class PreviousevaluationComponent implements OnInit {
         } else {
           this.MostrarInfo = true;
         }
-
+        
         this.GetPaginacion();
 
       },
@@ -135,6 +135,8 @@ export class PreviousevaluationComponent implements OnInit {
 
     }
   }
+
+  
 
   //Este metodo devuelve el número de paginas máximo que hay
   public CalcularPaginas() {
@@ -322,81 +324,81 @@ export class PreviousevaluationComponent implements OnInit {
   //Modal de notas evaluacion y objetivos
   //tipo=0 -> Evaluacion
   //tipo=1 -> Objetivos
-  public AbrirModal(content, numeroEv, tipo) {
+  // public AbrirModal(content, numeroEv, tipo) {
 
-    this.anadeNota = null;
+  //   this.anadeNota = null;
 
-    if (tipo == 0) {
-      if (this.ListaDeEvaluacionesPaginada[numeroEv].notasEv != null) {
-        this.textoModal = this.ListaDeEvaluacionesPaginada[numeroEv].notasEv;
-      } else {
-        this.textoModal = "";
-      }
-    } else if (tipo == 1) {
-      if (this.ListaDeEvaluacionesPaginada[numeroEv].notasOb != null) {
-        this.textoModal = this.ListaDeEvaluacionesPaginada[numeroEv].notasOb;
-      } else {
-        this.textoModal = "";
-      }
-    }
+  //   if (tipo == 0) {
+  //     if (this.ListaDeEvaluacionesPaginada[numeroEv].notasEvaluacion != null) {
+  //       this.textoModal = this.ListaDeEvaluacionesPaginada[numeroEv].notasEvaluacion;
+  //     } else {
+  //       this.textoModal = "";
+  //     }
+  //   } else if (tipo == 1) {
+  //     if (this.ListaDeEvaluacionesPaginada[numeroEv].notasObjetivos != null) {
+  //       this.textoModal = this.ListaDeEvaluacionesPaginada[numeroEv].notasObjetivos;
+  //     } else {
+  //       this.textoModal = "";
+  //     }
+  //   }
 
-    this.modalService.open(content).result.then(
-      (closeResult) => {
-        //Si cierra, no se guarda
+  //   this.modalService.open(content).result.then(
+  //     (closeResult) => {
+  //       //Si cierra, no se guarda
 
-      }, (dismissReason) => {
-        if (dismissReason == 'Guardar') {
+  //     }, (dismissReason) => {
+  //       if (dismissReason == 'Guardar') {
 
-          this.Mostrar = false;
+  //         this.Mostrar = false;
 
-          if (tipo == 0) {
-            if (this.textoModal != "") {
-              this.ListaDeEvaluacionesPaginada[numeroEv].notasEv = this.textoModal;
-            } else {
-              this.ListaDeEvaluacionesPaginada[numeroEv].notasEv = null;
-            }
-          } else {
-            if (this.textoModal != "") {
-              this.ListaDeEvaluacionesPaginada[numeroEv].notasOb = this.textoModal;
-            } else {
-              this.ListaDeEvaluacionesPaginada[numeroEv].notasOb = null;
-            }
-          }
+  //         if (tipo == 0) {
+  //           if (this.textoModal != "") {
+  //             this.ListaDeEvaluacionesPaginada[numeroEv].notasEvaluacion = this.textoModal;
+  //           } else {
+  //             this.ListaDeEvaluacionesPaginada[numeroEv].notasEvaluacion = null;
+  //           }
+  //         } else {
+  //           if (this.textoModal != "") {
+  //             this.ListaDeEvaluacionesPaginada[numeroEv].notasObjetivos = this.textoModal;
+  //           } else {
+  //             this.ListaDeEvaluacionesPaginada[numeroEv].notasObjetivos = null;
+  //           }
+  //         }
 
-          var evalu = new Evaluacion(
-            this.ListaDeEvaluacionesPaginada[numeroEv].id,
-            this.ListaDeEvaluacionesPaginada[numeroEv].fecha,
-            this.ListaDeEvaluacionesPaginada[numeroEv].estado,
-            this.ListaDeEvaluacionesPaginada[numeroEv].notasOb,
-            this.ListaDeEvaluacionesPaginada[numeroEv].notasEv,
-            this.ListaDeEvaluacionesPaginada[numeroEv].puntuacion,
-          );
+  //         var evalu = new Evaluacion(
+  //           this.ListaDeEvaluacionesPaginada[numeroEv].id,
+  //           this.ListaDeEvaluacionesPaginada[numeroEv].fecha,
+  //           this.ListaDeEvaluacionesPaginada[numeroEv].estado,
+  //           this.ListaDeEvaluacionesPaginada[numeroEv].notasOb,
+  //           this.ListaDeEvaluacionesPaginada[numeroEv].notasEv,
+  //           this.ListaDeEvaluacionesPaginada[numeroEv].puntuacion,
+  //         );
 
-          this._evaluacionService.updateEvaluacion(evalu)
-            .subscribe(
-              res => {
-                this.anadeNota = "Se guardó la nota correctamente";
-              },
-              error => {
-                if (error == 404) {
-                  this.ErrorMessage = "Error: " + error + " No pudimos recoger la información de las evaluaciones, lo sentimos.";
-                } else if (error == 500) {
-                  this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-                } else if (error == 401) {
-                  this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-                } else {
-                  this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-                }
-              },
-              () => {
-                this.Mostrar = true;
-              });
+  //         this._evaluacionService.updateEvaluacion(evalu)
+  //           .subscribe(
+  //             res => {
+  //               this.anadeNota = "Se guardó la nota correctamente";
+  //             },
+  //             error => {
+  //               if (error == 404) {
+  //                 this.ErrorMessage = "Error: " + error + " No pudimos recoger la información de las evaluaciones, lo sentimos.";
+  //               } else if (error == 500) {
+  //                 this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+  //               } else if (error == 401) {
+  //                 this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+  //               } else {
+  //                 this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+  //               }
+  //             },
+  //             () => {
+  //               this.Mostrar = true;
+  //             });
 
 
-        }
-        //Else, Click fuera, no se guarda
-      })
-  }
+  //       }
+  //       //Else, Click fuera, no se guarda
+  //     })
+  // }
 
   public VolverInicio() {
     this._router.navigate(['/home']);
@@ -504,5 +506,14 @@ export class PreviousevaluationComponent implements OnInit {
     { data: this.ListaPuntuacion, label: 'Puntuación' }
   ];
 
-
+  public getUserRole(){
+    this._proyectoService.getRolesUsuario().subscribe(
+      res => {
+        var permisosDeUsuario = res;
+        this._appComponent._storageDataService.Role = permisosDeUsuario.role;
+      },
+      error => {
+        
+      });
+  }
 }

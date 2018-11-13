@@ -11,12 +11,27 @@ body{font-family: Raleway, sans-serif;}
   user-select: none;
 }
 
+.w-85{
+  width:85% !important;
+}
+
+
+
+
+.modal-content{
+  border:none !important;
+}
+
 .transition-animation{
   -webkit-transition: all .8s ease !important;
   -moz-transition: all .8s ease !important;
   -ms-transition: all .8s ease !important;
   -o-transition: all .8s ease !important;
   transition: all .8s ease !important;
+}
+
+.br-2{
+  border-radius:2px !important;
 }
 
 .main-button{
@@ -38,7 +53,6 @@ body{font-family: Raleway, sans-serif;}
   &:hover{
     color:#7b8a02;
     background: white;/*rgba(153, 173, 0, 0.03137254901960784);;*/
-    border: 1px solid #99AD00;
     @extend .transition-animation;
   }
 
@@ -69,7 +83,6 @@ body{font-family: Raleway, sans-serif;}
   &:hover{
     color:#2b7f99;
     background: white !important;/*rgba(153, 173, 0, 0.03137254901960784);;*/
-    border: 1px solid #2b7f99 !important;
     @extend .transition-animation;
   }
 

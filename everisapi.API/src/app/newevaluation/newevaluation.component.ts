@@ -73,6 +73,22 @@ export class NewevaluationComponent implements OnInit {
           if (res != null) {
             this.ListaAsignaciones = res;
             this.NumMax = this.ListaAsignaciones.length;
+
+            let i = 0;
+            this.pagesArray = [];
+
+            // console.log(this.NumMax);
+
+
+            while (this.NumMax > i) {
+              i++;
+
+              this.pagesArray.push(i);
+              // console.log(this.pagesArray[i]);
+
+            }
+
+
             this.getAsignacionActual(this.Evaluation.id, this.ListaAsignaciones[0].id);
             this.Deshabilitar = false;
           } else {
@@ -94,8 +110,10 @@ export class NewevaluationComponent implements OnInit {
     } else {
       this._router.navigate(['/home']);
     }
-    this.pagesArray = [1,2,3,4,5];
-    
+
+
+    // this.pagesArray = [1,2,3,4,5];
+
   }
 
   ngOnInit() {
@@ -146,7 +164,7 @@ export class NewevaluationComponent implements OnInit {
     if (idarray == 0 && this.InfoAsignacion.preguntas[idarray].respuesta.estado == 2 && this.InfoAsignacion.preguntas[idarray].correcta == null) {
       this._respuestasService.updateRespuestasAsig(this.Evaluation.id, this.InfoAsignacion.id).subscribe(
         res => {
-            //Respuestas actualizadas correctamente
+          //Respuestas actualizadas correctamente
           for (var i = 1; i < this.InfoAsignacion.preguntas.length; i++) {
             this.InfoAsignacion.preguntas[i].respuesta.estado = 0;
           }
@@ -193,6 +211,8 @@ export class NewevaluationComponent implements OnInit {
   //2 retroceder
   public NextPreviousButton(Option: number) {
     this.anadeNota = null;
+    // console.log("opcion --- ",Option);
+    
 
     if (Option == 1) {
       this.Deshabilitar = true;
@@ -208,7 +228,7 @@ export class NewevaluationComponent implements OnInit {
       this.getAsignacionActual(this.Evaluation.id, this.AreaAsignada.id);
 
     } else if (Option == 0) {
-      this._router.navigate(['/pdfgenerator']);
+      this._router.navigate(['/menunuevaevaluacion']);
     }
   }
 
@@ -245,7 +265,7 @@ export class NewevaluationComponent implements OnInit {
             res => {
 
               this.anadeNota = "Nota añadida correctamente";
-              setTimeout(()=>{this.anadeNota = null},2000);
+              setTimeout(() => { this.anadeNota = null }, 2000);
             },
             error => {
 
@@ -305,7 +325,7 @@ export class NewevaluationComponent implements OnInit {
             res => {
 
               this.anadeNota = "Nota añadida correctamente";
-              setTimeout(()=>{this.anadeNota = null},2000);
+              setTimeout(() => { this.anadeNota = null }, 2000);
             },
             error => {
 
@@ -323,7 +343,7 @@ export class NewevaluationComponent implements OnInit {
               this.Deshabilitar = false;
 
             });
-            
+
 
 
         }
@@ -365,7 +385,7 @@ export class NewevaluationComponent implements OnInit {
             res => {
 
               this.anadeNota = "Nota añadida correctamente";
-              setTimeout(()=>{this.anadeNota = null},2000);
+              setTimeout(() => { this.anadeNota = null }, 2000);
             },
             error => {
 

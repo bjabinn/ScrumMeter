@@ -1,8 +1,8 @@
 
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable } from 'rxjs';
 
-import {catchError, map} from 'rxjs/operators';
-import { Injectable, Inject } from '@angular/core';
+import { catchError, map } from 'rxjs/operators';
+import { Injectable, Inject, isDevMode } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 
@@ -19,20 +19,19 @@ export class ProyectoService {
   constructor(private _http: Http,
     private _appComponent: AppComponent) {
 
-    /*//DESCOMENTAR
-    var loc = window.location.href;
-    var index = 0;
-    for (var i = 0; i < 3; i++) {
-      index = loc.indexOf("/", index + 1);
+    if (isDevMode()) {
+      this.url = "http://localhost:60406/api/";
+    } else {
+      var loc = window.location.href;
+      var index = 0;
+      for (var i = 0; i < 3; i++) {
+        index = loc.indexOf("/", index + 1);
+      }
+
+      this.url = loc.substring(0, index) + "/api/";
     }
 
-    this.url = loc.substring(0, index) + "/api/";
-    */
 
-    //COMENTAR
-    this.url = "http://localhost:60406/api/";
-
-    
   }
 
   //Este metdo nos permite verificar si el usuario ya esta logeado en la web
@@ -60,17 +59,17 @@ export class ProyectoService {
     });
     return this._http.get(this.url + 'users/fullproyectos', { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
-  getAllAssessments(){
+  getAllAssessments() {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
       'Authorization': Token
     });
     return this._http.get(this.url + 'users/allassessments', { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Este metodo recoge todos los proyectos de un usuario de la base de datos
@@ -81,7 +80,7 @@ export class ProyectoService {
     });
     return this._http.get(this.url + 'users/' + this.UsuarioLogeado + "/proyectos", { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   getProyectosDeUsuarioSeleccionado(user: UserWithRole) {
@@ -102,7 +101,7 @@ export class ProyectoService {
     });
     return this._http.get(this.url + 'users/' + this.UsuarioLogeado + '/proyecto/' + idProyecto, { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Este metodo devuelve todos los permisos de un usuario
@@ -113,7 +112,7 @@ export class ProyectoService {
     });
     return this._http.get(this.url + 'users/' + this.UsuarioLogeado + '/roles', { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Implementamos este metodo para permitir la recogida de los errores y su gestión

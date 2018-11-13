@@ -8,6 +8,9 @@ export class Evaluacion {
     public notasObjetivos: string,
     public notasEvaluacion: string,
     public puntuacion: number,
+    public nombre: string,
+    public assessmentName: string,
+    public userNombre: string,
     public assessmentId?: number
   ) { }
 }
