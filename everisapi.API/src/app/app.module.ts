@@ -26,6 +26,8 @@ import { MatFormFieldModule, MatSelectModule } from '@angular/material';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {MatListModule} from '@angular/material/list';
 import {DebounceDirective} from './debounceDirective';
+import { QuestionsManagerComponent } from './back-office/components/questions-manager/questions-manager.component';
+
 
 @NgModule({
   declarations: [
@@ -41,7 +43,10 @@ import {DebounceDirective} from './debounceDirective';
     UserManagementComponent,
     AddUserProjectComponent,
     SortedTableComponent,
-    DebounceDirective
+    DebounceDirective,
+    QuestionsManagerComponent,
+  
+ 
   ],
   imports: [
     BrowserModule,

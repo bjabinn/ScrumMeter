@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
   public MostrarInfo = false;
   public SendingInfo = false;
   public existeRepetida = false;
+  public fadeInError = false;
 
   constructor(
     private _proyectoService: ProyectoService,
@@ -80,7 +81,10 @@ export class HomeComponent implements OnInit {
         } else {
           this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         }
-        setTimeout(()=>this.ErrorMessage="",2000);
+        setTimeout(()=>{
+          this.fadeInError=false;
+          setTimeout(()=>this.ErrorMessage="",900);
+        },2000);
       });
 
     //Para que no de error en modo development
@@ -119,7 +123,10 @@ export class HomeComponent implements OnInit {
           } else {
             this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
-          setTimeout(()=>this.ErrorMessage="",2000);
+          setTimeout(()=>{
+            this.fadeInError=false;
+            setTimeout(()=>this.ErrorMessage="",900);
+          },2000);
         });
     } else {
       //Aqui entra si eres administrador dandote todos los proyectos
@@ -138,7 +145,10 @@ export class HomeComponent implements OnInit {
           } else {
             this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
-          setTimeout(()=>this.ErrorMessage="",2000);
+          setTimeout(()=>{
+            this.fadeInError=false;
+            setTimeout(()=>this.ErrorMessage="",900);
+          },2000);
         });
     }
   }
@@ -176,7 +186,10 @@ export class HomeComponent implements OnInit {
             } else {
               this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
             }
-            setTimeout(()=>this.ErrorMessage="",2000);
+            setTimeout(()=>{
+              this.fadeInError=false;
+              setTimeout(()=>this.ErrorMessage="",900);
+            },2000);
           },
           () => {
             this.SendingInfo = false;
@@ -187,10 +200,10 @@ export class HomeComponent implements OnInit {
   }
 
   public SeleccionDeAssessment(index: number) {
-    console.log("assessment",index);
+    // console.log("assessment",index);
     
     this.AssessmentSelected = this.AllAssessments[index];
-    console.log(this.AssessmentSelected);
+    // console.log(this.AssessmentSelected);
     
     this._appComponent._storageDataService.AssessmentSelected = this.AssessmentSelected;
     this.existeRepetida = false;
@@ -206,7 +219,7 @@ export class HomeComponent implements OnInit {
             //Lo guarda en el storage
             this._appComponent._storageDataService.Evaluacion = res;
             //Si hay un proyecto sin finalizar
-            console.log("XXXXX",res);
+            // console.log("XXXXX",res);
             if (res != null) {
               this.existeRepetida = true;
             } 
@@ -223,7 +236,10 @@ export class HomeComponent implements OnInit {
             } else {
               this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
             }
-            setTimeout(()=>this.ErrorMessage="",2000);
+            setTimeout(()=>{
+              this.fadeInError=false;
+              setTimeout(()=>this.ErrorMessage="",900);
+            },2000);
           },
           () => {
             this.SendingInfo = false;
@@ -237,8 +253,8 @@ export class HomeComponent implements OnInit {
   public GuardarEvaluacion() {
 
     var NuevaEvaluacion: EvaluacionCreate = { 'estado': false, 'proyectoid': this.ProyectoSeleccionado.id, 'assessmentId': this.AssessmentSelected.assessmentId };
-    console.log("assessmeeeent", this.AssessmentSelected);
-    console.log(NuevaEvaluacion);
+    // console.log("assessmeeeent", this.AssessmentSelected);
+    // console.log(NuevaEvaluacion);
     
     this._evaluacionService.addEvaluacion(NuevaEvaluacion).subscribe(
       res => {
@@ -256,7 +272,10 @@ export class HomeComponent implements OnInit {
         } else {
           this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         }
-        setTimeout(()=>this.ErrorMessage="",2000);
+        setTimeout(()=>{
+          this.fadeInError=false;
+          setTimeout(()=>this.ErrorMessage="",900);
+        },2000);
         this.SendingInfo = false;
       });
   }
@@ -267,7 +286,10 @@ export class HomeComponent implements OnInit {
       this._router.navigate(['/evaluacionprevia']);
     } else {
       this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
-      setTimeout(()=>this.ErrorMessage="",2000);
+      setTimeout(()=>{
+        this.fadeInError=false;
+        setTimeout(()=>this.ErrorMessage="",900);
+      },2000);
     }
   }
 
@@ -296,7 +318,10 @@ export class HomeComponent implements OnInit {
         } else {
           this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
         }
-        setTimeout(()=>this.ErrorMessage="",2000);
+        setTimeout(()=>{
+          this.fadeInError=false;
+          setTimeout(()=>this.ErrorMessage="",900);
+        },2000);
         this.SendingInfo = false;
       });
   }
@@ -333,7 +358,12 @@ export class HomeComponent implements OnInit {
     } else {
       let item = this.checkIfIsSet(this.ProyectoSeleccionado) ? "una evaluación": "un proyecto";
       this.ErrorMessage = `Seleccione ${item} para realizar esta acción.`;
-      setTimeout(()=>this.ErrorMessage="",2000);
+      this.fadeInError = true;
+      setTimeout(()=>{
+        this.fadeInError=false;
+        setTimeout(()=>this.ErrorMessage="",900);
+      },2000);
+      
     }
   }
 
@@ -346,13 +376,13 @@ export class HomeComponent implements OnInit {
     this._proyectoService.getRolesUsuario().subscribe(
       res => {
         var permisosDeUsuario = res;
-        console.log("permisos de usuario en getUserRole", permisosDeUsuario);
+        //console.log("permisos de usuario en getUserRole", permisosDeUsuario);
         this._appComponent._storageDataService.Role = permisosDeUsuario.role;
         //Si no hay errores y son recogidos busca si tienes permisos de usuario
           if (permisosDeUsuario.role == "Administrador") {
             //this._appComponent.RolDeUsuario = true;
-            console.log("this._appComponent.RolDeUsuario", this._appComponent.RolDeUsuario);
-            console.log("this._appComponent._storageDataService.RoleAdmin", this._appComponent._storageDataService.RoleAdmin);
+            // console.log("this._appComponent.RolDeUsuario", this._appComponent.RolDeUsuario);
+            // console.log("this._appComponent._storageDataService.RoleAdmin", this._appComponent._storageDataService.RoleAdmin);
             this._appComponent._storageDataService.RoleAdmin = true;
           }else{
             this._appComponent._storageDataService.RoleAdmin = false;
