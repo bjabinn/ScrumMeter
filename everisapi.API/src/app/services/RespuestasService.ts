@@ -1,8 +1,8 @@
 
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable } from 'rxjs';
 
-import {catchError, map} from 'rxjs/operators';
-import { Injectable, Inject } from '@angular/core';
+import { catchError, map } from 'rxjs/operators';
+import { Injectable, Inject, isDevMode } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -20,18 +20,17 @@ export class RespuestasService {
 
   constructor(private _http: Http,
     private _appComponent: AppComponent) {
-    /*//DESCOMENTAR
-    var loc = window.location.href;
-    var index = 0;
-    for (var i = 0; i < 3; i++) {
-      index = loc.indexOf("/", index + 1);
+    if (isDevMode()) {
+      this.url = "http://localhost:60406/api/";
+    } else {
+      var loc = window.location.href;
+      var index = 0;
+      for (var i = 0; i < 3; i++) {
+        index = loc.indexOf("/", index + 1);
+      }
+
+      this.url = loc.substring(0, index) + "/api/";
     }
-
-    this.url = loc.substring(0, index) + "/api/";
-    */
-
-    //COMENTAR
-    this.url = "http://localhost:60406/api/";
   }
 
 
@@ -43,7 +42,7 @@ export class RespuestasService {
     });
     return this._http.get(this.url + 'respuestas/evaluacion/' + idEvaluacion + '/asignacion/' + idAsignacion, { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Este metodo devuelve un listado con sus preguntas y respuestas de una evaluación y su asignación
@@ -55,7 +54,7 @@ export class RespuestasService {
 
     return this._http.get(this.url + 'asignaciones/evaluacion/' + idEvaluacion + '/asignacion/' + idAsig, { headers: headers }).pipe(
       map((response: Response) => response.json()),
-      catchError(this.errorHandler),);
+      catchError(this.errorHandler));
   }
 
   //Este metodo se usa cuando se quiere poner todas las respuestas de una asignacion a No Contestado
