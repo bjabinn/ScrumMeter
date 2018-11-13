@@ -68,7 +68,7 @@
 
   <ng-template #content let-cl="close" let-di="dismiss">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header custom-modal-header">
         <h5 class="modal-title">Importante</h5> <button type="button" class="close" (click)="cl('Cerrar')">
           <span aria-hidden="true">×</span>
         </button>
@@ -76,9 +76,15 @@
       <div class="modal-body">
         <p>¿Desea empezar una nueva evaluación? Al aceptar, se finalizará la evaluación anterior. </p>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="main-button mat-elevation-z4" (click)="di('Continuar')">Continuar</button>
-        <button type="button" class="secondary-button mat-elevation-z4" (click)="cl('Cerrar')">Cancelar</button>
+      <div class="container-fluid p-3 bt-1">
+        <div class="row p-0">
+          <div class="col">
+              <button type="button" class="main-button mat-elevation-z4 w-100 modal-btns" (click)="di('Continuar')">Aceptar</button>
+          </div>
+          <div class="col">
+              <button type="button" class="secondary-button mat-elevation-z4 w-100 modal-btns" (click)="cl('Cerrar')">Cancelar</button>
+          </div>
+        </div>
       </div>
     </div>
   </ng-template>
