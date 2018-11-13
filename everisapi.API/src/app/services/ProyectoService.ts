@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 
 
 import { AppComponent } from '../app.component';
+import { UserWithRole } from 'app/Models/UserWithRole';
 
 @Injectable()
 export class ProyectoService {
@@ -79,6 +80,16 @@ export class ProyectoService {
       'Authorization': Token
     });
     return this._http.get(this.url + 'users/' + this.UsuarioLogeado + "/proyectos", { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler),);
+  }
+
+  getProyectosDeUsuarioSeleccionado(user: UserWithRole) {
+    let Token = this._appComponent.ComprobarUserYToken();
+    let headers = new Headers({
+      'Authorization': Token
+    });
+    return this._http.get(this.url + 'users/' + user.nombre + "/proyectos", { headers: headers }).pipe(
       map((response: Response) => response.json()),
       catchError(this.errorHandler),);
   }

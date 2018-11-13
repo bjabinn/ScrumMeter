@@ -30,50 +30,34 @@
       </mat-form-field>
     </div>
     
-        <div *ngIf="userCtrl.value != null" class="col-6">
-            <div *ngFor="let role of ListaDeRoles" class="list-group segmented-control">
-              <label for="{{role.id}}" class="list-group-item" [class.seleccionado]="role.id == userCtrl.value?.role.id || rolControl == role">
-                    <input id="{{role.id}}" [checked]="role?.id == userCtrl.value?.role.id" [value]='role' type="radio" name="roles" [(ngModel)]="rolControl" (change) ="SeleccionDeRol()">
-                    {{role.role}}
-              </label>
-            </div>
-          </div>
+    <div *ngIf="userCtrl.value != null" class="col-6">
+      <div *ngFor="let role of ListaDeRoles" class="list-group segmented-control">
+        <label for="{{role.id}}" class="list-group-item" [class.seleccionado]="role.id == userCtrl.value?.role.id || rolControl == role">
+              <input id="{{role.id}}" [checked]="role?.id == userCtrl.value?.role.id" [value]='role' type="radio" name="roles" [(ngModel)]="rolControl" (change) ="seleccionDeRol()">
+                {{role.role}}
+        </label>
+      </div>
+    </div>
       
     
   </div>
 
-<div class="row" style="margin-top:30px">
+<div *ngIf="userCtrl.value != null" class="row" style="margin-top:30px">
   <div class="col-6">    
-  <mat-form-field>
-      <mat-select [formControl]="projectMultiCtrl" placeholder="Proyectos" [multiple]="true" #multiSelect>
+    <mat-form-field *ngIf="this.projectsSelected.length>0 || showProjects">
+      <mat-select  placeholder="Proyectos" multiple  [(value)] = "projectsSelected" #multiSelect>
         <ngx-mat-select-search [placeholderLabel]="'Buscar...'" [noEntriesFoundLabel]="'No se han encontrado resultados'" [formControl]="projectMultiFilterCtrl"></ngx-mat-select-search>
-        <mat-option *ngFor="let project of filteredProjectsMulti | async" [value]="project">
+        <mat-option *ngFor="let project of filteredProjectsMulti | async" value={{project.id}} (click)="manageUserProjects(project)">
           {{project.nombre}}
         </mat-option>
       </mat-select>
     </mat-form-field>
   </div>  
-    <div class="col-6">
-    <p>
-      Proyectos asignados:
-    </p>
-    <ul *ngFor="let project of projectMultiCtrl?.value">
-      <li>{{project.nombre}}</li>
-    </ul>
-
-    <!-- <mat-selection-list #projectMultiCtrl>
-        <mat-list-option *ngFor="let project of projectMultiCtrl?.value">
-            {{project.nombre}}
-        </mat-list-option>
-      </mat-selection-list> -->
-       
-      <!-- <p>
-        Options selected: {{shoes.selectedOptions.selected.length}}
-      </p> -->
-
-
-
+  <div class="col-6">    
+     
+    <mat-selection-list>
+        <h3 matSubheader>Proyectos usuario</h3>
+        <mat-list-option *ngFor="let proyecto of ListaDeProyectosUsuario"> {{proyecto.nombre}} </mat-list-option>
+      </mat-selection-list>
   </div>
-  </div>
-  
 </div>
