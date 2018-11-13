@@ -46,7 +46,7 @@
               </select>
             </div>
             <div class="col-4">
-              <div class="main-button mat-elevation-z5 new-eval w-85 m-auto" (click)="showModal(content)">
+              <div class="main-button mat-elevation-z5 new-eval w-85 m-auto" [class.card-disabled]="!this.AssessmentSelected" (click)="showModal(content)">
                 <a>NUEVA EVALUACI&Oacute;N</a>
               </div>
             </div>

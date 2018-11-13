@@ -5,37 +5,84 @@
   text-align: left;
   max-width: 1100px;
   font-size: 16px;
-  margin-top: 15px;
+  // margin-top: 15px;
   // border-radius: 5px;
 
-  &.main-button{
-    text-align:center !important ;
+  &.main-button {
+    text-align: center !important;
   }
 }
-.comment{
+
+.comment {
   height: 40px !important;
 }
+
 // .corregir {
 //   margin-right: 5%;
 // }
 
 
-.m-finalizar{
+.m-finalizar {
   height: 39px;
   width: 20%;
   margin-left: 40%;
+}
+
+.custom-text-area {
+  &:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #99AD00;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(153, 173, 0, 0.32)
+  }
+}
+.modal-content{
+  border:none;
+}
+
+ngb-modal-window {
+  .modal-dialog {
+    .modal-content {
+      border: none;
+    }
+
+    .modal-content {
+      border-radius: 0px;
+    }
+  }
+}
+
+.custom-modal-header {
+  background: #99AD00;
+  color: white;
+  font-weight: bold;
+}
+
+.modal-btns {
+  height: 50px;
+  padding-top: 11px;
+}
+
+.bt-1 {
+  border-top: 1px solid #dcdcdc;
+}
+
+#numletras {
+  font-size: 0.7rem;
+  font-style: italic;
 }
 
 #barraespacio {
   margin-bottom: 15px;
   margin-top: 15px;
   padding: 15px;
-  padding-top: 5px;
+  padding-top: 9px;
 }
 
 h2 {
   text-align: center;
-  display: inline-block!important;
+  display: inline-block !important;
 }
 
 .arrow {
@@ -61,7 +108,7 @@ h2 {
 .inicio {
   background-color: #337ab7 !important;
   border-color: #2e6da4 !important;
-  transition-duration: 0.1s!important;
+  transition-duration: 0.1s !important;
 }
 
 .inicio:hover {
@@ -78,7 +125,7 @@ h2 {
   background-color: #428442 !important;
 }
 
-.main-buttonModal{
+.main-buttonModal {
   width: 310px;
   height: 36px;
   font-size: 16px;
@@ -91,13 +138,14 @@ h2 {
   // transition: all .5s ease;
   // border-radius: 3px;
   cursor: pointer;
-  padding-top:6px;
+  padding-top: 6px;
   border: none;
-  
 
-  &:hover{
-    color:#7b8a02;
-    background: white;/*rgba(153, 173, 0, 0.03137254901960784);;*/
+
+  &:hover {
+    color: #7b8a02;
+    background: white;
+    /*rgba(153, 173, 0, 0.03137254901960784);;*/
     border: 1px solid #99AD00;
   }
 }
@@ -168,4 +216,5 @@ h2 {
   cursor: pointer;
   overflow: hidden;
   outline: none;
+  margin-top: -4px;
 }
