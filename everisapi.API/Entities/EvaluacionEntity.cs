@@ -45,5 +45,12 @@ namespace everisapi.API.Entities
     //Mediante esta Foreign Key estamos relacionando AsignacionEntity con su Id
     [ForeignKey("AssessmentId")]
     public AssessmentEntity Assessment { get; set; }
-  }
+  
+
+  public string UserNombre { get; set; }
+    //AsignacionEntity esta relacionando la pregunta con la asignación
+    //Mediante esta Foreign Key estamos relacionando AsignacionEntity con su Id
+    [ForeignKey("UserNombre")]
+    public UserEntity UserEntity { get; set; }
+    }
 }
