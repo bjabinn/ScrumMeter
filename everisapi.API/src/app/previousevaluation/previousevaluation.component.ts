@@ -14,13 +14,16 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { ChartsModule, BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { DatePipe } from '@angular/common';
+import { SectionInfo } from 'app/Models/SectionInfo';
+import { SectionService } from 'app/services/SectionService';
+
 // import { setTimeout } from 'timers';
 
 @Component({
   selector: 'app-previousevaluation',
   templateUrl: './previousevaluation.component.html',
   styleUrls: ['./previousevaluation.component.scss'],
-  providers: [EvaluacionService, ProyectoService]
+  providers: [EvaluacionService, ProyectoService, SectionService]
 })
 export class PreviousevaluationComponent implements OnInit {
   public clicked: boolean = true;
@@ -28,6 +31,7 @@ export class PreviousevaluationComponent implements OnInit {
   public Typing: boolean = false;
   public permisosDeUsuario: Array<Role> = [];
   public ListaDeEvaluacionesPaginada: Array<EvaluacionInfo>;
+  public ListaDeSectionInfo: Array<Array<SectionInfo>> = [];
   public nEvaluaciones: number = 0;
   public UserName: string = "";
   public Project: Proyecto = { 'id': null, 'nombre': '', 'fecha': null };
@@ -67,6 +71,7 @@ export class PreviousevaluationComponent implements OnInit {
     private _router: Router,
     public _evaluacionService: EvaluacionService,
     private _proyectoService: ProyectoService,
+    private _sectionService: SectionService,
     private modalService: NgbModal
   ) { }
 
@@ -302,6 +307,9 @@ export class PreviousevaluationComponent implements OnInit {
         res => {
           this.nEvaluaciones = res.numEvals;
           this.ListaDeEvaluacionesPaginada = res.evaluacionesResult;  
+
+          //we get the Array<SectionInfo> for each evaluation
+          this.getEvaluationsSectionInfo();
           
           this.CalcularPaginas();
           this.shareDataToChart();
@@ -463,6 +471,28 @@ export class PreviousevaluationComponent implements OnInit {
 
   }
 
+  public getEvaluationsSectionInfo(){
+    this.ListaDeEvaluacionesPaginada.forEach(evaluacion => {  
+    this._sectionService.getSectionInfo(evaluacion.id, evaluacion.assessmentId).subscribe( //this._appComponent._storageDataService.AssessmentSelected.assessmentId
+      res => {
+        this.ListaDeSectionInfo.push(res);
+      },
+      error => {
+        if (error == 404) {
+          this.ErrorMessage = "Error: " + error + "No pudimos recoger los datos de la sección lo sentimos.";
+        } else if (error == 500) {
+          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        } else if (error == 401) {
+          this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+        } else {
+          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        }
+      }
+    );
+  });
+    
+  }
+
   //Opciones para la grafica
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
@@ -479,6 +509,13 @@ export class PreviousevaluationComponent implements OnInit {
       callbacks: {
         label: function (tooltipItem, data) {
           //const datasetLabel = data.datasets[tooltipItem.datasetIndex].label || '';
+          // console.log(data);
+          // var labels = [];
+          // for (let index = 0; index < this.ListaDeSectionInfo[tooltipItem.datasetIndex].length; index++) {
+          //   const sectionInfo = this.ListaDeSectionInfo[tooltipItem.datasetIndex][index];
+          //     labels.push(sectionInfo.nombre + ': ' + sectionInfo.respuestasCorrectas + '%');
+          //   }
+          
           return  ["Ceremonias" + ': ' + 'xx.x' + '%', "Roles" + ':      ' + 'xx.x' + '%', "Artefactos" + ': ' + 'xx.x' + '%'];
         },
         footer: function(tooltipItem, data) {
@@ -527,7 +564,7 @@ export class PreviousevaluationComponent implements OnInit {
   //Estos son los datos introducidos en la grafica para que represente sus formas
   public barChartData: any[] = [
     { data: this.ListaPuntuacion, label: 'Puntuacion' },
-    { data: this.ListaPuntuacion, label: 'B' },
+    //{ data: this.ListaDeSectionInfo, label: 'Sections' },
   ];
 
   public getUserRole(){
