@@ -14,7 +14,7 @@
 
 <div *ngIf="Mostrar" class="container-fluid">
   <h2 _ngcontent-c3>Resultado evaluación</h2>
-  <div class="row">
+  <div class="row" hidden>
     <div class="ml-2 pl-5 col-xs-12 col-sm-6 col-md-3 col-lg-4 col-xl-3 mt-3" *ngIf="mostrarCheckboxes">
 
       <div class="checkbox">
@@ -148,7 +148,81 @@
 
   </div>
 
+  <div class="data mb-2">
+    <b>{{Evaluacion.nombre}}</b> - <b>{{Evaluacion.fecha | date:'dd/MM/yyyy'}}</b>
+  </div>
 
+  <div class="circle-progress-container">
+      <div *ngFor="let datos of ListaDeDatos; let i = index" [attr.data-index]="i">
+    <circle-progress
+  [percent]= "datos.respuestasCorrectas/ ListaSeccionesAgileCompliance[i] * 100"
+  [toFixed] = "1"
+  [subtitle] = "['del nivel', 'Agile Compliance']"
+  [radius]="60"
+  [outerStrokeWidth]="8"
+  [innerStrokeWidth]="4"
+  [innerStrokeColor]="datos.respuestasCorrectas>ListaSeccionesAgileCompliance[i]?'#C7E596':'#ffdb7b'"
+  [outerStrokeColor]="datos.respuestasCorrectas>ListaSeccionesAgileCompliance[i]?'#78C000':'#FDB900'"
+  [animation]="true"
+  [animationDuration]="300"
+    ></circle-progress>
+    <div class="text-center"><b>{{datos.nombre}}</b></div>
+  </div>
+  <div>
+      <circle-progress
+      [percent]= "Evaluacion.puntuacion/AgileComplianceTotal*100"
+      [toFixed] = "1"
+      [subtitle] = "['del nivel', 'Agile Compliance']"
+      [radius]="80"
+      [outerStrokeWidth]="10"
+      [innerStrokeWidth]="5"
+      [innerStrokeColor]="Evaluacion.puntuacion>AgileComplianceTotal?'#C7E596':'#ffdb7b'"
+      [outerStrokeColor]="Evaluacion.puntuacion>AgileComplianceTotal?'#78C000':'#FDB900'"
+      [animation]="true"
+      [animationDuration]="300"
+        ></circle-progress>
+        <div class="text-center"><b>TOTAL</b></div>
+  </div>
+
+  </div>
+
+  <div class="notas-row">
+      <div class="notas-container">
+      <mat-form-field class="comments-form-field" appearance="outline">
+          <mat-label>Notas Evaluación</mat-label>
+          <textarea matInput 
+          cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="6"
+        cdkAutosizeMaxRows="6"
+        placeholder="Notas Evaluación" [(ngModel)]="Evaluacion.notasEvaluacion"
+        [debounce]="2000" 
+        (ngModelChange)="saveNotas(Evaluacion)"
+        [readonly] = "UserRole != 'Evaluador' && UserRole != 'Administrador'"> 
+        </textarea>
+        </mat-form-field>
+      </div>
+      <div class="notas-container">
+          <mat-form-field class="comments-form-field" appearance="outline">
+              <mat-label>Notas Objetivos</mat-label>
+              <textarea matInput 
+              cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="6"
+            cdkAutosizeMaxRows="6"
+            placeholder="Notas Objetivos" [(ngModel)]="Evaluacion.notasObjetivos"
+            [debounce]="2000" 
+            (ngModelChange)="saveNotas(Evaluacion)"
+            [readonly] = "UserRole != 'Evaluador' && UserRole != 'Administrador'"> 
+            </textarea>
+            </mat-form-field>
+          </div>
+  </div>
+
+
+
+
+<!--vvv parte antigua, borrar una vez consultada vvv-->
   <div class="row m-0 p-5">
     <div class="notas col-12" *ngIf="mostrarNotasEv" id="notasEvaluacion">
       <h4 [ngClass]="{'textopdf':cargandoPDF}">Notas de evaluación</h4>

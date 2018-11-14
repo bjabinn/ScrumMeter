@@ -27,7 +27,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {MatListModule} from '@angular/material/list';
 import {DebounceDirective} from './debounceDirective';
 import { QuestionsManagerComponent } from './back-office/components/questions-manager/questions-manager.component';
-
+import { NgCircleProgressModule } from 'ng-circle-progress';
 
 @NgModule({
   declarations: [
@@ -45,7 +45,6 @@ import { QuestionsManagerComponent } from './back-office/components/questions-ma
     SortedTableComponent,
     DebounceDirective,
     QuestionsManagerComponent,
-  
  
   ],
   imports: [
@@ -64,7 +63,8 @@ import { QuestionsManagerComponent } from './back-office/components/questions-ma
     MatSelectModule,
     MatFormFieldModule,
     NgxMatSelectSearchModule,
-    MatListModule
+    MatListModule,
+    NgCircleProgressModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

@@ -8,6 +8,7 @@ import { AsignacionConNotas } from 'app/Models/AsignacionConNotas';
 import { AppComponent } from 'app/app.component';
 import { Router } from '@angular/router';
 import { SectionService } from 'app/services/SectionService';
+import { EvaluacionService } from '../services/EvaluacionService';
 import { DatePipe } from '@angular/common';
 import { ProyectoService } from 'app/services/ProyectoService';
 import { Http } from '@angular/http';
@@ -25,6 +26,9 @@ import * as imgTransform from 'img-transform';
 
 import { forEach } from '@angular/router/src/utils/collection';
 import { concat } from 'rxjs-compat/operator/concat';
+import { NgCircleProgressModule, CircleProgressOptions } from 'ng-circle-progress';
+import { PreviousevaluationComponent } from 'app/previousevaluation/previousevaluation.component';
+import { Evaluacion } from 'app/Models/Evaluacion';
 
 
 export interface RespuestaConNotasTabla {
@@ -46,7 +50,7 @@ export interface RespuestaConNotasTabla {
   selector: 'app-pdfgenerator',
   templateUrl: './pdfgenerator.component.html',
   styleUrls: ['./pdfgenerator.component.scss'],
-  providers: [SectionService, ProyectoService, DatePipe, RespuestasService],
+  providers: [SectionService, ProyectoService, DatePipe, RespuestasService, CircleProgressOptions, EvaluacionService, PreviousevaluationComponent],
   animations: [
     trigger('detailExpand', [
       state('collapsed, void', style({ height: '0px', minHeight: '0', display: 'none' })),
@@ -78,9 +82,6 @@ export class PdfgeneratorComponent implements OnInit {
   public ListaNombres: string[] = [];
 
 
-
-
-
   //Para las notas
   public mostrarCheckboxes: boolean = true;
   public mostrarNotasEv: boolean = false;
@@ -96,6 +97,18 @@ export class PdfgeneratorComponent implements OnInit {
   public anadeNota: string = null;
   public displayedColumns = ['seccion', 'modulo', 'pregunta', 'respuesta', 'notas', 'notas-admin'];
 
+  //CircleProgress
+  public outerStrokeColor  = (percent: number) : string => {
+    if(percent >= 100){
+      return "#78C000"
+    }else if(percent >= 10){
+      return "#FDB900"
+    }else if(percent > 0){
+      return "#FDB900"
+    }else {
+      return "#FF6347"
+    }
+  }
 
 
   //PDF
@@ -114,6 +127,7 @@ export class PdfgeneratorComponent implements OnInit {
     private _respuestasService: RespuestasService,
     private _router: Router,
     private _sectionService: SectionService,
+    private prevEval: PreviousevaluationComponent,
     private http: Http,
     private datePipe: DatePipe,
     private modalService: NgbModal) {
@@ -139,7 +153,7 @@ export class PdfgeneratorComponent implements OnInit {
       res => {
         this.AdminOn = false;
         ArrayRoles = res;
-        this.UserRole = res[0]; //there is only a role for each user
+        //this.UserRole = res[0]; //there is only a role for each user
         //Si no hay errores y son recogidos busca si tienes permisos de usuario
         for (let num = 0; num < ArrayRoles.length; num++) {
           if (ArrayRoles[num].role == "Administrador") {
@@ -171,7 +185,7 @@ export class PdfgeneratorComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.UserRole = this._appComponent._storageDataService.Role;
     //Recoge los datos de las secciones
     if (this.Evaluacion != null && this.Evaluacion != undefined) {
       
@@ -442,6 +456,21 @@ export class PdfgeneratorComponent implements OnInit {
 
     });
 
+  }
+
+  saveNotas(model: Evaluacion): void{
+    if(this.UserRole == "Administrador" || this.UserRole == "Evaluador"){
+      this.prevEval._evaluacionService.updateEvaluacion(model).subscribe(
+        res => {
+          // console.log("success");
+        },
+        error => {
+          // console.log("error");
+        },
+        () => {
+          // this.Mostrar = true;
+        });
+    }
   }
 
 
