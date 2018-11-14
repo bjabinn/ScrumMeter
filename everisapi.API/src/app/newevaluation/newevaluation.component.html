@@ -263,55 +263,91 @@
 
   <ng-template #notasPreg let-cl="close" let-di="dismiss">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header custom-modal-header">
         <h5 class="modal-title">Notas Pregunta</h5> <button type="button" class="close" (click)="cl('Cerrar')">
           <span aria-hidden="true">×</span>
         </button>
       </div>
       <div class="modal-body">
-        <textarea class="form-control" maxlength="4000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
+        <textarea class="form-control custom-text-area" maxlength="4000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
+        <p id="numletras" class="mr-2 mt-2 mb-0">{{textoModal.length}}/4000</p>
+
       </div>
-      <div class="modal-footer">
-        <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/4000</p>
-        <button type="button" class="btn btn-success finalizar" (click)="di('Guardar')">Guardar</button>
-        <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
+      <div class="container-fluid p-3 bt-1">
+        <!-- <div class="row mx-0">
+          <div class="col">
+          </div>
+        </div> -->
+        <div class="row p-0">
+          <div class="col">
+            <button type="button" class="main-button w-100 modal-btns" (click)="di('Guardar')">Guardar</button>
+          </div>
+          <div class="col">
+            <button type="button" class="secondary-button w-100 modal-btns" (click)="cl('Cerrar')">Cancelar</button>
+          </div>
+          
+        </div>
       </div>
     </div>
   </ng-template>
 
   <ng-template #notasAsset let-cl="close" let-di="dismiss">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Notas Módulo</h5> <button type="button" class="close" (click)="cl('Cerrar')">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <textarea class="form-control" maxlength="4000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
-      </div>
-      <div class="modal-footer">
-        <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/4000</p>
-        <button type="button" class="btn btn-success finalizar" (click)="di('Guardar')">Guardar</button>
-        <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
-      </div>
+        <div class="modal-header custom-modal-header">
+            <h5 class="modal-title">Notas de Módulo</h5> <button type="button" class="close" (click)="cl('Cerrar')">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <textarea class="form-control custom-text-area" maxlength="4000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
+            <p id="numletras" class="mr-2 mt-2 mb-0">{{textoModal.length}}/4000</p>
+    
+          </div>
+          <div class="container-fluid p-3 bt-1">
+            <!-- <div class="row mx-0">
+              <div class="col">
+              </div>
+            </div> -->
+            <div class="row p-0">
+              <div class="col">
+                <button type="button" class="main-button w-100 modal-btns" (click)="di('Guardar')">Guardar</button>
+              </div>
+              <div class="col">
+                <button type="button" class="secondary-button w-100 modal-btns" (click)="cl('Cerrar')">Cancelar</button>
+              </div>
+              
+            </div>
+          </div>
     </div>
   </ng-template>
 
   <ng-template #notasSec let-cl="close" let-di="dismiss">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Notas Sección</h5> <button type="button" class="close" (click)="cl('Cerrar')">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <textarea class="form-control" maxlength="4000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
-      </div>
-      <div class="modal-footer">
-        <p id="numletras" class="mr-2 mt-2">{{textoModal.length}}/4000</p>
-        <button type="button" class="btn btn-success finalizar" (click)="di('Guardar')">Guardar</button>
-        <button type="button" class="btn btn-secondary" (click)="cl('Cerrar')">Cancelar</button>
-      </div>
+        <div class="modal-header custom-modal-header">
+            <h5 class="modal-title">Notas de Sección</h5> <button type="button" class="close" (click)="cl('Cerrar')">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <textarea class="form-control custom-text-area" maxlength="4000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
+            <p id="numletras" class="mr-2 mt-2 mb-0">{{textoModal.length}}/4000</p>
+    
+          </div>
+          <div class="container-fluid p-3 bt-1">
+            <!-- <div class="row mx-0">
+              <div class="col">
+              </div>
+            </div> -->
+            <div class="row p-0">
+              <div class="col">
+                <button type="button" class="main-button w-100 modal-btns" (click)="di('Guardar')">Guardar</button>
+              </div>
+              <div class="col">
+                <button type="button" class="secondary-button w-100 modal-btns" (click)="cl('Cerrar')">Cancelar</button>
+              </div>
+              
+            </div>
+          </div>
     </div>
   </ng-template>
 
