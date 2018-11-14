@@ -116,6 +116,13 @@ h2 {
   transition: all .8s ease !important;
 }
 
+#module-title-row{
+  border-bottom: 1px solid #80808059;
+  background: #f7f7f7f7;
+}
+
+
+
 .dots {
 
   height: 16px;
@@ -137,6 +144,7 @@ h2 {
     
   }
 
+  
   li {
     position: relative;
     display: block;
@@ -148,13 +156,13 @@ h2 {
     @extend .transition-animation;
     
     &:not(.current){
-      margin-top: 4px;
+      margin-top: 2px;
       @extend .transition-animation;
     }
 
     &.current{
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       @extend .transition-animation;
 
       a{
@@ -181,6 +189,15 @@ h2 {
   }
 }
 
+.footer-pb-pt{
+  border-top: 1px solid #dcdcdc;
+  padding-bottom: 2.3rem;
+  background: #f7f7f7;
+}
+
+.pl-13{
+  padding-left:2.3rem !important;
+}
 .one-badge{
   position: absolute;
   z-index: 4;
