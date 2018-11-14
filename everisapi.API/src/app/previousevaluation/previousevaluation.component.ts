@@ -467,6 +467,28 @@ export class PreviousevaluationComponent implements OnInit {
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
     showLines: true,
+    tooltips: {
+      bodyFontFamily: 'Lucida Console',
+      titleFontFamily: 'Lucida Console',
+      footerFontFamily: 'Lucida Console',
+      //bodyFontStyle: 'bold',
+      custom: function(tooltip) {
+        if (!tooltip) return;
+        tooltip.displayColors = false;
+      },
+      callbacks: {
+        label: function (tooltipItem, data) {
+          //const datasetLabel = data.datasets[tooltipItem.datasetIndex].label || '';
+          return  ["Ceremonias" + ': ' + 'xx.x' + '%', "Roles" + ':      ' + 'xx.x' + '%', "Artefactos" + ': ' + 'xx.x' + '%'];
+        },
+        footer: function(tooltipItem, data) {
+          return " Total" + ':     ' + tooltipItem[0].yLabel + '%';
+        },
+        title: function(tooltipItem, data) {
+          return " " + tooltipItem[0].xLabel;
+        },
+      }
+    },
     scales: {
       yAxes: [{
         ticks: {
@@ -490,6 +512,7 @@ export class PreviousevaluationComponent implements OnInit {
     }
   };
 
+   
   //Colores para la grafica
   public chartColors: Array<any> = [
     { // first color
@@ -503,7 +526,8 @@ export class PreviousevaluationComponent implements OnInit {
 
   //Estos son los datos introducidos en la grafica para que represente sus formas
   public barChartData: any[] = [
-    { data: this.ListaPuntuacion, label: 'Puntuación' }
+    { data: this.ListaPuntuacion, label: 'Puntuacion' },
+    { data: this.ListaPuntuacion, label: 'B' },
   ];
 
   public getUserRole(){
