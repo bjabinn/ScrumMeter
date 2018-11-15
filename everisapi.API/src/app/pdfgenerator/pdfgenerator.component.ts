@@ -61,9 +61,6 @@ export interface RespuestaConNotasTabla {
   ]
 })
 export class PdfgeneratorComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
   public ListaDeDatos: Array<SectionInfo> = [];
   public UserName: string = "";
   public Project: Proyecto = null;
@@ -95,7 +92,6 @@ export class PdfgeneratorComponent implements OnInit {
   public cargandoNotas: boolean = false;
   public textoModal: string;
   public anadeNota: string = null;
-  public displayedColumns = ['seccion', 'modulo', 'pregunta', 'respuesta', 'notas', 'notas-admin'];
 
   //CircleProgress
   public outerStrokeColor  = (percent: number) : string => {
@@ -212,14 +208,12 @@ export class PdfgeneratorComponent implements OnInit {
       this._router.navigate(['/home']);
     }
 
-
-
-
     //Para que no de error en modo development
     setTimeout(() => {
       this._appComponent.anadirUserProyecto(null, this.Evaluacion.nombre);
     });
 
+    this.cambiarMostrarNotasPreg();
   }
 
   //Da los datos a las diferentes listas que usaremos para las graficas
@@ -515,11 +509,6 @@ export class PdfgeneratorComponent implements OnInit {
           
           this.cargandoNotas = false;
           this.mostrarNotasPreg = true;
-          this.respuestasSource = new MatTableDataSource(res);
-          // console.log(this.respuestasSource.data);
-
-          this.respuestasSource.sort = this.sort;
-          this.respuestasSource.paginator = this.paginator;
         },
         error => {
           if (error == 404) {

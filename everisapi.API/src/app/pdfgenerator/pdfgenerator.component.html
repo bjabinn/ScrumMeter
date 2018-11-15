@@ -196,7 +196,7 @@
         cdkAutosizeMinRows="6"
         cdkAutosizeMaxRows="6"
         placeholder="Notas Evaluación" [(ngModel)]="Evaluacion.notasEvaluacion"
-        [debounce]="2000" 
+        [debounce]="1000" 
         (ngModelChange)="saveNotas(Evaluacion)"
         [readonly] = "UserRole != 'Evaluador' && UserRole != 'Administrador'"> 
         </textarea>
@@ -211,13 +211,23 @@
             cdkAutosizeMinRows="6"
             cdkAutosizeMaxRows="6"
             placeholder="Notas Objetivos" [(ngModel)]="Evaluacion.notasObjetivos"
-            [debounce]="2000" 
+            [debounce]="1000" 
             (ngModelChange)="saveNotas(Evaluacion)"
             [readonly] = "UserRole != 'Evaluador' && UserRole != 'Administrador'"> 
             </textarea>
             </mat-form-field>
           </div>
   </div>
+
+  <div class="table-row" *ngIf="true">
+    <preguntas-table *ngIf="ListaDeRespuestas" [dataInput]="ListaDeRespuestas" class="preguntas-table">
+      loading
+    </preguntas-table>
+    
+  </div>
+
+
+
 
 
 
@@ -275,10 +285,10 @@
       <app-loading></app-loading>
     </div>
 
-    <hr *ngIf="mostrarNotasPreg && (mostrarNotasEv || mostrarNotasOb || mostrarNotasSec || mostrarNotasAsig)" [ngClass]="{'textopdf':cargandoPDF}" />
+    <hr *ngIf=" mostrarNotasPreg && (mostrarNotasEv || mostrarNotasOb || mostrarNotasSec || mostrarNotasAsig)" [ngClass]="{'textopdf':cargandoPDF}" />
 
     <!-- Nueva tabla preguntas  -->
-    <div class="mat-elevation-z8 example-container m-auto" *ngIf="mostrarNotasPreg">
+    <div class="mat-elevation-z8 example-container m-auto" *ngIf="mostrarNotasPreg && false">
       <table mat-table [dataSource]="respuestasSource" aria-label="Elements">
 
         <!-- Seccion  -->

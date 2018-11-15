@@ -21,6 +21,7 @@ import { BackOfficeComponent } from './back-office/back-office.component';
 import { UserManagementComponent } from './back-office/components/user-management/user-management.component';
 import { AddUserProjectComponent } from './back-office/components/add-user-project/add-user-project.component';
 import { SortedTableComponent } from './sorted-table/sorted-table.component';
+import { PreguntasTableComponent } from './preguntas-table/preguntas-table.component';
 import { MatTableModule, MatPaginatorModule, MatSortModule, MatInputModule } from '@angular/material';
 import { MatFormFieldModule, MatSelectModule } from '@angular/material';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
@@ -43,6 +44,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     UserManagementComponent,
     AddUserProjectComponent,
     SortedTableComponent,
+    PreguntasTableComponent,
     DebounceDirective,
     QuestionsManagerComponent,
  
