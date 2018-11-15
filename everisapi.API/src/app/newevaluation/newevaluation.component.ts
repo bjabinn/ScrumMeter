@@ -14,12 +14,13 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Section } from 'app/Models/Section';
 import { SectionInfo } from 'app/Models/SectionInfo';
 import { SectionModify } from 'app/Models/SectionModify';
+import { ProyectoService } from 'app/services/ProyectoService';
 
 @Component({
   selector: 'app-newevaluation',
   templateUrl: './newevaluation.component.html',
   styleUrls: ['./newevaluation.component.scss'],
-  providers: [SectionService, RespuestasService]
+  providers: [SectionService, RespuestasService, ProyectoService]
 })
 export class NewevaluationComponent implements OnInit {
   public ListaAsignaciones: Array<Asignacion> = [];
@@ -44,7 +45,8 @@ export class NewevaluationComponent implements OnInit {
     private _respuestasService: RespuestasService,
     private _router: Router,
     private _appComponent: AppComponent,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private _proyectoService: ProyectoService) {
 
 
     this.SectionSelected = this._appComponent._storageDataService.SectionSelectedInfo;
@@ -53,7 +55,7 @@ export class NewevaluationComponent implements OnInit {
     this.Evaluation = this._appComponent._storageDataService.Evaluacion;
 
     if (this._appComponent._storageDataService.UserData == undefined || this._appComponent._storageDataService.UserData == null) {
-      this.UserName = localStorage.getItem("user");
+      this.UserName = this._proyectoService.UsuarioLogeado;
       if (this.UserName == undefined || this.UserName == null || this.UserName == "") {
         this._router.navigate(['/login']);
       }
