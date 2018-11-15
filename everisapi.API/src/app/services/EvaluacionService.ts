@@ -13,6 +13,7 @@ import { EvaluacionInfo } from 'app/Models/EvaluacionInfo';
 import { map, tap, catchError } from 'rxjs/operators';
 import { User } from 'app/Models/User';
 import { AppComponent } from 'app/app.component';
+import { ProyectoService } from './ProyectoService';
 
 @Injectable()
 export class EvaluacionService {
@@ -21,7 +22,8 @@ export class EvaluacionService {
   public url: string;
 
   constructor(private _http: Http,
-    private _appComponent: AppComponent) {
+    private _appComponent: AppComponent,
+    private _proyectoService: ProyectoService) {
 
     if (isDevMode()) {
       this.url = "http://localhost:60406/api/";
@@ -144,7 +146,7 @@ export class EvaluacionService {
 
   //Nos permite realizar un update de una evaluacion en la base de datos
   updateEvaluacion(evaluacion: Evaluacion) {
-    evaluacion.userNombre = localStorage.getItem("user");
+    evaluacion.userNombre = this._proyectoService.UsuarioLogeado;
     let Token = this._appComponent.ComprobarUserYToken();
     let params = JSON.stringify(evaluacion);
     let headers = new Headers({

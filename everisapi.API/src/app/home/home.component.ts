@@ -252,7 +252,7 @@ export class HomeComponent implements OnInit {
   //Este metodo crea una nueva evaluación y la manda para guardarla en la base de datos
   public GuardarEvaluacion() {
 
-    var NuevaEvaluacion: EvaluacionCreate = { 'estado': false, 'proyectoid': this.ProyectoSeleccionado.id, 'userNombre': localStorage.getItem("user"), 'assessmentId': this.AssessmentSelected.assessmentId };
+    var NuevaEvaluacion: EvaluacionCreate = { 'estado': false, 'proyectoid': this.ProyectoSeleccionado.id, 'userNombre': this._proyectoService.UsuarioLogeado, 'assessmentId': this.AssessmentSelected.assessmentId };
     // console.log("assessmeeeent", this.AssessmentSelected);
     // console.log(NuevaEvaluacion);
     
