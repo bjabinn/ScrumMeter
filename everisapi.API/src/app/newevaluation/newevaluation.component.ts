@@ -53,7 +53,7 @@ export class NewevaluationComponent implements OnInit {
     //Recogemos el proyecto y el usuario si no coincide alguno lo redirigiremos
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
     this.Evaluation = this._appComponent._storageDataService.Evaluacion;
-
+    this._proyectoService.verificarUsuario();
     if (this._appComponent._storageDataService.UserData == undefined || this._appComponent._storageDataService.UserData == null) {
       this.UserName = this._proyectoService.UsuarioLogeado;
       if (this.UserName == undefined || this.UserName == null || this.UserName == "") {
