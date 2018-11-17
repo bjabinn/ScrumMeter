@@ -21,8 +21,8 @@ export class HomeComponent implements OnInit {
   public ErrorMessage: string = null;
   public ListaDeProyectos: Array<Proyecto> = [];
   public AllAssessments: Assessment[] = [];
-  public permisosDeUsuario: Array<Role> = [];
-  public AdminOn = false;
+  public permisosDeUsuario: Role;
+  public SeeAllProjects = false;
   public ProyectoSeleccionado: Proyecto;
   public AssessmentSelected: Assessment;
   public NombreDeUsuario: string;
@@ -59,11 +59,14 @@ export class HomeComponent implements OnInit {
       res => {
         this.permisosDeUsuario = res;
         //Si no hay errores y son recogidos busca si tienes permisos de usuario
-        for (let num = 0; num < this.permisosDeUsuario.length; num++) {
-          if (this.permisosDeUsuario[num].role == "Administrador") {
-            this.AdminOn = true;
-          }
-        }
+        // for (let num = 0; num < this.permisosDeUsuario.length; num++) {
+        //   console.log("1" + this.permisosDeUsuario);
+        //   if (this.permisosDeUsuario[num].role == "Administrador" || this.permisosDeUsuario[num].role == "Evaluador") {
+        //     this.AdminOn = true;
+        //   }
+        // }
+
+        this.SeeAllProjects = this.permisosDeUsuario.role == "Administrador" || this.permisosDeUsuario.role == "Evaluador";
         //Llamamos al metodo para asignar proyectos
         this.MostrarInfo = true;
         this.RecogerProyectos();
@@ -106,7 +109,7 @@ export class HomeComponent implements OnInit {
     //Segun el tipo de rol que tengas te permitira tener todos los proyectos o solo los tuyos
     //El servicio se encargara de enviar una respuesta con el listado de proyecto
     //El usuario necesario ya tendria que haber sido cargado en el logueo
-    if (!this.AdminOn) {
+    if (!this.SeeAllProjects) {
       //Aqui se entra solo si no tienes permisos de administrador dandote los proyectos que te tocan
       this._proyectoService.getProyectosDeUsuario().subscribe(
         res => {
@@ -282,7 +285,7 @@ export class HomeComponent implements OnInit {
 
   //Este metodo consulta las evaluaciones anteriores de este proyecto si esta seleccionado y existe
   public EvaluacionesAnteriores() {
-    if (this.AdminOn || this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
+    if (this.SeeAllProjects || this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
       this._router.navigate(['/evaluacionprevia']);
     } else {
       this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";

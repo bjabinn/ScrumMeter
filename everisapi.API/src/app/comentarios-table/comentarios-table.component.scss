@@ -5,6 +5,7 @@ table {
   }
   mat-table{
   width: 100%!important;
+  min-width: 80%;
   }
   
   mat-cell {
@@ -21,17 +22,18 @@ table {
    
     /* height: 40px; */
   }
-  ::ng-deep  .mat-sort-header-container {
-    display: flex !important;
+  ::ng-deep  .mat-sort-header-container  {
+    display: flex;
     cursor: pointer;
-    justify-content: center !important;
+    //align-items: center;
+    justify-content: left;
   }
 
   td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
     border-bottom-width: 1px;
     border-bottom-style: solid;
     font-size: 12px;
-    text-align: center;
+    //text-align: center;
 }
 
 .comments-form-field{
@@ -45,7 +47,7 @@ table {
     padding-right: 0px;
   }
 
-  img.estado, img.comment, img.informe{
+  img.estado, img.comment, img.informe, img.respuesta{
     width: 30px;
     height: 30px;
   }
@@ -111,4 +113,23 @@ table {
   .example-element-description-attribution {
     opacity: 0.5;
   } 
+
+  .respuesta{
+    display: inline;
+  }
+
+  .mat-column-seccion,  .mat-column-modulo{
+    width: 20%;
+  }
+
+  .mat-column-respuesta,  .mat-column-notas{
+    width: 10%;
+  }
+  .mat-column-notas{
+    width: 5%;
+  }
+  .mat-column-pregunta{
+    width: 45%;
+  }
+
   

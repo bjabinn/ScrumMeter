@@ -23,7 +23,7 @@ table {
     /* height: 40px; */
   }
   ::ng-deep  .mat-sort-header-container  {
-    display: flex;
+    display: inline-flex !important;
     cursor: pointer;
     //align-items: center;
     justify-content: left;

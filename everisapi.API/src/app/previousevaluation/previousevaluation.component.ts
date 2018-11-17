@@ -27,7 +27,7 @@ import { SectionService } from 'app/services/SectionService';
 })
 export class PreviousevaluationComponent implements OnInit {
   public clicked: boolean = true;
-  public EvaluacionFiltrar: EvaluacionFilterInfo = { 'nombre': '', 'estado': '', 'fecha': '', 'userNombre': '', 'puntuacion': '' };
+  public EvaluacionFiltrar: EvaluacionFilterInfo = { 'nombre': '', 'estado': 'true', 'fecha': '', 'userNombre': '', 'puntuacion': '' };
   public Typing: boolean = false;
   public permisosDeUsuario: Array<Role> = [];
   public ListaDeEvaluacionesPaginada: Array<EvaluacionInfo>;
@@ -308,10 +308,11 @@ export class PreviousevaluationComponent implements OnInit {
           this.nEvaluaciones = res.numEvals;
           this.ListaDeEvaluacionesPaginada = res.evaluacionesResult;  
 
+
           //we get the Array<SectionInfo> for each evaluation
           this.getEvaluationsSectionInfo();
           
-          this.CalcularPaginas();
+          //this.CalcularPaginas();
           this.shareDataToChart();
           this.Mostrar = true;
         },

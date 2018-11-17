@@ -7,7 +7,7 @@
 
     <!-- Fecha  -->
     <ng-container matColumnDef="fecha">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header >Fecha</th>
       <td mat-cell *matCellDef="let row">{{row.fecha| date:'dd/MM/yyyy'}}</td>
     </ng-container>
 
@@ -62,10 +62,10 @@
 
     <!--  Informe -->
     <ng-container matColumnDef="informe">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Informe</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Resultados</th>
       <td mat-cell *matCellDef="let row">
         <button class="transparente" (click)="SaveDataToPDF(row)">
-          <img class="informe" src="assets/report.png" title="Ver informe" />
+          <img class="informe" src="assets/report.png" title="Ver Resultados" />
         </button>
       </td>
     </ng-container>

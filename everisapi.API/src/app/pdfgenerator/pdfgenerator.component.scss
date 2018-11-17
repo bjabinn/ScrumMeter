@@ -3,6 +3,10 @@ table {
 
 }
 
+img{
+  height:38px;
+}
+
 mat-table {
   width: 100% !important;
 }
@@ -681,16 +685,12 @@ hr.textopdf {
 .notas-row {
   overflow: hidden;
   display: flex;
-  margin-top:40px;
-  margin-left: 5%;
-  margin-right: 5%;
-}
-
-.tables-row{
+  margin-top:30px;
   margin-left: 10%;
   margin-right: 10%;
-  margin-top:40px;
+  padding-top: 20px;
 }
+
 .table-row{
   text-align: left;
   // display: flex;
@@ -699,4 +699,29 @@ hr.textopdf {
   //width: 80%;
   padding-left: 10%;
   padding-right: 10%;
+  margin-top: 40px;
+}
+
+.button-disabled{
+  opacity: 0.5;
+  cursor:pointer;
+}
+.botonPreguntas, .botonComentarios{
+  margin:0px;
+  cursor: default;
+}
+
+.botonesPregsOComents{
+  // float: right;
+  margin-bottom: -55px;
+  margin-left: 90%;
+  display: flex;
+}
+
+.isAgile{
+  background-image: url("/assets/agile.png");
+  background-repeat: no-repeat;
+  background-size: 50px;
+  background-position-x: 58px;
+  background-position-y: 94px;
 }

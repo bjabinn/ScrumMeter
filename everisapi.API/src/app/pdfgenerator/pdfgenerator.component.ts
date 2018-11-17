@@ -92,18 +92,21 @@ export class PdfgeneratorComponent implements OnInit {
   public cargandoNotas: boolean = false;
   public textoModal: string;
   public anadeNota: string = null;
+  public MostrarPreguntas: boolean = true;
+  public MostrarComentarios: boolean = false;
 
   //CircleProgress
-  public outerStrokeColor  = (percent: number) : string => {
-    if(percent >= 100){
-      return "#78C000"
-    }else if(percent >= 10){
-      return "#FDB900"
-    }else if(percent > 0){
-      return "#FDB900"
-    }else {
-      return "#FF6347"
+  public formatSubtitle  = (nota: number, compliance: number) : string => {
+    if(nota < compliance){
+      return "del nivel mínimo"
     }
+    else{
+      return "del nivel  " + Math.trunc(nota/compliance);
+    } 
+  }
+
+  public getPercent = (nota: number, compliance: number) : number => {
+    return (nota/compliance - Math.trunc(nota/compliance)) *100;
   }
 
 
@@ -466,8 +469,6 @@ export class PdfgeneratorComponent implements OnInit {
         });
     }
   }
-
-
 
   //Para no mostrar la pantalla de cargando
   public apagarCargar() {

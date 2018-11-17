@@ -29,6 +29,7 @@ import {MatListModule} from '@angular/material/list';
 import {DebounceDirective} from './debounceDirective';
 import { QuestionsManagerComponent } from './back-office/components/questions-manager/questions-manager.component';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { ComentariosTableComponent } from './comentarios-table/comentarios-table.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     AddUserProjectComponent,
     SortedTableComponent,
     PreguntasTableComponent,
+    ComentariosTableComponent,
     DebounceDirective,
     QuestionsManagerComponent,
  

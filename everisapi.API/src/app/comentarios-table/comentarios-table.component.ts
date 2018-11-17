@@ -22,9 +22,9 @@ import { Respuesta } from 'app/Models/Respuesta';
 // }
 
 @Component({
-  selector: 'preguntas-table',
-  templateUrl: './preguntas-table.component.html',
-  styleUrls: ['./preguntas-table.component.scss'],
+  selector: 'comentarios-table',
+  templateUrl: './comentarios-table.component.html',
+  styleUrls: ['./comentarios-table.component.scss'],
   animations: [
     trigger('detailExpand', [
     state('collapsed, void', style({ height: '0px', minHeight: '0', display: 'none' })),
@@ -35,7 +35,7 @@ import { Respuesta } from 'app/Models/Respuesta';
   ],
 })
 
-export class PreguntasTableComponent implements OnInit {
+export class ComentariosTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @Input() dataInput: any;//Array<EvaluacionInfo>;

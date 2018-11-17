@@ -153,12 +153,16 @@
   </div>
 
   <div class="circle-progress-container">
-      <div *ngFor="let datos of ListaDeDatos; let i = index" [attr.data-index]="i">
+      <div *ngFor="let datos of ListaDeDatos; let i = index" [attr.data-index]="i" [ngClass]="{'isAgile':datos.respuestasCorrectas>ListaSeccionesAgileCompliance[i]}">
     <circle-progress
-  [percent]= "datos.respuestasCorrectas/ ListaSeccionesAgileCompliance[i] * 100"
+  [percent]= "getPercent(datos.respuestasCorrectas, ListaSeccionesAgileCompliance[i])"
   [toFixed] = "1"
-  [subtitle] = "['del nivel', 'Agile Compliance']"
-  [radius]="60"
+  [subtitle] = "[formatSubtitle(datos.respuestasCorrectas, ListaSeccionesAgileCompliance[i]), '']"
+  [subtitleFormat] = "formatSubtitle(datos.respuestasCorrectas, ListaSeccionesAgileCompliance[i])"
+  [subtitleFontSize]= "12"
+  [titleFontSize]= "24"
+  [unitsFontSize]= "14"
+  [radius]="70"
   [outerStrokeWidth]="8"
   [innerStrokeWidth]="4"
   [innerStrokeColor]="datos.respuestasCorrectas>ListaSeccionesAgileCompliance[i]?'#C7E596':'#ffdb7b'"
@@ -168,7 +172,7 @@
     ></circle-progress>
     <div class="text-center"><b>{{datos.nombre}}</b></div>
   </div>
-  <div>
+  <!-- <div>
       <circle-progress
       [percent]= "Evaluacion.puntuacion/AgileComplianceTotal*100"
       [toFixed] = "1"
@@ -182,11 +186,11 @@
       [animationDuration]="300"
         ></circle-progress>
         <div class="text-center"><b>TOTAL</b></div>
-  </div>
+  </div> -->
 
   </div>
 
-  <div class="notas-row">
+  <div class="notas-row mat-elevation-z2">
       <div class="notas-container">
       <mat-form-field class="comments-form-field" appearance="outline">
           <mat-label>Notas Evaluación</mat-label>
@@ -219,8 +223,19 @@
           </div>
   </div>
 
+  
+
   <div class="table-row" *ngIf="true">
-    <preguntas-table *ngIf="ListaDeRespuestas" [dataInput]="ListaDeRespuestas" class="preguntas-table">
+      <div class="botonesPregsOComents">
+          <button class="transparente botonPreg" (click)="MostrarComentarios = false; MostrarPreguntas = true">
+              <img [class.button-disabled]="!MostrarPreguntas" src="assets/questions.png" title="Ver preguntas" />
+            </button>
+          <button class="transparente botonComents" (click)="MostrarComentarios = true; MostrarPreguntas = false">
+              <img [class.button-disabled]="!MostrarComentarios" src="assets/comments.png" title="Ver comentarios" />
+            </button>         
+        </div>
+        
+    <preguntas-table *ngIf="MostrarPreguntas && ListaDeRespuestas && ListaDeRespuestas.length > 0" [dataInput]="ListaDeRespuestas" class="preguntas-table">
       loading
     </preguntas-table>
     

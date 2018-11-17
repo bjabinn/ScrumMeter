@@ -40,7 +40,7 @@ export class SortedTableComponent implements OnInit {
   userRole: string;
   expandedElement: Evaluacion;
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['fecha', 'userNombre', 'assessmentName', 'puntuacion', 'estado', 'notas', 'informe'];
+  displayedColumns = ['fecha', 'userNombre', 'assessmentName', 'puntuacion', 'notas', 'informe'];
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.dataInput);
