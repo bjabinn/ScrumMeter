@@ -115,6 +115,10 @@ $small: 40em;
 .btn-ab {
   top: 1px;
   left: -10px;
+
+  &#module-notes{
+    top:-3px !important;
+  }
 }
 
 h2 {
