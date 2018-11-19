@@ -1,9 +1,21 @@
 @import url(http://fonts.googleapis.com/css?family=Raleway);
-$primary-color:#99AD00;
+$primary-color:#5c981b;
 
 .container-fluid{
   background: #b7b7b714;
-  border-bottom: 2px solid #99AD00;
+  background: /* gradient can be an image */
+  linear-gradient(
+    to right, 
+    #87a900,
+    #59971c,
+    #2a8a41,
+    #317daf
+  )
+  left 
+  bottom
+  #b7b7b714    
+  no-repeat; 
+background-size:100% 4px ;
 }
 
 .evaluacion{
@@ -82,14 +94,19 @@ $primary-color:#99AD00;
 
 
     #cerrarsesion {
-      margin-top: -1px;
-      margin-bottom: 4px;
+      margin-top: -7px;
+      margin-bottom: -4px;
+     
       a{
         color: $primary-color;
         text-align: right;
       }
      
     }
+  }
+
+  .icon35{
+    font-size: 34px;
   }
   
 
