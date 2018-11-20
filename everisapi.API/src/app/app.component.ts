@@ -13,6 +13,7 @@ import { ProyectoService } from './services/ProyectoService';
 })
 export class AppComponent {
   public NombreDeUsuario: string = null;
+  public UserLongName: string = "";
   public NombreDeProyecto: string = null;
   public RolDeUsuario: boolean = false;
   public ScreenWidth;
@@ -56,11 +57,13 @@ export class AppComponent {
   }
 
   //Para añadir texto a la barra de arriba
-  public anadirUserProyecto(nomUsu: string, nomProy: string, assessmentName?:string) {
+  public anadirUserProyecto(nomUsu: string, userlongname: string, nomProy: string, assessmentName?:string) {
     if (nomUsu != null) {
       this.NombreDeUsuario = nomUsu;
     }
-
+    if(userlongname != null){
+      this.UserLongName = userlongname;
+    }
     this.NombreDeProyecto = nomProy;
 
     this.AssessmentName = assessmentName;

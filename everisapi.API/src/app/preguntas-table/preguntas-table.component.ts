@@ -43,7 +43,7 @@ export class PreguntasTableComponent implements OnInit {
   userRole: string;
   expandedElement: RespuestaConNotas;
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['seccion', 'modulo', 'pregunta', 'respuesta', 'notas'];
+  displayedColumns = ['section', 'asignacion', 'pregunta', 'estado', 'notas'];
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.dataInput);

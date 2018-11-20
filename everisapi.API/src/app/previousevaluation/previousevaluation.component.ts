@@ -130,12 +130,12 @@ export class PreviousevaluationComponent implements OnInit {
     if (this.Project.fecha != null) {
       //Para que no de error en modo development
       setTimeout(() => {
-        this._appComponent.anadirUserProyecto(this.UserName, this.Project.nombre);
+        this._appComponent.anadirUserProyecto(this.UserName, this._proyectoService.UserLongName, this.Project.nombre);
       },0);
     } else {
       //Para que no de error en modo development
       setTimeout(() => {
-        this._appComponent.anadirUserProyecto(this.UserName, "Todos");
+        this._appComponent.anadirUserProyecto(this.UserName, this._proyectoService.UserLongName, "Todos");
       },0);
 
     }

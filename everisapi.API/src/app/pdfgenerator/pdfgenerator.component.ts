@@ -248,7 +248,7 @@ export class PdfgeneratorComponent implements OnInit {
 
     //Para que no de error en modo development
     setTimeout(() => {
-      this._appComponent.anadirUserProyecto(null, this.Evaluacion.nombre);
+      this._appComponent.anadirUserProyecto(null,null, this.Evaluacion.nombre);
     });
 
     this.cambiarMostrarNotasPreg();

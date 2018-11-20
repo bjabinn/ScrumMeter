@@ -55,12 +55,15 @@ export class LoginComponent implements OnInit {
               localStorage.setItem("user", this.nombreDeUsuario);
               localStorage.setItem("passuser", this.passwordDeUsuario);
               localStorage.setItem("tokenuser", res.access_token);
+              localStorage.setItem("userlongname", res.user_long_name);
             } else {
               //Si el usuario no quiere ser recordado lo guardara en el servicio
               this._app._storageDataService.UserData = { 'nombre': this.nombreDeUsuario, 'password': this.passwordDeUsuario };
               //Guardamos el token del usuario
               this._app._storageDataService.TokenUser = res.access_token;
+              this._app._storageDataService.UserLongName = res.user_long_name;
             }
+            console.log(res);
             this._router.navigate(['/home']);
           }
         },
