@@ -44,6 +44,11 @@ export interface RespuestaConNotasTabla {
 
 }
 
+export interface SectionsLevel{
+  levelReached:number,
+  percentOverLevel: number
+}
+
 
 
 @Component({
@@ -62,6 +67,7 @@ export interface RespuestaConNotasTabla {
 })
 export class PdfgeneratorComponent implements OnInit {
   public ListaDeDatos: Array<SectionInfo> = [];
+  public ListaSectionLevels: Array<SectionsLevel> = [];
   public UserName: string = "";
   public Project: Proyecto = null;
   public Evaluacion: EvaluacionInfo;
@@ -96,12 +102,12 @@ export class PdfgeneratorComponent implements OnInit {
   public MostrarComentarios: boolean = false;
 
   //CircleProgress
-  public formatSubtitle  = (nota: number, compliance: number) : string => {
-    if(nota < compliance){
+  public formatSubtitle  = (sc: SectionsLevel) : string => {
+    if(sc.levelReached == 0){
       return "del nivel mínimo"
     }
     else{
-      return "del nivel  " + Math.trunc(nota/compliance);
+      return "del nivel  " + Math.trunc(sc.levelReached);
     } 
   }
 
@@ -167,20 +173,47 @@ export class PdfgeneratorComponent implements OnInit {
         this._router.navigate(['/home']);
       });
 
-    //Notas para aprobados
-    this.http.get('assets/notas_aprobados.json').pipe(
-      map(res => res.json()))
-      .subscribe(
-        (notas) => {
-          for (var nota of notas) {
-            if (nota.name === "total") {
-              this.AgileComplianceTotal = nota.value;
-            } else {
-              this.ListaSeccionesAgileCompliance.push(parseInt(nota.value))
+
+  }
+
+  private getSectionLevels() {
+    this.http.get('assets/compliance_levels.json').pipe(map(res => res.json()))
+      .subscribe((assessments) => {
+        for (var a of assessments) {
+          if (a.assesmentId == this.Evaluacion.assessmentId) {
+            let i: number = 0;
+            for (var s of a.sections) {
+              let section: SectionInfo = this.ListaDeDatos[i];
+              let levelReached: number = 0;
+              let percentOverLevel: number = section.respuestasCorrectas;
+              for (var l of s.levels) {
+                if (percentOverLevel >= l.value && s.levels.length - 1 > levelReached) {
+                  percentOverLevel = percentOverLevel - l.value;
+                  levelReached++;
+                }
+                else {
+                  if(s.levels.length > levelReached && percentOverLevel < s.levels[levelReached].value){
+                    percentOverLevel = percentOverLevel / s.levels[levelReached].value * 100;
+                  }
+                  else{
+                    percentOverLevel = 100;
+                  }
+                  const sl: SectionsLevel = { levelReached, percentOverLevel };
+                  this.ListaSectionLevels.push(sl);
+
+                  break;
+                }
+              }
+              i++;
             }
           }
+          // if (nota.name === "total") {
+          //   this.AgileComplianceTotal = nota.value;
+          // } else {
+          //   this.ListaSeccionesAgileCompliance.push(parseInt(nota.value))
+          // }
         }
-      );
+      });
   }
 
   ngOnInit() {
@@ -192,6 +225,8 @@ export class PdfgeneratorComponent implements OnInit {
       this._sectionService.getSectionInfo(this.Evaluacion.id,this.Evaluacion.assessmentId).subscribe( //this._appComponent._storageDataService.AssessmentSelected.assessmentId
         res => {
           this.ListaDeDatos = res;
+       
+          this.getSectionLevels();
           this.shareDataToChart();
 
         },
