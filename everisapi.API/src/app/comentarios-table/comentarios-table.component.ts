@@ -8,6 +8,7 @@ import { RespuestaConNotas } from 'app/Models/RespuestaConNotas';
 import { RespuestaConNotasTabla } from 'app/pdfgenerator/pdfgenerator.component';
 import { RespuestasService } from 'app/services/RespuestasService';
 import { Respuesta } from 'app/Models/Respuesta';
+import { AsignacionConNotas } from 'app/Models/AsignacionConNotas';
 
 // export interface Evaluacion {
 //   id: number,
@@ -39,11 +40,11 @@ export class ComentariosTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @Input() dataInput: any;//Array<EvaluacionInfo>;
-  dataSource: MatTableDataSource<RespuestaConNotas>;
+  dataSource: MatTableDataSource<AsignacionConNotas>;
   userRole: string;
-  expandedElement: RespuestaConNotas;
+  //expandedElement: RespuestaConNotas;
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['seccion', 'modulo', 'pregunta', 'respuesta', 'notas'];
+  displayedColumns = ['section', 'asignacion', 'notas'];
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.dataInput);
@@ -69,70 +70,8 @@ export class ComentariosTableComponent implements OnInit {
   }
 
 
-  public parseDate(value: string): string{
-    let date = new Date(value);
-    console.log(date.getDay()+"/"+date.getMonth()+"/"+date.getFullYear());
-    return date.getDay()+"/"+date.getMonth()+1+"/"+date.getFullYear();
-  }
 
-  checkRespuestaCorrecta(row): string {
-    //Pregunta correcta == null --> Si (habilitante)
-    //Pregunta correcta != null --> Si o No
-    
-
-    let classString: string;
-    let respuestaString: string = this.displayRespuesta(row);
-
-
-    //Si (habilitante)
-    if (row.correcta == null) {
-      //Contestado -> Si
-      switch (row.estado) {
-        case 0:
-          classString = "respuesta-no-contestada";
-          break
-        case 1:
-          classString = "respuesta-correcta";
-          break
-        case 2:
-          classString = "respuesta-incorrecta";
-          break
-      }
-    } else {
-      if (respuestaString == row.correcta) {
-        classString = "respuesta-correcta";
-      } else {
-        //No contestada
-        if (row.estado == 0) {
-          classString = "respuesta-no-contestada";
-        } else {
-          classString = "respuesta-incorrecta";
-        }
-      }
-    }
-
-
-    return classString;
-  }
-
-  displayRespuesta(row: RespuestaConNotasTabla): string {
-    let respuesta: string = "";
-    switch (row.estado) {
-      case 0:
-        respuesta = "NC";
-        break
-      case 1:
-        respuesta = "Si";
-        break;
-      case 2:
-        respuesta = "No";
-        break;
-
-      default:
-        break;
-    }
-    return respuesta;
-  }
+  
   
   constructor(
     private _appComponent: AppComponent,
@@ -140,16 +79,7 @@ export class ComentariosTableComponent implements OnInit {
     ){
     }
 
-    saveNotas(model: RespuestaConNotas): void{
-      let resp: Respuesta  = new Respuesta(model.id, model.estado, 0, 0, model.notas, model.notasAdmin);
-      if(this.userRole == "Administrador" || this.userRole == "Evaluador"){
-        this._respuestasService.AlterRespuesta(resp).subscribe(
-          res => {
-          },
-          error => {
-          });
-      }
-    }
+   
 
 
 }
