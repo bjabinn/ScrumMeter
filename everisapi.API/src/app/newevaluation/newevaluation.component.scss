@@ -9,6 +9,14 @@ $small: 40em;
 //   // margin-right: 5%;
 // }
 
+.yes-no-animation{
+  -webkit-transition: all .6s ease !important;
+  -moz-transition: all .6s ease !important;
+  -ms-transition: all .6s ease !important;
+  -o-transition: all .6s ease !important;
+  transition: all .6s ease !important;
+}
+
 #preguntas {
   text-align: left;
 }
@@ -38,8 +46,8 @@ $small: 40em;
     }
 
 
-    &:hover{
-      path{
+    &:hover {
+      path {
         fill: #99AD00 !important;
       }
     }
@@ -116,12 +124,57 @@ $small: 40em;
   top: 1px;
   left: -10px;
 
-  &#module-notes{
-    top:-3px !important;
+  &#module-notes {
+    top: -3px !important;
   }
 }
 
-h2 {
+.item-full-disabled{
+  @extend .yes-no-animation;
+  pointer-events: none;
+  opacity: 0.10 !important;
+  user-select: none;
+}
+
+.item-not-selected{
+  @extend .yes-no-animation;
+  opacity: 0.3;
+  user-select: none;
+  &.first-item{
+    opacity: 0.32;
+  }
+}
+
+.questions-yes-btn {
+  @extend .yes-no-animation;
+  border-top-left-radius: 20px;
+  border: 1px solid #99AD00;
+  border-bottom-left-radius: 20px;
+  background: #99AD00;
+  color: white;
+  cursor: pointer;
+
+  &:focus{
+    outline:none;
+  }
+
+}
+
+.questions-no-btn {
+  @extend .yes-no-animation;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border: 1px solid #e82801;
+  background: #e82801;
+  color: white;
+  cursor:pointer;
+  
+  &:focus{
+    outline:none;
+  }
+}
+
+.question- h2 {
   text-align: center;
 }
 

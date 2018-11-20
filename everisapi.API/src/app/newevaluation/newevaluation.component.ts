@@ -148,6 +148,58 @@ export class NewevaluationComponent implements OnInit {
     );
   }
 
+
+  public AnswerQuestion(pregunta, index, statusToBe) {
+
+    //If the user clicks on the first item and he clicked "NO" just remove all the other answers and make it not answered
+    if (index == 0 && statusToBe == 2 && this.InfoAsignacion.preguntas[index].correcta == null) { //correcta == null is to ensure the first question is required to answer the other ones
+      this.InfoAsignacion.preguntas[index].respuesta.estado = statusToBe;
+      this._respuestasService.updateRespuestasAsig(this.Evaluation.id, this.InfoAsignacion.id).subscribe(
+        res => {
+          //Respuestas actualizadas correctamente
+          for (var i = 1; i < this.InfoAsignacion.preguntas.length; i++) {
+            this.InfoAsignacion.preguntas[i].respuesta.estado = 0;
+          }
+        },
+        error => {
+          if (error == 404) {
+            this.ErrorMessage = "Error: " + error + "No se pudo acceder a los datos de esta asignación.";
+          } else if (error == 500) {
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          } else {
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          }
+        }
+      );
+    } else {
+
+      if (statusToBe != pregunta.respuesta.estado) {
+        this.InfoAsignacion.preguntas[index].respuesta.estado = statusToBe;
+        let respuesta = this.InfoAsignacion.preguntas[index].respuesta;
+        this._respuestasService.AlterRespuesta(respuesta).subscribe(
+          res => {
+          },
+          error => {
+            if (error == 404) {
+              this.ErrorMessage = "Error: " + error + "No pudimos realizar la actualización de la respuesta, lo sentimos.";
+            } else if (error == 500) {
+              this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            } else if (error == 401) {
+              this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+            } else {
+              this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            }
+          });
+      }
+    }
+
+  }
+
+
+
+
   //Cambia el estado de las preguntas
   public ChangeEstadoDB(idarray: number) {
     this.anadeNota = null;
@@ -214,7 +266,7 @@ export class NewevaluationComponent implements OnInit {
   public NextPreviousButton(Option: number) {
     this.anadeNota = null;
     // console.log("opcion --- ",Option);
-    
+
 
     if (Option == 1) {
       this.Deshabilitar = true;
