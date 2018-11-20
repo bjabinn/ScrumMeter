@@ -156,21 +156,20 @@
     <b>{{Evaluacion.nombre}}</b> - <b>{{Evaluacion.fecha | date:'dd/MM/yyyy'}}</b>
   </div>
 
-  <div class="circle-progress-container">
-      <div *ngFor="let datos of ListaDeDatos; let i = index" [attr.data-index]="i" [ngClass]="{'isAgile':datos.respuestasCorrectas>ListaSeccionesAgileCompliance[i]}">
+  <div class="circle-progress-container" *ngIf="ListaDeDatos.length> 0 && ListaSectionLevels.length>0">
+      <div *ngFor="let datos of ListaDeDatos; let i = index" [attr.data-index]="i" [ngClass]="{'isAgile':ListaSectionLevels[i].levelReached>0}">
     <circle-progress
-  [percent]= "getPercent(datos.respuestasCorrectas, ListaSeccionesAgileCompliance[i])"
+  [percent]= "ListaSectionLevels[i].percentOverLevel"
   [toFixed] = "1"
-  [subtitle] = "[formatSubtitle(datos.respuestasCorrectas, ListaSeccionesAgileCompliance[i]), '']"
-  [subtitleFormat] = "formatSubtitle(datos.respuestasCorrectas, ListaSeccionesAgileCompliance[i])"
+  [subtitle] = "[formatSubtitle(ListaSectionLevels[i]), '']"
   [subtitleFontSize]= "12"
   [titleFontSize]= "24"
   [unitsFontSize]= "14"
   [radius]="70"
   [outerStrokeWidth]="8"
   [innerStrokeWidth]="4"
-  [innerStrokeColor]="datos.respuestasCorrectas>ListaSeccionesAgileCompliance[i]?'#C7E596':'#ffdb7b'"
-  [outerStrokeColor]="datos.respuestasCorrectas>ListaSeccionesAgileCompliance[i]?'#78C000':'#FDB900'"
+  [innerStrokeColor]="ListaSectionLevels[i].levelReached>0?'#C7E596':'#ffdb7b'"
+  [outerStrokeColor]="ListaSectionLevels[i].levelReached>0?'#78C000':'#FDB900'"
   [animation]="true"
   [animationDuration]="300"
     ></circle-progress>
