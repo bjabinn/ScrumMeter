@@ -304,20 +304,15 @@ export class UserManagementComponent implements OnInit {
 
   showModal(content) {
     
-    console.log("rol control",this.rolControl);
-    
-    console.log("user rol",this.userCtrl.value.role);
     if (this.userCtrl.value.nombre == localStorage.getItem("user") && this.rolControl.role != 'Administrador') 
     {
       this.modalService.open(content).result.then(
         (closeResult) => {
         }, (dismissReason) => {
-          this.rolControl = this.userCtrl.value.rol;
           if (dismissReason == 'Cerrar') {
             this.rolControl = this.userCtrl.value.rol;
           } else if (dismissReason == 'Aceptar') {          
             this.seleccionDeRol();
-
             this._router.navigate(['/login']);
           } 
         })
