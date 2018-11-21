@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 
 import { User } from 'app/Models/User';
 import { AppComponent } from 'app/app.component';
+import { UserWithRole } from 'app/Models/UserWithRole';
 
 @Injectable()
 export class UserService {
@@ -51,6 +52,19 @@ export class UserService {
     });
     return this._http.get(this.url + 'users/AllRoles', { headers: headers }).pipe(
       map((response: Response) => response.json()),
+      catchError(this.errorHandler));
+  }
+
+  //Este metodo recoge todos los roles de la base de datos
+  updateUser(User: UserWithRole) {
+    let Token = this._appComponent.ComprobarUserYToken();
+    let params = JSON.stringify(User);
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': Token
+    });
+    return this._http.put(this.url + 'users', params, { headers: headers }).pipe(
+      map(res => res),
       catchError(this.errorHandler));
   }
 

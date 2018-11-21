@@ -48,6 +48,8 @@ namespace everisapi.API.Services
     //Nos permite modificar un usuario
     bool AlterUser(UserEntity usuario);
 
+    bool AlterUserRole(UserEntity usuario);
+
     //Elimina una pregunta concreta de una asignación
     bool DeleteUser(UserEntity usuario);
 
