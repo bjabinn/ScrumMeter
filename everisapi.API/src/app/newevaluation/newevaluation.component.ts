@@ -38,6 +38,7 @@ export class NewevaluationComponent implements OnInit {
   public textoModal: string;
   public anadeNota: string = null;
   public pagesArray: number[];
+  public nextSection: SectionInfo = null;
 
   //Recogemos todos los datos de la primera area segun su id y las colocamos en la lista
   constructor(
@@ -48,8 +49,21 @@ export class NewevaluationComponent implements OnInit {
     private modalService: NgbModal,
     private _proyectoService: ProyectoService) {
 
+        this.InitialiseComponent();
 
+  }
+
+  ngOnInit() {
+
+  }
+
+
+
+  private InitialiseComponent(){
+    
+    this.PageNow = 1;
     this.SectionSelected = this._appComponent._storageDataService.SectionSelectedInfo;
+    this.nextSection = this._appComponent._storageDataService.nextSection;
     //Recogemos el proyecto y el usuario si no coincide alguno lo redirigiremos
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
     this.Evaluation = this._appComponent._storageDataService.Evaluacion;
@@ -115,12 +129,8 @@ export class NewevaluationComponent implements OnInit {
 
 
     // this.pagesArray = [1,2,3,4,5];
-
   }
 
-  ngOnInit() {
-
-  }
 
   //Le proporciona a la asignación en la que nos encontramos todos los datos
   public getAsignacionActual(idSelected, idAsignacion) {
@@ -146,6 +156,20 @@ export class NewevaluationComponent implements OnInit {
         }
       }
     );
+  }
+
+  public redirectToNextSection() {
+    this._appComponent._storageDataService.SectionSelectedInfo = this.nextSection;
+    
+    let index = this._appComponent._storageDataService.Sections.indexOf(this.nextSection);
+
+    this._appComponent._storageDataService.nextSection = (index + 1) != this._appComponent._storageDataService.Sections.length
+      ? this._appComponent._storageDataService.Sections[index + 1]
+      : null;
+
+    this.InitialiseComponent();
+    // this._router.navigate(['/nuevaevaluacion']);
+
   }
 
 

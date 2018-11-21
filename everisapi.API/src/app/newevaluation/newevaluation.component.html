@@ -88,7 +88,18 @@
 
 
       </div>
-      <div class="col-xs-12 col-sm-2 col-md-3"></div>
+      <div *ngIf="PageNow == NumMax" class="col-xs-12 col-sm-2 col-md-1 w-100 position-relative">
+        <div *ngIf="nextSection != null" class="secondary-button rounded-btn position-absolute next-section-box" title="Ir a la siguiente sección: {{nextSection.nombre}}"
+          (click)="redirectToNextSection()">
+          <i class="material-icons position-absolute next-section-icon">
+            arrow_forward
+          </i>
+        </div>
+        <!-- <div  *ngIf="nextSection == null" class="secondary-button rounded-btn position-absolute next-section-box" title="Ir a la siguiente sección: {{nextSection.nombre}}"
+          (click)="redirectToNextSection()">
+         
+        </div> -->
+      </div>
     </div>
     <!-- End of Section title  -->
 
@@ -129,9 +140,9 @@
             <div class="container-fluid p-0 pt-4 pt-4 px-5 pb-0">
               <!-- Inicio preguntas  -->
               <div class="questions-box mt-1">
-                <div class="row m-0" id="preguntas{{i}}" *ngFor="let preguntaDada of InfoAsignacion.preguntas; let i = index">
+                <div class="row m-0" [class.mb-3]="i == (InfoAsignacion.preguntas.length-1)" id="preguntas{{i}}" *ngFor="let preguntaDada of InfoAsignacion.preguntas; let i = index">
                   <div class="col-1"></div>
-                  <div class="col-xs-12 col-sm-5 col-md-8 pt-1 pb-2">
+                  <div class="col-xs-12 col-sm-5 col-md-7 pt-1 pb-2">
                     {{i + 1}}. {{preguntaDada.pregunta}}
                   </div>
                   <!-- <div class="col-md-2" [class.first-item]="i==0" [class.item-full-disabled]="preguntaDada.respuesta.estado == 0 && i != 0 && InfoAsignacion.preguntas[0].respuesta.estado != 1" [class.item-not-selected]="preguntaDada.respuesta.estado == 0 && InfoAsignacion.preguntas[0].respuesta.estado != 2" id="yes_no_btn_{{i}}"> -->
@@ -140,16 +151,14 @@
                     <div class="row m-0">
                       <div class="col p-0">
                         <button class="w-100 h-100 questions-yes-btn mat-elevation-z3 item-not-selected"
-                          [class.first-item]="i==0" 
-                          [class.item-full-disabled]="preguntaDada.respuesta.estado == 0 && i != 0 && InfoAsignacion.preguntas[0].respuesta.estado != 1"
+                          [class.first-item]="i==0" [class.item-full-disabled]="preguntaDada.respuesta.estado == 0 && i != 0 && InfoAsignacion.preguntas[0].respuesta.estado != 1"
                           [class.item-not-selected]="(preguntaDada.respuesta.estado == 2) || (preguntaDada.respuesta.estado == 0 && InfoAsignacion.preguntas[0].respuesta.estado != 2)"
                           (click)="AnswerQuestion(preguntaDada,i,1)">Si</button>
                       </div>
                       <div class="col p-0">
-                        <button class="w-100 h-100 questions-no-btn mat-elevation-z3" 
-                        [class.first-item]="i==0"
-                        [class.item-full-disabled]="preguntaDada.respuesta.estado == 0 && i != 0 && InfoAsignacion.preguntas[0].respuesta.estado != 1"
-                        [class.item-not-selected]="(preguntaDada.respuesta.estado == 1) || (preguntaDada.respuesta.estado == 0 && InfoAsignacion.preguntas[0].respuesta.estado != 2)"
+                        <button class="w-100 h-100 questions-no-btn mat-elevation-z3" [class.first-item]="i==0"
+                          [class.item-full-disabled]="preguntaDada.respuesta.estado == 0 && i != 0 && InfoAsignacion.preguntas[0].respuesta.estado != 1"
+                          [class.item-not-selected]="(preguntaDada.respuesta.estado == 1) || (preguntaDada.respuesta.estado == 0 && InfoAsignacion.preguntas[0].respuesta.estado != 2)"
                           (click)="AnswerQuestion(preguntaDada,i,2)">No</button>
                       </div>
                     </div>

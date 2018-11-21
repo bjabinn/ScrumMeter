@@ -31,7 +31,7 @@
 
       <div class="col-xs-12 col-sm-3 col-md-3 mt-4">
 
-        <button type="button" class="main-button mat-elevation-z5 w-100" id="infopro" (click)="RedirectToAsignaciones(dato)">
+        <button type="button" class="main-button mat-elevation-z5 w-100" id="infopro" (click)="RedirectToAsignaciones(dato,i)">
           <strong>{{dato.nombre}} </strong>
           <span *ngIf="ScreenWidth <= 576">
             <img class="icon" *ngIf="dato.progreso!=100 && dato.progreso > 0" src="assets/green_no.png" alt="No completado">

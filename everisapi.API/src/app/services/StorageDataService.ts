@@ -30,6 +30,8 @@ export class StorageDataService {
   public AssessmentSelected: Assessment = null;
   public RoleAdmin: boolean;
   public Role: string;
+  public nextSection : SectionInfo = null;
+  public Sections: SectionInfo[] = [];
 
 
   public GetToken() {

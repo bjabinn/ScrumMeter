@@ -93,7 +93,23 @@ $small: 40em;
 }
 
 .questions-box {
-  min-height: 420px;
+  min-height: 400px;
+}
+
+.next-section-box{
+  top:0px;
+  right:0px;
+}
+
+.rounded-btn{
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+}
+
+.next-section-icon{
+  top: 7px;
+  right: 7px;
 }
 
 .finalizar-button {
@@ -138,7 +154,7 @@ $small: 40em;
 
 .item-not-selected{
   @extend .yes-no-animation;
-  opacity: 0.3;
+  opacity: 0.24;
   user-select: none;
   &.first-item{
     opacity: 0.32;

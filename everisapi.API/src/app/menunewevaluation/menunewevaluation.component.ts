@@ -68,6 +68,7 @@ export class MenunewevaluationComponent implements OnInit {
       this._sectionService.getSectionInfo(this.Evaluacion.id,this._appComponent._storageDataService.AssessmentSelected.assessmentId).subscribe(
         res => {
           this.ListaDeDatos = res;
+          this._appComponent._storageDataService.Sections = this.ListaDeDatos;
         },
         error => {
           if (error == 404) {
@@ -102,8 +103,9 @@ export class MenunewevaluationComponent implements OnInit {
   }
 
   //Permite refirigir y guardar la id de la sección seleccionada
-  public RedirectToAsignaciones(SectionSeleccionada: SectionInfo) {
+  public RedirectToAsignaciones(SectionSeleccionada: SectionInfo, index:number) {
     this._appComponent._storageDataService.SectionSelectedInfo = SectionSeleccionada;
+    this._appComponent._storageDataService.nextSection = (index+1) != this.ListaDeDatos.length ? this.ListaDeDatos[index+1] : null;
 
     this._router.navigate(['/nuevaevaluacion']);
   }
