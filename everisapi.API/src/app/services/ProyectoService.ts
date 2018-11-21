@@ -15,6 +15,7 @@ import { UserWithRole } from 'app/Models/UserWithRole';
 export class ProyectoService {
   public url: string;
   public UsuarioLogeado: string;
+  public UserLongName: string;
 
   constructor(private _http: Http,
     private _appComponent: AppComponent) {
@@ -42,9 +43,11 @@ export class ProyectoService {
     var storage = this._appComponent._storageDataService.UserData;
     if (local != null && local != undefined) {
       this.UsuarioLogeado = localStorage.getItem("user");
+      this.UserLongName = localStorage.getItem("userlongname");
       return true;
     } else if (storage != undefined && storage != null) {
       this.UsuarioLogeado = this._appComponent._storageDataService.UserData.nombre;
+      this.UserLongName = this._appComponent._storageDataService.UserLongName;
       return true;
     } else {
       return false;

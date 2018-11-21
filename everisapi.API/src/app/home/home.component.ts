@@ -45,6 +45,7 @@ export class HomeComponent implements OnInit {
     if (!this._proyectoService.verificarUsuario()) {
       this._router.navigate(['/login']);
     }
+    //console.log(this._proyectoService.UserLongName);
 
     this.getUserRole();
 
@@ -92,7 +93,7 @@ export class HomeComponent implements OnInit {
 
     //Para que no de error en modo development
     setTimeout(() => {
-      this._appComponent.anadirUserProyecto(this.NombreDeUsuario, null)
+      this._appComponent.anadirUserProyecto(this.NombreDeUsuario, this._proyectoService.UserLongName, null);
     });
 
   }

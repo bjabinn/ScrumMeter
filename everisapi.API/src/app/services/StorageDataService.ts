@@ -26,6 +26,7 @@ export class StorageDataService {
   public EvaluacionToPDF: EvaluacionInfo = null;
   public SectionName: string = null;
   public TokenUser: string = "";
+  public UserLongName: string = "";
   public subscriptionTimer: Subscription;
   public AssessmentSelected: Assessment = null;
   public RoleAdmin: boolean;

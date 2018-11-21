@@ -75,7 +75,7 @@ button.transparente {
   background-color: Transparent;
   background-repeat: no-repeat;
   border: none;
-  cursor: pointer;
+  //cursor: pointer;
   overflow: hidden;
   outline: none;
   width: 60px;
@@ -730,3 +730,11 @@ hr.textopdf {
   color: #5c981b;
 }
 
+.button-disabled{
+  opacity: 0.5;
+  cursor:pointer;
+}
+.botonPreg, .botonComents{
+  margin:0px;
+  cursor: default;
+}

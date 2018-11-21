@@ -23,6 +23,8 @@ namespace everisapi.API.Controllers
         private IConfiguration Configuration;
         private IUsersInfoRepository _usersInfoRespository;
 
+        public const String ldapHost="10.125.8.21";
+
         public TokenController(IConfiguration config, IUsersInfoRepository usersInfoRespository)
         {
             Configuration = config;
@@ -60,15 +62,15 @@ namespace everisapi.API.Controllers
             // }
 
             IActionResult response = Unauthorized();
-
-            if (IsUserExistsLDAP(UserAuth.Nombre, UserAuth.Password))
+            string userNombreLargo = IsUserExistsLDAP(UserAuth.Nombre, UserAuth.Password);
+            if (userNombreLargo != null && userNombreLargo != "")
             {
                 //Check customer if exists in our database
                 if (_usersInfoRespository.UserAuth(UserAuth))
                 {
                     //create jwt token here and send it with response
                     var jwtToken = JwtTokenBuilder();
-                    response = Ok(new { access_token = jwtToken });
+                    response = Ok(new { access_token = jwtToken, user_long_name = userNombreLargo });
                 }else{
                   Entities.UserEntity newUser = new Entities.UserEntity();
                   newUser.Nombre = UserAuth.Nombre;
@@ -77,14 +79,14 @@ namespace everisapi.API.Controllers
                   _usersInfoRespository.AddUser(newUser);
                   _usersInfoRespository.AddUserToProject(newUser,5);
                   var jwtToken = JwtTokenBuilder();
-                  response = Ok(new { access_token = jwtToken });
+                  response = Ok(new { access_token = jwtToken, user_long_name = userNombreLargo});
                 }
             }
 
             return response;
         }
 
-        private bool IsUserExistsLDAP(string name, string pwd)
+        private string IsUserExistsLDAP(string name, string pwd)
         {
             // Metemos los valores de configuración para conectarnos al ldap de Everis.
             int LdapPort = LdapConnection.DEFAULT_PORT;
@@ -93,34 +95,71 @@ namespace everisapi.API.Controllers
             //bool attributeOnly=true;
             String[] attrs = { LdapConnection.NO_ATTRS };
             LdapConnection lc = new LdapConnection();
-            bool resultado = false;
+            string resultado = "";
             // Vamos a meter una restricción de tiempo.
             LdapSearchConstraints constraints = new LdapSearchConstraints();
             constraints.TimeLimit = 10000; // ms
-            try
-            {
+            // try
+            // {
+            //     // Nos conectamos al servidor.
+            //     lc.Connect(Configuration["connectionStrings:LDAPConection"], LdapPort);
+            //     // Accedemos con las credenciales del usuario para ver si está.
+            //     lc.Bind(LdapVersion, Configuration["connectionStrings:LDAPDomain"] + name, pwd);
+            //     lc.Disconnect();
+            //     resultado = true;
+            // }
+            // catch (LdapException e)
+            // {
+            //     if (e.ResultCode == 49)
+            //     {
+            //         Console.WriteLine("Nombre de usuario correcto, password incorrecto");
+            //     }
+
+            //     Console.WriteLine($"Error trying LDAP checking. LDAP resultCode message: {e.resultCodeToString()} ; ResultCode: {e.ResultCode}  ;  Error LDAP message: {e.LdapErrorMessage}");
+            //     resultado = false;
+            // }
+            // catch (Exception)
+            // {
+            //     resultado = false;
+            // }
+            // return resultado;
+           
+            try{
                 // Nos conectamos al servidor.
-                lc.Connect(Configuration["connectionStrings:LDAPConection"], LdapPort);
+                lc.Connect(ldapHost,LdapPort);
                 // Accedemos con las credenciales del usuario para ver si está.
                 lc.Bind(LdapVersion, Configuration["connectionStrings:LDAPDomain"] + name, pwd);
-                lc.Disconnect();
-                resultado = true;
-            }
-            catch (LdapException e)
-            {
-                if (e.ResultCode == 49)
-                {
-                    Console.WriteLine("Nombre de usuario correcto, password incorrecto");
+                
+                // Set values to search
+                string base1="OU=Spain,OU=Europe,OU=Everis,DC=usersad,DC=everis,DC=int";
+                string[] attributes = new string[] {"displayName","samaccountname"};
+                string filter=String.Format("(&(objectClass=user)(samaccountname={0}))", name);
+                LdapSearchQueue lsc=lc.Search(base1,LdapConnection.SCOPE_SUB,filter,attributes,false,(LdapSearchQueue)null,(LdapSearchConstraints)null);
+                LdapMessage msg;
+                if((msg = lsc.getResponse()) != null) {
+                    if(msg is LdapSearchResult) {
+                         LdapEntry nextEntry = ((LdapSearchResult)msg).Entry;
+                         LdapAttributeSet attributeSet = nextEntry.getAttributeSet();
+                         Console.WriteLine("Nombre corto: "+attributeSet.getAttribute("samaccountname").StringValue);
+                         Console.WriteLine("Nombre Largo: "+attributeSet.getAttribute("displayName").StringValue);
+                         string[] ss = attributeSet.getAttribute("displayName").StringValue.Split(' ');
+                         string s2 = ss[0];
+                         if(ss.Length > 1){
+                             s2 += " " + ss[1];
+                         }
+                         return s2;
+                    }
                 }
-
-                Console.WriteLine($"Error trying LDAP checking. LDAP resultCode message: {e.resultCodeToString()} ; ResultCode: {e.ResultCode}  ;  Error LDAP message: {e.LdapErrorMessage}");
-                resultado = false;
-            }
-            catch (Exception)
-            {
-                resultado = false;
-            }
-            return resultado;
+                 
+                lc.Disconnect();
+           } catch (LdapException e) {
+                   Console.WriteLine(e.Message);
+                   return null;
+           } catch (Exception) { 
+               Console.WriteLine("error");
+               return null;
+           }
+           return resultado;
         }
 
         //Metodo para crear tokens

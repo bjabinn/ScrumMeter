@@ -207,11 +207,6 @@ export class PdfgeneratorComponent implements OnInit {
               i++;
             }
           }
-          // if (nota.name === "total") {
-          //   this.AgileComplianceTotal = nota.value;
-          // } else {
-          //   this.ListaSeccionesAgileCompliance.push(parseInt(nota.value))
-          // }
         }
       });
   }
@@ -227,7 +222,8 @@ export class PdfgeneratorComponent implements OnInit {
           this.ListaDeDatos = res;
        
           this.getSectionLevels();
-          this.shareDataToChart();
+          this.cambiarMostrarNotasPreg();
+          //this.shareDataToChart();
 
         },
         error => {
@@ -248,10 +244,8 @@ export class PdfgeneratorComponent implements OnInit {
 
     //Para que no de error en modo development
     setTimeout(() => {
-      this._appComponent.anadirUserProyecto(null, this.Evaluacion.nombre);
+      this._appComponent.anadirUserProyecto(null,null, this.Evaluacion.nombre);
     });
-
-    this.cambiarMostrarNotasPreg();
   }
 
   //Da los datos a las diferentes listas que usaremos para las graficas
@@ -541,10 +535,10 @@ export class PdfgeneratorComponent implements OnInit {
       this._sectionService.getRespuestasConNotas(this.Evaluacion.id,this._appComponent._storageDataService.EvaluacionToPDF.assessmentId).subscribe(
         res => {
           this.ListaDeRespuestas = res;
-
+          this.cambiarMostrarNotasAsig();
           
-          this.cargandoNotas = false;
-          this.mostrarNotasPreg = true;
+          //this.cargandoNotas = false;
+          //this.mostrarNotasPreg = true;
         },
         error => {
           if (error == 404) {
@@ -626,7 +620,6 @@ export class PdfgeneratorComponent implements OnInit {
 
   //Para mostrar o no las notas de asignacion
   public cambiarMostrarNotasAsig() {
-    if (this.Evaluacion.flagNotasAsig) {
 
       //No se ha hecho la peticion al servidor aun
       if (!this.mostrarNotasAsig && this.ListaDeAsignaciones.length == 0) {
@@ -635,8 +628,13 @@ export class PdfgeneratorComponent implements OnInit {
         this._sectionService.getAsignConNotas(this.Evaluacion.id).subscribe(
           res => {
             this.ListaDeAsignaciones = res;
-            this.cargandoNotas = false;
-            this.mostrarNotasAsig = true;
+            
+            this.ListaDeDatos.forEach(element => {
+              if(element.notas != null && element.notas.trim() != ""){
+                this.ListaDeAsignaciones.unshift(new AsignacionConNotas(element.nombre, "General", element.notas));
+              }
+              
+            });
           },
           error => {
             if (error == 404) {
@@ -655,7 +653,7 @@ export class PdfgeneratorComponent implements OnInit {
       else {
         this.mostrarNotasAsig = !this.mostrarNotasAsig;
       }
-    }
+    
   }
 
   //Para volver a la pantalla de evaluaciones

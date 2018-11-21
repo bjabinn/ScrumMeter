@@ -89,7 +89,7 @@ export class MenunewevaluationComponent implements OnInit {
 
     //Para que no de error en modo development
     setTimeout(() => {
-    this._appComponent.anadirUserProyecto(null, this.ProjectSelected.nombre,this._appComponent._storageDataService.AssessmentSelected.assessmentName);
+    this._appComponent.anadirUserProyecto(null, null, this.ProjectSelected.nombre,this._appComponent._storageDataService.AssessmentSelected.assessmentName);
     });
 
   }

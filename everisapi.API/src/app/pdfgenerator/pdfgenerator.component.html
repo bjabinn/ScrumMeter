@@ -12,7 +12,7 @@
   <div id="ocultar"></div>
 </div>
 
-<div *ngIf="Mostrar" class="container-fluid">
+<div  class="container-fluid">
   <div class="row">
     <div class="col-6 offset-md-3">
       <h2 _ngcontent-c3>Resultado evaluación</h2>
@@ -143,10 +143,10 @@
 
 
       <!--Grafica-->
-      <div id="Grafica" class="mx-auto">
+      <!-- <div id="Grafica" class="mx-auto">
         <canvas id="canvas" baseChart [datasets]="barChartData" [labels]="ListaNombres" [options]="barChartOptions"
           [legend]="barChartLegend" [chartType]="barChartType" [colors]="chartColors"></canvas>
-      </div>
+      </div> -->
 
     </div>
 
@@ -171,6 +171,7 @@
   [innerStrokeColor]="ListaSectionLevels[i].levelReached>0?'#C7E596':'#ffdb7b'"
   [outerStrokeColor]="ListaSectionLevels[i].levelReached>0?'#78C000':'#FDB900'"
   [animation]="true"
+  [renderOnClick]="false"
   [animationDuration]="300"
     ></circle-progress>
     <div class="text-center"><b>{{datos.nombre}}</b></div>
@@ -238,9 +239,12 @@
             </button>         
         </div>
         
-    <preguntas-table *ngIf="MostrarPreguntas && ListaDeRespuestas && ListaDeRespuestas.length > 0" [dataInput]="ListaDeRespuestas" class="preguntas-table">
+    <preguntas-table *ngIf="MostrarPreguntas && ListaDeRespuestas && ListaDeRespuestas.length > 0" [dataInput]="ListaDeRespuestas" >
       loading
     </preguntas-table>
+    <comentarios-table *ngIf="MostrarComentarios && ListaDeAsignaciones && ListaDeAsignaciones.length > 0" [dataInput]="ListaDeAsignaciones">
+      loading
+    </comentarios-table>
     
   </div>
 
@@ -402,9 +406,9 @@
 </div>
 
 
-<div *ngIf="!Mostrar" class="mt-3">
+<!-- <div *ngIf="!Mostrar" class="mt-3">
   <app-loading></app-loading>
-</div>
+</div> -->
 
 
 <div id="my_mm" style="height:1mm;display:none"></div>
