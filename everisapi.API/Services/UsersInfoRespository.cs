@@ -35,7 +35,7 @@ namespace everisapi.API.Services
       
       UserEntity usuario = _context.Users.Where(u => u.Nombre == userNombre).FirstOrDefault();
       
-      if(usuario.RoleId == (int)Roles.Admin)
+      if(usuario.RoleId != (int)Roles.User)
       {
         proyectos = _context.Proyectos.OrderBy(p => p.Nombre).ToList();
       }
@@ -144,6 +144,15 @@ namespace everisapi.API.Services
       var UserAlter = _context.Users.Where(u => u.Nombre == usuario.Nombre).FirstOrDefault();
       UserAlter.Nombre = usuario.Nombre;
       UserAlter.Password = usuario.Password;
+      
+      return SaveChanges();
+    }
+
+    public bool AlterUserRole(UserEntity usuario)
+    {
+      var UserAlter = _context.Users.Where(u => u.Nombre == usuario.Nombre).FirstOrDefault();
+      //UserAlter.Nombre = usuario.Nombre;
+      UserAlter.RoleId = usuario.RoleId;
       
       return SaveChanges();
     }

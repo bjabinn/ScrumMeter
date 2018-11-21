@@ -161,20 +161,22 @@ namespace everisapi.API.Controllers
     }
 
     /*UPDATE USUARIOS*/
-    [HttpPut("update")]
+    [HttpPut()]
     public IActionResult UpdateUsers([FromBody] UsersWithRolesDto UsuarioUpdate)
     {
       //Si los datos son validos los guardara
       if (UsuarioUpdate == null)
       {
+      
         return BadRequest();
       }
 
       if (!ModelState.IsValid)
       {
+      
         return BadRequest(ModelState);
       }
-
+      
       //Encriptamos la contraseña
       // using (var sha256 = SHA256.Create())
       // {
@@ -186,13 +188,16 @@ namespace everisapi.API.Controllers
       //   UsuarioUpdate.Password = hash;
       // }
 
+      //UsuarioUpdate.Password = "";
       //Comprueba que se guardo bien y lo envia
-      if (_userInfoRepository.AlterUser(Mapper.Map<UserEntity>(UsuarioUpdate)))
+      if (_userInfoRepository.AlterUserRole(Mapper.Map<UserEntity>(UsuarioUpdate)))
       {
+
         return Ok("El usuario fue modificado correctamente.");
       }
       else
       {
+      
         return BadRequest();
       }
     }
