@@ -1,3 +1,5 @@
+import { SectionInfo } from "./SectionInfo";
+
 export class EvaluacionInfo {
   constructor(
     public id: number,
@@ -12,6 +14,8 @@ export class EvaluacionInfo {
     public flagNotasSec: boolean,
     public flagNotasAsig: boolean,
     public assessmentId: number,
-    public assessmentName: string
+    public assessmentName: string,
+    public sectionsInfo: Array<SectionInfo>
+
   ) { }
 }

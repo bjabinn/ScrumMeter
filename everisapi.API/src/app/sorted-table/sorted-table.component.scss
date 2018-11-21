@@ -111,4 +111,11 @@ table {
   .example-element-description-attribution {
     opacity: 0.5;
   } 
+
+  .mat-column-userNombre, .mat-column-assessmentName, .mat-column-puntuacion, .mat-column-notas, .mat-column-informe, {
+    width: 16%;
+  }
   
+  .mat-column-fecha {
+    width: 20%;
+  }

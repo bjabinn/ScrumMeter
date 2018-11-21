@@ -134,6 +134,7 @@ namespace everisapi.API.Controllers
     }
 
     //Este metodo lanza mediante un post una petición que devolvera una lista de evaluaciones
+    //Es el que se usa en previousevaluation
     [HttpPost("proyecto/{id}/info/page/{pageNumber}")]
     public IActionResult GetEvaluationInfoAndPageFiltered(int id, int pageNumber,
             [FromBody] EvaluacionInfoPaginationDto EvaluacionParaFiltrar)

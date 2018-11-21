@@ -6,10 +6,10 @@
 			{
 				"sectionId":"1", "name":"ceremonias", 
 				"levels":[
-					{"level":"0", "value":"5"},
-					{"level":"1", "value":"5"},
-					{"level":"2", "value":"5"},
-					{"level":"3", "value":"5"},
+					{"level":"0", "value":"50"},
+					{"level":"1", "value":"50"},
+					{"level":"2", "value":"50"},
+					{"level":"3", "value":"50"},
 					{"level":"4", "value":"50"}
 				]
 			},

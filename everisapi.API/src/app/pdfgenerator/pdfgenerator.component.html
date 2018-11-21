@@ -242,7 +242,7 @@
     <preguntas-table *ngIf="MostrarPreguntas && ListaDeRespuestas && ListaDeRespuestas.length > 0" [dataInput]="ListaDeRespuestas" >
       loading
     </preguntas-table>
-    <comentarios-table *ngIf="MostrarComentarios && ListaDeAsignaciones && ListaDeAsignaciones.length > 0" [dataInput]="ListaDeAsignaciones">
+    <comentarios-table *ngIf="MostrarComentarios && ListaDeAsignaciones" [dataInput]="ListaDeAsignaciones">
       loading
     </comentarios-table>
     

@@ -66,10 +66,10 @@
             #autosize="cdkTextareaAutosize"
             cdkAutosizeMinRows="2"
             cdkAutosizeMaxRows="6"
-            placeholder="Notas Administrador" [(ngModel)]="element.notasAdmin"
+            placeholder="Notas Evaluador" [(ngModel)]="element.notasAdmin"    
             [debounce]="1000" 
-            (ngModelChange)="saveNotas(element)"
-            [readonly] = "userRole != 'Administrador'"> 
+            (ngModelChange)="saveNotas(element)"      
+            [readonly] = "userRole != 'Evaluador' && userRole != 'Administrador'"> 
             </textarea>
             </mat-form-field>
           </div>
@@ -81,9 +81,8 @@
             cdkAutosizeMinRows="2"
             cdkAutosizeMaxRows="6"
             placeholder="Notas" [(ngModel)]="element.notas"
-            [debounce]="1000" 
-            (ngModelChange)="saveNotas(element)"
-            [readonly] = "userRole != 'Evaluador' && userRole != 'Administrador'"> 
+ 
+            [readonly] = "true"> 
             </textarea>
             </mat-form-field>
           </div>

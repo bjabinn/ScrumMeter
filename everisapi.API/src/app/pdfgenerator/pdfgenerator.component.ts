@@ -631,7 +631,7 @@ export class PdfgeneratorComponent implements OnInit {
             
             this.ListaDeDatos.forEach(element => {
               if(element.notas != null && element.notas.trim() != ""){
-                this.ListaDeAsignaciones.unshift(new AsignacionConNotas(element.nombre, "General", element.notas));
+                this.ListaDeAsignaciones.unshift(new AsignacionConNotas(element.nombre, "-", element.notas));
               }
               
             });

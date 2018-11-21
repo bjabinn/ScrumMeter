@@ -310,7 +310,7 @@ export class PreviousevaluationComponent implements OnInit {
 
 
           //we get the Array<SectionInfo> for each evaluation
-          this.getEvaluationsSectionInfo();
+          // this.getEvaluationsSectionInfo();
           
           //this.CalcularPaginas();
           this.shareDataToChart();
@@ -472,27 +472,27 @@ export class PreviousevaluationComponent implements OnInit {
 
   }
 
-  public getEvaluationsSectionInfo(){
-    this.ListaDeEvaluacionesPaginada.forEach(evaluacion => {  
-    this._sectionService.getSectionInfo(evaluacion.id, evaluacion.assessmentId).subscribe( //this._appComponent._storageDataService.AssessmentSelected.assessmentId
-      res => {
-        this.ListaDeSectionInfo.push(res);
-      },
-      error => {
-        if (error == 404) {
-          this.ErrorMessage = "Error: " + error + "No pudimos recoger los datos de la sección lo sentimos.";
-        } else if (error == 500) {
-          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-        } else if (error == 401) {
-          this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-        } else {
-          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-        }
-      }
-    );
-  });
+  // public getProjectSectionInfo(){
     
-  }
+  //   this._sectionService.getProjectSectionInfo(this.Project.id).subscribe( //this._appComponent._storageDataService.AssessmentSelected.assessmentId
+  //     res => {
+  //       this.ListaDeSectionInfo.push(res);
+  //     },
+  //     error => {
+  //       if (error == 404) {
+  //         this.ErrorMessage = "Error: " + error + "No pudimos recoger los datos de la sección lo sentimos.";
+  //       } else if (error == 500) {
+  //         this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+  //       } else if (error == 401) {
+  //         this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+  //       } else {
+  //         this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+  //       }
+  //     }
+  //   );
+ 
+    
+  // }
 
   //Opciones para la grafica
   public barChartOptions: any = {
@@ -564,8 +564,7 @@ export class PreviousevaluationComponent implements OnInit {
 
   //Estos son los datos introducidos en la grafica para que represente sus formas
   public barChartData: any[] = [
-    { data: this.ListaPuntuacion, label: 'Puntuacion' },
-    //{ data: this.ListaDeSectionInfo, label: 'Sections' },
+    { data: this.ListaPuntuacion, label: 'Puntuacion' }
   ];
 
   public getUserRole(){

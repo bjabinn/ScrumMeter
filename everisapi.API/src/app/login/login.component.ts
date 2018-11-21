@@ -63,7 +63,6 @@ export class LoginComponent implements OnInit {
               this._app._storageDataService.TokenUser = res.access_token;
               this._app._storageDataService.UserLongName = res.user_long_name;
             }
-            console.log(res);
             this._router.navigate(['/home']);
           }
         },

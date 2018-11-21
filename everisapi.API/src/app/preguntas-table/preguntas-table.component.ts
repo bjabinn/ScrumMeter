@@ -8,6 +8,7 @@ import { RespuestaConNotas } from 'app/Models/RespuestaConNotas';
 import { RespuestaConNotasTabla } from 'app/pdfgenerator/pdfgenerator.component';
 import { RespuestasService } from 'app/services/RespuestasService';
 import { Respuesta } from 'app/Models/Respuesta';
+import { zip } from 'rxjs';
 
 // export interface Evaluacion {
 //   id: number,
@@ -46,22 +47,37 @@ export class PreguntasTableComponent implements OnInit {
   displayedColumns = ['section', 'asignacion', 'pregunta', 'estado', 'notas'];
 
   ngOnInit() {
+    let currentClass =  this;
     this.dataSource = new MatTableDataSource(this.dataInput);
     this.dataSource.sort= this.sort;
     this.dataSource.paginator = this.paginator;
     this.userRole = this._appComponent._storageDataService.Role;
     
-  //   this.dataSource.filterPredicate = function(data, filter: string): boolean {
-  //     let date = new Date(data.fecha);
-  //     return data.nombre.toLowerCase().includes(filter) 
-  //     ||  data.assessmentName.toLowerCase().includes(filter)
-  //     ||  data.userNombre.toLowerCase().includes(filter)
-  //     ||  data.puntuacion.toString().concat("%").includes(filter)
-  //     ||  (data.notasEvaluacion != null && data.notasEvaluacion.toLowerCase().includes(filter))
-  //     ||  (data.notasObjetivos != null && data.notasObjetivos.toLowerCase().includes(filter))
-  //     ||  ((date.getDate()<10?"0":"")+date.getDate()+"/"+(date.getMonth()<10?"0":"")+(date.getMonth()+1)+"/"+date.getFullYear()).includes(filter)
-  //     ;
-  //  };
+    this.dataSource.filterPredicate = function(data, filter: string): boolean {
+
+      var resp = currentClass.displyRespuestaCorrecta(data);
+      var incomp = "incompleta";
+      var filterResp = resp.toLowerCase().startsWith(filter) || incomp.includes(resp);
+
+      return data.section.toLowerCase().includes(filter) 
+      ||  data.asignacion.toLowerCase().includes(filter)
+      ||  (data.pregunta.toLowerCase().includes(filter) && !data.pregunta.toLowerCase().includes("correcta") && !data.pregunta.toLowerCase().includes("incorrecta")&& !data.pregunta.toLowerCase().includes("incompleta") && !data.pregunta.toLowerCase().includes("no contestada"))
+      ||  (data.notas != null && data.notas.toLowerCase().includes(filter) && !data.pregunta.toLowerCase().includes("correcta") && !data.pregunta.toLowerCase().includes("incorrecta")&& !data.pregunta.toLowerCase().includes("incompleta") && !data.pregunta.toLowerCase().includes("no contestada"))
+      ||  (data.notasAdmin != null && data.notasAdmin.toLowerCase().includes(filter) && !data.pregunta.toLowerCase().includes("correcta") && !data.pregunta.toLowerCase().includes("incorrecta")&& !data.pregunta.toLowerCase().includes("incompleta") && !data.pregunta.toLowerCase().includes("no contestada"))
+      ||  filterResp
+      ||  currentClass.displayRespuesta(data).toLowerCase().includes(filter);
+      ;
+   };
+
+   this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string => {
+    if (sortHeaderId == "estado") {
+      if(data[sortHeaderId] == 0){
+        return "ZZZ";
+      }
+    } 
+    return data[sortHeaderId];
+  };
+  
   }
 
   applyFilter(filterValue: string){
@@ -75,14 +91,9 @@ export class PreguntasTableComponent implements OnInit {
     return date.getDay()+"/"+date.getMonth()+1+"/"+date.getFullYear();
   }
 
-  checkRespuestaCorrecta(row): string {
-    //Pregunta correcta == null --> Si (habilitante)
-    //Pregunta correcta != null --> Si o No
-    
-
+  public checkRespuestaCorrecta(row): string {
     let classString: string;
     let respuestaString: string = this.displayRespuesta(row);
-
 
     //Si (habilitante)
     if (row.correcta == null) {
@@ -110,8 +121,40 @@ export class PreguntasTableComponent implements OnInit {
         }
       }
     }
+    return classString;
+  }
 
+  //solo para el filtro
+  public displyRespuestaCorrecta(row): string {
+    let classString: string;
+    let respuestaString: string = this.displayRespuesta(row);
 
+    //Si (habilitante)
+    if (row.correcta == null) {
+      //Contestado -> Si
+      switch (row.estado) {
+        case 0:
+          classString = "no contestada";
+          break
+        case 1:
+          classString = "correcta";
+          break
+        case 2:
+          classString = "incorrecta";
+          break
+      }
+    } else {
+      if (respuestaString == row.correcta) {
+        classString = "correcta";
+      } else {
+        //No contestada
+        if (row.estado == 0) {
+          classString = "no contestada";
+        } else {
+          classString = "incorrecta";
+        }
+      }
+    }
     return classString;
   }
 
