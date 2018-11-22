@@ -71,8 +71,14 @@ export class PreguntasTableComponent implements OnInit {
 
    this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string => {
     if (sortHeaderId == "estado") {
-      if(data[sortHeaderId] == 0){
-        return "ZZZ";
+      if(data[sortHeaderId] == "0"){
+        return "2";
+      }
+      else if((data[sortHeaderId] == "1" && data["correcta"]=="Si") || (data[sortHeaderId] == "2" && data["correcta"]=="No") || data["correcta"]== null){
+        return "1";
+      }
+      else{
+        return "3";
       }
     } 
     return data[sortHeaderId];
