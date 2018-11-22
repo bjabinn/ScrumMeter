@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, NgZone, Output, EventEmitter } from '@angular/core';
 import { UserService } from '../../../services/UserService';
 import { ProyectoService } from 'app/services/ProyectoService';
 import { Router } from "@angular/router";
@@ -8,11 +8,13 @@ import { AppComponent } from 'app/app.component';
 import { Role } from 'app/Models/Role';
 import { FormControl } from '@angular/forms';
 import { take, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { ReplaySubject } from 'rxjs';
 import { MatSelect, VERSION } from '@angular/material';
 import { User } from 'app/Models/User';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { EventEmitterService } from 'app/services/event-emitter.service';
+import { StorageDataService } from 'app/services/StorageDataService';
 
 
 @Component({
@@ -25,15 +27,19 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 export class UserManagementComponent implements OnInit {
 
+
   public ErrorMessage: string = null;
   public ListaDeUsuarios: UserWithRole[] = [];
   public UsuarioSeleccionado: UserWithRole;
+  public UsuarioLogueado: string;
   public ListaDeRoles: Role[] = [];
   public ListaDeProyectos: Proyecto[] = [];
   public ListaDeProyectosUsuario: Proyecto[] = [];
   public radioSelected;
   public rolControl;
   public showProjects:boolean = false;
+  public updateUser: string = null;
+
 
   public projectsSelected: string[] = [];
   /** control for the selected bank */
@@ -54,19 +60,19 @@ export class UserManagementComponent implements OnInit {
 
   /** list of banks filtered by search keyword for multi-selection */
   public filteredProjectsMulti: ReplaySubject<Proyecto[]> = new ReplaySubject<Proyecto[]>(1);
-  public selected: string[] = ["BCA"];
 
   private _onDestroy = new Subject<void>();
-  obj;
+
   constructor(
     private _UserService: UserService,
     private _proyectoService: ProyectoService,
     private modalService: NgbModal,
+    public _storageDataService: StorageDataService,
     private _router: Router,
     private _appComponent: AppComponent,
+    private _eventService: EventEmitterService,
     private _zone: NgZone
   ) {
-
 
   }
 
@@ -76,6 +82,12 @@ export class UserManagementComponent implements OnInit {
     if (!this._proyectoService.verificarUsuario()) {
       this._router.navigate(['/login']);
     }
+
+    this.getAllUsers();
+    this.getAllRoles();
+    this.getAllProjects();
+
+    
 
     //listen for search field value changes
     this.userFilterCtrl.valueChanges
@@ -92,6 +104,8 @@ export class UserManagementComponent implements OnInit {
         this.rolControl =  this.userCtrl.value.role;
         this.getUserProjects();
         this.filterProjectMulti();
+        this.UsuarioLogueado = this._appComponent._storageDataService.UserData.nombre;
+        console.log(this.UsuarioLogueado);
 
       });
  
@@ -113,9 +127,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.getAllUsers();
-    this.getAllRoles();
-    this.getAllProjects();
+    
   }
 
   ngOnDestroy() {
@@ -187,7 +199,7 @@ export class UserManagementComponent implements OnInit {
 
   public seleccionDeRol() {
 
-    this.showProjects= false;
+    this.showProjects = false;
     this.userCtrl.value.role = this.rolControl;
     this.UsuarioSeleccionado = this.userCtrl.value;
  
@@ -286,6 +298,10 @@ export class UserManagementComponent implements OnInit {
     this._UserService.updateUser(UsuarioSeleccionado).subscribe(
       res => {
         this.getUserProjects();
+        
+        this.updateUser = "Rol del usuario actualizado correctamente";
+        this._eventService.displayMessage(this.updateUser);
+        setTimeout(()=>{this.updateUser = null},2000);
       },
       error => {
         //Si el servidor tiene algún tipo de problema mostraremos este error
@@ -303,8 +319,8 @@ export class UserManagementComponent implements OnInit {
   }
 
   showModal(content) {
-    
-    if (this.userCtrl.value.nombre == localStorage.getItem("user") && this.rolControl.role != 'Administrador') 
+
+    if (this.userCtrl.value.nombre == this.UsuarioLogueado && this.rolControl.role != 'Administrador') 
     {
       this.modalService.open(content).result.then(
         (closeResult) => {

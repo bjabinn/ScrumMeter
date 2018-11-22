@@ -1,5 +1,4 @@
 <div class="container">
-  
   <div class="row">
     <div class="col-6">
       <mat-form-field>
@@ -46,7 +45,9 @@
 </div>
 
 <div *ngIf="userCtrl.value != null && userCtrl.value.role.id != 1" class="row" style="margin-top:30px">
-  <p>El usuario seleccionado podrá evaluar cualquier equipo.</p>
+  <div class="col">
+    <p>El usuario seleccionado podrá evaluar cualquier equipo.</p>
+  </div>
 </div>
 
 <ng-template #content let-cl="close" let-di="dismiss">
@@ -57,7 +58,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <p>Si realiza esta acción perderá los permisos de administrador y sera redireccionado al login</p>
+      <p>Si realiza esta acción perderá los permisos de administrador y sera redireccionado al login.</p>
     </div>
     <div class="container-fluid p-3 bt-1">
       <div class="row p-0">
