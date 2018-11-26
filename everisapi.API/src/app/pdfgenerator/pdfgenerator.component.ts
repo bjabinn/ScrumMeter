@@ -187,7 +187,7 @@ export class PdfgeneratorComponent implements OnInit {
               let levelReached: number = 0;
               let percentOverLevel: number = section.respuestasCorrectas;
               for (var l of s.levels) {
-                if (percentOverLevel >= l.value && s.levels.length - 1 > levelReached) {
+                if (percentOverLevel > l.value && s.levels.length - 1 > levelReached) {
                   percentOverLevel = percentOverLevel - l.value;
                   levelReached++;
                 }

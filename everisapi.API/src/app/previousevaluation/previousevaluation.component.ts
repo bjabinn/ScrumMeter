@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { EvaluacionService } from '../services/EvaluacionService';
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { Observable } from 'rxjs/Rx';
+import { Http } from '@angular/http';
+import { map } from 'rxjs/operators';
 import { interval ,  Subscription } from 'rxjs';
 import { ProyectoService } from 'app/services/ProyectoService';
 import { Role } from 'app/Models/Role';
@@ -16,8 +18,28 @@ import { ChartsModule, BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { DatePipe } from '@angular/common';
 import { SectionInfo } from 'app/Models/SectionInfo';
 import { SectionService } from 'app/services/SectionService';
+import { EvaluacionInfoWithSections } from 'app/Models/EvaluacionInfoWithSections';
+import { forEach } from '@angular/router/src/utils/collection';
+import { SectionsLevel } from 'app/pdfgenerator/pdfgenerator.component';
+import { Assessment } from 'app/Models/Assessment';
 
 // import { setTimeout } from 'timers';
+
+export interface ComplianceLevels {
+
+  assesmentId: number,
+  name: string,
+  sections:{
+    sectionId: number, name: string, 
+    levels:  {level: number, value: number}[]
+  }[]
+
+}
+
+export interface AssesmentEv{
+  id: number,
+  name: string
+}
 
 @Component({
   selector: 'app-previousevaluation',
@@ -27,11 +49,11 @@ import { SectionService } from 'app/services/SectionService';
 })
 export class PreviousevaluationComponent implements OnInit {
   public clicked: boolean = true;
-  public EvaluacionFiltrar: EvaluacionFilterInfo = { 'nombre': '', 'estado': 'true', 'fecha': '', 'userNombre': '', 'puntuacion': '' };
+  public EvaluacionFiltrar: EvaluacionFilterInfo = { 'nombre': '', 'estado': 'true', 'fecha': '', 'userNombre': '', 'puntuacion': '', 'assessmentId': 0 };
   public Typing: boolean = false;
   public permisosDeUsuario: Array<Role> = [];
   public ListaDeEvaluacionesPaginada: Array<EvaluacionInfo>;
-  public ListaDeSectionInfo: Array<Array<SectionInfo>> = [];
+  public EvaluationsWithSectionInfo: Array<EvaluacionInfoWithSections>;
   public nEvaluaciones: number = 0;
   public UserName: string = "";
   public Project: Proyecto = { 'id': null, 'nombre': '', 'fecha': null };
@@ -47,7 +69,7 @@ export class PreviousevaluationComponent implements OnInit {
   public fechaPicker: NgbDate;
   public MostrarTabla: boolean = true;
   public MostrarGrafica: boolean = false;
-
+  
 
   public Admin: boolean = false;
   public ListaDeProyectos: Array<Proyecto> = [];
@@ -56,11 +78,16 @@ export class PreviousevaluationComponent implements OnInit {
 
   //Datos de la barras
   public barChartType: string = 'line';
-  public barChartLegend: boolean = false;
+  public barChartLegend: boolean = true;
   public AgileComplianceTotal: number = 100;
   public ListaSeccionesAgileCompliance: number[] = [];
-  public ListaPuntuacion: { label: string, backgroundColor: string, borderColor: string, data: Array<any> }[] = [];
+  public ListaPuntuacion: { label: string, backgroundColor: string, borderColor: string, data: Array<any>, fill: string, lineTension: number, pointRadius: number, pointHoverRadius: number, borderWidth: number }[] = [];
   public ListaNombres: string[] = [];
+  public ComplianceLevels: ComplianceLevels;
+  public MaxLevelReached: number;
+  public barChartOptions: any;
+  public ListaAssessments : AssesmentEv[] = [];
+  public selectedAssessment: AssesmentEv;
 
   //Para actualizar la grafica
   @ViewChild(BaseChartDirective) public chart: BaseChartDirective;
@@ -72,7 +99,8 @@ export class PreviousevaluationComponent implements OnInit {
     public _evaluacionService: EvaluacionService,
     private _proyectoService: ProyectoService,
     private _sectionService: SectionService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private http: Http
   ) { }
 
   ngOnInit() {
@@ -110,6 +138,7 @@ export class PreviousevaluationComponent implements OnInit {
         
         this.GetPaginacion();
 
+
       },
       error => {
         //Si el servidor tiene algún tipo de problema mostraremos este error
@@ -124,7 +153,7 @@ export class PreviousevaluationComponent implements OnInit {
         }
       },
       () => {
-        this.Restablecer();
+        //this.Restablecer();
       });
 
     if (this.Project.fecha != null) {
@@ -154,69 +183,69 @@ export class PreviousevaluationComponent implements OnInit {
   }
 
   //Restablece los datos de la busqueda
-  public Restablecer() {
-    if (this.clicked) {
-      this.EvaluacionFiltrar.fecha = "";
-      this.EvaluacionFiltrar.nombre = "";
-      this.EvaluacionFiltrar.userNombre = "";
-      this.EvaluacionFiltrar.estado = "";
-      this.EvaluacionFiltrar.puntuacion = "";
-      this.ProyectoSeleccionado = false;
+  // public Restablecer() {
+  //   if (this.clicked) {
+  //     this.EvaluacionFiltrar.fecha = "";
+  //     this.EvaluacionFiltrar.nombre = "";
+  //     this.EvaluacionFiltrar.userNombre = "";
+  //     this.EvaluacionFiltrar.estado = "";
+  //     this.EvaluacionFiltrar.puntuacion = "";
+  //     this.ProyectoSeleccionado = false;
 
-      this.GetPaginacion();
-      this.clicked = false;
-    }
-    else {
-      this.clicked = true;
+  //     this.GetPaginacion();
+  //     this.clicked = false;
+  //   }
+  //   else {
+  //     this.clicked = true;
 
-      if (this.ListaDeProyectos.length == 0) {
+  //     if (this.ListaDeProyectos.length == 0) {
 
-        //Segun el tipo de rol que tengas te permitira tener todos los proyectos o solo los tuyos
-        //El servicio se encargara de enviar una respuesta con el listado de proyecto
-        //El usuario necesario ya tendria que haber sido cargado en el logueo
-        if (!this.Admin) {
-          //Aqui se entra solo si no tienes permisos de administrador dandote los proyectos que te tocan
-          this._proyectoService.getProyectosDeUsuario().subscribe(
-            res => {
-              this.ListaDeProyectos = res;
-            },
-            error => {
-              //Si el servidor tiene algún tipo de problema mostraremos este error
-              if (error == 404) {
-                this.ErrorMessage = "Error: " + error + " El usuario o proyecto autenticado no existe.";
-              } else if (error == 500) {
-                this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-              } else if (error == 401) {
-                this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-              } else {
-                this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-              }
-            });
-        } else {
-          //Aqui entra si eres administrador dandote todos los proyectos
-          this._proyectoService.getAllProyectos().subscribe(
-            res => {
-              this.ListaDeProyectos = res;
+  //       //Segun el tipo de rol que tengas te permitira tener todos los proyectos o solo los tuyos
+  //       //El servicio se encargara de enviar una respuesta con el listado de proyecto
+  //       //El usuario necesario ya tendria que haber sido cargado en el logueo
+  //       if (!this.Admin) {
+  //         //Aqui se entra solo si no tienes permisos de administrador dandote los proyectos que te tocan
+  //         this._proyectoService.getProyectosDeUsuario().subscribe(
+  //           res => {
+  //             this.ListaDeProyectos = res;
+  //           },
+  //           error => {
+  //             //Si el servidor tiene algún tipo de problema mostraremos este error
+  //             if (error == 404) {
+  //               this.ErrorMessage = "Error: " + error + " El usuario o proyecto autenticado no existe.";
+  //             } else if (error == 500) {
+  //               this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+  //             } else if (error == 401) {
+  //               this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+  //             } else {
+  //               this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+  //             }
+  //           });
+  //       } else {
+  //         //Aqui entra si eres administrador dandote todos los proyectos
+  //         this._proyectoService.getAllProyectos().subscribe(
+  //           res => {
+  //             this.ListaDeProyectos = res;
 
-            },
-            error => {
-              //Si el servidor tiene algún tipo de problema mostraremos este error
-              if (error == 404) {
-                this.ErrorMessage = "Error: " + error + " El usuario o proyecto autenticado no existe.";
-              } else if (error == 500) {
-                this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-              } else if (error == 401) {
-                this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-              } else {
-                this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-              }
-            });
-        }
+  //           },
+  //           error => {
+  //             //Si el servidor tiene algún tipo de problema mostraremos este error
+  //             if (error == 404) {
+  //               this.ErrorMessage = "Error: " + error + " El usuario o proyecto autenticado no existe.";
+  //             } else if (error == 500) {
+  //               this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+  //             } else if (error == 401) {
+  //               this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+  //             } else {
+  //               this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+  //             }
+  //           });
+  //       }
 
-      }
+  //     }
 
-    }
-  }
+  //   }
+  // }
 
   //Para el desplegable de elegir proyecto
   public SeleccionDeProyecto(index: number) {
@@ -236,16 +265,16 @@ export class PreviousevaluationComponent implements OnInit {
   }
 
   //Este metodo devuelve la transforma la lista de evaluaciones dada en una lista paginada
-  public paginacionLista(pageNumber: number) {
-    var Skip = pageNumber * 10;
-    var ListaPaginada = new Array<EvaluacionInfo>();
-    var contador = Skip;
-    while (ListaPaginada.length != 10 && contador < this.ListaDeEvaluacionesPaginada.length) {
-      ListaPaginada.push(this.ListaDeEvaluacionesPaginada[contador]);
-      contador++;
-    }
-    this.ListaDeEvaluacionesPaginada = ListaPaginada;
-  }
+  // public paginacionLista(pageNumber: number) {
+  //   var Skip = pageNumber * 10;
+  //   var ListaPaginada = new Array<EvaluacionInfo>();
+  //   var contador = Skip;
+  //   while (ListaPaginada.length != 10 && contador < this.ListaDeEvaluacionesPaginada.length) {
+  //     ListaPaginada.push(this.ListaDeEvaluacionesPaginada[contador]);
+  //     contador++;
+  //   }
+  //   this.ListaDeEvaluacionesPaginada = ListaPaginada;
+  // }
 
  
   //Guarda los datos en el storage y cambia de ruta hacia la generación de grafica
@@ -255,24 +284,24 @@ export class PreviousevaluationComponent implements OnInit {
   }
 
   //Filtra por evaluaciones completas completas o ninguna
-  public ChangeFiltro(estado: string) {
-    this.PageNow = 1;
-    this.EvaluacionFiltrar.estado = estado;
-    this.GetPaginacion();
-  }
+  // public ChangeFiltro(estado: string) {
+  //   this.PageNow = 1;
+  //   this.EvaluacionFiltrar.estado = estado;
+  //   this.GetPaginacion();
+  // }
 
   //Al presionar el boton va avanzado y retrocediendo
-  public NextPreviousButton(Option: boolean) {
-    if (Option && this.PageNow < this.NumMax) {
-      this.paginacionLista(this.PageNow++);
-      this.GetPaginacion();
-    } else if (!Option && this.PageNow > 1) {
-      this.PageNow--;
-      var CualToca = this.PageNow - 1;
-      this.paginacionLista(CualToca);
-      this.GetPaginacion();
-    }
-  }
+  // public NextPreviousButton(Option: boolean) {
+  //   if (Option && this.PageNow < this.NumMax) {
+  //     this.paginacionLista(this.PageNow++);
+  //     this.GetPaginacion();
+  //   } else if (!Option && this.PageNow > 1) {
+  //     this.PageNow--;
+  //     var CualToca = this.PageNow - 1;
+  //     this.paginacionLista(CualToca);
+  //     this.GetPaginacion();
+  //   }
+  // }
 
   //Este metodo es llamado cuando cambias un valor de filtrado y en 500 milisegundos te manda a la primera pagina y recarga el componente con
   //los nuevos elementos
@@ -306,15 +335,29 @@ export class PreviousevaluationComponent implements OnInit {
       .subscribe(
         res => {
           this.nEvaluaciones = res.numEvals;
-          this.ListaDeEvaluacionesPaginada = res.evaluacionesResult;  
+          this.ListaDeEvaluacionesPaginada = res.evaluacionesResult; 
+          this.Mostrar = true; 
 
+          if(this.ListaDeEvaluacionesPaginada.length > 0){        
+            this.ListaDeEvaluacionesPaginada.forEach(ev => {
+              if(this.ListaAssessments.find(a => a.id == ev.assessmentId) == null){
+                let id: number = ev.assessmentId;
+                let name: string = ev.assessmentName;
+                let a: AssesmentEv= { id, name};
+                this.ListaAssessments.push(a);
+              }
+            });
 
-          //we get the Array<SectionInfo> for each evaluation
-          // this.getEvaluationsSectionInfo();
-          
+            this.selectedAssessment = this.ListaAssessments[0];
+          }
+
+          if(this.selectedAssessment != null){
           //this.CalcularPaginas();
-          this.shareDataToChart();
-          this.Mostrar = true;
+          //this.shareDataToChart();
+          let filter: EvaluacionFilterInfo = new EvaluacionFilterInfo("","","","","", this.selectedAssessment.id);
+          this.GetChartData(filter);
+          }
+         
         },
         error => {
           if (error == 404) {
@@ -328,6 +371,39 @@ export class PreviousevaluationComponent implements OnInit {
           }
         });
 
+  }
+
+  public GetChartData(filter: EvaluacionFilterInfo){
+    this._evaluacionService.GetEvaluationsWithSectionsInfo( this.Project.id, filter)
+      .subscribe(
+        res => {
+          this.EvaluationsWithSectionInfo = res.evaluacionesResult;
+          let i:number = 0; 
+          this.EvaluationsWithSectionInfo.forEach(ev => {
+            this._sectionService.getSectionInfo(ev.id,ev.assessmentId).subscribe(
+              res =>{
+                ev.sectionsInfo = res;
+                i++;
+                if(i == this.EvaluationsWithSectionInfo.length){
+                  this.loadComplianceLevels(this.selectedAssessment.id)
+                  //this.shareDataToChart();
+                }
+              }
+            );
+          });
+         
+        },
+        error => {
+          if (error == 404) {
+            this.ErrorMessage = "Error: " + error + " No pudimos recoger la información de las evaluaciones, lo sentimos.";
+          } else if (error == 500) {
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          } else {
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          }
+        });
   }
 
   //Modal de notas evaluacion y objetivos
@@ -414,51 +490,115 @@ export class PreviousevaluationComponent implements OnInit {
   }
 
   //Para cambiar la fecha y que aparezca en el formato correcto en la caja tenemos que liar to esto
-  public changeDate() {
-    if (this.fechaPicker.day < 10) {
-      this.EvaluacionFiltrar.fecha = "0" + this.fechaPicker.day + "/";
-    } else {
-      this.EvaluacionFiltrar.fecha = this.fechaPicker.day + "/";
-    }
+  // public changeDate() {
+  //   if (this.fechaPicker.day < 10) {
+  //     this.EvaluacionFiltrar.fecha = "0" + this.fechaPicker.day + "/";
+  //   } else {
+  //     this.EvaluacionFiltrar.fecha = this.fechaPicker.day + "/";
+  //   }
 
-    if (this.fechaPicker.month < 10) {
-      this.EvaluacionFiltrar.fecha = this.EvaluacionFiltrar.fecha + "0" + this.fechaPicker.month + "/" + this.fechaPicker.year;
-    } else {
-      this.EvaluacionFiltrar.fecha = this.EvaluacionFiltrar.fecha + this.fechaPicker.month + "/" + this.fechaPicker.year;
-    }
+  //   if (this.fechaPicker.month < 10) {
+  //     this.EvaluacionFiltrar.fecha = this.EvaluacionFiltrar.fecha + "0" + this.fechaPicker.month + "/" + this.fechaPicker.year;
+  //   } else {
+  //     this.EvaluacionFiltrar.fecha = this.EvaluacionFiltrar.fecha + this.fechaPicker.month + "/" + this.fechaPicker.year;
+  //   }
 
-    this.PageNow = 1;
-    this.GetPaginacion();
+  //   this.PageNow = 1;
+  //   this.GetPaginacion();
 
-  }
+  // }
 
   //Limpiamos la caja de fecha
-  public limpiar() {
-    this.EvaluacionFiltrar.fecha = "";
+  // public limpiar() {
+  //   this.EvaluacionFiltrar.fecha = "";
 
-    this.PageNow = 1;
-    this.GetPaginacion();
+  //   this.PageNow = 1;
+  //   this.GetPaginacion();
+  // }
+
+  public changeChartAssessment(){
+    let filter: EvaluacionFilterInfo = new EvaluacionFilterInfo("","","","","", this.selectedAssessment.id);
+    this.GetChartData(filter);
   }
 
   //Da los datos a las diferentes listas que usaremos para las graficas
   public shareDataToChart() {
-
     this.ListaPuntuacion = [];
     this.ListaNombres = [];
-    var listaPunt = [];
+    this.MaxLevelReached = 0;
+    let listaSections : number[][] = [];
+    let listaSectionLevels: SectionsLevel[][] = [];
+    let index:number = 0;
+    let colorList: string[] = ["#E74C3C", "#3498DB","#F1C40F", "#2ECC71","#9B59B6",  "#F39C12", "#33CCCC", "#34495E"]
 
 
-    //Cogemos los datoa a añadir
-    for (var i = this.ListaDeEvaluacionesPaginada.length - 1; i >= 0; i--) {
+    for(var i = 0; i <  this.EvaluationsWithSectionInfo.length + 1; i++) {
+      listaSections[i] = [];
+      if(i <  this.EvaluationsWithSectionInfo.length){
+        listaSectionLevels[i] = this.getSectionLevels(this.EvaluationsWithSectionInfo[i].sectionsInfo);
+      }
+      else{
+        listaSectionLevels[i] = [];
+      }
+     
+     
+      for(var j = 0; j< this.EvaluationsWithSectionInfo.length; j++) {
+        listaSections[i][j] = 0;
+      }
+    }
+    //Cogemos los datos a añadir
+    for (var i = this.EvaluationsWithSectionInfo.length - 1; i >= 0; i--) {
+      
+      for(var j: number = 0; j < listaSections.length; j++) {
+        if(j >= this.EvaluationsWithSectionInfo[0].sectionsInfo.length){
+          listaSections[j][index] = this.EvaluationsWithSectionInfo[i].puntuacion;
+        }
+        else{         
+          listaSections[j][index] = listaSectionLevels[i][j].percentOverLevel + listaSectionLevels[i][j].levelReached * 100;//this.EvaluationsWithSectionInfo[i].sectionsInfo[j].respuestasCorrectas;
+          if(listaSectionLevels[i][j].levelReached > this.MaxLevelReached){
+            this.MaxLevelReached = listaSectionLevels[i][j].levelReached;
+          }
+        }
+        
+      }
+      index++;
       var pipe = new DatePipe('en-US');
-      listaPunt.push(this.ListaDeEvaluacionesPaginada[i].puntuacion);
-      this.ListaNombres.push(pipe.transform(this.ListaDeEvaluacionesPaginada[i].fecha, 'dd/MM/yyyy'));
+      this.ListaNombres.push(pipe.transform(this.EvaluationsWithSectionInfo[i].fecha, 'dd/MM/yyyy'));
     }
 
-    this.ListaPuntuacion.push({
-      data: listaPunt, label: 'Puntuación', backgroundColor: 'rgba(92, 183, 92, 0.5)',
-      borderColor: 'rgba(92, 183, 92, 0.5)', });
 
+    for(var j: number = 0; j <  this.EvaluationsWithSectionInfo[0].sectionsInfo.length + 1; j++) {
+
+      if(j >= this.EvaluationsWithSectionInfo[0].sectionsInfo.length){
+        this.ListaPuntuacion.push({
+          data: listaSections[j], label: "Global", backgroundColor: colorList[j], fill: 'false', lineTension : 0.1,
+          borderColor: colorList[j], pointRadius: 2, pointHoverRadius: 4, borderWidth: 3});
+      }
+      else{
+        this.ListaPuntuacion.push({
+          data: listaSections[j], label: this.EvaluationsWithSectionInfo[0].sectionsInfo[j].nombre, backgroundColor: colorList[j], fill: 'false', lineTension : 0.1,
+          borderColor: colorList[j], pointRadius: 2, pointHoverRadius: 4, borderWidth: 3});
+      }
+    }
+
+    for(var i: number = 0; i <= this.MaxLevelReached; i++) {
+      let level: number[] = [];
+      for(var j: number = 0; j < listaSections[0].length; j++) {
+        level[j] = i * 100 + 100;
+      }
+      if(i == 0){
+        this.ListaPuntuacion.push({
+          data: level, label: 'aux' + i, backgroundColor: '#FDB90040', fill: 'origin', lineTension : 0.1,
+          borderColor: '#FDB90050', pointRadius: 0, pointHoverRadius: 0, borderWidth: 0.1});
+      }
+      else{
+        this.ListaPuntuacion.push({
+          data: level, label: 'aux' + i, backgroundColor: '#78C00040', fill: '-1', lineTension : 0.1,
+          borderColor: '#78C00050', pointRadius: 0, pointHoverRadius: 0, borderWidth: 0.1});
+      }
+    }
+
+    this.setBarChartOptions();
 
     //Para actualizar la grafica una vez esté visible
     setTimeout(() => {
@@ -466,10 +606,54 @@ export class PreviousevaluationComponent implements OnInit {
       if (this.chart && this.chart.chart && this.chart.chart.config) {
         this.chart.chart.config.data.labels = this.ListaNombres;
         this.chart.chart.config.data.datasets = this.ListaPuntuacion;
+        this.chart.chart.config.data.options = this.barChartOptions;
         this.chart.chart.update();
       }
     }, 300);
 
+  }
+
+  private loadComplianceLevels(assessmentId: number){
+    this.http.get('assets/compliance_levels.json').pipe(map(res => res.json()))
+      .subscribe((assessments) => {
+        for (var a of assessments) {
+             if (a.assesmentId == assessmentId) {
+               this.ComplianceLevels = a;
+               this.shareDataToChart();
+               return;
+             }
+        }
+      });
+  }
+
+  private getSectionLevels(sections: Array<SectionInfo>): Array<SectionsLevel> {
+
+            let ListaSectionLevels: Array<SectionsLevel> = [];
+            let i: number = 0;
+            for (var s of this.ComplianceLevels.sections) {
+              let section: SectionInfo = sections[i];
+              let levelReached: number = 0;
+              let percentOverLevel: number = section.respuestasCorrectas;
+              for (var l of s.levels) {
+                if (percentOverLevel > l.value && s.levels.length - 1 > levelReached) {
+                  percentOverLevel = percentOverLevel - l.value;
+                  levelReached++;
+                }
+                else {
+                  if(s.levels.length > levelReached && percentOverLevel < s.levels[levelReached].value){
+                    percentOverLevel = Math.round((percentOverLevel / s.levels[levelReached].value * 100) * 10) / 10;
+                  }
+                  else{
+                    percentOverLevel = 100;
+                  }
+                  const sl: SectionsLevel = { levelReached, percentOverLevel };
+                  ListaSectionLevels.push(sl);
+                  break;
+                }
+              }
+              i++;
+            }
+            return ListaSectionLevels;
   }
 
   // public getProjectSectionInfo(){
@@ -495,51 +679,76 @@ export class PreviousevaluationComponent implements OnInit {
   // }
 
   //Opciones para la grafica
-  public barChartOptions: any = {
+  public setBarChartOptions(){
+    this.barChartOptions = {
     scaleShowVerticalLines: false,
     showLines: true,
+    legend: {
+      labels: {
+          filter: function(item, chart) {
+              // Logic to remove a particular legend item goes here
+              return !item.text.includes('aux');
+          }
+      }
+  },
     tooltips: {
-      bodyFontFamily: 'Lucida Console',
-      titleFontFamily: 'Lucida Console',
-      footerFontFamily: 'Lucida Console',
-      //bodyFontStyle: 'bold',
-      custom: function(tooltip) {
-        if (!tooltip) return;
-        tooltip.displayColors = false;
-      },
+      filter: function (tooltipItem, data) {
+        var label = data.datasets[tooltipItem.datasetIndex].label;
+        if (label.includes('aux')) {
+          return false;
+        } else {
+          return true;
+        }
+    },
+    animation: {
+      duration: 1
+    },
       callbacks: {
         label: function (tooltipItem, data) {
-          //const datasetLabel = data.datasets[tooltipItem.datasetIndex].label || '';
+          // const datasetLabel = data.datasets[tooltipItem.datasetIndex].label || '';
           // console.log(data);
           // var labels = [];
           // for (let index = 0; index < this.ListaDeSectionInfo[tooltipItem.datasetIndex].length; index++) {
           //   const sectionInfo = this.ListaDeSectionInfo[tooltipItem.datasetIndex][index];
           //     labels.push(sectionInfo.nombre + ': ' + sectionInfo.respuestasCorrectas + '%');
           //   }
-          
-          return  ["Ceremonias" + ': ' + 'xx.x' + '%', "Roles" + ':      ' + 'xx.x' + '%', "Artefactos" + ': ' + 'xx.x' + '%'];
+          let nivel: string = '%  del nivel mínimo';
+          if(Number(tooltipItem.yLabel) > 100){
+            nivel = '%  del nivel ' +  Math.trunc(Number(tooltipItem.yLabel) / 100);
+          }
+          return  data.datasets[tooltipItem.datasetIndex].label + ': ' + Math.round((tooltipItem.yLabel%100) * 10)/10 + nivel;
         },
-        footer: function(tooltipItem, data) {
-          return " Total" + ':     ' + tooltipItem[0].yLabel + '%';
-        },
-        title: function(tooltipItem, data) {
-          return " " + tooltipItem[0].xLabel;
-        },
+        // footer: function(tooltipItem, data) {
+        //   return " Total" + ':     ' + tooltipItem[0].yLabel + '%';
+        // },
+        // title: function(tooltipItem, data) {
+        //   return " " + tooltipItem[0].xLabel;
+        // },
       }
     },
     scales: {
       yAxes: [{
         ticks: {
-          steps: 10,
+          steps: this.MaxLevelReached * 10 + 10,
           stepValue: 10,
-          max: 100,
+          max: this.MaxLevelReached * 100 + 100,
           min: 0,
           callback: function(value, index, values) {
-            return value + '%';
+            if (Number(value) % 100 == 0){
+              if(Number(value) == 100){
+                return 'Nivel mín.';
+              }
+              else if(Number(value) > 100){
+                return 'Nivel ' + (Number(value) / 100 - 1);
+              }
+          }
+          else
+            return Number(value)%100 + '%';
          }
         },
         gridLines: {
-          display:true
+          display: true,
+          //color: '#34f6c2'
         }
       }],
       xAxes: [{
@@ -549,17 +758,17 @@ export class PreviousevaluationComponent implements OnInit {
       }]
     }
   };
-
+  }
    
   //Colores para la grafica
   public chartColors: Array<any> = [
     { // first color
-      backgroundColor: 'rgba(92, 183, 92, 0.5)',
-      borderColor: 'rgba(92, 183, 92, 0.5)',
-      pointBackgroundColor: 'rgba(92, 183, 92, 0.5)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(92, 183, 92, 0.5)'
+      backgroundColor: 'rgba(92, 183, 92, 0.0)',
+      borderColor: 'rgba(92, 183, 92, 0.0)',
+      pointBackgroundColor: 'rgba(92, 183, 92, 0.0)',
+      pointBorderColor: '#fff0',
+      pointHoverBackgroundColor: '#fff0',
+      pointHoverBorderColor: 'rgba(92, 183, 92, 0.0)'
     }];
 
   //Estos son los datos introducidos en la grafica para que represente sus formas

@@ -38,6 +38,9 @@ namespace everisapi.API.Services
     //Devuelve una lista de evaluaciones filtrada por una evaluacion de modelo y un paginado
     List<EvaluacionInfoDto> GetEvaluationInfoAndPageFilteredAdmin(int pageNumber, EvaluacionInfoPaginationDto Evaluacion);
 
+    
+    List<EvaluacionInfoWithSectionsDto> GetEvaluationsWithSectionsInfo(int IdProject, EvaluacionInfoPaginationDto Evaluacion);
+
     //Devuelve un número entero de las evaluaciones por proyecto o todas las evaluaciones
     int GetNumEval(int idProject);
 

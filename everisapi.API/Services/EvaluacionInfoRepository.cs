@@ -265,6 +265,7 @@ namespace everisapi.API.Services
         Include(a => a.Assessment).
         Where(e => e.ProyectoId == IdProject &&
         e.Estado == Boolean.Parse(Evaluacion.Estado) &&
+        (Evaluacion.AssessmentId == 0 || e.AssessmentId == Evaluacion.AssessmentId)&&
         e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) //&&
         //e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
         ).OrderByDescending(e => e.Fecha).ToList();
@@ -276,6 +277,7 @@ namespace everisapi.API.Services
         ThenInclude(p => p.UserEntity).
         Include(a => a.Assessment).
         Where(e => e.ProyectoId == IdProject &&
+        (Evaluacion.AssessmentId == 0 || e.AssessmentId == Evaluacion.AssessmentId)&&
         e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) //&&
         //e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
         ).OrderByDescending(e => e.Fecha).ToList();
@@ -353,107 +355,70 @@ namespace everisapi.API.Services
       return EvaluacionesInformativas.ToList();//.Skip(10 * pageNumber)
     }
 
-    // public List<EvaluacionInfoDto> GetEvaluationsWithSectionsInfo(int IdProject, int pageNumber, EvaluacionInfoPaginationDto Evaluacion)
-    // {
-    //   //Recogemos las evaluaciones y la paginamos
-    //   List<EvaluacionInfoWithSectionsDto> EvaluacionesInformativas = new List<EvaluacionInfoWithSectionsDto>();
-    //   List<EvaluacionEntity> Evaluaciones;
-    //   if (Evaluacion.Estado != null && Evaluacion.Estado != "")
-    //   {
-    //     Evaluaciones = _context.Evaluaciones.
-    //     Include(r => r.ProyectoEntity).
-    //     ThenInclude(p => p.UserEntity).
-    //     Include(a => a.Assessment).
-    //     Include(s => s.SectionEntity).
-    //     Where(e => e.ProyectoId == IdProject &&
-    //     e.Estado == Boolean.Parse(Evaluacion.Estado) &&
-    //     e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) //&&
-    //     //e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
-    //     ).OrderByDescending(e => e.Fecha).ToList();
-    //   }
-    //   else
-    //   {
-    //     Evaluaciones = _context.Evaluaciones.
-    //     Include(r => r.ProyectoEntity).
-    //     ThenInclude(p => p.UserEntity).
-    //     Include(a => a.Assessment).
-    //     Where(e => e.ProyectoId == IdProject &&
-    //     e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) //&&
-    //     //e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
-    //     ).OrderByDescending(e => e.Fecha).ToList();
-    //   }
-    //   //Encuentra la informacion de la evaluacion y lo introduce en un objeto
-    //   foreach (var evaluacion in Evaluaciones)
-    //   {
-    //     EvaluacionInfoDto EvaluacionInfo = new EvaluacionInfoDto
-    //     {
-    //       Id = evaluacion.Id,
-    //       Fecha = evaluacion.Fecha,
-    //       Estado = evaluacion.Estado,
-    //       Nombre = evaluacion.ProyectoEntity.Nombre,
-    //       UserNombre = evaluacion.UserNombre,
-    //       NotasEvaluacion = evaluacion.NotasEvaluacion,
-    //       NotasObjetivos = evaluacion.NotasObjetivos,
-    //       AssessmentName = evaluacion.Assessment.AssessmentName,
-    //       AssessmentId = evaluacion.AssessmentId
-    //     };
+    public List<EvaluacionInfoWithSectionsDto> GetEvaluationsWithSectionsInfo(int IdProject, EvaluacionInfoPaginationDto Evaluacion)
+    {
+      //Recogemos las evaluaciones y la paginamos
+      List<EvaluacionInfoWithSectionsDto> EvaluacionesInformativas = new List<EvaluacionInfoWithSectionsDto>();
+      List<EvaluacionEntity> Evaluaciones;
+      if (Evaluacion.Estado != null && Evaluacion.Estado != "")
+      {
+        Evaluaciones = _context.Evaluaciones.
+        Include(r => r.ProyectoEntity).
+        ThenInclude(p => p.UserEntity).
+        Include(a => a.Assessment).
+        Where(e => e.ProyectoId == IdProject &&
+        e.Estado == Boolean.Parse(Evaluacion.Estado) &&
+        (Evaluacion.AssessmentId == 0 || e.AssessmentId == Evaluacion.AssessmentId)&&
+        e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) //&&
+        //e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
+        ).OrderByDescending(e => e.Fecha).ToList();
+      }
+      else
+      {
+        Evaluaciones = _context.Evaluaciones.
+        Include(r => r.ProyectoEntity).
+        ThenInclude(p => p.UserEntity).
+        Include(a => a.Assessment).
+        Where(e => e.ProyectoId == IdProject &&
+        (Evaluacion.AssessmentId == 0 || e.AssessmentId == Evaluacion.AssessmentId)&&
+        e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) //&&
+        //e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
+        ).OrderByDescending(e => e.Fecha).ToList();
+      }
+      //Encuentra la informacion de la evaluacion y lo introduce en un objeto
+      foreach (var evaluacion in Evaluaciones)
+      {
+        EvaluacionInfoWithSectionsDto EvaluacionInfo = new EvaluacionInfoWithSectionsDto
+        {
+          Id = evaluacion.Id,
+          Fecha = evaluacion.Fecha,
+          Estado = evaluacion.Estado,
+          Nombre = evaluacion.ProyectoEntity.Nombre,
+          UserNombre = evaluacion.UserNombre,
+          AssessmentName = evaluacion.Assessment.AssessmentName,
+          AssessmentId = evaluacion.AssessmentId
+        };
 
 
-    //     if(evaluacion.Estado == false)
-    //     {
-    //       EvaluacionInfo.Puntuacion = CalculaPuntuacion(evaluacion.Id);
-    //     }
-    //     else
-    //     {
-    //       EvaluacionInfo.Puntuacion = evaluacion.Puntuacion;
-    //     }
+        if(evaluacion.Estado == false)
+        {
+          EvaluacionInfo.Puntuacion = CalculaPuntuacion(evaluacion.Id);
+        }
+        else
+        {
+          EvaluacionInfo.Puntuacion = evaluacion.Puntuacion;
+        }
 
-    //     if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
-    //     {
-    //       EvaluacionInfo.FlagNotasAsig = true;
-    //     }
-    //     else
-    //     {
-    //       EvaluacionInfo.FlagNotasAsig = false;
-
-    //     }
+        EvaluacionInfo.SectionsInfo= new List<SectionInfoDto>();
 
 
-    //     if (0 < _context.NotasSections.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
-    //     {
-    //       EvaluacionInfo.FlagNotasSec = true;
-    //     }
-    //     else
-    //     {
-    //       EvaluacionInfo.FlagNotasSec = false;
-
-    //     }
-
-    //     var listaev = _context.Evaluaciones.Where(r => r.ProyectoId == evaluacion.ProyectoId && r.Estado == true).ToList();
-    //     double suma = 0;
-
-    //     foreach (var ev in listaev)
-    //     {
-    //       suma += ev.Puntuacion;
-    //     }
-
-    //     if (listaev.Count > 0)
-    //     {
-    //       EvaluacionInfo.Media = suma / listaev.Count;
-    //     }
-    //     else
-    //     {
-    //       EvaluacionInfo.Media = -1;
-    //     }
+        //Añade el objeto en la lista
+        EvaluacionesInformativas.Add(EvaluacionInfo);
+      }
 
 
-    //     //Añade el objeto en la lista
-    //     EvaluacionesInformativas.Add(EvaluacionInfo);
-    //   }
-
-
-    //   return EvaluacionesInformativas.ToList();//.Skip(10 * pageNumber)
-    // }
+      return EvaluacionesInformativas.ToList();
+    }
 
     //Metodo que devuelve un filtrado de evaluaciones paginada sin proyectos
     public List<EvaluacionInfoDto> GetEvaluationInfoAndPageFilteredAdmin(int pageNumber, EvaluacionInfoPaginationDto Evaluacion)

@@ -4,6 +4,7 @@ export class EvaluacionFilterInfo {
     public userNombre: string,
     public puntuacion: string,
     public fecha: string,
-    public estado: string
+    public estado: string,
+    public assessmentId: number
   ) { }
 }

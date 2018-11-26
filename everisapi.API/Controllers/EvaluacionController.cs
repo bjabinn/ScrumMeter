@@ -134,7 +134,7 @@ namespace everisapi.API.Controllers
     }
 
     //Este metodo lanza mediante un post una petición que devolvera una lista de evaluaciones
-    //Es el que se usa en previousevaluation
+    //Es el que se usa en previousevaluation para la tabla
     [HttpPost("proyecto/{id}/info/page/{pageNumber}")]
     public IActionResult GetEvaluationInfoAndPageFiltered(int id, int pageNumber,
             [FromBody] EvaluacionInfoPaginationDto EvaluacionParaFiltrar)
@@ -178,6 +178,48 @@ namespace everisapi.API.Controllers
       catch (Exception ex)
       {
         _logger.LogCritical("Se recogio un error al recibir la petición post de recoger una lista filtrada de evaluaciones con id de proyecto " + id + " y paginado con número " + pageNumber + ": " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
+      }
+    }
+
+    [HttpPost("proyecto/{id}/sectionsinfo/")]
+    public IActionResult GetEvaluationsWithSectionsInfo(int id,
+            [FromBody] EvaluacionInfoPaginationDto EvaluacionParaFiltrar)
+    {
+      try
+      {
+
+        //Comprueba que el body del json es correcto sino devolvera null
+        //Si esto ocurre devolveremos un error
+        if (EvaluacionParaFiltrar == null)
+        {
+          return BadRequest();
+        }
+
+        //Si no cumple con el modelo de creación devuelve error
+        if (!ModelState.IsValid)
+        {
+          return BadRequest(ModelState);
+        }
+
+        var EvaluacionesFiltradas = new List<EvaluacionInfoWithSectionsDto>();
+
+        var Evals = _evaluacionInfoRepository.GetEvaluationsWithSectionsInfo(id, EvaluacionParaFiltrar);
+        EvaluacionesFiltradas = Evals.ToList();
+
+        // foreach (EvaluacionInfoWithSectionsDto ev in EvaluacionesFiltradas)
+        // {
+        //     var sections = _evaluacionInfoRepository.GetSectionsInfoFromEvalNew
+        // }
+
+        //Hacemos un mapeo de la pregunta que recogimos
+        var EvaluacionesResult = Mapper.Map<List<EvaluacionInfoWithSectionsDto>>(EvaluacionesFiltradas);
+
+        return Ok(new {EvaluacionesResult });
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir la petición post de recoger una lista filtrada de evaluaciones con id de proyecto " + id + ": " + ex);
         return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
       }
     }
