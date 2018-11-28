@@ -1,6 +1,8 @@
 @import '~@angular/material/theming';
 @include mat-core();
 
+
+
 $mat-everis:(
     50:#5c981b,
     100: #c8e6c9,
@@ -34,9 +36,27 @@ $mat-everis:(
     )
   );
 
+  $mat-light-theme-background: (
+  status-bar: map_get($mat-grey, 300),
+  app-bar:    map_get($mat-grey, 100),
+  background: map_get($mat-everis, 50),
+  hover:      rgba(map_get($mat-everis, 50), 0.05), // TODO(kara): check style with Material Design UX
+  card:       white,
+  dialog:     white,
+  disabled-button: $black-12-opacity,
+  raised-button: white,
+  focused-button: $black-6-opacity,
+  selected-button: map_get($mat-grey, 300),
+  selected-disabled-button: map_get($mat-grey, 400),
+  disabled-button-toggle: map_get($mat-grey, 200),
+  unselected-chip: map_get($mat-grey, 300),
+  disabled-list-option: map_get($mat-grey, 200),
+);
+
 $my-app-primary: mat-palette($mat-everis, 50);
 $my-app-accent:  mat-palette($mat-everis, 50);
 $my-app-warn:    mat-palette($mat-deep-orange);
+$my-app-background: mat-palette($mat-everis, 50);
 
 $my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
 

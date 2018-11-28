@@ -30,7 +30,7 @@ import {DebounceDirective} from './debounceDirective';
 import { QuestionsManagerComponent } from './back-office/components/questions-manager/questions-manager.component';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { ComentariosTableComponent } from './comentarios-table/comentarios-table.component';
-
+import {MatExpansionModule} from '@angular/material/expansion';
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,7 +68,8 @@ import { ComentariosTableComponent } from './comentarios-table/comentarios-table
     MatFormFieldModule,
     NgxMatSelectSearchModule,
     MatListModule,
-    NgCircleProgressModule
+    NgCircleProgressModule,
+    MatExpansionModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

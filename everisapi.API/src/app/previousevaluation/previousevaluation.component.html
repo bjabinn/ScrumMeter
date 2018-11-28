@@ -164,7 +164,7 @@
               </mat-select>
             </mat-form-field>
     <div class="mat-elevation-z8 panelGrafica">
-    <div id="Grafica" *ngIf="Mostrar && (this.Project.fecha != null || ProyectoSeleccionado) &&  ListaDeEvaluacionesPaginada.length != 0" class="mx-auto">
+    <div id="Grafica" *ngIf="ListaPuntuacion && ListaPuntuacion.length > 0" class="mx-auto">
       <canvas *ngIf="barChartData" id="canvas" baseChart #chart
               [datasets]="barChartData"
               [labels]="ListaNombres"

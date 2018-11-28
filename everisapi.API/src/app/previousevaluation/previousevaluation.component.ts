@@ -529,7 +529,8 @@ export class PreviousevaluationComponent implements OnInit {
     let listaSections : number[][] = [];
     let listaSectionLevels: SectionsLevel[][] = [];
     let index:number = 0;
-    let colorList: string[] = ["#E74C3C", "#3498DB","#F1C40F", "#2ECC71","#9B59B6",  "#F39C12", "#33CCCC", "#34495E"]
+    let colorList: string[] = ["#E74C3C", "#3498DB","#F1C40F" ,"#9B59B6",  "#F39C12", "#33CCCC", "#34495E"]
+    let levelColorList : string[] = ["#FDB90040", "#78C00040", "#00c00940",  "#00c06340", "#00c09e40", "#00b5c040"]
 
 
     for(var i = 0; i <  this.EvaluationsWithSectionInfo.length + 1; i++) {
@@ -571,8 +572,8 @@ export class PreviousevaluationComponent implements OnInit {
 
       if(j >= this.EvaluationsWithSectionInfo[0].sectionsInfo.length){
         this.ListaPuntuacion.push({
-          data: listaSections[j], label: "Global", backgroundColor: colorList[j], fill: 'false', lineTension : 0.1,
-          borderColor: colorList[j], pointRadius: 2, pointHoverRadius: 4, borderWidth: 3});
+          data: listaSections[j], label: "Global", backgroundColor: "#2ECC71", fill: 'false', lineTension : 0.1,
+          borderColor: "#2ECC71", pointRadius: 2, pointHoverRadius: 4, borderWidth: 3});
       }
       else{
         this.ListaPuntuacion.push({
@@ -588,13 +589,13 @@ export class PreviousevaluationComponent implements OnInit {
       }
       if(i == 0){
         this.ListaPuntuacion.push({
-          data: level, label: 'aux' + i, backgroundColor: '#FDB90040', fill: 'origin', lineTension : 0.1,
-          borderColor: '#FDB90050', pointRadius: 0, pointHoverRadius: 0, borderWidth: 0.1});
+          data: level, label: 'aux' + i, backgroundColor: levelColorList[i], fill: 'origin', lineTension : 0.1,
+          borderColor: levelColorList[i], pointRadius: 0, pointHoverRadius: 0, borderWidth: 0.1});
       }
       else{
         this.ListaPuntuacion.push({
-          data: level, label: 'aux' + i, backgroundColor: '#78C00040', fill: '-1', lineTension : 0.1,
-          borderColor: '#78C00050', pointRadius: 0, pointHoverRadius: 0, borderWidth: 0.1});
+          data: level, label: 'aux' + i, backgroundColor: levelColorList[i], fill: '-1', lineTension : 0.1,
+          borderColor: levelColorList[i], pointRadius: 0, pointHoverRadius: 0, borderWidth: 0.1});
       }
     }
 
@@ -700,9 +701,7 @@ export class PreviousevaluationComponent implements OnInit {
           return true;
         }
     },
-    animation: {
-      duration: 1
-    },
+    animation: false,
       callbacks: {
         label: function (tooltipItem, data) {
           // const datasetLabel = data.datasets[tooltipItem.datasetIndex].label || '';
@@ -731,6 +730,7 @@ export class PreviousevaluationComponent implements OnInit {
         ticks: {
           steps: this.MaxLevelReached * 10 + 10,
           stepValue: 10,
+          maxTicksLimit: this.MaxLevelReached * 10 + 10,
           max: this.MaxLevelReached * 100 + 100,
           min: 0,
           callback: function(value, index, values) {
