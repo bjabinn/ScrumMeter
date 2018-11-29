@@ -680,16 +680,28 @@ hr.textopdf {
   padding-left: 20px;
   padding-right: 20px;
   min-width: 50%;
-}
+  margin-bottom: -15px;
+  margin-top: -10px;
 
+
+}
 .notas-row {
-  overflow: hidden;
   display: flex;
+}
+.notas-panel {
+  overflow: hidden;
+ 
   margin-top:30px;
   margin-left: 10%;
   margin-right: 10%;
-  padding-top: 20px;
+  
 }
+
+.comment{
+  margin-left: 90%;
+}
+
+
 
 .table-row{
   text-align: left;
