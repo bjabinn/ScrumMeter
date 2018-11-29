@@ -10,11 +10,12 @@ import { FormControl } from '@angular/forms';
 import { take, takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs';
 import { ReplaySubject } from 'rxjs';
-import { MatSelect, VERSION } from '@angular/material';
+import { MatList, MatIcon, VERSION } from '@angular/material';
 import { User } from 'app/Models/User';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { EventEmitterService } from 'app/services/event-emitter.service';
 import { StorageDataService } from 'app/services/StorageDataService';
+import { UserProject } from 'app/Models/UserProject';
 
 
 @Component({
@@ -101,11 +102,11 @@ export class UserManagementComponent implements OnInit {
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
         this.showProjects = false;
-        this.rolControl =  this.userCtrl.value.role;
+        //this.rolControl =  this.userCtrl.value.role;
         this.getUserProjects();
         this.filterProjectMulti();
         this.UsuarioLogueado = this._appComponent._storageDataService.UserData.nombre;
-        console.log(this.UsuarioLogueado);
+        
 
       });
  
@@ -197,16 +198,7 @@ export class UserManagementComponent implements OnInit {
 
   }
 
-  public seleccionDeRol() {
-
-    this.showProjects = false;
-    this.userCtrl.value.role = this.rolControl;
-    this.UsuarioSeleccionado = this.userCtrl.value;
- 
-    this.updateUserRol(this.UsuarioSeleccionado);
-
-
-  }
+  
 
   private filterUsers() {
     if (!this.ListaDeUsuarios) {
@@ -248,6 +240,10 @@ export class UserManagementComponent implements OnInit {
 
   private getUserProjects() {
 
+    if(this.userCtrl.value.role.id == 1){
+      this.showProjects=true;
+    } 
+    
     this._proyectoService.getProyectosDeUsuarioSeleccionado(this.userCtrl.value).subscribe(
       res => {
         this.ListaDeProyectosUsuario = res;
@@ -255,9 +251,7 @@ export class UserManagementComponent implements OnInit {
 
           this.ListaDeProyectosUsuario.forEach((element) => {
             this.projectsSelected.push(`${element.id}`);
-            if(this.userCtrl.value.role.id == 1){
-              this.showProjects=true;
-            } 
+            
           });
         
 
@@ -287,10 +281,28 @@ export class UserManagementComponent implements OnInit {
     });
  
     if(exists){
-        this.ListaDeProyectosUsuario.splice(i,1);
+      var removeUP = new UserProject(this.userCtrl.value.nombre, project.id);
+      this.removeUserProyect(removeUP);
+      this.ListaDeProyectosUsuario.splice(i,1);
     }else{
+
+      var addUP = new UserProject(this.userCtrl.value.nombre, project.id);
+      this.addUserProyect(addUP);
+      
       this.ListaDeProyectosUsuario.push(project);
     }
+  }
+
+  deleteSingleUserProjects(project){
+    console.log("borrar single");
+    let i = 0;
+    this.ListaDeProyectosUsuario.forEach((element,index)=>{
+      if(element.id == project.id){i=index;}
+  });
+      var removeUP = new UserProject(this.userCtrl.value.nombre, project.id);
+      this.removeUserProyect(removeUP);
+      this.ListaDeProyectosUsuario.splice(i,1);
+   
   }
 
   private updateUserRol(UsuarioSeleccionado) {
@@ -318,25 +330,90 @@ export class UserManagementComponent implements OnInit {
 
   }
 
-  showModal(content) {
+  private addUserProyect(usuarioProyecto) {
 
-    if (this.userCtrl.value.nombre == this.UsuarioLogueado && this.rolControl.role != 'Administrador') 
+    this._UserService.addUserProject(usuarioProyecto).subscribe(
+      res => {
+        this.getUserProjects();     
+        this.updateUser = "Proyecto asignado correctamente";
+        this._eventService.displayMessage(this.updateUser);
+        setTimeout(()=>{this.updateUser = null},2000);
+      },
+      error => {
+        console.log(error);
+        //Si el servidor tiene algún tipo de problema mostraremos este error
+        if (error == 404) {
+          this.ErrorMessage = "Error: " + error + " El usuario o proyecto autenticado no existe.";
+        } else if (error == 500) {
+          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        } else if (error == 401) {
+          this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+        } else {
+          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        }
+      });
+
+  }
+
+  private removeUserProyect(usuarioProyecto) {
+
+    this._UserService.removeUserProject(usuarioProyecto).subscribe(
+      res => {
+        this.getUserProjects();     
+        this.updateUser = "Proyecto eliminado correctamente";
+        this._eventService.displayMessage(this.updateUser);
+        setTimeout(()=>{this.updateUser = null},2000);
+      },
+      error => {
+        console.log("falla el borrar", error);
+        //Si el servidor tiene algún tipo de problema mostraremos este error
+        if (error == 404) {
+          this.ErrorMessage = "Error: " + error + " El usuario o proyecto autenticado no existe.";
+        } else if (error == 500) {
+          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        } else if (error == 401) {
+          this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+        } else {
+          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        }
+      });
+
+  }
+
+  showModal(content, role: Role) {
+
+    if (this.userCtrl.value.nombre == this.UsuarioLogueado && this.userCtrl.value.role.role == 'Administrador') 
     {
+      if(role.id != 2){
+      console.log("entra",this.userCtrl.value.role.role);
       this.modalService.open(content).result.then(
         (closeResult) => {
         }, (dismissReason) => {
           if (dismissReason == 'Cerrar') {
-            this.rolControl = this.userCtrl.value.rol;
+            
           } else if (dismissReason == 'Aceptar') {          
-            this.seleccionDeRol();
+            this.seleccionDeRol(role);
             this._router.navigate(['/login']);
           } 
         })
-    } else {
-      this.seleccionDeRol();
+      }  
+    } else {     
+      this.seleccionDeRol(role);
     }
     
     
+  }
+
+  public seleccionDeRol(role: Role) {
+
+    console.log("seleccion de rol", role.role)
+    this.showProjects = false;
+    this.userCtrl.value.role = role;
+    this.UsuarioSeleccionado = this.userCtrl.value;
+ 
+    this.updateUserRol(this.UsuarioSeleccionado);
+
+
   }
 
 }

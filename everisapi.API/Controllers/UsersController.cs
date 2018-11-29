@@ -261,6 +261,37 @@ namespace everisapi.API.Controllers
       }
     }
 
+    /*ADD PROYECTOS*/
+    [HttpPost("addUserProject")]
+    public IActionResult AddUserProject([FromBody] UserProyectoDto UserProyectoAdd)
+    {
+
+      // //Comprueba que se guardo bien y lo envia
+       if (this._userInfoRepository.AddUserToProject(UserProyectoAdd.UserNombre, UserProyectoAdd.ProyectoId))
+       {
+         return Ok("El UserProyecto fue creado.");
+       }
+      else
+      {
+        return BadRequest();
+      }
+    }
+
+    [HttpPost("removeUserProject")]
+    public IActionResult removeUserProject([FromBody] UserProyectoDto UserProyectoRemove)
+    {
+
+      // //Comprueba que se guardo bien y lo envia
+       if (this._userInfoRepository.DeleteUserProject(UserProyectoRemove.UserNombre, UserProyectoRemove.ProyectoId))
+       {
+         return Ok("El UserProyecto fue eliminado.");
+       }
+      else
+      {
+        return BadRequest();
+      }
+    }
+
   }
   
 }

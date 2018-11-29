@@ -217,15 +217,36 @@ namespace everisapi.API.Services
       return _context.Proyectos.Any(p => p.Id == ProyectoId);
     }
 
-    public bool AddUserToProject(UserEntity usuario, int ProyectoId)
+    public bool AddUserToProject(string UserNombre, int ProyectoId)
     { 
       UserProyectoEntity userProyecto = new UserProyectoEntity();
 
-      userProyecto.Id = _context.UserProyectos.OrderByDescending(u => u.Id).FirstOrDefault().Id + 1;
-      userProyecto.UserNombre = usuario.Nombre;
+      //userProyecto.Id = _context.UserProyectos.OrderByDescending(u => u.Id).FirstOrDefault().Id + 1;
+      userProyecto.UserNombre = UserNombre;
       userProyecto.ProyectoId = ProyectoId;
 
+      if(_context.UserProyectos.Any(u => u.UserNombre == UserNombre && u.ProyectoId == ProyectoId)){
+        return false;
+      }
+
       _context.UserProyectos.Add(userProyecto);
+
+      return SaveChanges();
+    }
+
+    public bool DeleteUserProject(string UserNombre, int ProyectoId)
+    { 
+      UserProyectoEntity userProyecto = new UserProyectoEntity();
+      userProyecto.UserNombre = UserNombre;
+      userProyecto.ProyectoId = ProyectoId;
+
+      var removed =_context.UserProyectos.Where(u => u.UserNombre == UserNombre && u.ProyectoId == ProyectoId).FirstOrDefault();
+      
+      if(removed == null){
+       return false;
+      }
+      
+      _context.UserProyectos.Remove(removed);
 
       return SaveChanges();
     }

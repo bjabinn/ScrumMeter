@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { User } from 'app/Models/User';
 import { AppComponent } from 'app/app.component';
 import { UserWithRole } from 'app/Models/UserWithRole';
+import { UserProject } from 'app/Models/UserProject';
 
 @Injectable()
 export class UserService {
@@ -68,9 +69,6 @@ export class UserService {
       catchError(this.errorHandler));
   }
 
-
-
-
   //Nos permite recoger un token si existe el usuario
   SignUpMe(Usuario: User) {
     let params = JSON.stringify(Usuario);
@@ -79,6 +77,32 @@ export class UserService {
     });
     return this._http.post(this.url + 'Token', params, { headers: headers }).pipe(
       map(res => res.json()),
+      catchError(this.errorHandler));
+  }
+
+  addUserProject(userProject: UserProject) {
+    let Token = this._appComponent.ComprobarUserYToken();
+    let params = JSON.stringify(userProject);
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': Token
+    });
+    
+    return this._http.post(this.url + 'users/addUserProject/', params, { headers: headers }).pipe(
+      map(res => res),
+      catchError(this.errorHandler));
+  }
+
+  removeUserProject(userProject: UserProject) {
+    let Token = this._appComponent.ComprobarUserYToken();
+    let params = JSON.stringify(userProject);
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': Token
+    });
+    
+    return this._http.post(this.url + 'users/removeUserProject/', params, { headers: headers }).pipe(
+      map(res => res),
       catchError(this.errorHandler));
   }
 

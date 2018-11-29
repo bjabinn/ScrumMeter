@@ -77,7 +77,7 @@ namespace everisapi.API.Controllers
                   newUser.Password = "default-password";
                   newUser.RoleId = (int)Roles.User;
                   _usersInfoRespository.AddUser(newUser);
-                  _usersInfoRespository.AddUserToProject(newUser,5);
+                  _usersInfoRespository.AddUserToProject(newUser.Nombre,5);
                   var jwtToken = JwtTokenBuilder();
                   response = Ok(new { access_token = jwtToken, user_long_name = userNombreLargo});
                 }
