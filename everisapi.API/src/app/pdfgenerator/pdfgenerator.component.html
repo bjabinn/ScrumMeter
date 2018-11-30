@@ -157,40 +157,41 @@
   </div>
 
   <div class="circle-progress-container" *ngIf="ListaDeDatos.length> 0 && ListaSectionLevels.length>0">
-      <div *ngFor="let datos of ListaDeDatos; let i = index" [attr.data-index]="i" [ngClass]="{'isAgile':ListaSectionLevels[i].levelReached>0}">
+      <div *ngFor="let datos of ListaDeDatos; let i = index" [attr.data-index]="i" [ngClass]="formatLevel(ListaSectionLevels[i])">
     <circle-progress
   [percent]= "ListaSectionLevels[i].percentOverLevel"
   [toFixed] = "1"
-  [subtitle] = "[formatSubtitle(ListaSectionLevels[i]), '']"
-  [subtitleFontSize]= "12"
-  [titleFontSize]= "24"
+  [subtitle] = "[formatSubtitle(ListaSectionLevels[i])]"
+  [subtitleFontSize]= "14"
+  [titleFontSize]= "26"
   [unitsFontSize]= "14"
   [radius]="70"
+  [space] = "1.5"
   [outerStrokeWidth]="8"
-  [innerStrokeWidth]="4"
-  [innerStrokeColor]="ListaSectionLevels[i].levelReached>0?'#C7E596':'#ffdb7b'"
-  [outerStrokeColor]="ListaSectionLevels[i].levelReached>0?'#78C000':'#FDB900'"
+  [innerStrokeWidth]="5"
+  [innerStrokeColor]="getLevelColorInner(ListaSectionLevels[i])"
+  [outerStrokeColor]="getLevelColorOuter(ListaSectionLevels[i])"
   [animation]="true"
   [renderOnClick]="false"
   [animationDuration]="300"
     ></circle-progress>
     <div class="text-center"><b>{{datos.nombre}}</b></div>
   </div>
-   <div>
+   <!-- <div>
       <circle-progress
       [percent]= "Evaluacion.puntuacion/AgileComplianceTotal*100"
       [toFixed] = "1"
       [subtitle] = "['del nivel', 'Agile Compliance']"
-      [radius]="90"
+      [radius]="70"
       [outerStrokeWidth]="10"
       [innerStrokeWidth]="5"
-      [innerStrokeColor]="Evaluacion.puntuacion>AgileComplianceTotal?'#C7E596':'#ffdb7b'"
-      [outerStrokeColor]="Evaluacion.puntuacion>AgileComplianceTotal?'#78C000':'#FDB900'"
+      [innerStrokeColor]="getLevelColorInner(ListaSectionLevels[i])"
+      [outerStrokeColor]="getLevelColorOuter(ListaSectionLevels[i])"
       [animation]="true"
       [animationDuration]="300"
         ></circle-progress>
         <div class="text-center"><b>TOTAL</b></div>
-  </div> 
+  </div>  -->
 
   </div>
   <mat-expansion-panel class="notas-panel">

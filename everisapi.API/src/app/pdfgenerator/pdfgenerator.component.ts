@@ -103,12 +103,43 @@ export class PdfgeneratorComponent implements OnInit {
 
   //CircleProgress
   public formatSubtitle  = (sc: SectionsLevel) : string => {
-    if(sc.levelReached == 0){
+    if(sc.levelReached == -1){
       return "del nivel mínimo"
     }
     else{
-      return "del nivel  " + Math.trunc(sc.levelReached);
+      return "   Nivel  " + Math.trunc(sc.levelReached + 1);
     } 
+  }
+
+  public formatLevel  = (sc: SectionsLevel) : string => {
+    return "lvl"+ sc.levelReached;
+  }
+
+  public getLevelColorOuter  = (sc: SectionsLevel) : string => {
+    if(sc.levelReached == 0){
+      return "#FDB900";
+    }
+    else  if(sc.levelReached == 1){
+      return "#78C000";
+    }
+    else  if(sc.levelReached == 2){
+      return "#00C03D";
+    }
+    return "#000000"
+  }
+
+  
+  public getLevelColorInner  = (sc: SectionsLevel) : string => {
+    if(sc.levelReached == 0){
+      return "#ffdb7b";
+    }
+    else  if(sc.levelReached == 1){
+      return "#C7E596";
+    }
+    else  if(sc.levelReached == 2){
+      return "#79D496";
+    }
+    return "#000000"
   }
 
   public getPercent = (nota: number, compliance: number) : number => {

@@ -730,12 +730,19 @@ hr.textopdf {
   display: flex;
 }
 
-.isAgile{
-  background-image: url("/assets/agile.png");
+.lvl1{
+  background-image: url("/assets/lvl1.svg");
   background-repeat: no-repeat;
-  background-size: 50px;
-  background-position-x: 58px;
-  background-position-y: 94px;
+  background-size: 120px;
+  background-position-x: 23.5px;
+  background-position-y: 23.5px;
+}
+.lvl2{
+  background-image: url("/assets/lvl2.svg");
+  background-repeat: no-repeat;
+  background-size: 120px;
+    background-position-x: 23.5px;
+    background-position-y: 23.5px;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick  {
