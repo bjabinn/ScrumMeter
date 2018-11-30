@@ -8,6 +8,11 @@ namespace everisapi.API.Models
 {
     public class UserProyectoDto
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
+
+        public string UserNombre { get; set; }
+        
+        public int ProyectoId { get; set; }
+
     }
 }

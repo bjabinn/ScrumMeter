@@ -1,7 +1,11 @@
-<div *ngIf="updateUser != null" class="alert alert-success">
-    {{updateUser}}
-</div>
-<div class="row mt-5">
+<div class="position-relative">
+    <div class="position-absolute error-msg">
+        <div *ngIf="updateUser != null" class="alert alert-success">
+            {{updateUser}}
+        </div>
+    </div>
+</div>    
+<div class="row backOfficeContent">
   
     <div class="backOfficeMenu col-2">
       <div class="list-group" id="list-tab" role="tablist">
@@ -11,7 +15,8 @@
       </div>
     </div>
 
-    <div class="col-8">
+    <div *ngIf="_router.url !== '/backoffice'" class="col-9 ng-card-box p-3 br-2 mat-elevation-z5">
       <router-outlet class="backOfficeComponents"></router-outlet>
     </div>
+    
 </div>

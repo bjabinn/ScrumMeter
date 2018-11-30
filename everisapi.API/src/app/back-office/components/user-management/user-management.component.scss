@@ -18,6 +18,7 @@
 	display: inline-block;
 	background-color: white;
 	cursor: pointer;
+	border-radius: 0px !important;
 
 	&.seleccionado{
 		background-color: #99AD01;
@@ -43,3 +44,19 @@
   color: white;
   font-weight: bold;
 }
+
+button.transparente{
+	background-color: Transparent;
+	background-repeat: no-repeat;
+	border: none;
+	cursor: pointer;
+	overflow: hidden;
+	outline: none;
+	width: 60px;
+}
+
+i.delete{
+	color: red;
+}
+
+
