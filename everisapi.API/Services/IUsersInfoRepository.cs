@@ -76,6 +76,9 @@ namespace everisapi.API.Services
 
     //Desasigna un proyecto d eun usuario
     bool DeleteUserProject(string UserNombre, int ProyectoId);
+
+    //Asigna un nuevo proyecto test a un nuevo usuario
+    bool AddProjectTest(string userNombre);
   }
 
   

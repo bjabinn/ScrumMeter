@@ -192,6 +192,22 @@ namespace everisapi.API.Services
       return SaveChanges();
     }
 
+    public bool AddProjectTest(string userNombre)
+    {
+      ProyectoEntity proyecto = new ProyectoEntity();
+      proyecto.Fecha = System.DateTime.Now;
+      proyecto.Nombre = string.Format("Proyecto test {0}",userNombre);
+      proyecto.UserNombre = userNombre; 
+      //Creamos el nuevo proyecto test
+      _context.Proyectos.Add(proyecto);
+      SaveChanges();
+      int idProyecto = _context.Proyectos.Where(u => u.UserNombre == userNombre).FirstOrDefault().Id;
+      //Asignamos el proyecto al usuario
+      AddUserToProject(userNombre,idProyecto);
+
+      return SaveChanges();
+    }
+
     //Nos permite modificar un proyecto
     public bool AlterProj(ProyectoEntity proyecto)
     {

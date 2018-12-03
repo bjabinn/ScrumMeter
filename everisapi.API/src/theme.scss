@@ -14,7 +14,7 @@ $mat-everis:(
     700: #388e3c,
     800: #2e7d32,
     900: #1b5e20,
-    A100: #b9f6ca,
+    A100: #ffffff,
     A200: #69f0ae,
     A400: #00e676,
     A700: #00c853,
@@ -39,7 +39,7 @@ $mat-everis:(
   $mat-light-theme-background: (
   status-bar: map_get($mat-grey, 300),
   app-bar:    map_get($mat-grey, 100),
-  background: map_get($mat-everis, 50),
+  background: map_get($mat-everis, A100),
   hover:      rgba(map_get($mat-everis, 50), 0.05), // TODO(kara): check style with Material Design UX
   card:       white,
   dialog:     white,
