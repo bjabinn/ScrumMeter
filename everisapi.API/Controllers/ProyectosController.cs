@@ -28,14 +28,14 @@ namespace everisapi.API.Controllers
     }
 
     /*METODOS GET DE PREGUNTAS*/
-    [HttpGet("fullproyectos")]
-    public IActionResult GetFullProyectos()
+    [HttpGet("{nombreUsuario}/fullproyectos")]
+    public IActionResult GetFullProyectos(string nombreUsuario)
     {
       try
       {
 
         //Recogemos una lista de proyecto del usuario
-        var TodosLosProyectos = _usersInfoRepository.GetFullProyectos();
+        var TodosLosProyectos = _usersInfoRepository.GetFullProyectos(nombreUsuario);
 
         //Transformamos la lista anterior en una nueva con los datos que necesitamos
         //Ya que otros son relevantes

@@ -38,6 +38,7 @@ namespace everisapi.API.Services
       if(usuario.RoleId != (int)Roles.User)
       {
         proyectos = _context.Proyectos.OrderBy(p => p.Nombre).ToList();
+        
       }
       else
       {
@@ -54,9 +55,9 @@ namespace everisapi.API.Services
     }
 
     //Recoge todos los proyectos de todos los usuarios
-    public IEnumerable<ProyectoEntity> GetFullProyectos()
+    public IEnumerable<ProyectoEntity> GetFullProyectos(string userNombre)
     {
-      return _context.Proyectos.OrderBy(p => p.Nombre).ToList();
+      return _context.Proyectos.Where(p => p.TestProject == false || p.UserNombre == userNombre).OrderBy(p => p.Nombre).ToList();
     }
 
     public IEnumerable<AssessmentEntity> GetAllAssessments(){
@@ -197,7 +198,8 @@ namespace everisapi.API.Services
       ProyectoEntity proyecto = new ProyectoEntity();
       proyecto.Fecha = System.DateTime.Now;
       proyecto.Nombre = string.Format("Proyecto test {0}",userNombre);
-      proyecto.UserNombre = userNombre; 
+      proyecto.UserNombre = userNombre;
+      proyecto.TestProject = true; 
       //Creamos el nuevo proyecto test
       _context.Proyectos.Add(proyecto);
       SaveChanges();

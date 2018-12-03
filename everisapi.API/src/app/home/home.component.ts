@@ -134,7 +134,7 @@ export class HomeComponent implements OnInit {
         });
     } else {
       //Aqui entra si eres administrador dandote todos los proyectos
-      this._proyectoService.getAllProyectos().subscribe(
+      this._proyectoService.getAllProyectos(this.NombreDeUsuario).subscribe(
         res => {
           this.ListaDeProyectos = res;
         },

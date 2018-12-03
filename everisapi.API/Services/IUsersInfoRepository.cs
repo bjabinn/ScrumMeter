@@ -31,7 +31,7 @@ namespace everisapi.API.Services
     RoleEntity GetRolesUsuario(UserEntity usuario);
 
     //Devuelve todos los proyectos de todos los usuarios
-    IEnumerable<ProyectoEntity> GetFullProyectos();
+    IEnumerable<ProyectoEntity> GetFullProyectos(string userNombre);
 
     //Devuelve todos los assessments disponibles para todos los usuarios
     IEnumerable<AssessmentEntity> GetAllAssessments();

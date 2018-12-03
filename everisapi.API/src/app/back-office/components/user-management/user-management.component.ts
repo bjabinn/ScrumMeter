@@ -86,7 +86,7 @@ export class UserManagementComponent implements OnInit {
 
     this.getAllUsers();
     this.getAllRoles();
-    this.getAllProjects();
+    this.getAllProjects(this._appComponent._storageDataService.UserData.nombre);
 
     
 
@@ -102,10 +102,11 @@ export class UserManagementComponent implements OnInit {
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
         this.showProjects = false;
-        //this.rolControl =  this.userCtrl.value.role;
+        this.UsuarioLogueado = this._appComponent._storageDataService.UserData.nombre;
+        this.getAllProjects(this.userCtrl.value.nombre);
         this.getUserProjects();
         this.filterProjectMulti();
-        this.UsuarioLogueado = this._appComponent._storageDataService.UserData.nombre;
+        
         
 
       });
@@ -175,9 +176,9 @@ export class UserManagementComponent implements OnInit {
       });
   }
 
-  private getAllProjects() {
+  private getAllProjects(userNombre: string) {
 
-    this._proyectoService.getAllProyectos().subscribe(
+    this._proyectoService.getAllProyectos(userNombre).subscribe(
       res => {
         this.ListaDeProyectos = res;
         // this.projectMultiCtrl.setValue(this.ListaDeProyectos); 
