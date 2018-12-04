@@ -693,6 +693,7 @@ export class PreviousevaluationComponent implements OnInit {
       }
   },
     tooltips: {
+      cornerRadius: 2,
       filter: function (tooltipItem, data) {
         var label = data.datasets[tooltipItem.datasetIndex].label;
         if (label.includes('aux')) {
@@ -712,9 +713,9 @@ export class PreviousevaluationComponent implements OnInit {
           //     labels.push(sectionInfo.nombre + ': ' + sectionInfo.respuestasCorrectas + '%');
           //   }
           let nivel: string = '%  del nivel mínimo';
-          if(Number(tooltipItem.yLabel) > 100){
-            nivel = '%  del nivel ' +  Math.trunc(Number(tooltipItem.yLabel) / 100);
-          }
+          //if(Number(tooltipItem.yLabel) > 100){
+            nivel = '%  del nivel ' +  Math.trunc(Number(tooltipItem.yLabel) / 100 + 1);
+          //}
           return  data.datasets[tooltipItem.datasetIndex].label + ': ' + Math.round((tooltipItem.yLabel%100) * 10)/10 + nivel;
         },
         // footer: function(tooltipItem, data) {
@@ -734,13 +735,14 @@ export class PreviousevaluationComponent implements OnInit {
           max: this.MaxLevelReached * 100 + 100,
           min: 0,
           callback: function(value, index, values) {
-            if (Number(value) % 100 == 0){
-              if(Number(value) == 100){
-                return 'Nivel mín.';
-              }
-              else if(Number(value) > 100){
-                return 'Nivel ' + (Number(value) / 100 - 1);
-              }
+            if (Number(value) % 100 == 0 && Number(value) >= 100){
+              // if(Number(value) == 100){
+              //   return 'Nivel mín.';
+              // }
+              // else if(Number(value) > 100){
+              //   return 'Nivel ' + (Number(value) / 100 - 1);
+              // }
+              return 'Nivel ' + (Number(value) / 100 );
           }
           else
             return Number(value)%100 + '%';
