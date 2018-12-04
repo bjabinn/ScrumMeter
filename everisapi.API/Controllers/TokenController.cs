@@ -72,18 +72,25 @@ namespace everisapi.API.Controllers
                     var jwtToken = JwtTokenBuilder();
                     response = Ok(new { access_token = jwtToken, user_long_name = userNombreLargo });
                 }else{
-                  Entities.UserEntity newUser = new Entities.UserEntity();
-                  newUser.Nombre = UserAuth.Nombre;
-                  newUser.Password = "default-password";
-                  newUser.RoleId = (int)Roles.User;
-                  _usersInfoRespository.AddUser(newUser);
-                  _usersInfoRespository.AddUserToProject(newUser.Nombre,5);
-                  var jwtToken = JwtTokenBuilder();
-                  response = Ok(new { access_token = jwtToken, user_long_name = userNombreLargo});
+                    //Is a new user
+                    this.isNewUser(userNombreLargo, UserAuth.Nombre);
+                    var jwtToken = JwtTokenBuilder();
+                    response = Ok(new { access_token = jwtToken, user_long_name = userNombreLargo});
+                  
                 }
             }
 
             return response;
+        }
+
+        private void isNewUser(string userNombreLargo, string nombre)
+        {
+            Entities.UserEntity newUser = new Entities.UserEntity();
+                  newUser.Nombre = nombre;
+                  newUser.Password = "default-password";
+                  newUser.RoleId = (int)Roles.User;
+                  _usersInfoRespository.AddUser(newUser);
+                  _usersInfoRespository.AddProjectTest(newUser.Nombre);
         }
 
         private string IsUserExistsLDAP(string name, string pwd)

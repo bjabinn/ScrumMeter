@@ -19,7 +19,7 @@ export class BackOfficeComponent implements OnInit {
 
   constructor(
     private _proyectoService: ProyectoService,
-    private _router: Router,
+    public _router: Router,
     private _eventService: EventEmitterService, 
     private _appComponent: AppComponent) {
       this._eventService.eventEmitter.subscribe(

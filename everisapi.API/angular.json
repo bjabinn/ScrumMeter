@@ -46,6 +46,21 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "1mb",
+                  "maximumWarning": "0.5mb",
+                  "maximumError": "4mb"
+                },
+                {
+                  "type": "all",
+                  "baseline": "2mb",
+                  "maximumWarning": "0.5mb",
+                  "maximumError": "3.5mb"
+
+                }
               ]
             }
           }

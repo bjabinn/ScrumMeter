@@ -31,7 +31,7 @@ namespace everisapi.API.Services
     RoleEntity GetRolesUsuario(UserEntity usuario);
 
     //Devuelve todos los proyectos de todos los usuarios
-    IEnumerable<ProyectoEntity> GetFullProyectos();
+    IEnumerable<ProyectoEntity> GetFullProyectos(string userNombre);
 
     //Devuelve todos los assessments disponibles para todos los usuarios
     IEnumerable<AssessmentEntity> GetAllAssessments();
@@ -76,6 +76,9 @@ namespace everisapi.API.Services
 
     //Desasigna un proyecto d eun usuario
     bool DeleteUserProject(string UserNombre, int ProyectoId);
+
+    //Asigna un nuevo proyecto test a un nuevo usuario
+    bool AddProjectTest(string userNombre);
   }
 
   

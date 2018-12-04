@@ -55,12 +55,12 @@ export class ProyectoService {
   }
 
   //Este metodo devuelve todos los proyectos de todos los usuarios
-  getAllProyectos() {
+  getAllProyectos(userNombre: string) {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'users/fullproyectos', { headers: headers }).pipe(
+    return this._http.get(this.url + 'users/' + userNombre + "/fullproyectos", { headers: headers }).pipe(
       map((response: Response) => response.json()),
       catchError(this.errorHandler));
   }
@@ -81,7 +81,7 @@ export class ProyectoService {
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'users/' + this.UsuarioLogeado + "/proyectos", { headers: headers }).pipe(
+    return this._http.get(this.url + 'users/' + this.UsuarioLogeado + '/proyectos', { headers: headers }).pipe(
       map((response: Response) => response.json()),
       catchError(this.errorHandler));
   }
