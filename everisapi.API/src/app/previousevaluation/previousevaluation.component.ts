@@ -56,7 +56,7 @@ export class PreviousevaluationComponent implements OnInit {
   public EvaluationsWithSectionInfo: Array<EvaluacionInfoWithSections>;
   public nEvaluaciones: number = 0;
   public UserName: string = "";
-  public Project: Proyecto = { 'id': null, 'nombre': '', 'fecha': null };
+  public Project: Proyecto = { 'id': null, 'nombre': '', 'fecha': null, numEvals:0};
   public Mostrar = false;
   public PageNow = 1;
   public NumMax = 0;
@@ -121,7 +121,7 @@ export class PreviousevaluationComponent implements OnInit {
         for (let num = 0; num < this.permisosDeUsuario.length; num++) {
           if (this.permisosDeUsuario[num].role == "Administrador") {
             if (this.Project == null || this.Project == undefined || this.Project.id == -1) {
-              this.Project = { id: 0, nombre: '', fecha: null };
+              this.Project = { id: 0, nombre: '', fecha: null, numEvals:0};
               this.Admin = true;
             }
           }

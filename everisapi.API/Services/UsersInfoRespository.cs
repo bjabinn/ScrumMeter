@@ -29,24 +29,36 @@ namespace everisapi.API.Services
     }
 
     //Recoge todos los proyectos de un usuario
-    public IEnumerable<ProyectoEntity> GetProyectosDeUsuario(string userNombre)
+    public IEnumerable<ProyectoDto> GetProyectosDeUsuario(string userNombre)
     {
-      List<ProyectoEntity> proyectos = new List<ProyectoEntity>();
+      List<ProyectoDto> proyectos = new List<ProyectoDto>();
       
       UserEntity usuario = _context.Users.Where(u => u.Nombre == userNombre).FirstOrDefault();
       
       if(usuario.RoleId != (int)Roles.User)
       {
-        proyectos = _context.Proyectos.OrderBy(p => p.Nombre).ToList();
-        
+        var proyectosE = _context.Proyectos.Where(p => p.TestProject == false || p.UserNombre == userNombre).OrderBy(p => p.Nombre).ToList();
+        foreach (ProyectoEntity pe in proyectosE){
+          ProyectoDto p = new ProyectoDto();
+          p.Id = pe.Id;
+          p.Nombre = pe.Nombre;
+          p.Fecha = pe.Fecha;
+          p.numEvals = _context.Evaluaciones.Where(e => e.ProyectoId == pe.Id).Count();
+          proyectos.Add(p);
+        }
       }
       else
       {
         var ProyectosUsuario = _context.UserProyectos.Where(up => up.UserNombre == userNombre).ToList();
       
         foreach (UserProyectoEntity userProyecto in ProyectosUsuario){
-          var proyecto = _context.Proyectos.Where(p => p.Id == userProyecto.ProyectoId).FirstOrDefault();
-          proyectos.Add(proyecto);          
+          var pe = _context.Proyectos.Where(pr => pr.Id == userProyecto.ProyectoId).FirstOrDefault();
+          ProyectoDto p = new ProyectoDto();
+          p.Id = pe.Id;
+          p.Nombre = pe.Nombre;
+          p.Fecha = pe.Fecha;
+          p.numEvals = _context.Evaluaciones.Where(e => e.ProyectoId == pe.Id).Count();
+          proyectos.Add(p);         
         }  
       }
      

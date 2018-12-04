@@ -17,7 +17,7 @@ import { Assessment } from '../Models/Assessment';
 @Injectable()
 export class StorageDataService {
   public UserProjects: any = [];
-  public UserProjectSelected: Proyecto = { id: -1, fecha: null, nombre: '' };
+  public UserProjectSelected: Proyecto = { id: -1, fecha: null, nombre: '', numEvals:0 };
   public UserData: User;
   public DataUnfinished: boolean = false;
   public SectionSelected: Section = null;

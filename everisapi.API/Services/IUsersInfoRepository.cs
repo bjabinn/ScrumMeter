@@ -16,7 +16,7 @@ namespace everisapi.API.Services
     UserEntity GetUser(string userNombre, Boolean IncluirProyectos);
 
     //Devuelve todos los proyectos de un usuario
-    IEnumerable<ProyectoEntity> GetProyectosDeUsuario(string userNombre);
+    IEnumerable<ProyectoDto> GetProyectosDeUsuario(string userNombre);
 
     //Devuelve un proyecto de un usuario
     ProyectoEntity GetOneProyecto(string userNombre, int proyectoId);

@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
     this.NombreDeUsuario = this._proyectoService.UsuarioLogeado;
 
     //Reiniciamos los proyectos seleccionados en el servicio
-    this._appComponent._storageDataService.UserProjectSelected = { id: -1, nombre: '', fecha: null };
+    this._appComponent._storageDataService.UserProjectSelected = { id: -1, nombre: '', fecha: null, numEvals: 0};
 
     //Intentamos recoger los roles de los usuarios
     this._proyectoService.getRolesUsuario().subscribe(
@@ -134,7 +134,7 @@ export class HomeComponent implements OnInit {
         });
     } else {
       //Aqui entra si eres administrador dandote todos los proyectos
-      this._proyectoService.getAllProyectos(this.NombreDeUsuario).subscribe(
+      this._proyectoService.getProyectosDeUsuario().subscribe(
         res => {
           this.ListaDeProyectos = res;
         },
