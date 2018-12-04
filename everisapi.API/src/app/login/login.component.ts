@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem("userlongname", res.user_long_name);
             } else {
               //Si el usuario no quiere ser recordado lo guardara en el servicio
-              this._app._storageDataService.UserData = { 'nombre': this.nombreDeUsuario, 'password': this.passwordDeUsuario };
+              this._app._storageDataService.UserData = { 'nombre': this.nombreDeUsuario};
               //Guardamos el token del usuario
               this._app._storageDataService.TokenUser = res.access_token;
               this._app._storageDataService.UserLongName = res.user_long_name;
