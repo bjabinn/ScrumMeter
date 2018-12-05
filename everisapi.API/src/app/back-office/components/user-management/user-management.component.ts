@@ -84,9 +84,24 @@ export class UserManagementComponent implements OnInit {
       this._router.navigate(['/login']);
     }
 
+    var local = localStorage.getItem("user");
+ 
     this.getAllUsers();
     this.getAllRoles();
-    this.getAllProjects(this._appComponent._storageDataService.UserData.nombre);
+
+    if(local == null){
+      this.UsuarioLogueado = this._appComponent._storageDataService.UserData.nombre
+      this.getAllProjects(this._appComponent._storageDataService.UserData.nombre);
+    }else
+    {
+      this.UsuarioLogueado = local;
+      this.getAllProjects(this.UsuarioLogueado);
+    }
+    
+    
+
+    
+    
 
     
 
@@ -102,7 +117,6 @@ export class UserManagementComponent implements OnInit {
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
         this.showProjects = false;
-        this.UsuarioLogueado = this._appComponent._storageDataService.UserData.nombre;
         this.getAllProjects(this.userCtrl.value.nombre);
         this.getUserProjects();
         this.filterProjectMulti();
