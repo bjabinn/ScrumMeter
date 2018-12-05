@@ -13,6 +13,8 @@ namespace everisapi.API.Models
 
     public DateTime Fecha { get; set; }
 
-    public int numEvals  { get; set; }
+    public int numFinishedEvals  { get; set; }
+
+    public int numPendingEvals  { get; set; }
   }
 }

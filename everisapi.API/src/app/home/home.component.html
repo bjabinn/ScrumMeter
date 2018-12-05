@@ -23,9 +23,15 @@
               </select>
             </div>
             <div class="col-4">
-              <div class="main-button bajarmedia eval-ant mat-elevation-z5 w-85 m-auto" [class.card-disabled]="ProyectoSeleccionado == null || ProyectoSeleccionado.numEvals == 0"
-                (click)="EvaluacionesAnteriores()">
+              <div class="main-button bajarmedia eval-ant mat-elevation-z5 w-85 m-auto" [class.card-disabled]="ProyectoSeleccionado == null || ProyectoSeleccionado.numFinishedEvals == 0"
+                (click)="EvaluacionesPendientes()">
                 <a>EVALUACIONES ANTERIORES</a>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="secondary-button bajarmedia eval-ant mat-elevation-z5 w-85 m-auto" [class.card-disabled]="ProyectoSeleccionado == null || ProyectoSeleccionado.numPendingEvals == 0"
+                (click)="EvaluacionesPendientes()">
+                <a>EVALUACIONES PENDIENTES</a>
               </div>
             </div>
           </div>

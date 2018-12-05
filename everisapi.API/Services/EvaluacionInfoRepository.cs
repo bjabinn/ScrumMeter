@@ -420,6 +420,67 @@ namespace everisapi.API.Services
       return EvaluacionesInformativas.ToList();
     }
 
+     public List<EvaluacionInfoWithProgressDto> GetEvaluationsWithProgress(int IdProject, EvaluacionInfoPaginationDto Evaluacion)
+    {
+      //Recogemos las evaluaciones y la paginamos
+      List<EvaluacionInfoWithProgressDto> EvaluacionesInformativas = new List<EvaluacionInfoWithProgressDto>();
+      List<EvaluacionEntity> Evaluaciones;
+      if (Evaluacion.Estado != null && Evaluacion.Estado != "")
+      {
+        Evaluaciones = _context.Evaluaciones.
+        Include(r => r.ProyectoEntity).
+        ThenInclude(p => p.UserEntity).
+        Include(a => a.Assessment).
+        Where(e => e.ProyectoId == IdProject &&
+        e.Estado == Boolean.Parse(Evaluacion.Estado) &&
+        (Evaluacion.AssessmentId == 0 || e.AssessmentId == Evaluacion.AssessmentId)&&
+        e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) //&&
+        //e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
+        ).OrderByDescending(e => e.Fecha).ToList();
+      }
+      else
+      {
+        Evaluaciones = _context.Evaluaciones.
+        Include(r => r.ProyectoEntity).
+        ThenInclude(p => p.UserEntity).
+        Include(a => a.Assessment).
+        Where(e => e.ProyectoId == IdProject &&
+        (Evaluacion.AssessmentId == 0 || e.AssessmentId == Evaluacion.AssessmentId)&&
+        e.Fecha.Date.ToString("dd/MM/yyyy").Contains(Evaluacion.Fecha) //&&
+        //e.ProyectoEntity.UserNombre.ToLower().Contains(Evaluacion.UserNombre.ToLower())
+        ).OrderByDescending(e => e.Fecha).ToList();
+      }
+      //Encuentra la informacion de la evaluacion y lo introduce en un objeto
+      foreach (var evaluacion in Evaluaciones)
+      {
+        EvaluacionInfoWithProgressDto EvaluacionInfo = new EvaluacionInfoWithProgressDto
+        {
+          Id = evaluacion.Id,
+          Fecha = evaluacion.Fecha,
+          Nombre = evaluacion.ProyectoEntity.Nombre,
+          UserNombre = evaluacion.UserNombre,
+          AssessmentName = evaluacion.Assessment.AssessmentName,
+          AssessmentId = evaluacion.AssessmentId,
+          numQuestions =  _context.Respuestas.
+            Include(r => r.PreguntaEntity).
+            ThenInclude(rp => rp.AsignacionEntity).
+            ThenInclude(rpa => rpa.SectionEntity).            
+            Where(r => r.EvaluacionId == evaluacion.Id && r.PreguntaEntity.AsignacionEntity.SectionEntity.AssessmentId == evaluacion.AssessmentId).Count(),
+          progress =  _context.Respuestas.
+            Include(r => r.PreguntaEntity).
+            ThenInclude(rp => rp.AsignacionEntity).
+            ThenInclude(rpa => rpa.SectionEntity).            
+            Where(r => r.EvaluacionId == evaluacion.Id && r.PreguntaEntity.AsignacionEntity.SectionEntity.AssessmentId == evaluacion.AssessmentId && r.Estado != 0).Count()
+        
+        };
+        //Añade el objeto en la lista
+        EvaluacionesInformativas.Add(EvaluacionInfo);
+      }
+
+
+      return EvaluacionesInformativas.ToList();
+    }
+
     //Metodo que devuelve un filtrado de evaluaciones paginada sin proyectos
     public List<EvaluacionInfoDto> GetEvaluationInfoAndPageFilteredAdmin(int pageNumber, EvaluacionInfoPaginationDto Evaluacion)
     {

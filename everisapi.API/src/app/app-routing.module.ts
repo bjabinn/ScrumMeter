@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { MenunewevaluationComponent } from './menunewevaluation/menunewevaluation.component';
 import { NewevaluationComponent } from './newevaluation/newevaluation.component';
 import { PreviousevaluationComponent } from './previousevaluation/previousevaluation.component';
+import { PendingEvaluationComponent } from './pendingevaluation/pendingevaluation.component';
 import { PdfgeneratorComponent } from './pdfgenerator/pdfgenerator.component';
 import { BackOfficeComponent } from './back-office/back-office.component';
 import { UserManagementComponent } from './back-office/components/user-management/user-management.component';
@@ -30,6 +31,7 @@ const appRoutes: Routes = [
   { path: 'nuevaevaluacion', component: NewevaluationComponent },
   { path: 'pdfgenerator', component: PdfgeneratorComponent },
   { path: 'evaluacionprevia', component: PreviousevaluationComponent },
+  { path: 'evaluacionpendiente', component: PendingEvaluationComponent },
   { path: '**', component: LoginComponent }
 
 ];

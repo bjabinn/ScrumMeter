@@ -3,6 +3,7 @@ export class Proyecto{
 		public id: number, 
     public nombre: string,
 		public fecha: Date,
-		public numEvals:number
+		public numFinishedEvals:number,
+		public numPendingEvals: number
 		){}
 }

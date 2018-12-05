@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
     this.NombreDeUsuario = this._proyectoService.UsuarioLogeado;
 
     //Reiniciamos los proyectos seleccionados en el servicio
-    this._appComponent._storageDataService.UserProjectSelected = { id: -1, nombre: '', fecha: null, numEvals: 0};
+    this._appComponent._storageDataService.UserProjectSelected = { id: -1, nombre: '', fecha: null, numFinishedEvals: 0, numPendingEvals: 0};
 
     //Intentamos recoger los roles de los usuarios
     this._proyectoService.getRolesUsuario().subscribe(
@@ -287,6 +287,19 @@ export class HomeComponent implements OnInit {
   public EvaluacionesAnteriores() {
     if (this.SeeAllProjects || this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
       this._router.navigate(['/evaluacionprevia']);
+    } else {
+      this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
+      setTimeout(()=>{
+        this.fadeInError=false;
+        setTimeout(()=>this.ErrorMessage="",900);
+      },2000);
+    }
+  }
+
+  //Este metodo consulta las evaluaciones anteriores de este proyecto si esta seleccionado y existe
+  public EvaluacionesPendientes() {
+    if (this.SeeAllProjects || this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
+      this._router.navigate(['/evaluacionpendiente']);
     } else {
       this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
       setTimeout(()=>{

@@ -31,6 +31,8 @@ import { QuestionsManagerComponent } from './back-office/components/questions-ma
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { ComentariosTableComponent } from './comentarios-table/comentarios-table.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { PendingEvaluationComponent } from './pendingevaluation/pendingevaluation.component';
+import { PendingEvaluationTableComponent } from './pendingevaluation/pendingevaluation-table/pendingevaluation-table.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +41,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     BackOfficeComponent,
     NewevaluationComponent,
     PreviousevaluationComponent,
+    PendingEvaluationComponent,
     MenunewevaluationComponent,
     PdfgeneratorComponent,
     LoadingComponent,
@@ -47,6 +50,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     SortedTableComponent,
     PreguntasTableComponent,
     ComentariosTableComponent,
+    PendingEvaluationTableComponent,
     DebounceDirective,
     QuestionsManagerComponent,
  

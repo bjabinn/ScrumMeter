@@ -101,6 +101,20 @@ export class EvaluacionService {
       catchError(this.errorHandler));
   }
 
+  //Nos permite recoger información de las evaluaciones filtrada para la gráfica
+  GetEvaluationsWithProgress(idProject: number, EvaluacionFiltrar: EvaluacionFilterInfo) {
+    let Token = this._appComponent.ComprobarUserYToken();
+    let params = JSON.stringify(EvaluacionFiltrar);
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': Token
+    });
+    return this._http.post(this.url + 'evaluaciones/proyecto/' + idProject + '/progress/', params, { headers: headers }).pipe(
+      map(res => res.json()),
+      // tap(r => console.log("OBSERVAAAAAAAAAAAAABLE",r)),
+      catchError(this.errorHandler));
+  }
+
 
   //Este metodo recoge una evaluacion de un proyecto si existe mediante una id de proyecto
   getEvaluacionFromProject(id) {
