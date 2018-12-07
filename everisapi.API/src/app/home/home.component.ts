@@ -361,9 +361,9 @@ export class HomeComponent implements OnInit {
                     if (dismissReason == 'Continuar') {
                       this._router.navigate(['/menunuevaevaluacion']);
                     } else if (dismissReason == 'Nueva') {
-                      //Si selecciona nuevo que es la otra opción cogera la evaluación anterior lo finalizara
-                      //cargara una nueva y lo mostrara
-                      this.FinishEvaluation();
+                      //Crea una nueva evaluacion
+                      //this.FinishEvaluation(); //termina la evaluacion
+                      this.GuardarEvaluacion();
                     } 
                   })
               } else {

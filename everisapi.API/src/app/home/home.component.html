@@ -56,17 +56,15 @@
                 <a>NUEVA EVALUACI&Oacute;N</a>
               </div>
             </div>
-            <div class="col-4">
 
-
-
+            <!-- <div class="col-4">
               <div class="secondary-button cont-eval mat-elevation-z4 w-85 m-auto" [class.card-disabled]="ListaDeProyectos.length > 0 && !existeRepetida"
                 (click)="continuarEvaluacion()">
                 <a>CONTINUAR EVALUACIÓN</a>
               </div>
-            </div>
-          </div>
+            </div> -->
 
+          </div>
         </div>
       </div>
     </div>
@@ -80,7 +78,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>¿Desea empezar una nueva evaluación? Al aceptar, se finalizará la evaluación anterior. </p>
+        <p>Hay una evaluación pendiente del {{_appComponent._storageDataService.Evaluacion.fecha | date:'dd/MM/yyyy'}}.</p>
+        <p>¿Desea empezar una nueva evaluación? </p>
       </div>
       <div class="container-fluid p-3 bt-1">
         <div class="row p-0">
