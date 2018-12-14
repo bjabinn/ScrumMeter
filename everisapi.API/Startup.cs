@@ -98,26 +98,29 @@ namespace everisapi.API
       //Realizamos un mapeo de nuestros Dto's y entidades
       AutoMapper.Mapper.Initialize(cfg =>
       {
-        cfg.CreateMap<Models.AsignacionSinPreguntasDto, Entities.AsignacionEntity>();
-        cfg.CreateMap<Models.AsignacionCreateUpdateDto, Entities.AsignacionEntity>();
+        cfg.CreateMap<Entities.AsignacionEntity, Models.AsignacionSinPreguntasDto>();
+        
+        cfg.CreateMap<Entities.AsignacionEntity, Models.AsignacionCreateUpdateDto>();
+        
+        cfg.CreateMap<Entities.EvaluacionEntity, Models.EvaluacionCreateUpdateDto>();
         cfg.CreateMap<Models.EvaluacionCreateUpdateDto, Entities.EvaluacionEntity>();
-        cfg.CreateMap<Models.EvaluacionesWithoutRespuestasDto, Entities.EvaluacionEntity>();
-        cfg.CreateMap<Models.EvaluacionDto, Entities.EvaluacionEntity>();
-        cfg.CreateMap<Models.AsignacionDto, Entities.AsignacionEntity>();
-        cfg.CreateMap<Models.PreguntaDto, Entities.PreguntaEntity>();
-        cfg.CreateMap<Models.PreguntaWithOneRespuestasDto, Entities.PreguntaEntity>();
-        cfg.CreateMap<Models.PreguntaCreateDto, Entities.PreguntaEntity>();
-        cfg.CreateMap<Models.PreguntaUpdateDto, Entities.PreguntaEntity>();
-        cfg.CreateMap<Models.UsersDto, Entities.UserEntity>();
-        cfg.CreateMap<Models.UsersWithRolesDto, Entities.UserEntity>();
-        cfg.CreateMap<Models.UsersSinProyectosDto, Entities.UserEntity>();
-        cfg.CreateMap<Models.ProyectoDto, Entities.ProyectoEntity>();
-        cfg.CreateMap<Models.ProyectoCreateUpdateDto, Entities.ProyectoEntity>();
-        cfg.CreateMap<Models.RoleDto, Entities.RoleEntity>();
-        cfg.CreateMap<Models.SectionWithoutAreaDto, Entities.SectionEntity>();
-        cfg.CreateMap<Models.SectionDto, Entities.SectionEntity>();
-        cfg.CreateMap<Models.RespuestaDto, Entities.RespuestaEntity>();
-        cfg.CreateMap<Models.UserProyectoDto, Entities.UserProyectoEntity>();
+        cfg.CreateMap<Entities.EvaluacionEntity, Models.EvaluacionesWithoutRespuestasDto>();
+        cfg.CreateMap<Entities.EvaluacionEntity, Models.EvaluacionDto>();
+        cfg.CreateMap<Entities.AsignacionEntity, Models.AsignacionDto>();
+        cfg.CreateMap<Entities.PreguntaEntity, Models.PreguntaDto>();
+        cfg.CreateMap<Entities.PreguntaEntity, Models.PreguntaWithOneRespuestasDto>();
+        cfg.CreateMap<Entities.PreguntaEntity, Models.PreguntaCreateDto>();
+        cfg.CreateMap<Entities.PreguntaEntity, Models.PreguntaUpdateDto>();
+        cfg.CreateMap<Entities.UserEntity, Models.UsersDto>();
+        cfg.CreateMap<Entities.UserEntity, Models.UsersWithRolesDto>();
+        cfg.CreateMap<Entities.UserEntity, Models.UsersSinProyectosDto>();
+        cfg.CreateMap<Entities.ProyectoEntity, Models.ProyectoDto>();
+        cfg.CreateMap<Entities.ProyectoEntity, Models.ProyectoCreateUpdateDto>();
+        cfg.CreateMap<Entities.RoleEntity, Models.RoleDto>();
+        cfg.CreateMap<Entities.SectionEntity, Models.SectionWithoutAreaDto>();
+        cfg.CreateMap<Entities.SectionEntity, Models.SectionDto>();
+        cfg.CreateMap<Entities.RespuestaEntity, Models.RespuestaDto>();
+        cfg.CreateMap<Entities.UserProyectoEntity, Models.UserProyectoDto>();
       });
 
       //Incluimos todos los cors
