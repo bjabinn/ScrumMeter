@@ -21,13 +21,6 @@
 //   margin-right: 5%;
 // }
 
-
-.m-finalizar {
-  height: 39px;
-  width: 20%;
-  margin-left: 40%;
-}
-
 .custom-text-area {
   &:focus {
     color: #495057;
@@ -113,16 +106,6 @@ h2 {
 
 .inicio:hover {
   background-color: #1e4c75 !important;
-}
-
-.finalizar {
-  background-color: #5cb85c !important;
-  border-color: #4cae4c !important;
-  transition-duration: 0.1s !important;
-}
-
-.finalizar:hover {
-  background-color: #428442 !important;
 }
 
 .progress-bar {

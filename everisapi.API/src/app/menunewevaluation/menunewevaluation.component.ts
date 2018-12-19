@@ -83,9 +83,8 @@ export class MenunewevaluationComponent implements OnInit {
         }
       );
     } else {
-      this._router.navigate(['/home']);
+      this.VolverInicio();
     }
-
 
     //Para que no de error en modo development
     setTimeout(() => {
@@ -102,7 +101,7 @@ export class MenunewevaluationComponent implements OnInit {
     return Math.round(Total * 10) / 10;
   }
 
-  //Permite refirigir y guardar la id de la sección seleccionada
+  //Permite redirigir y guardar la id de la sección seleccionada
   public RedirectToAsignaciones(SectionSeleccionada: SectionInfo, index:number) {
     this._appComponent._storageDataService.SectionSelectedInfo = SectionSeleccionada;
     this._appComponent._storageDataService.nextSection = (index+1) != this.ListaDeDatos.length ? this.ListaDeDatos[index+1] : null;
@@ -110,45 +109,11 @@ export class MenunewevaluationComponent implements OnInit {
     this._router.navigate(['/nuevaevaluacion']);
   }
 
-  //Este metodo guarda la evaluacion y cambia su estado como finalizado
-  public FinishEvaluation() {
-    this.Evaluacion.estado = true;
-    this._evaluacionService.updateEvaluacion(this.Evaluacion).subscribe(
-      res => {
-        this._router.navigate(['/evaluacionprevia']);
-      },
-      error => {
-        if (error == 404) {
-          this.ErrorMessage = "Error: " + error + " No se pudo completar la actualización para esta evaluación.";
-        } else if (error == 500) {
-          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-        } else if (error == 401) {
-          this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-        } else {
-          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-        }
-      });
-  }
-
   //Volver a la pagina principal
   public VolverInicio() {
     this._router.navigate(['/home']);
   }
-
-  //Para abrir la advertencia de finalizar proyecto
-  public AbrirModal(content) {
-    this.modalService.open(content).result.then(
-      (closeResult) => {
-        //Esto realiza la acción de cerrar la ventana
-      }, (dismissReason) => {
-          if (dismissReason == 'Finish') {
-          //Si decide finalizarlo usaremos el metodo para finalizar la evaluación
-          this.FinishEvaluation();
-        }
-
-      })
-  }
-
+  
   //Para abrir las notas de secciones
   public AbrirModalNotas(content, i) {
 

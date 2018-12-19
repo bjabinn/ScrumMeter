@@ -63,6 +63,17 @@ export class EvaluacionService {
   }
 
   //Este metodo recoge una evaluacion con datos extendidos si existe mediante una id de evaluacion
+  GetEvaluationInfoForIdEvaluation(idEvaluation) {
+    let Token = this._appComponent.ComprobarUserYToken();
+    let headers = new Headers({
+      'Authorization': Token
+    });
+    return this._http.get(this.url + 'evaluaciones/evaluacion/' + idEvaluation + '/evaluationInfo', { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler));
+  }
+
+  //Este metodo recoge una evaluacion con datos extendidos si existe mediante una id de proyecto
   getEvaluacionInfo(id) {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
@@ -191,6 +202,17 @@ export class EvaluacionService {
   //Implementamos este metodo para permitir la recogida de los errores y su gestión
   errorHandler(error: Response) {
     return observableThrowError(error.status);
+  }
+
+  //Metodo encargado de calcular el porcentaje respondido de la evaluacion
+  calculateProgress(idEvaluacion, idAssessment) {
+    let Token = this._appComponent.ComprobarUserYToken();
+    let headers = new Headers({
+      'Authorization': Token
+    });
+    return this._http.get(this.url + 'evaluaciones/proyecto/' + idEvaluacion + '/assessment/' + idAssessment +'/totalprogress', { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler));
   }
 }
 

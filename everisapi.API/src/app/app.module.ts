@@ -33,6 +33,7 @@ import { ComentariosTableComponent } from './comentarios-table/comentarios-table
 import {MatExpansionModule} from '@angular/material/expansion';
 import { PendingEvaluationComponent } from './pendingevaluation/pendingevaluation.component';
 import { PendingEvaluationTableComponent } from './pendingevaluation/pendingevaluation-table/pendingevaluation-table.component';
+import { BtnFinalizeEvaluationComponent } from './btn-finalize-evaluation/btn-finalize-evaluation.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +54,7 @@ import { PendingEvaluationTableComponent } from './pendingevaluation/pendingeval
     PendingEvaluationTableComponent,
     DebounceDirective,
     QuestionsManagerComponent,
+    BtnFinalizeEvaluationComponent,
  
   ],
   imports: [
