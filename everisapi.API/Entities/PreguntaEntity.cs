@@ -25,5 +25,21 @@ namespace everisapi.API.Entities
         [ForeignKey("AsignacionId")]
         public AsignacionEntity AsignacionEntity { get; set; }
 
+        [Required]
+        [MaxLength(50)]
+        public int Peso { get; set; }
+        
+
+        [Required]
+
+        public bool EsHabilitante { get; set; }
+
+        public int? PreguntaHabilitanteId { get; set; }
+
+        [ForeignKey("PreguntaHabilitanteId")]
+        public virtual PreguntaEntity PreguntaHabilitante { get; set; }
+
+
+
     }
 }

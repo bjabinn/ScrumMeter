@@ -174,7 +174,7 @@ namespace everisapi.API.Services
         var RespuestaParaPregunta = Respuestas.Where(r => r.PreguntaId == pregunta.Id).FirstOrDefault();
 
         var PreguntaAdd = new PreguntaWithOneRespuestasDto { Id = pregunta.Id, Pregunta = pregunta.Pregunta, Correcta = pregunta.Correcta,
-          Respuesta = RespuestaParaPregunta };
+          Respuesta = RespuestaParaPregunta,EsHabilitante = pregunta.EsHabilitante, PreguntaHabilitanteId = pregunta.PreguntaHabilitanteId  };
 
         PreguntasConRespuestas.Add(PreguntaAdd);
       }

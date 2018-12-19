@@ -5,7 +5,10 @@ export class PreguntaInfo {
     public id: number,
     public pregunta: string,
     public respuesta: Respuesta,
-    public correcta: string
+    public correcta: string,
+    public esHabilitante: boolean,
+    public preguntaHabilitanteId: number
+
   ) { }
 }
 

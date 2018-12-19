@@ -27,5 +27,9 @@ namespace everisapi.API.Entities
         public int AssessmentId { get; set; }
         [ForeignKey("AssessmentId")]
         public AssessmentEntity Assessment { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public int Peso { get; set; }
     }
 }

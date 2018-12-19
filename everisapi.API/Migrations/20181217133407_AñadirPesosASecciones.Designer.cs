@@ -11,9 +11,10 @@ using System;
 namespace everisapi.API.Migrations
 {
     [DbContext(typeof(AsignacionInfoContext))]
-    partial class AsignacionInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20181217133407_AñadirPesosASecciones")]
+    partial class AñadirPesosASecciones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,8 +147,6 @@ namespace everisapi.API.Migrations
 
                     b.Property<string>("Correcta");
 
-                    b.Property<bool>("EsHabilitante");
-
                     b.Property<int>("Peso")
                         .HasMaxLength(50);
 
@@ -155,13 +154,9 @@ namespace everisapi.API.Migrations
                         .IsRequired()
                         .HasMaxLength(120);
 
-                    b.Property<int?>("PreguntaHabilitanteId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AsignacionId");
-
-                    b.HasIndex("PreguntaHabilitanteId");
 
                     b.ToTable("Preguntas");
                 });
@@ -346,10 +341,6 @@ namespace everisapi.API.Migrations
                         .WithMany("PreguntasDeAsignacion")
                         .HasForeignKey("AsignacionId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("everisapi.API.Entities.PreguntaEntity", "PreguntaHabilitante")
-                        .WithMany()
-                        .HasForeignKey("PreguntaHabilitanteId");
                 });
 
             modelBuilder.Entity("everisapi.API.Entities.ProyectoEntity", b =>
