@@ -151,14 +151,16 @@
                     <div class="row m-0">
                       <div class="col p-0">
                         <button class="w-100 h-100 questions-yes-btn mat-elevation-z3 item-not-selected"
-                          [class.first-item]="i==0" [class.item-full-disabled]="preguntaDada.respuesta.estado == 0 && i != 0 && InfoAsignacion.preguntas[0].respuesta.estado != 1"
-                          [class.item-not-selected]="(preguntaDada.respuesta.estado == 2) || (preguntaDada.respuesta.estado == 0 && InfoAsignacion.preguntas[0].respuesta.estado != 2)"
+                          [class.first-item]="preguntaDada.esHabilitante"
+                          [class.item-full-disabled]="!preguntaDada.esHabilitante && !checkHabilitante(preguntaDada,InfoAsignacion.preguntas)"
+                          [class.item-not-selected]="(preguntaDada.respuesta.estado == 2) || (preguntaDada.respuesta.estado == 0 )"
                           (click)="AnswerQuestion(preguntaDada,i,1)">Si</button>
                       </div>
                       <div class="col p-0">
-                        <button class="w-100 h-100 questions-no-btn mat-elevation-z3" [class.first-item]="i==0"
-                          [class.item-full-disabled]="preguntaDada.respuesta.estado == 0 && i != 0 && InfoAsignacion.preguntas[0].respuesta.estado != 1"
-                          [class.item-not-selected]="(preguntaDada.respuesta.estado == 1) || (preguntaDada.respuesta.estado == 0 && InfoAsignacion.preguntas[0].respuesta.estado != 2)"
+                        <button class="w-100 h-100 questions-no-btn mat-elevation-z3" 
+                          [class.first-item]="preguntaDada.esHabilitante"
+                          [class.item-full-disabled]="!preguntaDada.esHabilitante && !checkHabilitante(preguntaDada,InfoAsignacion.preguntas)"
+                          [class.item-not-selected]="(preguntaDada.respuesta.estado == 1) || (preguntaDada.respuesta.estado == 0)"
                           (click)="AnswerQuestion(preguntaDada,i,2)">No</button>
                       </div>
                     </div>

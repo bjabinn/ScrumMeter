@@ -15,6 +15,7 @@ import { Section } from 'app/Models/Section';
 import { SectionInfo } from 'app/Models/SectionInfo';
 import { SectionModify } from 'app/Models/SectionModify';
 import { ProyectoService } from 'app/services/ProyectoService';
+import { PreguntaInfo } from 'app/Models/PreguntaInfo';
 
 @Component({
   selector: 'app-newevaluation',
@@ -138,7 +139,7 @@ export class NewevaluationComponent implements OnInit {
       res => {
         if (res != null) {
           this.InfoAsignacion = res;
-
+    
           this.Deshabilitar = false;
         } else {
           this.ErrorMessage = "No se encontraron datos para esta asignación.";
@@ -172,16 +173,31 @@ export class NewevaluationComponent implements OnInit {
 
   }
 
+    // Se verifica que la respuesta de la pregunta habilitante (que habilita la actual) sea Si, en caso contrario la pregunta no se habilita.
+    // Y en caso de que no tenga habilitante, se habilita tambien.
+    
+    public checkHabilitante = (pregunta: PreguntaInfo, preguntas: PreguntaInfo[] ) : boolean => {
+    let check: boolean = false;
+    this.InfoAsignacion.preguntas.forEach(p => {
+      if((p.esHabilitante && !pregunta.esHabilitante && pregunta.preguntaHabilitanteId == p.id && p.respuesta.estado == 1) || pregunta.preguntaHabilitanteId == null)
+      {
+        console.log(pregunta.id +" "+ p.id);
+        check= true;
+      }
+    });
+    return check;
+  }
 
   public AnswerQuestion(pregunta, index, statusToBe) {
 
     //If the user clicks on the first item and he clicked "NO" just remove all the other answers and make it not answered
-    if (index == 0 && statusToBe == 2 && this.InfoAsignacion.preguntas[index].correcta == null) { //correcta == null is to ensure the first question is required to answer the other ones
+    if (this.InfoAsignacion.preguntas[index].esHabilitante && statusToBe == 2 && this.InfoAsignacion.preguntas[index].preguntaHabilitanteId == null) { //correcta == null is to ensure the first question is required to answer the other ones
       this.InfoAsignacion.preguntas[index].respuesta.estado = statusToBe;
       this._respuestasService.updateRespuestasAsig(this.Evaluation.id, this.InfoAsignacion.id).subscribe(
         res => {
           //Respuestas actualizadas correctamente
-          for (var i = 1; i < this.InfoAsignacion.preguntas.length; i++) {
+          for (var i = 0; i < this.InfoAsignacion.preguntas.length; i++) {
+            if (this.InfoAsignacion.preguntas[index].id == this.InfoAsignacion.preguntas[i].preguntaHabilitanteId)
             this.InfoAsignacion.preguntas[i].respuesta.estado = 0;
           }
         },

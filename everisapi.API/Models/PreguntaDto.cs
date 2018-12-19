@@ -11,5 +11,9 @@ namespace everisapi.API.Models
 
         public string Pregunta { get; set; }
 
+        public bool EsHabilitante { get; set; }
+
+        public int? PreguntaHabilitanteId { get; set; }
+
     }
 }
