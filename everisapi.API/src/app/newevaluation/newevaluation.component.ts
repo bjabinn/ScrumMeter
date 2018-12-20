@@ -15,13 +15,14 @@ import { Section } from 'app/Models/Section';
 import { SectionInfo } from 'app/Models/SectionInfo';
 import { SectionModify } from 'app/Models/SectionModify';
 import { ProyectoService } from 'app/services/ProyectoService';
+import { EvaluacionService } from 'app/services/EvaluacionService';
 import { PreguntaInfo } from 'app/Models/PreguntaInfo';
 
 @Component({
   selector: 'app-newevaluation',
   templateUrl: './newevaluation.component.html',
   styleUrls: ['./newevaluation.component.scss'],
-  providers: [SectionService, RespuestasService, ProyectoService]
+  providers: [SectionService, RespuestasService, ProyectoService, EvaluacionService]
 })
 export class NewevaluationComponent implements OnInit {
   public ListaAsignaciones: Array<Asignacion> = [];
@@ -56,10 +57,9 @@ export class NewevaluationComponent implements OnInit {
 
   ngOnInit() {
 
+    this.Evaluation = this._appComponent._storageDataService.Evaluacion;
   }
-
-
-
+  
   private InitialiseComponent(){
     
     this.PageNow = 1;
@@ -131,7 +131,6 @@ export class NewevaluationComponent implements OnInit {
 
     // this.pagesArray = [1,2,3,4,5];
   }
-
 
   //Le proporciona a la asignación en la que nos encontramos todos los datos
   public getAsignacionActual(idSelected, idAsignacion) {
@@ -234,11 +233,7 @@ export class NewevaluationComponent implements OnInit {
           });
       }
     }
-
   }
-
-
-
 
   //Cambia el estado de las preguntas
   public ChangeEstadoDB(idarray: number) {
@@ -296,7 +291,6 @@ export class NewevaluationComponent implements OnInit {
         });
 
     }
-
   }
 
   //Al presionar el boton va avanzado y retrocediendo
@@ -385,7 +379,6 @@ export class NewevaluationComponent implements OnInit {
       })
   }
 
-
   //Para abrir las notas de asignaciones
   public AbrirModalAsig(content) {
 
@@ -444,7 +437,6 @@ export class NewevaluationComponent implements OnInit {
         //Else, Click fuera, no se guarda
       })
   }
-
 
   //Para abrir las notas de secciones
   public AbrirModalSec(content) {

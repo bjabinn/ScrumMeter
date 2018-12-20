@@ -15,6 +15,9 @@ namespace everisapi.API.Services
     //Devuelve una evaluación
     EvaluacionEntity GetEvaluacion(int IdEvaluacion, Boolean IncluirRespuestas);
 
+    //Devuelve información detallada de una evaluacione
+    EvaluacionInfoDto GetEvaluationInfoForIdEvaluation(int idEvaluacion);
+
     //Devuelve información detallada de las evaluaciones
     List<EvaluacionInfoDto> GetEvaluationInfo(int IdProject);
 
@@ -53,5 +56,8 @@ namespace everisapi.API.Services
 
     //Elimina una evaluacion de la base de datos
     bool DeleteEvaluacion(EvaluacionEntity evaluacion);
+  
+    //Metodo encargado de calcular el porcentaje respondido de la evaluacion
+    int CalculateProgress(int idEvaluacion,  int idAssessment);
   }
 }

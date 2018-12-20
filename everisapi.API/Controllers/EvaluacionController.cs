@@ -86,6 +86,30 @@ namespace everisapi.API.Controllers
     }
 
     //Introduciendo la id de la evaluación devuelve una evaluación especifica
+    [HttpGet("evaluacion/{idEvaluacion}/evaluationInfo")]
+    public IActionResult GetEvaluationInfoForIdEvaluation(int idEvaluacion)
+    {
+      try
+      {
+        //Recoge si existe la evaluación si es asi la devuelve si no es así muestra un error
+        EvaluacionInfoDto progress = _evaluacionInfoRepository.GetEvaluationInfoForIdEvaluation(idEvaluacion);
+
+        if (progress == null)
+        {
+          _logger.LogInformation("La evaluación información con id " + idEvaluacion + " no pudo ser encontrado.");
+          return NotFound();
+        }
+
+        return Ok(progress);
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir la evaluación con toda su información con id " + idEvaluacion + ": " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
+      }
+    }
+
+    //Introduciendo la id de la evaluación devuelve una evaluación especifica
     [HttpGet("proyecto/{id}/info")]
     public IActionResult GetEvaluacionInfo(int id)
     {
@@ -444,5 +468,29 @@ namespace everisapi.API.Controllers
       }
     }
 
+
+    //Introduciendo la id de la evaluación devuelve una evaluación especifica
+    [HttpGet("proyecto/{idEvaluacion}/assessment/{idAssessment}/totalprogress")]
+    public IActionResult CalculateProgress(int idEvaluacion,  int idAssessment)
+    {
+      try
+      {
+        //Recoge si existe la evaluación si es asi la devuelve si no es así muestra un error
+        int? progress = _evaluacionInfoRepository.CalculateProgress(idEvaluacion, idAssessment);
+
+        if (progress == null)
+        {
+          _logger.LogInformation("La evaluación información con id " + idEvaluacion + " no pudo ser encontrado.");
+          return NotFound();
+        }
+
+        return Ok(progress);
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir la evaluación con toda su información con id " + idEvaluacion + ": " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
+      }
+    }
   }
 }
