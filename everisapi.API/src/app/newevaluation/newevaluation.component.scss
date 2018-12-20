@@ -560,3 +560,8 @@ $small: 40em;
 .inicio:hover {
   background-color: #1e4c75 !important;
 }
+
+.item-disable-no-color {
+  border: 1px solid gray;
+  background: gray;
+}
