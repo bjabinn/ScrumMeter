@@ -754,22 +754,14 @@ namespace everisapi.API.Services
         .Select(x => x.PreguntaId)
         .ToList();
 
-       //Id de preguntas habilitantes que han sido respondidas con un No
-      var enablingQuestionsNot = _context.Respuestas
-        .Where(x => x.EvaluacionId == idEvaluation 
-                && x.Estado == 2
-                && enablingQuestions.Contains(x.PreguntaId))
-        .Select(x => x.Id)
-        .ToList();
-
       //Total de preguntas que dependen de una habilitante y YA estan habilitadas para responder (cuya habilitante se ha respondido con un Si)
-      var totalEnabling = _context.Preguntas
+      var totalEnableQuestions = _context.Preguntas
         .Count(x => assignmentId.Contains(x.AsignacionId)
                 && x.PreguntaHabilitanteId != null
                 && enablingQuestionsYes.Contains(x.PreguntaHabilitanteId.Value));
 
       //Total de preguntas necesarias para responder
-      var totalRequired = genericQuestions + enablingQuestions.Count + totalEnabling;
+      var totalRequired = genericQuestions + enablingQuestions.Count + totalEnableQuestions;
 
       //Total de preguntas respondidas validas hasta la actualidad
       var totalAnswered = _context.Respuestas

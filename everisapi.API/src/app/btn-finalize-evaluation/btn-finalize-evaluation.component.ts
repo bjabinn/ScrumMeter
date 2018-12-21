@@ -89,7 +89,8 @@ export class BtnFinalizeEvaluationComponent {
 
   //Metodo que devuelve si la evaluación ha sido respondida al 100%
   public EvaluationAnswered(evaluacion) {
-    
+
+    this.evaluationAnswered = false;    
     this._evaluacionService.CalculateEvaluationProgress(this.evaluacion.id, this.evaluacion.assessmentId).subscribe(
       res => {
         if (res == 100)
