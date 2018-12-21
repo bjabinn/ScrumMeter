@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
 import { EvaluacionService } from '../services/EvaluacionService';
 import { Router } from "@angular/router";
 import { Evaluacion } from 'app/Models/Evaluacion';
@@ -16,6 +16,8 @@ import { Proyecto } from 'app/Models/Proyecto';
 
 export class BtnFinalizeEvaluationComponent {
   @Input() evaluacion: Evaluacion;
+  @Input() changedQuestion: number;
+  @Input() changedAnswer: number;
   @Output() Click = new EventEmitter<any>();
 
   public ErrorMessage: string = null;
@@ -38,15 +40,15 @@ export class BtnFinalizeEvaluationComponent {
       this.ProjectSelected = this._appComponent._storageDataService.UserProjectSelected;
     }
 
-  ngOnInit() {
+  /*ngOnInit() {
     this.evaluationAnswered = this.EvaluationAnswered(this.evaluacion);
-  }
+  }*/
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   if(this.EvaluationAnswered(this.evaluacion)){
-  //     this.FinishEvaluation(this.evaluacion);
-  //   }
-  // }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.changedQuestion || changes.changedAnswer){
+      this.evaluationAnswered = this.EvaluationAnswered(this.evaluacion);
+    }
+  }
 
   //Este metodo guarda la evaluacion y cambia su estado como finalizado
   public FinishEvaluation(evaluation: Evaluacion) {
@@ -71,6 +73,9 @@ export class BtnFinalizeEvaluationComponent {
 
   //Para abrir la advertencia de finalizar proyecto
   public AbrirModal(content) {
+    console.log(this.changedQuestion);
+      console.log(this.changedAnswer);
+      console.log(this.evaluacion);
     this.modalService.open(content).result.then(
       (closeResult) => {
         //Esto realiza la acción de cerrar la ventana
@@ -83,9 +88,9 @@ export class BtnFinalizeEvaluationComponent {
   }
 
   //Metodo que devuelve si la evaluación ha sido respondida al 100%
-  public EvaluationAnswered(Evaluacion) {
-
-    this._evaluacionService.calculateProgress(this.evaluacion.id, this.evaluacion.assessmentId).subscribe(
+  public EvaluationAnswered(evaluacion) {
+    
+    this._evaluacionService.CalculateEvaluationProgress(this.evaluacion.id, this.evaluacion.assessmentId).subscribe(
       res => {
         if (res == 100)
           this.evaluationAnswered = true;
@@ -103,7 +108,7 @@ export class BtnFinalizeEvaluationComponent {
       }
       );
 
-    return this.evaluationAnswered = true;
+    return this.evaluationAnswered;
   }
 
   //Metodo encargado de guardar los datos en el storage y cambia de ruta hacia la generación de grafica
@@ -111,7 +116,6 @@ export class BtnFinalizeEvaluationComponent {
 
     this._evaluacionService.GetEvaluationInfoForIdEvaluation(idEvaluation).subscribe(
       res => {
-        console.log(res);
         this._appComponent._storageDataService.EvaluacionToPDF = res;    
         this._router.navigate(['/pdfgenerator']);
       },

@@ -471,12 +471,12 @@ namespace everisapi.API.Controllers
 
     //Introduciendo la id de la evaluación devuelve una evaluación especifica
     [HttpGet("proyecto/{idEvaluacion}/assessment/{idAssessment}/totalprogress")]
-    public IActionResult CalculateProgress(int idEvaluacion,  int idAssessment)
+    public IActionResult CalculateEvaluationProgress(int idEvaluacion,  int idAssessment)
     {
       try
       {
         //Recoge si existe la evaluación si es asi la devuelve si no es así muestra un error
-        int? progress = _evaluacionInfoRepository.CalculateProgress(idEvaluacion, idAssessment);
+        int? progress = _evaluacionInfoRepository.CalculateEvaluationProgress(idEvaluacion, idAssessment);
 
         if (progress == null)
         {

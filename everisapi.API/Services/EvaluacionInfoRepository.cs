@@ -725,37 +725,61 @@ namespace everisapi.API.Services
     }
 
     //Metodo encargado de calcular el porcentaje respondido de la evaluacion
-    public int CalculateProgress(int idEvaluation, int idAssessment)
+    public int CalculateEvaluationProgress(int idEvaluation, int idAssessment)
     {
-      
-      /*
-      int sumAnswers = 0;
-      int totalQuestions = 0;
-      int progress = 0;
+      //Id de asignaciones asociadas al actual assessment
+      var assignmentId = _context.Asignaciones
+        .Where(x => x.SectionEntity.AssessmentId == idAssessment)
+        .Select(x => x.Id)
+        .ToList();
 
-      //Se obtiene el total de preguntas de una evaluacion
-      totalQuestions = _context.Preguntas.
-      //Include(a => a.AsignacionEntity.SectionEntity.Assessment.AssessmentId).
-      Count(a => a.AsignacionEntity.SectionEntity.Assessment.AssessmentId == idAssessment);
-      
-      //Se obtiene el número de preguntas respondidas de una evaluacion
-      sumAnswers = _context.Respuestas.
-      Where(x => x.EvaluacionId == idEvaluation).
-      Where(x => x.Estado != 0). 
-      Count(); 
+      //Id de preguntas habilitantes asociadas a la actual evaluacion
+      var enablingQuestions = _context.Preguntas
+        .Where(x => assignmentId.Contains(x.AsignacionId)
+                && x.EsHabilitante)
+        .Select(x => x.Id)
+        .ToList();
 
-      //Se retorna el porcentaje de respuestas calculado en caso de que el maximo de respuestas sea distinto de 0
-      if (totalQuestions != 0)
-        return 100 * sumAnswers / totalQuestions;
-      return progress;
-      */
-      
-      var tempLSectionInfoDto = GetSectionsInfoFromEval(idEvaluation);
-      
-      var tempTotalQuestions = _context.Sections.Where(x => x.Assessment.AssessmentId == idAssessment).Count() * 100;
-      var tempProgress = (int)tempLSectionInfoDto.Sum(x => x.Progreso);
+      //Total de preguntas que NO son habilitantes ni necesitan de una habilitante
+      var genericQuestions = _context.Preguntas
+        .Count(x => assignmentId.Contains(x.AsignacionId)
+                && x.PreguntaHabilitanteId == null
+                && !x.EsHabilitante);
 
-      return tempProgress / tempTotalQuestions * 100;
+      //Id de preguntas habilitantes que han sido respondidas con un Si
+      var enablingQuestionsYes = _context.Respuestas
+        .Where(x => x.EvaluacionId == idEvaluation 
+                && x.Estado == 1
+                && enablingQuestions.Contains(x.PreguntaId))
+        .Select(x => x.PreguntaId)
+        .ToList();
+
+       //Id de preguntas habilitantes que han sido respondidas con un No
+      var enablingQuestionsNot = _context.Respuestas
+        .Where(x => x.EvaluacionId == idEvaluation 
+                && x.Estado == 2
+                && enablingQuestions.Contains(x.PreguntaId))
+        .Select(x => x.Id)
+        .ToList();
+
+      //Total de preguntas que dependen de una habilitante y YA estan habilitadas para responder (cuya habilitante se ha respondido con un Si)
+      var totalEnabling = _context.Preguntas
+        .Count(x => assignmentId.Contains(x.AsignacionId)
+                && x.PreguntaHabilitanteId != null
+                && enablingQuestionsYes.Contains(x.PreguntaHabilitanteId.Value));
+
+      //Total de preguntas necesarias para responder
+      var totalRequired = genericQuestions + enablingQuestions.Count + totalEnabling;
+
+      //Total de preguntas respondidas validas hasta la actualidad
+      var totalAnswered = _context.Respuestas
+        .Count(x => x.EvaluacionId == idEvaluation
+                && x.Estado != 0
+                //&& !enablingQuestionsNot.Contains(x.Id)
+                );
+
+      //Se retorna el porcentaje progreso actual de la evaluacion
+      return 100 * totalAnswered / totalRequired;
     }
 
     public IEnumerable<SectionInfoDto> GetSectionsInfoFromEval(int idEvaluacion)
@@ -825,7 +849,6 @@ namespace everisapi.API.Services
               contestadas++;
             }
           }
-
         }
         
         SectionAdd.Contestadas = contestadas;

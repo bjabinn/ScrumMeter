@@ -17,6 +17,7 @@ import { SectionModify } from 'app/Models/SectionModify';
 import { ProyectoService } from 'app/services/ProyectoService';
 import { EvaluacionService } from 'app/services/EvaluacionService';
 import { PreguntaInfo } from 'app/Models/PreguntaInfo';
+import { BtnFinalizeEvaluationComponent } from 'app/btn-finalize-evaluation/btn-finalize-evaluation.component';
 
 @Component({
   selector: 'app-newevaluation',
@@ -41,6 +42,8 @@ export class NewevaluationComponent implements OnInit {
   public anadeNota: string = null;
   public pagesArray: number[];
   public nextSection: SectionInfo = null;
+  public changedQuestion: number;
+  public changedAnswer: number;
 
   //Recogemos todos los datos de la primera area segun su id y las colocamos en la lista
   constructor(
@@ -96,7 +99,6 @@ export class NewevaluationComponent implements OnInit {
 
             // console.log(this.NumMax);
 
-
             while (this.NumMax > i) {
               i++;
 
@@ -104,7 +106,6 @@ export class NewevaluationComponent implements OnInit {
               // console.log(this.pagesArray[i]);
 
             }
-
 
             this.getAsignacionActual(this.Evaluation.id, this.ListaAsignaciones[0].id);
             this.Deshabilitar = false;
@@ -180,7 +181,6 @@ export class NewevaluationComponent implements OnInit {
     this.InfoAsignacion.preguntas.forEach(p => {
       if((p.esHabilitante && !pregunta.esHabilitante && pregunta.preguntaHabilitanteId == p.id && p.respuesta.estado == 1) || pregunta.preguntaHabilitanteId == null)
       {
-        console.log(pregunta.id +" "+ p.id);
         check= true;
       }
     });
@@ -189,6 +189,9 @@ export class NewevaluationComponent implements OnInit {
 
   public AnswerQuestion(pregunta, index, statusToBe) {
 
+    this.changedQuestion = index;
+    this.changedAnswer = statusToBe;
+    
     //If the user clicks on the first item and he clicked "NO" just remove all the other answers and make it not answered
     if (this.InfoAsignacion.preguntas[index].esHabilitante && statusToBe == 2 && this.InfoAsignacion.preguntas[index].preguntaHabilitanteId == null) { //correcta == null is to ensure the first question is required to answer the other ones
       this.InfoAsignacion.preguntas[index].respuesta.estado = statusToBe;

@@ -181,7 +181,11 @@
               <!-- Fin de preguntas -->
 
               <div class="m-0 mb-3" >
-                  <app-btn-finalize-evaluation [evaluacion]="Evaluation"></app-btn-finalize-evaluation>
+                <app-btn-finalize-evaluation 
+                  [evaluacion]="Evaluation" 
+                  [changedQuestion]="changedQuestion" 
+                  [changedAnswer]="changedAnswer">
+                </app-btn-finalize-evaluation>
               </div>
               
             </div>
@@ -215,20 +219,6 @@
         <!-- End of content-body -->
       </div>
     </div>
-
-    <!--<div class="row m-0 mt-5">
-      <div class="col-3"></div>
-        <div class="col-6 p-0">
-          <button type="button" class="main-button m-finalizar p-0 mat-elevation-z5"
-          [class.finish-disable]="evaluationAnswered == false"
-          (click)="AbrirModal(content)">Finalizar</button>
-        </div>
-        <div class="col-3"></div>
-    </div>
-    <div>
-      <app-btn-finalize-evaluation (onClick)="finalizeEvaluation($event)" [label]="label"></app-btn-finalize-evaluation>
-    </div>
-  -->
 
   <ng-template #notasPreg let-cl="close" let-di="dismiss">
     <div class="modal-content">

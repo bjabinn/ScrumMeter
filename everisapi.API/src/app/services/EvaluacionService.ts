@@ -205,7 +205,7 @@ export class EvaluacionService {
   }
 
   //Metodo encargado de calcular el porcentaje respondido de la evaluacion
-  calculateProgress(idEvaluacion, idAssessment) {
+  CalculateEvaluationProgress(idEvaluacion, idAssessment) {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
       'Authorization': Token

@@ -58,6 +58,6 @@ namespace everisapi.API.Services
     bool DeleteEvaluacion(EvaluacionEntity evaluacion);
   
     //Metodo encargado de calcular el porcentaje respondido de la evaluacion
-    int CalculateProgress(int idEvaluacion,  int idAssessment);
+    int CalculateEvaluationProgress(int idEvaluacion,  int idAssessment);
   }
 }
