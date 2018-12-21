@@ -128,6 +128,7 @@
                           [class.first-item]="preguntaDada.esHabilitante"
                           [class.item-full-disabled]="!preguntaDada.esHabilitante && !checkHabilitante(preguntaDada,InfoAsignacion.preguntas)"
                           [class.item-not-selected]="(preguntaDada.respuesta.estado == 2) || (preguntaDada.respuesta.estado == 0 )"
+                          [class.item-disable-no-color]="!preguntaDada.esHabilitante && !checkHabilitante(preguntaDada,InfoAsignacion.preguntas)"
                           (click)="AnswerQuestion(preguntaDada,i,1)">Si</button>
                       </div>
                       <div class="col p-0">
@@ -135,13 +136,14 @@
                           [class.first-item]="preguntaDada.esHabilitante"
                           [class.item-full-disabled]="!preguntaDada.esHabilitante && !checkHabilitante(preguntaDada,InfoAsignacion.preguntas)"
                           [class.item-not-selected]="(preguntaDada.respuesta.estado == 1) || (preguntaDada.respuesta.estado == 0)"
+                          [class.item-disable-no-color]="!preguntaDada.esHabilitante && !checkHabilitante(preguntaDada,InfoAsignacion.preguntas)"
                           (click)="AnswerQuestion(preguntaDada,i,2)">No</button>
                       </div>
                     </div>
                   </div>
 
                   <div class="col-xs-12 col-sm-1 col-md-1 pb-1 pl-13">
-                    <button *ngIf="preguntaDada.respuesta.notas != null && !(InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0)"
+                    <button *ngIf="preguntaDada.respuesta.notas != null && checkHabilitante(preguntaDada,InfoAsignacion.preguntas)"
                       class="transparente position-relative" (click)="AbrirModalPreg(notasPreg, i)">
                       
                       <span *ngIf="preguntaDada.respuesta.notas != null" class="one-badge">1</span>
@@ -153,12 +155,12 @@
 
                     </button>
 
-                    <button *ngIf="preguntaDada.respuesta.notas == null && !(InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0)"
+                    <button *ngIf="preguntaDada.respuesta.notas == null &&  checkHabilitante(preguntaDada,InfoAsignacion.preguntas)"
                       class="transparente" (click)="AbrirModalPreg(notasPreg, i)">
                       <i class="material-icons add-comment" alt="Añadir comentario">add_circle</i>
                     </button>
 
-                    <button *ngIf="preguntaDada.respuesta.notas != null && InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0"
+                    <button *ngIf="preguntaDada.respuesta.notas != null && !checkHabilitante(preguntaDada,InfoAsignacion.preguntas)"
                       class="transparente position-relative disabled">
                       
                       <span *ngIf="preguntaDada.respuesta.notas != null" class="one-badge">1</span>
@@ -168,7 +170,7 @@
                       <i class="material-icons add-comment" alt="Añadir comentario">add_circle</i>
                     </button>
 
-                    <button *ngIf="preguntaDada.respuesta.notas == null && InfoAsignacion.preguntas[0].correcta == null && InfoAsignacion.preguntas[0].respuesta.estado != 1 && i != 0"
+                    <button *ngIf="preguntaDada.respuesta.notas == null && !checkHabilitante(preguntaDada,InfoAsignacion.preguntas)"
                       class="transparente disabled">
                      <i class="material-icons add-comment" alt="Añadir comentario">add_circle</i>
                     </button>
