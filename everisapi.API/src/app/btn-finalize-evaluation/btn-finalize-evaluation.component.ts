@@ -40,9 +40,9 @@ export class BtnFinalizeEvaluationComponent {
       this.ProjectSelected = this._appComponent._storageDataService.UserProjectSelected;
     }
 
-  /*ngOnInit() {
+  ngOnInit() {
     this.evaluationAnswered = this.EvaluationAnswered(this.evaluacion);
-  }*/
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.changedQuestion || changes.changedAnswer){
