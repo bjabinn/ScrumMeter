@@ -16,7 +16,7 @@ namespace everisapi.API.Services
     EvaluacionEntity GetEvaluacion(int IdEvaluacion, Boolean IncluirRespuestas);
 
     //Devuelve información detallada de una evaluacione
-    EvaluacionInfoDto GetEvaluationInfoForIdEvaluation(int idEvaluacion);
+    EvaluacionInfoDto GetEvaluationInfoFromIdEvaluation(int idEvaluacion);
 
     //Devuelve información detallada de las evaluaciones
     List<EvaluacionInfoDto> GetEvaluationInfo(int IdProject);
@@ -59,5 +59,8 @@ namespace everisapi.API.Services
   
     //Metodo encargado de calcular el porcentaje respondido de la evaluacion
     int CalculateEvaluationProgress(int idEvaluacion,  int idAssessment);
+
+    //Metodo encargado generar un objeto SectionInfoDto a partir de una evaluationId
+    IEnumerable<SectionInfoDto> GetSectionsInfoFromEval(int idEvaluacion);
   }
 }

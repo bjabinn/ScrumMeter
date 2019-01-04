@@ -68,6 +68,7 @@ export class NewevaluationComponent implements OnInit {
     this.PageNow = 1;
     this.SectionSelected = this._appComponent._storageDataService.SectionSelectedInfo;
     this.nextSection = this._appComponent._storageDataService.nextSection;
+    this.AreaAsignada = this._appComponent._storageDataService.currentAssignation;
     //Recogemos el proyecto y el usuario si no coincide alguno lo redirigiremos
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
     this.Evaluation = this._appComponent._storageDataService.Evaluacion;
@@ -88,7 +89,7 @@ export class NewevaluationComponent implements OnInit {
 
     //Recoge todas las asignaciones de la section por id
     if (this.Evaluation != null && this.Evaluation != undefined && this.SectionSelected != null && this.SectionSelected != undefined) {
-      this._sectionService.getAsignacionesSection(this.SectionSelected.id).subscribe(
+     this._sectionService.getAsignacionesSection(this.SectionSelected.id).subscribe(
         res => {
           if (res != null) {
             this.ListaAsignaciones = res;
@@ -97,18 +98,23 @@ export class NewevaluationComponent implements OnInit {
             let i = 0;
             this.pagesArray = [];
 
-            // console.log(this.NumMax);
-
             while (this.NumMax > i) {
               i++;
-
               this.pagesArray.push(i);
-              // console.log(this.pagesArray[i]);
-
             }
-
-            this.getAsignacionActual(this.Evaluation.id, this.ListaAsignaciones[0].id);
+            
+            //Se determina si es una nueva evaluacion o si se continua desde una asignacion pendiente
+            if (this.AreaAsignada.id != 0){
+              //Se resetea el valor de la global
+              this._appComponent._storageDataService.currentAssignation = { 'id': 0, 'nombre': "undefined" };
+              this.PageNow = this.ListaAsignaciones.findIndex(x => x.id == this.AreaAsignada.id) + 1;
+            } else{
+              this.AreaAsignada = this.ListaAsignaciones[0]
+            }
+            
+            this.getAsignacionActual(this.Evaluation.id, this.AreaAsignada.id);
             this.Deshabilitar = false;
+            
           } else {
             this.ErrorMessage = "No se encontraron datos para esta sección.";
           }
@@ -133,13 +139,13 @@ export class NewevaluationComponent implements OnInit {
     // this.pagesArray = [1,2,3,4,5];
   }
 
-  //Le proporciona a la asignación en la que nos encontramos todos los datos
-  public getAsignacionActual(idSelected, idAsignacion) {
-    this._respuestasService.getRespuestasAsig(idSelected, idAsignacion).subscribe(
+  //Establece los datos de la asignación indicada
+  public getAsignacionActual(idEvaluacion, idAsignacion) {
+    this._respuestasService.getRespuestasAsig(idEvaluacion, idAsignacion).subscribe(
       res => {
         if (res != null) {
           this.InfoAsignacion = res;
-    
+          
           this.Deshabilitar = false;
         } else {
           this.ErrorMessage = "No se encontraron datos para esta asignación.";
@@ -302,8 +308,6 @@ export class NewevaluationComponent implements OnInit {
   //2 retroceder
   public NextPreviousButton(Option: number) {
     this.anadeNota = null;
-    // console.log("opcion --- ",Option);
-
 
     if (Option == 1) {
       this.Deshabilitar = true;
@@ -314,8 +318,7 @@ export class NewevaluationComponent implements OnInit {
     } else if (Option == 2) {
       this.PageNow--;
       this.Deshabilitar = true;
-      var CualToca = this.PageNow - 1;
-      this.AreaAsignada = this.ListaAsignaciones[CualToca];
+      this.AreaAsignada = this.ListaAsignaciones[this.PageNow - 1];
       this.getAsignacionActual(this.Evaluation.id, this.AreaAsignada.id);
 
     } else if (Option == 0) {

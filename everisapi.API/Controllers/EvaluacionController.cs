@@ -87,12 +87,12 @@ namespace everisapi.API.Controllers
 
     //Introduciendo la id de la evaluación devuelve una evaluación especifica
     [HttpGet("evaluacion/{idEvaluacion}/evaluationInfo")]
-    public IActionResult GetEvaluationInfoForIdEvaluation(int idEvaluacion)
+    public IActionResult GetEvaluationInfoFromIdEvaluation(int idEvaluacion)
     {
       try
       {
         //Recoge si existe la evaluación si es asi la devuelve si no es así muestra un error
-        EvaluacionInfoDto progress = _evaluacionInfoRepository.GetEvaluationInfoForIdEvaluation(idEvaluacion);
+        EvaluacionInfoDto progress = _evaluacionInfoRepository.GetEvaluationInfoFromIdEvaluation(idEvaluacion);
 
         if (progress == null)
         {

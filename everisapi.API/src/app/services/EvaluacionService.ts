@@ -63,7 +63,7 @@ export class EvaluacionService {
   }
 
   //Este metodo recoge una evaluacion con datos extendidos si existe mediante una id de evaluacion
-  GetEvaluationInfoForIdEvaluation(idEvaluation) {
+  GetEvaluationInfoFromIdEvaluation(idEvaluation) {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
       'Authorization': Token

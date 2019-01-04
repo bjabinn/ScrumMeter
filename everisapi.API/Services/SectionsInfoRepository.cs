@@ -31,6 +31,106 @@ namespace everisapi.API.Services
       return _context.Respuestas.Where(r => r.EvaluacionId == idEvaluacion && r.Estado == 1 && r.PreguntaEntity.AsignacionEntity.SectionId == idSection).Count();
     }
 
+    //Devuelve un objeto estado con información extendida de una unica sección
+    public SectionInfoDto GetSectionsInfoFromSectionId(int evaluationId, int sectionId)
+    {
+      //Recoge las respuestas de la evaluación
+      var Respuestas = _context.Respuestas.
+        Include(r => r.PreguntaEntity).
+          ThenInclude(rp => rp.AsignacionEntity).
+            ThenInclude(rpa => rpa.SectionEntity).            
+        Where(r => r.EvaluacionId == evaluationId).ToList();
+
+      //Saca las en que secciones estuvo en ese momento
+      var section = Respuestas.Where(r => r.PreguntaEntity.AsignacionEntity.SectionId == sectionId)
+      .Select(r => r.PreguntaEntity.AsignacionEntity.SectionEntity).FirstOrDefault();
+
+      SectionInfoDto sectionInfo = new SectionInfoDto
+        {
+          Id = section.Id,
+          Nombre = section.Nombre,
+          Preguntas = Respuestas.Where(r => r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).Count(),
+        };
+      var notasSec = _context.NotasSections.Where(r => r.SectionId == section.Id && r.EvaluacionId == evaluationId).FirstOrDefault();
+
+      if(notasSec == null)
+      {
+        notasSec = new NotasSectionsEntity
+        {
+          EvaluacionEntity = _context.Evaluaciones.Where(s => s.Id == evaluationId).FirstOrDefault(),
+          SectionEntity = _context.Sections.Where(s => s.Id == section.Id).FirstOrDefault()
+        };
+
+        _context.NotasSections.Add(notasSec);
+      }
+
+      sectionInfo.Notas = notasSec.Notas;
+
+      //Para calcular el progreso
+      var listaAsignaciones = _context.Asignaciones.Where(r => r.SectionId == section.Id).ToList();
+
+      int contestadas = 0;
+      foreach(AsignacionEntity asig in listaAsignaciones)
+      {
+        var respuestasAsig = Respuestas.Where(p => p.PreguntaEntity.AsignacionEntity.Id == asig.Id).ToList();
+
+        //Para ver si la primera es de las que habilitan a las demás o no
+        //y si está contestada a NO (para contar las demás como contestadas
+        bool flag = false;
+        if(respuestasAsig[0].PreguntaEntity.Correcta == null && respuestasAsig[0].Estado == 2)
+        {
+          flag = true;
+        }
+
+
+        foreach(RespuestaEntity resp in respuestasAsig)
+        {
+          if(flag)
+          {
+            contestadas++;
+          }
+          else if (resp.Estado != 0)
+          {
+            contestadas++;
+          }
+        }
+
+      }
+      
+      sectionInfo.Contestadas = contestadas;
+      sectionInfo.Progreso = Math.Round( ((double)sectionInfo.Contestadas / sectionInfo.Preguntas) *100, 1);
+
+
+      var listaRespuestas = Respuestas.Where(r => r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).ToList();
+      double suma = 0;
+      double puntosCorrectos = 0;
+
+      foreach (var resp in listaRespuestas)
+      {
+        if (resp.PreguntaEntity.Correcta != null)
+        {
+          var maxPuntos = Respuestas.Where(r => r.PreguntaEntity.Correcta != null && r.PreguntaEntity.AsignacionId == resp.PreguntaEntity.AsignacionId).Count();
+          var puntos = (double)resp.PreguntaEntity.AsignacionEntity.Peso / maxPuntos;
+
+          puntosCorrectos += puntos;
+
+          if (resp.Estado == 1 && resp.PreguntaEntity.Correcta.Equals("Si"))
+          {
+            suma += puntos;
+          }
+
+          else if (resp.Estado == 2 && resp.PreguntaEntity.Correcta.Equals("No"))
+          {
+            suma += puntos;
+          }
+
+        }
+      }
+
+      sectionInfo.RespuestasCorrectas = Math.Round(100 * suma/puntosCorrectos, 1);
+      return sectionInfo;
+    }
+
     //Devuelve un objeto estado con información extendida
     public IEnumerable<SectionInfoDto> GetSectionsInfoFromEval(int idEvaluacion)
     {
@@ -139,7 +239,6 @@ namespace everisapi.API.Services
 
       return ListadoSectionInformacion;
     }
-
 
     public IEnumerable<SectionInfoDto> GetSectionsInfoFromEvalNew(int idEvaluacion,int assessmentId)
     {
@@ -263,7 +362,6 @@ namespace everisapi.API.Services
       return sectionSelected.Asignaciones.Where(a => a.Id == idAsignacion).FirstOrDefault();
     }
 
-
     //Recoge una sección por su id y puedes incluir las sections o no
     SectionEntity ISectionsInfoRepository.GetSection(int id, bool IncluirAsignaciones)
     {
@@ -342,6 +440,5 @@ namespace everisapi.API.Services
 
       return SaveChanges();
     }
-
   }
 }

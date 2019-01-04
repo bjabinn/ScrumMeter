@@ -73,9 +73,6 @@ export class BtnFinalizeEvaluationComponent {
 
   //Para abrir la advertencia de finalizar proyecto
   public AbrirModal(content) {
-    console.log(this.changedQuestion);
-      console.log(this.changedAnswer);
-      console.log(this.evaluacion);
     this.modalService.open(content).result.then(
       (closeResult) => {
         //Esto realiza la acción de cerrar la ventana
@@ -115,7 +112,7 @@ export class BtnFinalizeEvaluationComponent {
   //Metodo encargado de guardar los datos en el storage y cambia de ruta hacia la generación de grafica
   public goToPdfGenerator(idEvaluation: number) {
 
-    this._evaluacionService.GetEvaluationInfoForIdEvaluation(idEvaluation).subscribe(
+    this._evaluacionService.GetEvaluationInfoFromIdEvaluation(idEvaluation).subscribe(
       res => {
         this._appComponent._storageDataService.EvaluacionToPDF = res;    
         this._router.navigate(['/pdfgenerator']);

@@ -36,7 +36,7 @@ namespace everisapi.API.Services
     }
 
     //Recoge una evaluacion con datos de información de muchas tablas
-    public EvaluacionInfoDto GetEvaluationInfoForIdEvaluation(int idEvaluation)
+    public EvaluacionInfoDto GetEvaluationInfoFromIdEvaluation(int idEvaluation)
     {
       var evaluation = _context.Evaluaciones.
         Include(r => r.ProyectoEntity).
@@ -766,14 +766,13 @@ namespace everisapi.API.Services
       //Total de preguntas respondidas validas hasta la actualidad
       var totalAnswered = _context.Respuestas
         .Count(x => x.EvaluacionId == idEvaluation
-                && x.Estado != 0
-                //&& !enablingQuestionsNot.Contains(x.Id)
-                );
+                && x.Estado != 0);
 
       //Se retorna el porcentaje progreso actual de la evaluacion
       return 100 * totalAnswered / totalRequired;
     }
 
+    //Metodo encargado generar un objeto SectionInfoDto a partir de una evaluationId
     public IEnumerable<SectionInfoDto> GetSectionsInfoFromEval(int idEvaluacion)
     {
       //Recoge las respuestas de la evaluación

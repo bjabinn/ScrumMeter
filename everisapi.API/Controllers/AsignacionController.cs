@@ -48,6 +48,23 @@ namespace everisapi.API.Controllers
 
     }
 
+    //Devuelve la asignacion de la primera pregunta sin responder de la evaluación
+    [HttpGet("evaluacion/{evaluationId}/assessment/{assesmentId}/first-unanswered-question")]
+    public IActionResult AssignationFirstUnansweredQuestion(int evaluationId, int assesmentId)
+    {
+      try
+      {
+        AsignacionEntity assignation = _asignacionInfoRepository.AssignationFirstUnansweredQuestion(evaluationId, assesmentId);
+
+        return Ok(assignation);
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir los datos de la asignacion: " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
+      }
+
+    }
 
     //Recoge una lista de asignaciones con todas sus preguntas y su respuesta filtrada por id de una evaluación
     [HttpGet("evaluacion/{id}")]

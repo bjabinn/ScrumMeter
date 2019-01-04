@@ -15,6 +15,9 @@ namespace everisapi.API.Services
     //Devuelve un section
     SectionEntity GetSection(int id, bool IncluirAsignaciones);
 
+    //Devuelve un objeto estado con información extendida de una unica sección
+    SectionInfoDto GetSectionsInfoFromSectionId(int evaluationId, int sectionId);
+
     //Devuelve todos los sections con sus preguntas y respuestas para un proyecto
     IEnumerable<SectionInfoDto> GetSectionsInfoFromEval(int idEvaluacion);
     IEnumerable<SectionInfoDto> GetSectionsInfoFromEvalNew(int idEvaluacion,int assessmentId);

@@ -24,6 +24,9 @@ namespace everisapi.API.Services
     //Devuelve una asignación
     AsignacionEntity GetAsignacion(int AsignacionId, Boolean IncluirPreguntas);
 
+    //Metodo encargado de devolver la asignacion correspondiente a la primera pregunta sin responder de la evaluación
+    AsignacionEntity AssignationFirstUnansweredQuestion(int evaluationId, int assesmentId);
+
     //Devuelve todas las preguntas de una asignación
     IEnumerable<PreguntaEntity> GetPreguntaPorAsignacion(int AsignacionId);
 

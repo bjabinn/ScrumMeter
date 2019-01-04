@@ -5,6 +5,7 @@ import { Proyecto } from 'app/Models/Proyecto';
 import { AppComponent } from 'app/app.component';
 import { Router } from '@angular/router';
 import { EvaluacionService } from '../services/EvaluacionService';
+import { AssignationService } from '../services/AssignationService';
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { Observable } from 'rxjs/Rx';
 import { Http } from '@angular/http';
@@ -44,7 +45,7 @@ export interface AssesmentEv{
   selector: 'app-pendingevaluation',
   templateUrl: './pendingevaluation.component.html',
   styleUrls: ['./pendingevaluation.component.scss'],
-  providers: [EvaluacionService, ProyectoService, SectionService]
+  providers: [EvaluacionService, ProyectoService, SectionService, AssignationService]
 })
 export class PendingEvaluationComponent implements OnInit {
   public clicked: boolean = true;

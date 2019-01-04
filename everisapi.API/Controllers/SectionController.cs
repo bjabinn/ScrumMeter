@@ -48,6 +48,25 @@ namespace everisapi.API.Controllers
       }
     }
 
+    //Recogemos todas las sections de la base de datos
+    [HttpGet("evaluacion/{evaluationId}/section/{sectionId}/sectioninfo")]
+    public IActionResult GetSectionsInfoFromSectionId(int evaluationId, int sectionId)
+    {
+      try
+      {
+        var SectionEntities = _sectionInfoRepository.GetSectionsInfoFromSectionId(evaluationId, sectionId);
+
+        _logger.LogInformation("Mandamos correctamente la seccion.");
+
+        return Ok(SectionEntities);
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical($"Se recogio un error al recibir los datos de la section: " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
+      }
+    }
+
     //Introduciendo el nombre de usuario encuentra todos los datos de este si existe
     [HttpGet("{id}")]
     public IActionResult GetSection(int id, bool IncluirAsignaciones = false)

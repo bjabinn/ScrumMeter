@@ -4,6 +4,7 @@ import { Role } from 'app/Models/Role';
 import { Proyecto } from 'app/Models/Proyecto';
 import { ProyectoService } from '../services/ProyectoService';
 import { EvaluacionService } from '../services/EvaluacionService';
+import { AssignationService } from '../services/AssignationService';
 import { Router } from "@angular/router";
 import { AppComponent } from '../app.component';
 import { Evaluacion } from 'app/Models/Evaluacion';
@@ -15,7 +16,7 @@ import { Assessment } from '../Models/Assessment';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [ProyectoService, EvaluacionService]
+  providers: [ProyectoService, EvaluacionService, AssignationService]
 })
 export class HomeComponent implements OnInit {
   public ErrorMessage: string = null;

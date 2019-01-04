@@ -12,6 +12,7 @@ import { ProyectoService } from 'app/services/ProyectoService';
 import { AppComponent } from 'app/app.component';
 import { Router } from "@angular/router";
 import { Assessment } from '../Models/Assessment';
+import { Asignacion } from 'app/Models/Asignacion';
 
 
 @Injectable()
@@ -33,6 +34,7 @@ export class StorageDataService {
   public Role: string;
   public nextSection : SectionInfo = null;
   public Sections: SectionInfo[] = [];
+  public currentAssignation: Asignacion = { 'id': 0, 'nombre': "undefined" };
 
 
   public GetToken() {

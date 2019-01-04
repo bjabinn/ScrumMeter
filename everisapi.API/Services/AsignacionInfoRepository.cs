@@ -44,6 +44,36 @@ namespace everisapi.API.Services
       }
     }
 
+    //Metodo encargado de devolver la asignacion correspondiente a la primera pregunta sin responder de la evaluación
+    public AsignacionEntity AssignationFirstUnansweredQuestion(int evaluationId, int assesmentId)
+    {
+      AsignacionEntity assignationFirstUnansweredQuestion;
+
+      //Preguntas hablitantes respondidas con NO
+      var enablingQuestionsNot = _context.Respuestas
+        .Where(x => x.EvaluacionId == evaluationId 
+                && x.PreguntaEntity.EsHabilitante
+                && x.Estado == 2)
+        .Select(x => x.PreguntaId)
+        .ToList();
+     
+      //asignacion con la primera pregunta sin responder, 
+      assignationFirstUnansweredQuestion = (from a in _context.Asignaciones
+      join p in _context.Preguntas on a.Id equals p.AsignacionId  
+      join r in _context.Respuestas on p.Id equals r.PreguntaId
+      join s in _context.Sections on a.SectionId equals s.Id  
+      where r.EvaluacionId == evaluationId
+        && s.AssessmentId == assesmentId
+        && r.Estado == 0
+        && (p.PreguntaHabilitanteId == null 
+          || !enablingQuestionsNot.Contains(p.PreguntaHabilitanteId.Value))
+      orderby a.SectionId, a.Id
+      select a)
+      .First();
+
+      return assignationFirstUnansweredQuestion;
+    }
+
     //Recogemos una lista completa de asignaciones
     public IEnumerable<AsignacionEntity> GetAsignaciones()
     {
