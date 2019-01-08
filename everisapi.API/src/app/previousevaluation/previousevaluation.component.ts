@@ -354,7 +354,8 @@ export class PreviousevaluationComponent implements OnInit {
           if(this.selectedAssessment != null){
           //this.CalcularPaginas();
           //this.shareDataToChart();
-          let filter: EvaluacionFilterInfo = new EvaluacionFilterInfo("","","","","", this.selectedAssessment.id);
+          // Filtro de la grafica para traer las evaluaciones
+          let filter: EvaluacionFilterInfo = new EvaluacionFilterInfo("","","","","true", this.selectedAssessment.id);
           this.GetChartData(filter);
           }
          
