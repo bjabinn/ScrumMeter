@@ -48,13 +48,13 @@ namespace everisapi.API.Controllers
 
     }
 
-    //Devuelve la asignacion de la primera pregunta sin responder de la evaluación
-    [HttpGet("evaluacion/{evaluationId}/assessment/{assesmentId}/first-unanswered-question")]
-    public IActionResult AssignationFirstUnansweredQuestion(int evaluationId, int assesmentId)
+    //Devuelve la asignacion de la ultima pregunta cuya respuesta haya sido modificada o respondida
+    [HttpGet("evaluacion/{evaluationId}/last-question-updated")]
+    public IActionResult AssignationLastQuestionUpdated(int evaluationId)
     {
       try
       {
-        AsignacionEntity assignation = _asignacionInfoRepository.AssignationFirstUnansweredQuestion(evaluationId, assesmentId);
+        AsignacionEntity assignation = _asignacionInfoRepository.AssignationLastQuestionUpdated(evaluationId);
 
         return Ok(assignation);
       }
@@ -65,6 +65,7 @@ namespace everisapi.API.Controllers
       }
 
     }
+
 
     //Recoge una lista de asignaciones con todas sus preguntas y su respuesta filtrada por id de una evaluación
     [HttpGet("evaluacion/{id}")]
