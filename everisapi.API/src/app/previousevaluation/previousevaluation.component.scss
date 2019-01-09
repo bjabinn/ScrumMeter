@@ -98,9 +98,9 @@ table *{
   background-repeat: no-repeat;
   border: none;
   cursor: pointer;
-  overflow: hidden;
+  //overflow: hidden;
   outline: none;
-  width: 60px;
+  width: 40px;
 }
 
 img{
@@ -244,7 +244,7 @@ img{
 .botonesTablaOGrafica{
   // float: right;
   margin-bottom: -55px;
-  margin-left: 90%;
+  margin-left: 89%;
   display: flex;
 }
 
