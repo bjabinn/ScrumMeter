@@ -115,7 +115,7 @@ export class PendingEvaluationTableComponent implements OnInit {
 
   //Metodo encargado de establecer la información de la asignacion en StorageData
   public GetAssignation(evaluationId: number, assesmentId: number){
-    this._assignationService.AssignationFirstUnansweredQuestion(evaluationId, assesmentId).subscribe(
+    this._assignationService.AssignationLastQuestionUpdated(evaluationId).subscribe(
       res => {
         console.log ("elres: " + assesmentId);
         console.log ("elres: " + evaluationId);

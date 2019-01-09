@@ -30,13 +30,13 @@ export class AssignationService {
     }
   }
 
-  //Devuelve la asignacion de la primera pregunta sin responder de la evaluación
-  AssignationFirstUnansweredQuestion(evaluationId, assesmentId) {
+  //Devuelve la asignacion de la ultima pregunta cuya respuesta haya sido modificada o respondida
+  AssignationLastQuestionUpdated(evaluationId) {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'asignaciones/evaluacion/' + evaluationId + '/assessment/' + assesmentId +'/first-unanswered-question', { headers: headers }).pipe(
+    return this._http.get(this.url + 'asignaciones/evaluacion/' + evaluationId + '/last-question-updated', { headers: headers }).pipe(
       map((response: Response) => response.json()),
       catchError(this.errorHandler));
   }

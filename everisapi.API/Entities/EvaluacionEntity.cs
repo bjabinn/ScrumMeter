@@ -23,7 +23,6 @@ namespace everisapi.API.Entities
     [Required]
     public ICollection<RespuestaEntity> Respuestas { get; set; }
     = new List<RespuestaEntity>();
-
     
     [StringLength(4000)]
     public string NotasObjetivos { get; set; }
@@ -32,7 +31,6 @@ namespace everisapi.API.Entities
     public string NotasEvaluacion { get; set; }
 
     public double Puntuacion { get; set; }
-
 
     public int ProyectoId { get; set; }
     //AsignacionEntity esta relacionando la pregunta con la asignación
@@ -46,11 +44,15 @@ namespace everisapi.API.Entities
     [ForeignKey("AssessmentId")]
     public AssessmentEntity Assessment { get; set; }
   
-
   public string UserNombre { get; set; }
     //AsignacionEntity esta relacionando la pregunta con la asignación
     //Mediante esta Foreign Key estamos relacionando AsignacionEntity con su Id
     [ForeignKey("UserNombre")]
     public UserEntity UserEntity { get; set; }
+
+    public int? LastQuestionUpdated { get; set; }
+    //Campo que especifica la pregunta de la evaluacion cuya respuesta haya sido la ultima en actualizar su valor Estado
+    [ForeignKey("Id")]
+    public PreguntaEntity PreguntaEntity { get; set; }
     }
 }

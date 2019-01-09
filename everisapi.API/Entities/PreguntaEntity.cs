@@ -26,8 +26,7 @@ namespace everisapi.API.Entities
         public AsignacionEntity AsignacionEntity { get; set; }
 
         [Required]
-        [MaxLength(50)]
-        public int Peso { get; set; }
+        public float Peso { get; set; }
         
 
         [Required]

@@ -11,9 +11,10 @@ using System;
 namespace everisapi.API.Migrations
 {
     [DbContext(typeof(AsignacionInfoContext))]
-    partial class AsignacionInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20190108132133_AddLastQuestionUpdate")]
+    partial class AddLastQuestionUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,7 +151,8 @@ namespace everisapi.API.Migrations
 
                     b.Property<bool>("EsHabilitante");
 
-                    b.Property<float>("Peso");
+                    b.Property<int>("Peso")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Pregunta")
                         .IsRequired()
