@@ -18,6 +18,9 @@ namespace everisapi.API.Services
     //Devuelve todas las respuestas filtrada por proyecto y asignacion
     IEnumerable<RespuestaEntity> GetRespuestasFromPregEval(int IdProyecto, int IdAsignacion);
 
+    //Metodo que devuelve la lista de respuestas de las preguntas que pertenecen a una pregunta hablitante de una evaluacion
+    IEnumerable<RespuestaEntity> GetAnswersByEnablingQuestion(int evaluationId, int enablingQuestionId);
+
     //Devuelve todas las respuestas filtrada por proyecto y pregunta
     IEnumerable<RespuestaEntity> GetRespuestasFromAsigEval(int IdProyecto, int IdPregunta);
 
@@ -41,6 +44,6 @@ namespace everisapi.API.Services
 
     //Este metodo se usa cuando se quiere poner todas las respuestas de una asignacion a No Contestado
     //Excepto la primera, que se pone a No
-    bool UpdateRespuestasAsignacion(int idEvaluacion, int IdAsignacion);
+    bool UpdateRespuestasAsignacion(int idEvaluacion, int enablingQuestionId);
   }
 }

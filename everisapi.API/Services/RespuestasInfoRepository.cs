@@ -37,6 +37,13 @@ namespace everisapi.API.Services
             return _context.Respuestas.Where(r => r.PreguntaId == IdPregunta && r.EvaluacionId == idEvaluacion).ToList();
         }
 
+        //Metodo que devuelve la lista de respuestas de las preguntas que pertenecen a una pregunta hablitante de una evaluacion
+        public IEnumerable<RespuestaEntity> GetAnswersByEnablingQuestion(int evaluationId, int enablingQuestionId)
+        {
+            return _context.Respuestas.Where(r => r.PreguntaEntity.PreguntaHabilitanteId == enablingQuestionId
+            && r.EvaluacionId == evaluationId).ToList();
+        }
+
         //Introduciendo la id de asignacion y la id de evaluacion sacaremos una lista con todas las respuestas
         public IEnumerable<RespuestaEntity> GetRespuestasFromAsigEval(int idEvaluacion, int IdAsignacion)
         {
@@ -71,28 +78,19 @@ namespace everisapi.API.Services
             }
         }
 
-        //Este metodo se usa cuando se quiere poner todas las respuestas de una asignacion a No Contestado
-        //Excepto la primera, que se pone a No
-        public bool UpdateRespuestasAsignacion(int idEvaluacion, int IdAsignacion)
+        //Metodo que actualiza la respuesta de una pregunta habilitante a No y la de sus preguntas habilitadas a SinResponder
+        public bool UpdateRespuestasAsignacion(int evaluationId, int enablingQuestionId)
         {
-            var respuestas = _context.Respuestas.Where(r => r.PreguntaEntity.AsignacionId == IdAsignacion && r.EvaluacionId == idEvaluacion).ToList();
-            if (respuestas != null)
+            List<RespuestaEntity> disabledsAnswers = GetAnswersByEnablingQuestion(evaluationId, enablingQuestionId).ToList();
+            RespuestaEntity enablingAnswer = _context.Respuestas.First(r => r.PreguntaEntity.Id == enablingQuestionId && r.EvaluacionId == evaluationId);
+            EvaluacionEntity evaluation = _context.Evaluaciones.First(e => e.Id == evaluationId);
+
+            if (disabledsAnswers != null)
             {
-                int cont = 0;
-                foreach (var resp in respuestas)
-                {
-                    if (cont == 0)
-                    {
-                        resp.Estado = 2;
-                    }
-                    else
-                    {
-                        resp.Estado = 0;
-                    }
-
-                    cont++;
-                }
-
+                disabledsAnswers.ForEach(r => r.Estado = 0);
+                enablingAnswer.Estado = 2;
+                evaluation.LastQuestionUpdated = enablingQuestionId;
+                
                 return SaveChanges();
             }
             else
@@ -165,5 +163,7 @@ namespace everisapi.API.Services
         {
             return _context.Respuestas.Any(r => r.Id == idRespuesta);
         }
+
+
     }
 }

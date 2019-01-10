@@ -59,14 +59,14 @@ export class RespuestasService {
 
   //Este metodo se usa cuando se quiere poner todas las respuestas de una asignacion a No Contestado
   //Excepto la primera, que se pone a No
-  updateRespuestasAsig(idEvaluacion: number, idAsig: number) {
+  updateRespuestasAsig(idEvaluacion: number, enablingQuestionId: number) {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
       'Authorization': Token
     });
 
 
-    return this._http.get(this.url + 'respuestas/evaluacion/' + idEvaluacion + '/asignacion/' + idAsig + '/update', { headers: headers }).pipe(
+    return this._http.get(this.url + 'respuestas/evaluacion/' + idEvaluacion + '/enablingQuestion/' + enablingQuestionId + '/update', { headers: headers }).pipe(
       map(res => res));
   }
 
