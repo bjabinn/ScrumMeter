@@ -38,6 +38,10 @@ namespace everisapi.API.Entities
         [ForeignKey("PreguntaHabilitanteId")]
         public virtual PreguntaEntity PreguntaHabilitante { get; set; }
 
+        [Required]
+
+        public int Nivel { get; set; }
+
 
 
     }
