@@ -30,10 +30,11 @@ import {DebounceDirective} from './debounceDirective';
 import { QuestionsManagerComponent } from './back-office/components/questions-manager/questions-manager.component';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { ComentariosTableComponent } from './comentarios-table/comentarios-table.component';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule} from '@angular/material/expansion';
 import { PendingEvaluationComponent } from './pendingevaluation/pendingevaluation.component';
 import { PendingEvaluationTableComponent } from './pendingevaluation/pendingevaluation-table/pendingevaluation-table.component';
 import { BtnFinalizeEvaluationComponent } from './btn-finalize-evaluation/btn-finalize-evaluation.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,7 +56,7 @@ import { BtnFinalizeEvaluationComponent } from './btn-finalize-evaluation/btn-fi
     DebounceDirective,
     QuestionsManagerComponent,
     BtnFinalizeEvaluationComponent,
- 
+
   ],
   imports: [
     BrowserModule,
@@ -75,7 +76,7 @@ import { BtnFinalizeEvaluationComponent } from './btn-finalize-evaluation/btn-fi
     NgxMatSelectSearchModule,
     MatListModule,
     NgCircleProgressModule,
-    MatExpansionModule
+    MatExpansionModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

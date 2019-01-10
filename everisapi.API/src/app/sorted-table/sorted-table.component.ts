@@ -47,6 +47,7 @@ export class SortedTableComponent implements OnInit {
     this.dataSource.sort= this.sort;
     this.dataSource.paginator = this.paginator;
     this.userRole = this._appComponent._storageDataService.Role;
+    this.prevEval.TableFilteredData = this.dataSource.filteredData;
     
     this.dataSource.filterPredicate = function(data, filter: string): boolean {
       let date = new Date(data.fecha);
@@ -64,6 +65,7 @@ export class SortedTableComponent implements OnInit {
 
   applyFilter(filterValue: string){
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.prevEval.TableFilteredData = this.dataSource.filteredData;
   }
 
 

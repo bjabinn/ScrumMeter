@@ -22,6 +22,10 @@ import { EvaluacionInfoWithSections } from 'app/Models/EvaluacionInfoWithSection
 import { forEach } from '@angular/router/src/utils/collection';
 import { SectionsLevel } from 'app/pdfgenerator/pdfgenerator.component';
 import { Assessment } from 'app/Models/Assessment';
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
+import { MatTable, MatTableDataSource } from '@angular/material';
+import { SortedTableComponent } from 'app/sorted-table/sorted-table.component';
 
 // import { setTimeout } from 'timers';
 
@@ -69,7 +73,8 @@ export class PreviousevaluationComponent implements OnInit {
   public fechaPicker: NgbDate;
   public MostrarTabla: boolean = true;
   public MostrarGrafica: boolean = false;
-  
+  public TableFilteredData: Evaluacion[];
+  //@ViewChild(SortedTableComponent) table: SortedTableComponent;
 
   public Admin: boolean = false;
   public ListaDeProyectos: Array<Proyecto> = [];
@@ -405,6 +410,46 @@ export class PreviousevaluationComponent implements OnInit {
             this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
         });
+  }
+
+  public ExportToExcel(){
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Evaluaciones anteriores');
+
+    let titleRow = worksheet.addRow(['Evaluaciones anteriores del equipo ' +  this.Project.nombre]);
+    titleRow.font = { name: 'Arial', family: 4, size: 16, bold: true }
+    worksheet.addRow([]);
+
+    let header = ["Fecha", "Usuario", "Assessment" , "Puntuación"]
+    //Add Header Row
+    let headerRow = worksheet.addRow(header);
+    
+    // Cell Style : Fill and Border
+    headerRow.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFEEEEEE' },
+        bgColor: { argb: '110000' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+    })
+
+
+    this.TableFilteredData.forEach(d => {
+      worksheet.addRow([new Date(d.fecha), d.userNombre, d.assessmentName, d.puntuacion+'%']);
+      }
+    );
+
+    worksheet.getColumn(1).width = 12;
+    worksheet.getColumn(2).width = 12;
+    worksheet.getColumn(3).width = 12;
+    worksheet.getColumn(4).width = 12;
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, 'Evaluaciones_anteriores_'+  this.Project.nombre+'.xlsx');
+    })
   }
 
   //Modal de notas evaluacion y objetivos
