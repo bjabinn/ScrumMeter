@@ -71,12 +71,12 @@ export class PendingEvaluationTableComponent implements OnInit {
   }
 
   //Metodo encargado de establecer la información de la evaluacion en StorageData
-  public GetEvaluation(evaluation: EvaluacionInfoWithProgress){
-    this._evaluacionService.getEvaluacion(evaluation.id).subscribe(
+  public ContinueEvaluation(evaluation: EvaluacionInfoWithProgress){
+        this._evaluacionService.getEvaluacion(evaluation.id).subscribe(
       res => {
         this._appComponent._storageDataService.Evaluacion = res;
         this._appComponent._storageDataService.AssessmentSelected = {'assessmentId': evaluation.assessmentId, 'assessmentName': undefined};
-        this.GetAssignation(evaluation.id, evaluation.assessmentId);
+        this.GetAssignation(evaluation.id);
       },
       error => {
         if (error == 404) {
@@ -94,7 +94,7 @@ export class PendingEvaluationTableComponent implements OnInit {
   
   //Metodo encargado de establecer la información necesaria de la seccion en StorageData
   public GetSectionInfo(evaluationId: number, sectionId: number){
-    this._sectionService.GetSectionsInfoFromSectionId(evaluationId, sectionId).subscribe(
+        this._sectionService.GetSectionsInfoFromSectionId(evaluationId, sectionId).subscribe(
       res => {
         this._appComponent._storageDataService.SectionSelectedInfo = res;
         this._router.navigate(['/nuevaevaluacion']);  
@@ -114,13 +114,9 @@ export class PendingEvaluationTableComponent implements OnInit {
   }
 
   //Metodo encargado de establecer la información de la asignacion en StorageData
-  public GetAssignation(evaluationId: number, assesmentId: number){
+  public GetAssignation(evaluationId: number){
     this._assignationService.AssignationLastQuestionUpdated(evaluationId).subscribe(
       res => {
-        console.log ("elres: " + assesmentId);
-        console.log ("elres: " + evaluationId);
-        console.log ("elres: " + res.sectionId);
-        console.log ("Asignacion: " + res.id);
         this._appComponent._storageDataService.currentAssignation = res;
         this.GetSectionInfo(evaluationId, res.sectionId);
       },
@@ -137,9 +133,5 @@ export class PendingEvaluationTableComponent implements OnInit {
       }
       );
 
-  }
-
-  public ContinueEvaluation(evaluation: EvaluacionInfoWithProgress){
-    this.GetEvaluation(evaluation);
   }
 }

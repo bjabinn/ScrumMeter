@@ -53,10 +53,8 @@ export class NewevaluationComponent implements OnInit {
     private _appComponent: AppComponent,
     private modalService: NgbModal,
     private _proyectoService: ProyectoService) {
-
-        this.InitialiseComponent();
-
-  }
+      this.InitialiseComponent();
+    }
 
   ngOnInit() {
 
@@ -134,9 +132,6 @@ export class NewevaluationComponent implements OnInit {
     } else {
       this._router.navigate(['/home']);
     }
-
-
-    // this.pagesArray = [1,2,3,4,5];
   }
 
   //Establece los datos de la asignación indicada
@@ -175,17 +170,14 @@ export class NewevaluationComponent implements OnInit {
       : null;
 
     this.InitialiseComponent();
-    // this._router.navigate(['/nuevaevaluacion']);
-
   }
 
-    // Se verifica que la respuesta de la pregunta habilitante (que habilita la actual) sea Si, en caso contrario la pregunta no se habilita.
-    // Y en caso de que no tenga habilitante, se habilita tambien.
-    
-    public checkHabilitante = (pregunta: PreguntaInfo, preguntas: PreguntaInfo[] ) : boolean => {
+  //Metodo que devuelve si una pregunta dependiente de otra habilitante se debe habilitar
+  public checkHabilitante = (pregunta: PreguntaInfo) : boolean => {
     let check: boolean = false;
     this.InfoAsignacion.preguntas.forEach(p => {
-      if((p.esHabilitante && !pregunta.esHabilitante && pregunta.preguntaHabilitanteId == p.id && p.respuesta.estado == 1) || pregunta.preguntaHabilitanteId == null)
+      if((p.esHabilitante && !pregunta.esHabilitante && pregunta.preguntaHabilitanteId == p.id 
+        && p.respuesta.estado == 1) || pregunta.preguntaHabilitanteId == null)
       {
         check= true;
       }
@@ -193,21 +185,22 @@ export class NewevaluationComponent implements OnInit {
     return check;
   }
 
-  public AnswerQuestion(pregunta, index, statusToBe) {
-
+  public AnswerQuestion(pregunta: PreguntaInfo, index: number, optionAnswered: number) {
     this.changedQuestion = index;
-    this.changedAnswer = statusToBe;
+    this.changedAnswer = optionAnswered;
     
-    //If the user clicks on the first item and he clicked "NO" just remove all the other answers and make it not answered
-    if (this.InfoAsignacion.preguntas[index].esHabilitante && statusToBe == 2 && this.InfoAsignacion.preguntas[index].preguntaHabilitanteId == null) { //correcta == null is to ensure the first question is required to answer the other ones
-      this.InfoAsignacion.preguntas[index].respuesta.estado = statusToBe;
-      this._respuestasService.updateRespuestasAsig(this.Evaluation.id, this.InfoAsignacion.id).subscribe(
+    //Si la pregunta es Habilitante y se ha respondido NO
+    if (this.InfoAsignacion.preguntas[index].esHabilitante && optionAnswered == 2)
+    {
+      this.InfoAsignacion.preguntas[index].respuesta.estado = optionAnswered;
+      this._respuestasService.updateRespuestasAsig(this.Evaluation.id, pregunta.id).subscribe(
         res => {
-          //Respuestas actualizadas correctamente
-          for (var i = 0; i < this.InfoAsignacion.preguntas.length; i++) {
-            if (this.InfoAsignacion.preguntas[index].id == this.InfoAsignacion.preguntas[i].preguntaHabilitanteId)
-            this.InfoAsignacion.preguntas[i].respuesta.estado = 0;
-          }
+
+          //Se actualizan las respuestas de las preguntas dependientes de esta pregunta habilitante a NC
+          this.InfoAsignacion.preguntas.forEach(p =>{
+            if (this.InfoAsignacion.preguntas[index].id == p.preguntaHabilitanteId)
+              p.respuesta.estado = 0;
+          });
         },
         error => {
           if (error == 404) {
@@ -222,9 +215,8 @@ export class NewevaluationComponent implements OnInit {
         }
       );
     } else {
-
-      if (statusToBe != pregunta.respuesta.estado) {
-        this.InfoAsignacion.preguntas[index].respuesta.estado = statusToBe;
+      if (optionAnswered != pregunta.respuesta.estado) {
+        this.InfoAsignacion.preguntas[index].respuesta.estado = optionAnswered;
         let respuesta = this.InfoAsignacion.preguntas[index].respuesta;
         this._respuestasService.AlterRespuesta(respuesta).subscribe(
           res => {
@@ -241,64 +233,6 @@ export class NewevaluationComponent implements OnInit {
             }
           });
       }
-    }
-  }
-
-  //Cambia el estado de las preguntas
-  public ChangeEstadoDB(idarray: number) {
-    this.anadeNota = null;
-
-    var Respuesta;
-
-    //Cambia el estado
-    if (this.InfoAsignacion.preguntas[idarray].respuesta.estado == 1) {
-      this.InfoAsignacion.preguntas[idarray].respuesta.estado = 2;
-    } else {
-      this.InfoAsignacion.preguntas[idarray].respuesta.estado = 1;
-    }
-
-
-    //En caso de que se seleccione el primero, ponemos todos a NC
-    if (idarray == 0 && this.InfoAsignacion.preguntas[idarray].respuesta.estado == 2 && this.InfoAsignacion.preguntas[idarray].correcta == null) {
-      this._respuestasService.updateRespuestasAsig(this.Evaluation.id, this.InfoAsignacion.id).subscribe(
-        res => {
-          //Respuestas actualizadas correctamente
-          for (var i = 1; i < this.InfoAsignacion.preguntas.length; i++) {
-            this.InfoAsignacion.preguntas[i].respuesta.estado = 0;
-          }
-        },
-        error => {
-          if (error == 404) {
-            this.ErrorMessage = "Error: " + error + "No se pudo acceder a los datos de esta asignación.";
-          } else if (error == 500) {
-            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-          } else if (error == 401) {
-            this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-          } else {
-            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-          }
-        }
-      );
-
-    } else {
-
-      //Guardamos la respuesta
-      Respuesta = this.InfoAsignacion.preguntas[idarray].respuesta;
-      this._respuestasService.AlterRespuesta(Respuesta).subscribe(
-        res => {
-        },
-        error => {
-          if (error == 404) {
-            this.ErrorMessage = "Error: " + error + "No pudimos realizar la actualización de la respuesta, lo sentimos.";
-          } else if (error == 500) {
-            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-          } else if (error == 401) {
-            this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-          } else {
-            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-          }
-        });
-
     }
   }
 
@@ -352,7 +286,6 @@ export class NewevaluationComponent implements OnInit {
             this.InfoAsignacion.preguntas[i].respuesta.notas = null;
           }
 
-
           var Respuesta = this.InfoAsignacion.preguntas[i].respuesta;
 
           this._respuestasService.AlterRespuesta(Respuesta).subscribe(
@@ -377,9 +310,6 @@ export class NewevaluationComponent implements OnInit {
               this.Deshabilitar = false;
 
             });
-
-
-
         }
         //Else, Click fuera, no se guarda
       })
@@ -413,7 +343,6 @@ export class NewevaluationComponent implements OnInit {
 
           var asig = new AsignacionUpdate(this.Evaluation.id, this.InfoAsignacion.id, this.InfoAsignacion.notas);
 
-
           this._respuestasService.AddNotaAsig(asig).subscribe(
             res => {
 
@@ -436,9 +365,6 @@ export class NewevaluationComponent implements OnInit {
               this.Deshabilitar = false;
 
             });
-
-
-
         }
         //Else, Click fuera, no se guarda
       })

@@ -113,16 +113,15 @@ namespace everisapi.API.Controllers
       }
     }
 
-    //Este metodo se usa cuando se quiere poner todas las respuestas de una asignacion a No Contestado
-    //Excepto la primera, que se pone a No
-    [HttpGet("evaluacion/{idevaluacion}/asignacion/{idasignacion}/update")]
-    public IActionResult UpdateRespuestasAsignacion(int idevaluacion, int idasignacion)
+    //Metodo que actualiza la respuesta de una pregunta habilitante a No y la de sus preguntas habilitadas a SinResponder
+    [HttpGet("evaluacion/{idevaluacion}/enablingQuestion/{enablingQuestionId}/update")]
+    public IActionResult UpdateRespuestasAsignacion(int idevaluacion, int enablingQuestionId)
     {
       try
       {
         _logger.LogInformation("Actualizamos las respuestas.");
 
-        _respuestasInfoRepository.UpdateRespuestasAsignacion(idevaluacion, idasignacion);
+        _respuestasInfoRepository.UpdateRespuestasAsignacion(idevaluacion, enablingQuestionId);
 
         //Si todo salio bien dara un mensaje 200 con todo correcto
 
