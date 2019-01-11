@@ -55,7 +55,17 @@ namespace everisapi.API.Services
       join e in _context.Evaluaciones on p.Id equals e.LastQuestionUpdated
       where e.Id == evaluationId
       select a)
-      .First();
+      .FirstOrDefault();
+
+      //En caso de que no exista respuesta para ninguna pregunta, se devuelve la primera asignacion de la evaluacion
+      if (assignationLastQuestionUpdated == null){
+        assignationLastQuestionUpdated = (from a in _context.Asignaciones
+        join s in _context.Sections on a.SectionId equals s.Id
+        join e in _context.Evaluaciones on s.AssessmentId equals e.AssessmentId
+        where e.Id == evaluationId
+        select a)
+        .First();
+      }
 
       return assignationLastQuestionUpdated;
     }
