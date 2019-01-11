@@ -68,6 +68,7 @@ export interface SectionsLevel{
 export class PdfgeneratorComponent implements OnInit {
   public ListaDeDatos: Array<SectionInfo> = [];
   public ListaSectionLevels: Array<SectionsLevel> = [];
+  public ListaSectionConAsignaciones : any;
   public UserName: string = "";
   public Project: Proyecto = null;
   public Evaluacion: EvaluacionInfo;
@@ -93,8 +94,8 @@ export class PdfgeneratorComponent implements OnInit {
   public mostrarNotasAsig: boolean = false;
   public mostrarNotasPreg: boolean = false;
   public ListaDeRespuestas: Array<RespuestaConNotas> = [];
-  public respuestasSource: MatTableDataSource<RespuestaConNotasTabla>;
-  public ListaDeAsignaciones: Array<AsignacionConNotas> = [];
+  //public respuestasSource: MatTableDataSource<RespuestaConNotasTabla>;
+  public ListaDeAsignaciones: Array<AsignacionConNotas> = []; 
   public cargandoNotas: boolean = false;
   public textoModal: string;
   public anadeNota: string = null;
@@ -102,41 +103,73 @@ export class PdfgeneratorComponent implements OnInit {
   public MostrarComentarios: boolean = false;
 
   //CircleProgress
-  public formatSubtitle  = (sc: SectionsLevel) : string => {
-    if(sc.levelReached == -1){
+  public formatSubtitle  = (sc: any) : string => {
+    if(sc.nivelAlcanzado == -1){
       return "del nivel mínimo"
     }
     else{
-      return "   Nivel  " + Math.trunc(sc.levelReached + 1);
+      return "   Nivel  " + Math.trunc(sc.nivelAlcanzado);
     } 
   }
 
-  public formatLevel  = (sc: SectionsLevel) : string => {
-    return "lvl"+ sc.levelReached;
+  public formatTotalSubtitle  = (sc: any) : string => {
+    var minLevel = 99;
+    sc.forEach(element => {
+      if(element.nivelAlcanzado < minLevel)
+      {
+        minLevel = element.nivelAlcanzado
+      }
+    });
+    //return "   Nivel  " + Math.trunc(minLevel);
+    return "  del Nivel máximo"
   }
 
-  public getLevelColorOuter  = (sc: SectionsLevel) : string => {
-    if(sc.levelReached == 0){
+  public formatLevel  = (sc: any) : string => {
+    return "lvl"+ (sc.nivelAlcanzado -1);
+  }
+
+  public formatTotalLevel  = (sc: any) : string => {
+    var minLevel = 99;
+    sc.forEach(element => {
+      if(element.nivelAlcanzado < minLevel)
+      {
+        minLevel = element.nivelAlcanzado
+      }
+    });
+    return "lvl"+ (minLevel -1);
+  }
+
+  public getTotalPercent = (sc: any) : number => {
+    var sumSections = 0;
+    sc.forEach(element => {
+      sumSections += (element.puntuacion/100 + element.nivelAlcanzado -1)/3  * element.peso;
+    });
+
+    return sumSections;
+  }
+
+  public getLevelColorOuter  = (sc: any) : string => {
+    if(sc.nivelAlcanzado == 1){
       return "#FDB900";
     }
-    else  if(sc.levelReached == 1){
+    else  if(sc.nivelAlcanzado == 2){
       return "#78C000";
     }
-    else  if(sc.levelReached == 2){
+    else  if(sc.nivelAlcanzado == 3){
       return "#00C03D";
     }
     return "#000000"
   }
 
   
-  public getLevelColorInner  = (sc: SectionsLevel) : string => {
-    if(sc.levelReached == 0){
+  public getLevelColorInner  = (sc: any) : string => {
+    if(sc.nivelAlcanzado == 1){
       return "#ffdb7b";
     }
-    else  if(sc.levelReached == 1){
+    else  if(sc.nivelAlcanzado == 2){
       return "#C7E596";
     }
-    else  if(sc.levelReached == 2){
+    else  if(sc.nivelAlcanzado == 3){
       return "#79D496";
     }
     return "#000000"
@@ -207,40 +240,43 @@ export class PdfgeneratorComponent implements OnInit {
 
   }
 
-  private getSectionLevels() {
-    this.http.get('assets/compliance_levels.json').pipe(map(res => res.json()))
-      .subscribe((assessments) => {
-        for (var a of assessments) {
-          if (a.assesmentId == this.Evaluacion.assessmentId) {
-            let i: number = 0;
-            for (var s of a.sections) {
-              let section: SectionInfo = this.ListaDeDatos[i];
-              let levelReached: number = 0;
-              let percentOverLevel: number = section.respuestasCorrectas;
-              for (var l of s.levels) {
-                if (percentOverLevel > l.value && s.levels.length - 1 > levelReached) {
-                  percentOverLevel = percentOverLevel - l.value;
-                  levelReached++;
-                }
-                else {
-                  if(s.levels.length > levelReached && percentOverLevel < s.levels[levelReached].value){
-                    percentOverLevel = percentOverLevel / s.levels[levelReached].value * 100;
-                  }
-                  else{
-                    percentOverLevel = 100;
-                  }
-                  const sl: SectionsLevel = { levelReached, percentOverLevel };
-                  this.ListaSectionLevels.push(sl);
+  // private getSectionLevels() {
+  //   this.http.get('assets/compliance_levels.json').pipe(map(res => res.json()))
+  //     .subscribe((assessments) => {
+  //       for (var a of assessments) {
+  //         if (a.assesmentId == this.Evaluacion.assessmentId) {
+  //           let i: number = 0;
+  //           for (var s of a.sections) {
+  //             let section: SectionInfo = this.ListaDeDatos[i];
+  //             let levelReached: number = 0;
+  //             let percentOverLevel: number = section.respuestasCorrectas;
+  //             for (var l of s.levels) {
+  //               if (percentOverLevel > l.value && s.levels.length - 1 > levelReached) {
+  //                 percentOverLevel = percentOverLevel - l.value;
+  //                 levelReached++;
+  //               }
+  //               else {
+  //                 if(s.levels.length > levelReached && percentOverLevel < s.levels[levelReached].value){
+  //                   percentOverLevel = percentOverLevel / s.levels[levelReached].value * 100;
+  //                 }
+  //                 else{
+  //                   percentOverLevel = 100;
+  //                 }
+  //                 const sl: SectionsLevel = { levelReached, percentOverLevel };
+  //                 this.ListaSectionLevels.push(sl);
 
-                  break;
-                }
-              }
-              i++;
-            }
-          }
-        }
-      });
-  }
+  //                 break;
+  //               }
+  //             }
+  //             i++;
+  //           }
+  //         }
+  //       }
+  //     });
+  // }
+
+
+
 
   ngOnInit() {
     this.UserRole = this._appComponent._storageDataService.Role;
@@ -252,7 +288,7 @@ export class PdfgeneratorComponent implements OnInit {
         res => {
           this.ListaDeDatos = res;
        
-          this.getSectionLevels();
+          //this.getSectionLevels();
           this.cambiarMostrarNotasPreg();
           //this.shareDataToChart();
 
@@ -269,6 +305,26 @@ export class PdfgeneratorComponent implements OnInit {
           }
         }
       );
+
+      this._sectionService.GetPreguntasNivelOrganizadas(this.Evaluacion.id,this.Evaluacion.assessmentId).subscribe(
+        res => {
+         
+         this.ListaSectionConAsignaciones = res;
+         console.log(this.ListaSectionConAsignaciones);
+        },
+        error => {
+          if (error == 404) {
+            this.ErrorMessage = "Error: " + error + "No pudimos recoger los datos de las preguntas.";
+          } else if (error == 500) {
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          } else if (error == 401) {
+            this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+          } else {
+            this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+          }
+        }
+      );
+
     } else {
       this._router.navigate(['/home']);
     }
@@ -583,6 +639,8 @@ export class PdfgeneratorComponent implements OnInit {
           }
         }
       );
+
+
     }
     else {
       this.mostrarNotasPreg = !this.mostrarNotasPreg;

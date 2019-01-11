@@ -156,12 +156,12 @@
     <b>{{Evaluacion.nombre}}</b> - <b>{{Evaluacion.fecha | date:'dd/MM/yyyy'}}</b>
   </div>
 
-  <div class="circle-progress-container" *ngIf="ListaDeDatos.length> 0 && ListaSectionLevels.length>0">
-      <div *ngFor="let datos of ListaDeDatos; let i = index" [attr.data-index]="i" [ngClass]="formatLevel(ListaSectionLevels[i])">
+  <div class="circle-progress-container" *ngIf="ListaSectionConAsignaciones && ListaSectionConAsignaciones.length>0">
+      <div *ngFor="let datos of ListaSectionConAsignaciones; let i = index" [attr.data-index]="i" [ngClass]="formatLevel(ListaSectionConAsignaciones[i])">
     <circle-progress
-  [percent]= "ListaSectionLevels[i].percentOverLevel"
+  [percent]= "ListaSectionConAsignaciones[i].puntuacion"
   [toFixed] = "1"
-  [subtitle] = "[formatSubtitle(ListaSectionLevels[i])]"
+  [subtitle] = "[formatSubtitle(ListaSectionConAsignaciones[i])]"
   [subtitleFontSize]= "14"
   [titleFontSize]= "26"
   [unitsFontSize]= "14"
@@ -169,21 +169,22 @@
   [space] = "1.5"
   [outerStrokeWidth]="8"
   [innerStrokeWidth]="5"
-  [innerStrokeColor]="getLevelColorInner(ListaSectionLevels[i])"
-  [outerStrokeColor]="getLevelColorOuter(ListaSectionLevels[i])"
+  [innerStrokeColor]="getLevelColorInner(ListaSectionConAsignaciones[i])"
+  [outerStrokeColor]="getLevelColorOuter(ListaSectionConAsignaciones[i])"
   [animation]="true"
   [renderOnClick]="false"
   [animationDuration]="300"
     ></circle-progress>
     <div class="text-center"><b>{{datos.nombre}}</b></div>
   </div>
-   <div>
-
-      <!-- PROGRESO TOTAL CORTADO SIN getLevel  -->
+   <div  [ngClass]="formatTotalLevel(ListaSectionConAsignaciones)">
         <circle-progress
-      [percent]= "Evaluacion.puntuacion/AgileComplianceTotal*100"
+      [percent]= "getTotalPercent(ListaSectionConAsignaciones)"
       [toFixed] = "1"
-      [subtitle] = "['del nivel', 'Agile Compliance']"
+      [subtitle] = "[formatTotalSubtitle(ListaSectionConAsignaciones)]"
+      [subtitleFontSize]= "14"
+      [titleFontSize]= "26"
+      [unitsFontSize]= "14"
       [radius]="70"
       [outerStrokeWidth]="10"
       [innerStrokeWidth]="5"

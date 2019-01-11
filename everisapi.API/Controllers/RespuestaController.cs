@@ -212,6 +212,24 @@ namespace everisapi.API.Controllers
       }
     }
 
+     [HttpGet("evaluacion/preguntas/{idevaluacion}/assessment/{assessmentid}")]
+    public IActionResult GetPreguntasNivelOrganizadas(int idevaluacion,int assessmentid)
+    {
+      try
+      {
+        var respuestas = _respuestasInfoRepository.GetPreguntasNivelOrganizadas(idevaluacion,assessmentid);
+
+        _logger.LogInformation("Mandamos correctamente todas las preguntas organizadas.");
+
+        return Ok(respuestas);
+      }
+      catch (Exception ex)
+      {
+        _logger.LogCritical("Se recogio un error al recibir las preguntas con idevaluacion " + idevaluacion +  " : " + ex);
+        return StatusCode(500, "Un error ha ocurrido mientras se procesaba su petición.");
+      }
+    }
+
 
     /*ADD RESPUESTAS*/
     [HttpPost("add")]

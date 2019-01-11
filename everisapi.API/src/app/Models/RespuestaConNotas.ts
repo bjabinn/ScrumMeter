@@ -7,6 +7,8 @@ export class RespuestaConNotas {
     public notas: string,
     public notasAdmin: string,
     public section: string,
-    public asignacion: string
+    public asignacion: string,
+    public peso:number,
+    public nivel:number
   ) { }
 }

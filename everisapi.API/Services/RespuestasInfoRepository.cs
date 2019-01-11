@@ -139,11 +139,143 @@ namespace everisapi.API.Services
                     NotasAdmin = resp.NotasAdmin,
                     Asignacion = resp.PreguntaEntity.AsignacionEntity.Nombre,
                     Section = resp.PreguntaEntity.AsignacionEntity.SectionEntity.Nombre,
-                    Pregunta = resp.PreguntaEntity.Pregunta
+                    Pregunta = resp.PreguntaEntity.Pregunta,
+                    Peso = resp.PreguntaEntity.Peso,
+                    Nivel = resp.PreguntaEntity.Nivel
                 });
             }
 
             return lista;
+        }
+
+         public IEnumerable<SectionConAsignacionesDto> GetPreguntasNivelOrganizadas(int idEvaluacion, int assessmentId)
+        {
+
+            List<SectionConAsignacionesDto> sectionsConAsignaciones = new List<SectionConAsignacionesDto>();
+
+            // List<SectionEntity> sections;
+            // sections = _context.Sections.Where(r => r.AssessmentId == assessmentId).ToList();
+            
+             //List<SectionEntity> sections;
+            //var sections = _context.Sections
+            // .Join(_context.NotasSections, // the source table of the inner join
+            //     s => s.Id,        // Select the primary key (the first part of the "on" clause in an sql "join" statement)
+            //     n => n.SectionId,   // Select the foreign key (the second part of the "on" clause)
+            //     (s, n) => new { section = s, notas = n })          
+            //.Where(s => s.section.AssessmentId == assessmentId).ToList();
+
+            var sections = from s in _context.Sections.Where( x => x.AssessmentId == assessmentId)
+                join n in _context.NotasSections.Where( x => x.EvaluacionId == idEvaluacion) on s.Id equals n.SectionId into sn
+                from y1 in sn.DefaultIfEmpty()
+                select new {section = s, notas = y1.Notas};
+
+
+            foreach (var s in sections)
+            {
+                SectionConAsignacionesDto sectionConAsignacion = new SectionConAsignacionesDto();
+                sectionConAsignacion.EvaluacionId = idEvaluacion;
+                sectionConAsignacion.SectionId = s.section.Id;
+                sectionConAsignacion.Nombre = s.section.Nombre;
+                sectionConAsignacion.Notas = s.notas;
+                sectionConAsignacion.Peso = s.section.Peso;
+
+                List<AsignacionConPreguntaNivelDto> asignacionesConPreguntaNivel = new List<AsignacionConPreguntaNivelDto>();
+                //List<AsignacionEntity> asignaciones;
+                // var asignaciones = _context.Asignaciones
+                // .Join(_context.NotasAsignaciones, // the source table of the inner join
+                // a => a.Id,        // Select the primary key (the first part of the "on" clause in an sql "join" statement)
+                // n => n.AsignacionId,   // Select the foreign key (the second part of the "on" clause)
+                // (a, n) => new { asignacion = a, notas = n })
+                // .Where(a => a.asignacion.SectionId == s.section.Id).ToList();
+
+                var asignaciones = from a in _context.Asignaciones.Where( x => x.SectionId == s.section.Id)
+                    join n in _context.NotasAsignaciones.Where( x => x.EvaluacionId == idEvaluacion) on a.Id equals n.AsignacionId into an
+                    from y1 in an.DefaultIfEmpty()
+                    select new {asignacion = a, notas = y1.Notas};
+
+
+                foreach (var a in asignaciones)
+                {
+                    AsignacionConPreguntaNivelDto asignacionConPreguntaNivel = new AsignacionConPreguntaNivelDto();
+                    asignacionConPreguntaNivel.Id = a.asignacion.Id;
+                    asignacionConPreguntaNivel.Nombre = a.asignacion.Nombre;
+                    asignacionConPreguntaNivel.Peso = a.asignacion.Peso;
+                    asignacionConPreguntaNivel.Notas = a.notas;
+
+                    List<PreguntaRespuestaNivelDto> preguntasRespuestaNivel = new List<PreguntaRespuestaNivelDto>();
+                    List<RespuestaEntity> preguntas = new List<RespuestaEntity>();
+                    preguntas = _context.Respuestas.
+                    Include(r => r.PreguntaEntity).Where(p => p.EvaluacionId == idEvaluacion && p.PreguntaEntity.AsignacionId == a.asignacion.Id).ToList();
+
+                     foreach (RespuestaEntity p in preguntas)
+                     {
+                         PreguntaRespuestaNivelDto preguntaRespuestaNivel = new PreguntaRespuestaNivelDto();
+                         preguntaRespuestaNivel.Id = p.PreguntaEntity.Id;
+                         preguntaRespuestaNivel.Nivel = p.PreguntaEntity.Nivel;
+                         preguntaRespuestaNivel.Notas = p.Notas;
+                         preguntaRespuestaNivel.NotasAdmin = p.NotasAdmin;
+                         preguntaRespuestaNivel.Peso = p.PreguntaEntity.Peso;
+                         preguntaRespuestaNivel.Pregunta = p.PreguntaEntity.Pregunta;
+                         preguntaRespuestaNivel.Estado = p.Estado;
+                         preguntaRespuestaNivel.Correcta = p.PreguntaEntity.Correcta;
+
+                         preguntasRespuestaNivel.Add(preguntaRespuestaNivel);
+                    }
+                    asignacionConPreguntaNivel.Preguntas = preguntasRespuestaNivel;
+                    
+                    asignacionesConPreguntaNivel.Add(asignacionConPreguntaNivel);
+                }
+                sectionConAsignacion.Asignaciones = asignacionesConPreguntaNivel;
+
+                sectionsConAsignaciones.Add(sectionConAsignacion);
+            }
+
+
+            foreach(SectionConAsignacionesDto seccion in sectionsConAsignaciones)
+            {
+                //calculamos los niveles individuales para cada asignacion
+                foreach(AsignacionConPreguntaNivelDto asignacion in seccion.Asignaciones)
+                {
+                    var maxLevel = asignacion.Preguntas.Max(x => x.Nivel);
+                    bool nivelCompleto = true;
+                    for(int i = 1; i <= maxLevel && nivelCompleto; i++)
+                    {
+                        nivelCompleto = false;
+                        var preguntas = asignacion.Preguntas.Where(p => p.Nivel == i);
+
+                        var preguntasCorrectas = asignacion.Preguntas
+                        .Where(p => p.Nivel == i && ((p.Estado == 1 && p.Correcta == "Si") || (p.Estado == 2 && p.Correcta == "No")));
+
+                        if(preguntas.Count() == preguntasCorrectas.Count()){
+                            nivelCompleto = true;
+                        }
+
+                        asignacion.NivelAlcanzado = i;
+                        asignacion.Puntuacion = preguntasCorrectas.Sum( x => x.Peso);
+                    }                   
+                }
+
+                //comparamos los niveles de cada asignacion y cogemos el mas bajo
+                var minLevel = seccion.Asignaciones.Min(x => x.NivelAlcanzado);
+                float sumaPesosAsignaciones = 0;
+                foreach(AsignacionConPreguntaNivelDto asignacion in seccion.Asignaciones)
+                {
+                    asignacion.NivelAlcanzado = minLevel;
+                    asignacion.Puntuacion = asignacion.Preguntas
+                    .Where(p => p.Nivel == minLevel && ((p.Estado == 1 && p.Correcta == "Si") || (p.Estado == 2 && p.Correcta == "No")))
+                    .Sum(p => p.Peso);
+
+                    sumaPesosAsignaciones += asignacion.Puntuacion * asignacion.Peso;
+                }
+
+                seccion.NivelAlcanzado = minLevel;
+                seccion.Puntuacion = sumaPesosAsignaciones;
+
+            }
+
+
+
+            return sectionsConAsignaciones;
         }
 
         //Aqui introducimos una nueva respuesta

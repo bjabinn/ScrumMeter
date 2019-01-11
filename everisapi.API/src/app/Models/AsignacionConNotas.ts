@@ -3,5 +3,6 @@ export class AsignacionConNotas {
         public section: string,
         public asignacion: string,
         public notas: string
+        // public peso: number
     ) { }
 }
