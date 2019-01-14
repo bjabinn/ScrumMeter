@@ -20,5 +20,9 @@ namespace everisapi.API.Models
     public double Progreso { get; set; }
 
     public string Notas { get; set; }
+
+    public int NivelAlcanzado { get; set; }
+
+    public float Puntuacion { get; set; }
   }
 }

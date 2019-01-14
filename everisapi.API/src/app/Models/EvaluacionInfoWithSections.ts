@@ -11,6 +11,8 @@ export class EvaluacionInfoWithSections {
     public estado: boolean,
     public assessmentId: number,
     public assessmentName: string,
+    public notasEvaluacion: string,
+    public notasObjetivos: string,
     public sectionsInfo: Array<SectionInfo>
 
   ) { }

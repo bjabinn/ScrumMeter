@@ -25,6 +25,10 @@ namespace everisapi.API.Models
 
     public string UserNombre { get; set; }
 
+    public string NotasEvaluacion {get;set;}
+
+    public string NotasObjetivos {get;set;}
+
     public ICollection<SectionInfoDto> SectionsInfo  { get; set; }
         = new List<SectionInfoDto>();
   }

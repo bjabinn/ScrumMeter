@@ -6,6 +6,9 @@ export class SectionInfo {
     public contestadas: number,
     public respuestasCorrectas: number,
     public progreso: number,
-    public notas: string
+    public notas: string,
+    public nivelAlcanzado: number,
+    public puntuacion: number
+
   ) { }
 }
