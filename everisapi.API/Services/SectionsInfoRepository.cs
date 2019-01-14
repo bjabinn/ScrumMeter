@@ -280,40 +280,8 @@ namespace everisapi.API.Services
         SectionAdd.Notas = notasSec.Notas;
 
         //Para calcular el progreso
-        var listaAsignaciones = _context.Asignaciones.Where(r => r.SectionId == section.Id).ToList();
-
-        int contestadas = 0;
-        foreach(AsignacionEntity asig in listaAsignaciones)
-        {
-          var respuestasAsig = Respuestas.Where(p => p.PreguntaEntity.AsignacionEntity.Id == asig.Id).ToList();
-
-          //Para ver si la primera es de las que habilitan a las demás o no
-          //y si está contestada a NO (para contar las demás como contestadas
-          bool flag = false;
-          if(respuestasAsig[0].PreguntaEntity.Correcta == null && respuestasAsig[0].Estado == 2)
-          {
-            flag = true;
-          }
-
-
-          foreach(RespuestaEntity resp in respuestasAsig)
-          {
-            if(flag)
-            {
-              contestadas++;
-            }
-            else if (resp.Estado != 0)
-            {
-              contestadas++;
-            }
-          }
-
-        }
+        SectionAdd = this.CalculateSectionInfoProgress(SectionAdd, idEvaluacion);
         
-        SectionAdd.Contestadas = contestadas;
-        SectionAdd.Progreso = Math.Round( ((double)SectionAdd.Contestadas / SectionAdd.Preguntas) *100, 1);
-
-
         var listaRespuestas = Respuestas.Where(r => r.PreguntaEntity.AsignacionEntity.SectionEntity.Id == section.Id).ToList();
         double suma = 0;
         double puntosCorrectos = 0;
@@ -384,6 +352,44 @@ namespace everisapi.API.Services
     IEnumerable<SectionEntity> ISectionsInfoRepository.GetSections()
     {
       return _context.Sections.ToList();
+    }
+
+    //Metodo encargado de obtener las repsuestas dadas en la seccion y calcular el progreso actual de esta
+    public SectionInfoDto CalculateSectionInfoProgress(SectionInfoDto sectionInfo, int evaluationId)
+    {
+      List<RespuestaEntity> questionsAnswered;
+      List<int> enablingQuestiontsNo;
+
+      //Respuestas de las preguntas contenstadas de la seccion
+      questionsAnswered = (from r in _context.Respuestas
+      join p in _context.Preguntas on r.PreguntaId equals p.Id
+      join a in _context.Asignaciones on p.AsignacionId equals a.Id
+      where r.EvaluacionId == evaluationId
+      && a.SectionId == sectionInfo.Id
+      && r.Estado != 0
+      select r)
+      .ToList()
+      ;
+
+      //Preguntas habilitantes a la que se ha respondido SI
+      enablingQuestiontsNo = questionsAnswered.Where(r => r.Estado == 1
+      && r.PreguntaEntity.EsHabilitante).Select(p => p.PreguntaEntity.Id).ToList();
+
+      //Preguntas que NO dependen de una habilitante O cuya habilitante de la que dependan haya sido respondia con un SI
+      sectionInfo.Preguntas = (from p in _context.Preguntas 
+      join r in _context.Respuestas on p.Id equals r.PreguntaId
+      join a in _context.Asignaciones on p.AsignacionId equals a.Id
+      where r.EvaluacionId == evaluationId
+      && a.SectionId == sectionInfo.Id
+      && (enablingQuestiontsNo.Contains(p.PreguntaHabilitanteId.Value)
+      || p.PreguntaHabilitanteId == null) 
+      select p.Id).Count();
+
+      //Se establecen los valores del total de respuestas contestadas y del progreso
+      sectionInfo.Contestadas = questionsAnswered.Count();
+      sectionInfo.Progreso = Math.Round( ((double)sectionInfo.Contestadas / sectionInfo.Preguntas) * 100, 1);
+
+      return sectionInfo;
     }
 
     //Este metodo nos permite persistir los cambios en las entidades

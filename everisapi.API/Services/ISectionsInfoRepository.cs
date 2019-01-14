@@ -34,6 +34,9 @@ namespace everisapi.API.Services
     //Devuelve todas las asignaciones de un sector
     IEnumerable<AsignacionEntity> GetAsignacionesFromSection(SectionEntity section);
 
+    //Metodo encargado de obtener las repsuestas dadas en la seccion y calcular el progreso actual de esta
+    SectionInfoDto CalculateSectionInfoProgress(SectionInfoDto sectionInfo, int evaluationId);
+
     //Guardar cambio de las entidades
     bool SaveChanges();
 
