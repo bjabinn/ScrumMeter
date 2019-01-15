@@ -548,7 +548,7 @@ export class PreviousevaluationComponent implements OnInit {
   //   this.GetPaginacion();
   // }
 
-  public changeChartAssessment($event){
+  public changeChartAssessment(){
     let filter: EvaluacionFilterInfo = new EvaluacionFilterInfo("","","","","true", this.selectedAssessment.id);
     this.GetChartData(filter);
   }
