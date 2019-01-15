@@ -141,7 +141,7 @@
     </div>
 
     <div class="botonesTablaOGrafica">
-        <button class="transparente botonExcel" (click)="ExportExcel()">
+        <button class="transparente botonExcel" (click)="ExportToExcel()">
             <img [class.button-disabled]="!ListaDeEvaluacionesPaginada || ListaDeEvaluacionesPaginada.length == 0" src="assets/excel.png" title="Exportar a Excel" />
           </button>
         <button class="transparente botonTabla" (click)="MostrarGrafica = false; MostrarTabla = true">
