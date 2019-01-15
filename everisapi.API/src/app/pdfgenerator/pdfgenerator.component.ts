@@ -147,6 +147,18 @@ export class PdfgeneratorComponent implements OnInit {
 
     return sumSections;
   }
+  public getTotalColor  = (sc: any) : string => {
+    if(sc.nivelAlcanzado == 1){
+      return "#000000";
+    }
+    else  if(sc.nivelAlcanzado == 2){
+      return "#000000";
+    }
+    else  if(sc.nivelAlcanzado == 3){
+      return "#000000";
+    }
+    return "#000000"
+  }
 
   public getLevelColorOuter  = (sc: any) : string => {
     if(sc.nivelAlcanzado == 1){

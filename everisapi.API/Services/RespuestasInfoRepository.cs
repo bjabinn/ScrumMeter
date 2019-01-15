@@ -268,6 +268,10 @@ namespace everisapi.API.Services
 
                 seccion.NivelAlcanzado = minLevel;
                 seccion.Puntuacion = sumaPesosAsignaciones;
+                if (seccion.Puntuacion == 0 && seccion.NivelAlcanzado > 1){
+                    seccion.NivelAlcanzado = seccion.NivelAlcanzado -1;
+                    seccion.Puntuacion = 100;
+                }
 
             }
 
