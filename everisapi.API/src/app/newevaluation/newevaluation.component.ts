@@ -186,20 +186,19 @@ export class NewevaluationComponent implements OnInit {
   }
 
   public AnswerQuestion(pregunta: PreguntaInfo, index: number, optionAnswered: number) {
-    this.changedQuestion = index;
-    this.changedAnswer = optionAnswered;
-    
     //Si la pregunta es Habilitante y se ha respondido NO
     if (this.InfoAsignacion.preguntas[index].esHabilitante && optionAnswered == 2)
     {
       this.InfoAsignacion.preguntas[index].respuesta.estado = optionAnswered;
       this._respuestasService.updateRespuestasAsig(this.Evaluation.id, pregunta.id).subscribe(
         res => {
-
           //Se actualizan las respuestas de las preguntas dependientes de esta pregunta habilitante a NC
           this.InfoAsignacion.preguntas.forEach(p =>{
             if (this.InfoAsignacion.preguntas[index].id == p.preguntaHabilitanteId)
               p.respuesta.estado = 0;
+            
+    this.changedQuestion = index;
+    this.changedAnswer = optionAnswered;
           });
         },
         error => {
@@ -220,6 +219,8 @@ export class NewevaluationComponent implements OnInit {
         let respuesta = this.InfoAsignacion.preguntas[index].respuesta;
         this._respuestasService.AlterRespuesta(respuesta).subscribe(
           res => {
+            this.changedQuestion = index;
+            this.changedAnswer = optionAnswered;
           },
           error => {
             if (error == 404) {
@@ -231,7 +232,7 @@ export class NewevaluationComponent implements OnInit {
             } else {
               this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
             }
-          });
+        });
       }
     }
   }
