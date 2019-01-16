@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-
+@import 'theme.scss';
 
 .error-msg{
   top:0;
@@ -32,7 +32,7 @@
 
 .ng-card-box{
   // box-shadow: 0 2px 2px rgba(10, 16, 20, 0.24), 0 0 2px rgba(10, 16, 20, 0.12);
-  border-left: 4px solid #99AD00;
+  border-left: 4px solid mat-color($mat-everis, 50);
   border-top-left-radius: 5px !important;
   border-bottom-left-radius: 5px !important;
   border-top: 1px solid #dadadac4;
@@ -44,13 +44,13 @@
   border-radius: 0px;
 
   &:hover{
-    border-color: #99AD00;
+    border-color: mat-color($mat-everis, 50);
     outline: 0;
     box-shadow: inset 0 1px 2px rgba(0,0,0,.075), 0 0 5px #99ad00a6;
   }
 
   &:focus{
-    border-color: #99AD00;
+    border-color: mat-color($mat-everis, 50);
     outline: 0;
     box-shadow: inset 0 1px 2px rgba(0,0,0,.075), 0 0 5px #99ad00a6;
   }
@@ -102,7 +102,7 @@
   // transform: translateY(10px);
   color:#7b8a02;
   background: white;/*rgba(153, 173, 0, 0.03137254901960784);;*/
-  border: 1px solid #99AD00;
+  border: 1px solid mat-color($mat-everis, 50);
 
 }
 #home_buttons{
@@ -188,7 +188,7 @@
   color: #FFF;
   text-align: center;
   // letter-spacing: 1px;
-  background: linear-gradient(50deg, #99AD00, #99AD01);
+  background: linear-gradient(50deg, mat-color($mat-everis, 50), mat-color($mat-everis, 300));
   padding: 15px 20px;
   // transition: all .5s ease;
   // border-radius: 3px;
@@ -198,9 +198,9 @@
   
 
   &:hover{
-    color:#7b8a02;
+    color:mat-color($mat-everis, 50);
     background: white;/*rgba(153, 173, 0, 0.03137254901960784);;*/
-    border: 1px solid #99AD00;
+    border: 1px solid mat-color($mat-everis, 50);
   }
 }
 
@@ -210,9 +210,11 @@
 }
 
 .custom-modal-header {
-  background: #99AD00;
+  background: linear-gradient(to right, mat-color($mat-everis, 50) , mat-color($mat-everis, 50), mat-color($mat-everis, 50),  mat-color($mat-everis, 400));
   color: white;
   font-weight: bold;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 

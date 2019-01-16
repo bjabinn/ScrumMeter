@@ -1,3 +1,6 @@
+
+@import 'theme.scss';
+
 $dark: #292929;
 $light: #efefef;
 $red: #D91E18;
@@ -126,9 +129,11 @@ $small: 40em;
 }
 
 .custom-modal-header {
-  background: #99AD00;
+  background: linear-gradient(to right, mat-color($mat-everis, 50) , mat-color($mat-everis, 50),   mat-color($mat-everis, 400));
   color: white;
   font-weight: bold;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .modal-btns {

@@ -1,3 +1,5 @@
+@import 'theme.scss';
+
 #infopro {
   border: 1px solid #99AD00;
   margin: 0 auto;
@@ -47,9 +49,11 @@ ngb-modal-window {
 }
 
 .custom-modal-header {
-  background: #99AD00;
+  background: linear-gradient(to right, mat-color($mat-everis, 50) , mat-color($mat-everis, 50),   mat-color($mat-everis, 400));
   color: white;
   font-weight: bold;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .modal-btns {
