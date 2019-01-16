@@ -924,7 +924,7 @@ List<SectionConAsignacionesDto> sectionsConAsignaciones = new List<SectionConAsi
                 && x.Estado != 0);
 
       //Se retorna el porcentaje progreso actual de la evaluacion
-      return 100 * totalAnswered / totalRequired;
+      return (totalAnswered / totalRequired) * 100;
     }
 
     //Metodo encargado generar un objeto SectionInfoDto a partir de una evaluationId

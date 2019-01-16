@@ -358,7 +358,7 @@ namespace everisapi.API.Services
     public SectionInfoDto CalculateSectionInfoProgress(SectionInfoDto sectionInfo, int evaluationId)
     {
       List<RespuestaEntity> questionsAnswered;
-      List<int> enablingQuestiontsNo;
+      List<int> enablingQuestiontsSi;
 
       //Respuestas de las preguntas contenstadas de la seccion
       questionsAnswered = (from r in _context.Respuestas
@@ -372,7 +372,7 @@ namespace everisapi.API.Services
       ;
 
       //Preguntas habilitantes a la que se ha respondido SI
-      enablingQuestiontsNo = questionsAnswered.Where(r => r.Estado == 1
+      enablingQuestiontsSi = questionsAnswered.Where(r => r.Estado == 1
       && r.PreguntaEntity.EsHabilitante).Select(p => p.PreguntaEntity.Id).ToList();
 
       //Preguntas que NO dependen de una habilitante O cuya habilitante de la que dependan haya sido respondia con un SI
@@ -381,7 +381,7 @@ namespace everisapi.API.Services
       join a in _context.Asignaciones on p.AsignacionId equals a.Id
       where r.EvaluacionId == evaluationId
       && a.SectionId == sectionInfo.Id
-      && (enablingQuestiontsNo.Contains(p.PreguntaHabilitanteId.Value)
+      && (enablingQuestiontsSi.Contains(p.PreguntaHabilitanteId.Value)
       || p.PreguntaHabilitanteId == null) 
       select p.Id).Count();
 
