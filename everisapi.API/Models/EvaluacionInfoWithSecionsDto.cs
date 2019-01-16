@@ -13,7 +13,7 @@ namespace everisapi.API.Models
 
     public string Nombre { get; set; }
 
-    public double Puntuacion { get; set; }
+    public float Puntuacion { get; set; }
 
     public DateTime Fecha { get; set; }
 
