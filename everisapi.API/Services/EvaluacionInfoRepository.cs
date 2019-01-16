@@ -64,7 +64,7 @@ namespace everisapi.API.Services
         }
         else
         {
-          EvaluacionInfo.Puntuacion = evaluation.Puntuacion;
+          EvaluacionInfo.Puntuacion = (float)evaluation.Puntuacion;
         }
 
         if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluation.Id && r.Notas != null && r.Notas != "").Count())
@@ -97,7 +97,7 @@ namespace everisapi.API.Services
 
         if (listaev.Count > 0)
         {
-          EvaluacionInfo.Media = suma / listaev.Count;
+          //EvaluacionInfo.Media = suma / listaev.Count;
         }
         else
         {
@@ -138,7 +138,7 @@ namespace everisapi.API.Services
         }
         else
         {
-          EvaluacionInfo.Puntuacion = evaluacion.Puntuacion;
+          EvaluacionInfo.Puntuacion = (float)evaluacion.Puntuacion;
         }
 
         if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
@@ -172,7 +172,7 @@ namespace everisapi.API.Services
 
         if (listaev.Count > 0)
         {
-          EvaluacionInfo.Media = suma / listaev.Count;
+          //EvaluacionInfo.Media = (float)suma / listaev.Count;
         }
         else
         {
@@ -218,7 +218,7 @@ namespace everisapi.API.Services
         }
         else
         {
-          EvaluacionInfo.Puntuacion = evaluacion.Puntuacion;
+          EvaluacionInfo.Puntuacion = (float)evaluacion.Puntuacion;
         }
 
         if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
@@ -252,7 +252,7 @@ namespace everisapi.API.Services
 
         if (listaev.Count > 0)
         {
-          EvaluacionInfo.Media = suma / listaev.Count;
+          EvaluacionInfo.Media = (float)suma / listaev.Count;
         }
         else
         {
@@ -411,7 +411,7 @@ namespace everisapi.API.Services
 
         if (listaev.Count > 0)
         {
-          EvaluacionInfo.Media = suma / listaev.Count;
+          EvaluacionInfo.Media = (float)suma / listaev.Count;
         }
         else
         {
@@ -700,7 +700,7 @@ namespace everisapi.API.Services
         }
         else
         {
-          EvaluacionInfo.Puntuacion = evaluacion.Puntuacion;
+          EvaluacionInfo.Puntuacion = (float)evaluacion.Puntuacion;
         }
 
 
@@ -735,7 +735,7 @@ namespace everisapi.API.Services
 
         if (listaev.Count > 0)
         {
-          EvaluacionInfo.Media = suma / listaev.Count;
+          //EvaluacionInfo.Media = (float)suma / listaev.Count;
         }
         else
         {
@@ -876,7 +876,7 @@ List<SectionConAsignacionesDto> sectionsConAsignaciones = new List<SectionConAsi
             }
         //EvaluacionInfo.Puntuacion = sumSections;
 
-      return (float)Math.Round(sumSections, 2);
+      return (float)Math.Round(sumSections, 1);
     }
 
     //Metodo encargado de calcular el porcentaje respondido de la evaluacion

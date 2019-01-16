@@ -13,9 +13,9 @@ namespace everisapi.API.Models
 
     public string Nombre { get; set; }
 
-    public double Puntuacion { get; set; }
+    public float Puntuacion { get; set; }
 
-    public double Media { get; set; }
+    public float Media { get; set; }
 
     public string NotasEvaluacion { get; set; }
 
