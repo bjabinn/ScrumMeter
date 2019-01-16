@@ -566,6 +566,11 @@ namespace everisapi.API.Services
                 seccion.NivelAlcanzado = minLevel;
                 seccion.Puntuacion = sumaPesosAsignaciones;
 
+                 if (seccion.Puntuacion == 0 && seccion.NivelAlcanzado > 1){
+                    seccion.NivelAlcanzado = seccion.NivelAlcanzado -1;
+                    seccion.Puntuacion = 100;
+                }
+
                 SectionInfoDto sec = new SectionInfoDto();
                 sec.Puntuacion = seccion.Puntuacion;
                 sec.NivelAlcanzado = seccion.NivelAlcanzado;
@@ -862,6 +867,11 @@ List<SectionConAsignacionesDto> sectionsConAsignaciones = new List<SectionConAsi
 
                 seccion.NivelAlcanzado = minLevel;
                 seccion.Puntuacion = sumaPesosAsignaciones;
+
+                 if (seccion.Puntuacion == 0 && seccion.NivelAlcanzado > 1){
+                    seccion.NivelAlcanzado = seccion.NivelAlcanzado -1;
+                    seccion.Puntuacion = 100;
+                }
 
                 // SectionInfoDto sec = new SectionInfoDto();
                 // sec.Puntuacion = seccion.Puntuacion;
