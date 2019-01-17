@@ -21,6 +21,7 @@
     height: 39px;
     width: 20%;
     margin-left: 40%;
+    border-radius: .25rem;
   }
 
 .finish:hover {
@@ -35,4 +36,7 @@
     background: #99AD00;
     color: white;
     font-weight: bold;
+  }
+  .border-curve{
+    border-radius: .25rem;
   }
