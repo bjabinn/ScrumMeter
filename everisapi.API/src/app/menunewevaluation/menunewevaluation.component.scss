@@ -49,7 +49,8 @@ ngb-modal-window {
 }
 
 .custom-modal-header {
-  background: linear-gradient(to right, mat-color($mat-everis, 50) , mat-color($mat-everis, 50),   mat-color($mat-everis, 400));
+  //background: linear-gradient(to right, mat-color($mat-everis, 50) , mat-color($mat-everis, 50),  mat-color($mat-everis, 50),   mat-color($mat-everis, 400));
+  background: linear-gradient(to right, mat-color($mat-everis, 200) , mat-color($mat-everis, 50), mat-color($mat-everis, 500),  mat-color($mat-everis, 400));
   color: white;
   font-weight: bold;
   padding-top: 0.5rem;
