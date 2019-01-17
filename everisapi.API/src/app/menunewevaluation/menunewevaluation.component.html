@@ -81,9 +81,10 @@
   <ng-template #notas let-cl="close" let-di="dismiss">
     <div class="modal-content mat-elevation-z8 border-0">
       <div class="modal-header custom-modal-header">
-        <h5 class="modal-title">Notas de Sección</h5> <button type="button" class="close" (click)="cl('Cerrar')">
+        <h5 class="modal-title">Notas de Sección</h5> 
+        <!-- <button type="button" class="close" (click)="cl('Cerrar')">
           <span aria-hidden="true">×</span>
-        </button>
+        </button> -->
       </div>
       <div class="modal-body">
         <textarea class="form-control custom-text-area" maxlength="4000" placeholder="Inserte aquí el texto" rows="10" [(ngModel)]="textoModal"></textarea>
