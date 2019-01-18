@@ -16,7 +16,7 @@
 }
 
 .comment {
-  height: 40px !important;
+  height: 35px !important;
 }
 
 // .corregir {
@@ -71,10 +71,16 @@ ngb-modal-window {
   font-style: italic;
 }
 
+.icon {
+  float: right;
+  height: 50px;
+}
+
 #barraespacio {
-  margin-bottom: 15px;
+  //margin-bottom: 15px;
+  padding-top: 15px !important;
   margin-top: 15px;
-  padding: 15px;
+  //padding: 15px;
   padding-top: 9px;
 }
 
@@ -179,7 +185,7 @@ h2 {
   cursor: pointer;
   overflow: hidden;
   outline: none;
-  margin-top: -4px;
+  margin-top: 5px;
 }
 .border-curve{
   border-radius: .25rem;
