@@ -79,7 +79,7 @@ namespace everisapi.API.Controllers
                   
                 }
             }
-
+            
             return response;
         }
 
@@ -179,7 +179,7 @@ namespace everisapi.API.Controllers
 
             var jwtToken = new JwtSecurityToken(issuer: Configuration["JWT:issuer"],
               audience: Configuration["JWT:audience"], signingCredentials: credentials,
-              expires: DateTime.Now.AddYears(19));
+              expires: DateTime.Now.AddYears(1));
 
             return new JwtSecurityTokenHandler().WriteToken(jwtToken);
         }
