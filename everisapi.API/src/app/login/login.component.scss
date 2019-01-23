@@ -1,3 +1,5 @@
+@import'theme.scss';
+
 
 .corregir {
   margin-right: 5%;
@@ -38,8 +40,8 @@ body, html {
 
 .btn-acceder{
     color: #fff;
-    background-color: #98aa00;
-    border-color: #98aa00;
+    background-color: mat-color($mat-everis, 50);
+    border-color:mat-color($mat-everis, 50);
     border-radius: .25rem;
 }
 
