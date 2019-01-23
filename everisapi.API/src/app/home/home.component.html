@@ -17,11 +17,12 @@
           </div>
           <div class="row mt-3">
             <div class="col-4">
-              <select class="custom-select not-rounded margin-select map_get($mat-light-theme-background, selected-button)" *ngIf="ListaDeProyectos.length > 0" (change)="SeleccionDeProyecto($event.target.value)">
-                <option selected [disabled]="this.ProyectoSeleccionado">- Seleccione un equipo </option>
-                <option *ngFor="let proyecto of ListaDeProyectos; let i = index" value={{i}}>{{proyecto.nombre}}</option>
-              </select>
-            </div>
+              <mat-form-field class ="dropdown-material">
+              <mat-select [(value)]="ProyectoSeleccionado" placeholder="Seleccione un equipo"  (selectionChange)="SeleccionDeProyecto()">
+                <mat-option class="dropdown-content" *ngFor="let proyecto of ListaDeProyectos; let i = index" [value]="proyecto">{{proyecto.nombre}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div>
             <div class="col-4">
               <div class="main-button border-curve bajarmedia eval-ant mat-elevation-z5 w-85 m-auto" [class.card-disabled]="ProyectoSeleccionado == null || ProyectoSeleccionado.numFinishedEvals == 0"
                 (click)="EvaluacionesAnteriores()">
@@ -46,10 +47,11 @@
           </div>
           <div class="row mt-3">
             <div class="col-4">
-              <select class="custom-select not-rounded  margin-select map_get($mat-light-theme-background, selected-button)" *ngIf="AllAssessments.length > 0" (change)="SeleccionDeAssessment($event.target.value)">
-                <option selected [disabled]="this.AssessmentSelected">- Seleccione una evaluación </option>
-                <option *ngFor="let assessment of AllAssessments; let i = index" value={{i}}>{{assessment.assessmentName}}</option>
-              </select>
+                <mat-form-field class ="dropdown-material">
+                    <mat-select  [(value)]="AssessmentSelected" placeholder="Seleccione una evaluación"  (selectionChange)="SeleccionDeAssessment()">
+                      <mat-option *ngFor="let assessment of AllAssessments; let i = index" [value]="assessment">{{assessment.assessmentName}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
             </div>
             <div class="col-4">
               <div class="main-button border-curve mat-elevation-z5 new-eval w-85 m-auto" [class.card-disabled]="!this.AssessmentSelected" (click)="showModal(content)">
