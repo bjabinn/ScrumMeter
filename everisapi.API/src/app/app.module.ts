@@ -34,6 +34,7 @@ import { MatExpansionModule} from '@angular/material/expansion';
 import { PendingEvaluationComponent } from './pendingevaluation/pendingevaluation.component';
 import { PendingEvaluationTableComponent } from './pendingevaluation/pendingevaluation-table/pendingevaluation-table.component';
 import { BtnFinalizeEvaluationComponent } from './btn-finalize-evaluation/btn-finalize-evaluation.component';
+import { SectionResultsComponent } from './pdfgenerator/section-results/section-results.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { BtnFinalizeEvaluationComponent } from './btn-finalize-evaluation/btn-fi
     DebounceDirective,
     QuestionsManagerComponent,
     BtnFinalizeEvaluationComponent,
+    SectionResultsComponent,
 
   ],
   imports: [
