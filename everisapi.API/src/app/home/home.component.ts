@@ -159,8 +159,8 @@ export class HomeComponent implements OnInit {
   }
 
   //Este metodo guarda el proyecto que a sido seleccionado en el front
-  public SeleccionDeProyecto(index: number) {
-    this.ProyectoSeleccionado = this.ListaDeProyectos[index];
+  public SeleccionDeProyecto() {
+    //this.ProyectoSeleccionado = this.ListaDeProyectos[index];
     this._appComponent._storageDataService.UserProjectSelected = this.ProyectoSeleccionado;
     this.existeRepetida = false;
 
@@ -204,10 +204,10 @@ export class HomeComponent implements OnInit {
 
   }
 
-  public SeleccionDeAssessment(index: number) {
+  public SeleccionDeAssessment() {
     // console.log("assessment",index);
     
-    this.AssessmentSelected = this.AllAssessments[index];
+    // this.AssessmentSelected = this.AllAssessments[index];
     // console.log(this.AssessmentSelected);
     
     this._appComponent._storageDataService.AssessmentSelected = this.AssessmentSelected;
