@@ -44,8 +44,8 @@
             </mat-form-field>
 
             <br>
-            <input *ngIf="enviando" type="submit" name="login" class="btn btn-success disabled btn-acceder" value="Acceder">
-            <input *ngIf="!enviando" type="submit" name="login" class="btn btn-success btn-acceder" value="Acceder" (click)="SignUp()">
+            <input *ngIf="enviando" type="submit" name="login" class="main-button disabled btn-acceder mat-elevation-z4" value="Acceder">
+            <input *ngIf="!enviando" type="submit" name="login" class="main-button btn-acceder mat-elevation-z4" value="Acceder" (click)="SignUp()">
 
             <div *ngIf="enviando">
               <app-loading></app-loading>
