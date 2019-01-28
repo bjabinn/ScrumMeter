@@ -5,8 +5,6 @@ import { RespuestaConNotas } from 'app/Models/RespuestaConNotas';
 import { RespuestaConNotasTabla } from 'app/pdfgenerator/pdfgenerator.component';
 import { RespuestasService } from 'app/services/RespuestasService';
 import { Respuesta } from 'app/Models/Respuesta';
-import { s } from '@angular/core/src/render3';
-import { stringify } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-section-results',
@@ -21,7 +19,6 @@ export class SectionResultsComponent implements OnInit {
   userRole: string = this._appComponent._storageDataService.Role;
   dataSource: MatTableDataSource<any>;
   expandedElement: RespuestaConNotas;
-  returnedNote: string = "";
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['pregunta', 'estado', 'notas'];

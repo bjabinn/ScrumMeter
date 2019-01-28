@@ -3,7 +3,6 @@
 
 table {
   width: 100%;
-  
 }
 mat-table{
 width: 100%!important;
@@ -54,7 +53,7 @@ img.estado, img.comment, img.informe{
   height: 30px;
 }
 
-img.respuesta{
+img.answerIcon{
   width: 20px;
   height: 20px;
 }
@@ -121,7 +120,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   opacity: 0.5;
 } 
 
-.questionNote{
+.question-note{
   padding-right: 20px;
   min-width: 50%;
 }
