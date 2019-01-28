@@ -322,7 +322,6 @@ export class PdfgeneratorComponent implements OnInit {
         res => {
          
          this.ListaSectionConAsignaciones = res;
-         console.log(this.ListaSectionConAsignaciones);
         },
         error => {
           if (error == 404) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ViewEncapsulation } from '@angular/core';
 import { MatSort, MatTableDataSource } from '@angular/material';
 import { AppComponent } from 'app/app.component';
 import { RespuestaConNotas } from 'app/Models/RespuestaConNotas';
@@ -11,7 +11,8 @@ import { stringify } from '@angular/compiler/src/util';
 @Component({
   selector: 'app-section-results',
   templateUrl: './section-results.component.html',
-  styleUrls: ['./section-results.component.scss']
+  styleUrls: ['./section-results.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SectionResultsComponent implements OnInit {
 
@@ -45,27 +46,6 @@ export class SectionResultsComponent implements OnInit {
     let date = new Date(value);
     console.log(date.getDay()+"/"+date.getMonth()+"/"+date.getFullYear());
     return date.getDay()+"/"+date.getMonth()+1+"/"+date.getFullYear();
-  }
-
-  //Metodo encargado de formar la tabla de preguntas para cada modulo
-  public CreateQuestionsTable(lQuestions){
-    this.dataSource = new MatTableDataSource(lQuestions.filter(x => x.estado != 0));
-    this.dataSource.sort= this.sort;
-    this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string => {
-      if (sortHeaderId == "estado") {
-        if(data[sortHeaderId] == "0"){
-          return "2";
-        }
-        else if((data[sortHeaderId] == "1" && data["correcta"]=="Si") || (data[sortHeaderId] == "2" && data["correcta"]=="No") || data["correcta"]== null){
-          return "1";
-        }
-        else{
-          return "3";
-        }
-      } 
-      return data[sortHeaderId];
-    };
-    return this.dataSource;
   }
 
   public checkRespuestaCorrecta(row): string {
@@ -118,5 +98,29 @@ export class SectionResultsComponent implements OnInit {
         break;
     }
     return respuesta;
+  }
+
+  //Metodo encargado de gestionar las notas de las secciones y modulos
+  DisplayNotes(noteText: string): string{
+    noteText = noteText || null;
+
+    var returnedText = "No hay notas añadidas";
+    if (noteText != null){
+      returnedText = "Notas: " + noteText;
+    }
+    
+    return returnedText;
+  }
+
+  //Metodo encargado de gestionar las notas de las preguntas
+  DisplayQuestionNote(noteText: string): string{
+    noteText = noteText || null;
+
+    var returnedText = "";
+    if (noteText != null){
+      returnedText = "Notas: " + noteText;
+    }
+    
+    return returnedText;
   }
 }
