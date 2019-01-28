@@ -36,6 +36,7 @@ import { PendingEvaluationTableComponent } from './pendingevaluation/pendingeval
 import { BtnFinalizeEvaluationComponent } from './btn-finalize-evaluation/btn-finalize-evaluation.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
+import { SectionResultsComponent } from './pdfgenerator/section-results/section-results.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import {MatIconModule} from '@angular/material/icon';
     DebounceDirective,
     QuestionsManagerComponent,
     BtnFinalizeEvaluationComponent,
+    SectionResultsComponent,
 
   ],
   imports: [
