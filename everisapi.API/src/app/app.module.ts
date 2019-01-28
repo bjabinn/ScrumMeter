@@ -34,6 +34,8 @@ import { MatExpansionModule} from '@angular/material/expansion';
 import { PendingEvaluationComponent } from './pendingevaluation/pendingevaluation.component';
 import { PendingEvaluationTableComponent } from './pendingevaluation/pendingevaluation-table/pendingevaluation-table.component';
 import { BtnFinalizeEvaluationComponent } from './btn-finalize-evaluation/btn-finalize-evaluation.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -77,6 +79,8 @@ import { BtnFinalizeEvaluationComponent } from './btn-finalize-evaluation/btn-fi
     MatListModule,
     NgCircleProgressModule,
     MatExpansionModule,
+    MatCheckboxModule,
+    MatIconModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

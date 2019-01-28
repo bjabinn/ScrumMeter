@@ -6,8 +6,8 @@
 }
 
 .loginmodal-container {
-  margin-left: 65px;
-  margin-right: 65px;
+  margin-left: 35px;
+  margin-right: 35px;
 
   input{
     border-radius: .25rem !important;
@@ -21,14 +21,15 @@ body, html {
 }
 
 .card-container {
-  background-color: #f7f7f791;
+  background: #fff;
   /* just in case there no content*/
-  padding: 20px 25px 30px;
+  padding: 0px 0px 30px;
   margin: 0 auto 25px;
   /* shadows and rounded borders */
-  -moz-border-radius: .25rem;
-  -webkit-border-radius: .25rem;
-  // border-radius: 4px;
+  // -moz-border-radius: .25rem;
+  // -webkit-border-radius: .25rem;
+  border-radius: 5px;
+  overflow: hidden;
   // -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
   // -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
   // box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
@@ -43,6 +44,9 @@ body, html {
     background-color: mat-color($mat-everis, 50);
     border-color:mat-color($mat-everis, 50);
     border-radius: .25rem;
+    width: 100%;
+    height: 50px;
+    margin-top: 5px;
 }
 
 h1 {
@@ -53,3 +57,71 @@ h1 {
   margin-top:40px;
   font-size: 40pt;
 }
+
+.check-label{
+  font-family: Raleway, sans-serif;
+}
+
+.form-field{
+  width: 100%;
+}
+
+.form-icon{
+  font-size: 30px;
+  top: 5px !important;
+  color: mat-color($mat-everis, 50);
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick  {
+  color: mat-color($mat-everis, 50);
+}
+
+.login-title {
+  font-size: 36px;
+  color: #fff;
+  line-height: 1.2;
+  text-align: center;
+  display: block;
+  //position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  //background-color: mat-color($mat-everis, 50);
+  background: linear-gradient(to right, mat-color($mat-everis, 200) , mat-color($mat-everis, 50), mat-color($mat-everis, 500),  mat-color($mat-everis, 400));
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+
+.row-centered{
+  display: flex;
+  justify-content: center;
+  margin-right: 0px; 
+  margin-left: 0px; 
+
+}
+
+.container{
+  width: 20em;
+  padding-top: 180px;
+}
+
+.main-container{
+  background-image: url('assets/icons_cloud.png');
+  background-position: top;
+  background-repeat: no-repeat;
+  padding-bottom: 80px;
+
+}
+
+.alert-login{
+  margin-top: -4rem;
+  position: absolute;
+  padding: 0.75rem 1rem;
+  margin-left: -5rem;
+  width: 28rem;
+  text-align: center;
+}
+
+// .main-container:before{
+//   background-color: rgba(255,255,255, 0.6);
+// }

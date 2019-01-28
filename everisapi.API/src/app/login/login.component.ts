@@ -4,6 +4,7 @@ import { AppComponent } from '../app.component';
 import { User } from 'app/Models/User';
 import { Router } from "@angular/router";
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -47,7 +48,7 @@ export class LoginComponent implements OnInit {
 
           //Si no existe muestra un error
           if (!res) {
-            this.ErrorMessage = "No existe el usuario especificado."
+            this.ErrorMessage = "No existe el usuario especificado"
           } else {
             //Si existe comprueba si la contraseña es correcta y es redirigido
             if (this.Recuerdame) {
@@ -69,9 +70,9 @@ export class LoginComponent implements OnInit {
         error => {
           //Si el servidor tiene algún tipo de problema mostraremos este error
           if (error == 404) {
-            this.ErrorMessage = "El nombre de usuario o contraseña no son correctos.";
+            this.ErrorMessage = "El nombre de usuario o contraseña no son correctos";
           } else if (error == 500) {
-            this.ErrorMessage = "Ocurrio un error en el servidor, contacte con el servicio técnico.";
+            this.ErrorMessage = "Ocurrio un error en el servidor";
           } else {
             this.ErrorMessage = "Ocurrió un error al conectar con el servidor";
           }
@@ -80,7 +81,7 @@ export class LoginComponent implements OnInit {
         }
       );
     } else {
-      this.ErrorMessage = "Introduzca todos los campos."
+      this.ErrorMessage = "Introduzca todos los campos"
       this.enviando = false;
     }
   }
@@ -97,12 +98,12 @@ export class LoginComponent implements OnInit {
 
   //Este metodo nos permite saber si el usuario quiere ser recordado
   public recuerdameChange() {
-    if (this.Recuerdame) {
+    if (!this.Recuerdame) {
       localStorage.removeItem("user");
       localStorage.removeItem("passuser");
-      this.Recuerdame = false;
+      //this.Recuerdame = false;
     } else {
-      this.Recuerdame = true;
+      //this.Recuerdame = true;
     }
   }
 
