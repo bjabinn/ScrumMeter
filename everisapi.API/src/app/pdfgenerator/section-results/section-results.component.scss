@@ -73,8 +73,7 @@ button.transparente{
   width: 60px;
 }
 
-
-  tr.example-detail-row {
+tr.example-detail-row {
   height: 0;
 }
 
@@ -122,25 +121,21 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .question-note{
   padding-right: 20px;
-  min-width: 50%;
+  min-width: 100%;
 }
 
 .respuesta{
   display: inline;
 }
 
-.mat-column-seccion,  .mat-column-modulo{
-  width: 20%;
-}
-
 .mat-column-respuesta,  .mat-column-notas{
   width: 10%;
 }
 .mat-column-notas{
-  width: 5%;
+  width: 30%;
 }
 .mat-column-pregunta{
-  width: 45%;
+  width: 60%;
 }
 
 .section-expansion-table{
