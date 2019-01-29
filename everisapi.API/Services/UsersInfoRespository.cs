@@ -211,7 +211,7 @@ namespace everisapi.API.Services
     {
       ProyectoEntity proyecto = new ProyectoEntity();
       proyecto.Fecha = System.DateTime.Now;
-      proyecto.Nombre = string.Format("Proyecto test {0}",userNombre);
+      proyecto.Nombre = string.Format("Equipo de pruebas de {0}",userNombre);
       proyecto.UserNombre = userNombre;
       proyecto.TestProject = true; 
       //Creamos el nuevo proyecto test
