@@ -6,8 +6,8 @@
 
  <g>
   <title>Layer 1</title>
-  <circle cx="38" cy="38" fill="none" r="35" stroke-width="3" id="svg_1" stroke="#ffd564"/>
-  <circle opacity="0" cx="38.000175" cy="37.999932" fill="none" r="28" stroke="#ffd564" stroke-width="5" id="svg_2"/>
+  <circle cx="38" cy="38" fill="none" r="35" stroke-width="3" id="svg_1" stroke="#5fe028"/>
+  <circle cx="38.000175" cy="37.999932" fill="none" r="30" stroke="#ffd564" stroke-width="3" id="svg_2"/>
   <circle opacity="0" cx="38.000175" cy="37.749827" fill="none" r="21" stroke="#ffd564" stroke-width="5" id="svg_3"/>
  </g>
 </svg>

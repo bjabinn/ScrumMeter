@@ -1,3 +1,5 @@
+@import'theme.scss';
+
 table {
   width: 100%;
 
@@ -733,20 +735,20 @@ hr.textopdf {
 .lvl1{
   background-image: url("/assets/lvl1.svg");
   background-repeat: no-repeat;
-  background-size: 120px;
-  background-position-x: 23.5px;
-  background-position-y: 23.5px;
+  background-size: 133px;
+  background-position-x: 22px;
+  background-position-y: 22px;
 }
 .lvl2{
   background-image: url("/assets/lvl2.svg");
   background-repeat: no-repeat;
-  background-size: 120px;
-    background-position-x: 23.5px;
-    background-position-y: 23.5px;
+  background-size: 133px;
+  background-position-x: 22px;
+  background-position-y: 22px;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick  {
-  color: #5c981b;
+  color: mat-color($mat-everis, 50);
 }
 
 .button-disabled{

@@ -1,5 +1,6 @@
-<div class="m-0">
-  <div class="row m-0">
+<div class="m-0 main-container">
+    <!-- <img  src="assets/icons_cloud.png" /> -->
+  <!-- <div class="row m-0">
     <div class="col-md-3 col-lg-3 col-sm-3">
     </div>
     <div class="col-md-6 col-lg-6 col-sm-6">
@@ -8,48 +9,64 @@
     <div class="col-md-3 col-lg-3 col-sm-3">
       <img class="corporation" src="assets/everis.png" />
     </div>
-  </div>
-  <div class="row m-0">
-    <div class='col-md-2 col-lg-3 col-sm-1'></div>
-    <div class='col-md-8 col-lg-6 col-sm-10'>
+  </div> -->
+  <div class="row row-centered">
+    <!-- <div class='col-md-3 col-lg-4 col-sm-1'></div>
+    <div class='col-md-5 col-lg-3 col-sm-7'> -->
+  
       <div id="login-modal" class="container">
-        <div class="card-container mat-elevation-z4">
-          <div *ngIf="ErrorMessage!=null" class="alert alert-danger" id="danger">
-            <strong>{{ErrorMessage}}</strong>
-          </div>
-          <div class="loginmodal-container">
-            <h2>Iniciar Sesión</h2>
-            <br>
-            <form>
-              <div class="input-group">
-                <input id="email" type="email" class="form-control" name="name" placeholder="Usuario" [(ngModel)]="nombreDeUsuario">
-              </div>
-              <br>
-              <div class="input-group">
-                <input id="password" type="password" class="form-control" name="password" placeholder="Contrase&ntilde;a" [(ngModel)]="passwordDeUsuario">
-              </div>
-              <br>
-              <input *ngIf="enviando" type="submit" name="login" class="btn btn-success disabled btn-acceder" value="Acceder">
-              <input *ngIf="!enviando" type="submit" name="login" class="btn btn-success btn-acceder" value="Acceder" (click)="SignUp()">
+          <!-- <img  src="assets/logo.png" style="width: 110px; margin-left: 90px; margin-bottom: -25px;"/>  -->
+          <div *ngIf="ErrorMessage!=null" class="alert alert-danger alert-login" id="danger">
+              <strong>{{ErrorMessage}}</strong>
+            </div>
+        <div class="card-container mat-elevation-z8">
 
-              <div *ngIf="enviando">
-                <app-loading></app-loading>
-              </div>
-            </form>
+          <span class="login-title">AgileMeter </span>
+          <div class="loginmodal-container">
+            <!-- <h2>Iniciar Sesión</h2> -->
+ 
+            <br>
+            <mat-form-field  class="form-field">
+              <!-- <div class="input-group">
+                <input id="email" type="email" class="form-control" name="name" placeholder="Usuario" [(ngModel)]="nombreDeUsuario">             
+              </div> -->
+              <!-- <mat-label>Usuario</mat-label>  appearance="outline" -->
+              <input matInput type="text" placeholder="Usuario" [(ngModel)]="nombreDeUsuario">
+              <mat-icon matSuffix class="form-icon">person_outline</mat-icon>
+              
+            </mat-form-field>
+            <br>
+            <mat-form-field   class="form-field">
+
+              <!-- <mat-label>Contrase&ntilde;a</mat-label>  appearance="outline" -->
+              <input matInput type="password" placeholder="Contrase&ntilde;a" [(ngModel)]="passwordDeUsuario">
+              <mat-icon matSuffix class="form-icon">lock_outline</mat-icon>
+            </mat-form-field>
+
+            <br>
+            <input *ngIf="enviando" type="submit" name="login" class="main-button disabled btn-acceder mat-elevation-z4" value="Acceder">
+            <input *ngIf="!enviando" type="submit" name="login" class="main-button btn-acceder mat-elevation-z4" value="Acceder" (click)="SignUp()">
+
+            <div *ngIf="enviando">
+              <app-loading></app-loading>
+            </div>
 
             <div class="login-help">
               <br>
-              <input *ngIf="recuerdameOnOff()" type="checkbox" id="recuerdame" checked (click)="recuerdameChange()" />
+              <!-- <input *ngIf="recuerdameOnOff()" type="checkbox" id="recuerdame" checked (click)="recuerdameChange()" />
               <input *ngIf="!recuerdameOnOff()" type="checkbox" id="recuerdame" (click)="recuerdameChange()" />
-              <strong class="ml-1">Recuérdame</strong>
+              <strong class="ml-1">Recuérdame</strong> -->
+              <mat-checkbox [(ngModel)]="Recuerdame" id="recuerdame" (click)="recuerdameChange()">
+                <span class="check-label">Recuérdame</span> 
+              </mat-checkbox>
               <br>
 
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class='col-md-2 col-lg-3 col-sm-1'></div>
+    
+    <!-- <div class='col-md-2 col-lg-3 col-sm-1'></div> -->
   </div>
 </div>
 
