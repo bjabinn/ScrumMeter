@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, SimpleChanges } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatCellDef } from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { Router } from "@angular/router";
@@ -7,6 +7,9 @@ import { EvaluacionInfoWithProgress } from 'app/Models/EvaluacionInfoWithProgres
 import { EvaluacionService } from '../../services/EvaluacionService';
 import { SectionService } from 'app/services/SectionService';
 import { AssignationService } from 'app/services/AssignationService';
+import { Evaluacion } from 'app/Models/Evaluacion';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { PendingEvaluationComponent } from '../pendingevaluation.component';
 
 
 
@@ -27,10 +30,12 @@ import { AssignationService } from 'app/services/AssignationService';
 export class PendingEvaluationTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @Input() dataInput: any;//Array<EvaluacionInfo>;
+  @Input() ListaDeEvaluacionesPaginada: any;//Array<EvaluacionInfo>;
   public ErrorMessage: string = null;
   dataSource: MatTableDataSource<EvaluacionInfoWithProgress>;
   userRole: string;
+  evaluationProgress : number;
+  selectedEvaluacionInfoWithProgress;
   //expandedElement: Evaluacion;
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['fecha', 'userNombre', 'assessmentName', 'progress', 'actions'];
@@ -40,17 +45,19 @@ export class PendingEvaluationTableComponent implements OnInit {
     private _assignationService: AssignationService,
     private _sectionService: SectionService,
     private _router: Router,
-    private _appComponent: AppComponent
+    private _appComponent: AppComponent,
+    private modalService: NgbModal,
+    private parent: PendingEvaluationComponent
     ){
     }
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource(this.dataInput);
+    this.dataSource = new MatTableDataSource(this.ListaDeEvaluacionesPaginada);
     this.dataSource.sort= this.sort;
     this.dataSource.paginator = this.paginator;
     this.userRole = this._appComponent._storageDataService.Role;
-    
-    this.dataSource.filterPredicate = function(data, filter: string): boolean {
+
+      this.dataSource.filterPredicate = function(data, filter: string): boolean {
       let date = new Date(data.fecha);
       return data.nombre.toLowerCase().includes(filter) 
       ||  data.assessmentName.toLowerCase().includes(filter)
@@ -59,6 +66,12 @@ export class PendingEvaluationTableComponent implements OnInit {
       ||  ((date.getDate()<10?"0":"")+date.getDate()+"/"+(date.getMonth()<10?"0":"")+(date.getMonth()+1)+"/"+date.getFullYear()).includes(filter)
       ;
    };
+  }
+  
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.ListaDeEvaluacionesPaginada){
+      this.dataSource = this.ListaDeEvaluacionesPaginada;
+    }
   }
 
   applyFilter(filterValue: string){
@@ -91,7 +104,46 @@ export class PendingEvaluationTableComponent implements OnInit {
       }
       );
   }
-  
+  //Metodo encargado de refrescar la tabla 
+  public refresh(){
+    this.parent.GetPaginacion();
+
+  }
+
+
+  //Metodo encargado de eliminar la evaluacion pasandole una evaluacionId
+  public EvaluationDelete(evaluationId: number) {
+    this._evaluacionService.EvaluationDelete(evaluationId).subscribe(
+      res => {
+        this.refresh();
+
+      },
+      error => {
+        if (error == 404) {
+          this.ErrorMessage = "Error: " + error + " No se pudo completar la actualización para esta evaluación.";
+        } else if (error == 500) {
+          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        } else if (error == 401) {
+          this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+        } else {
+          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+        }
+      });
+      }
+ // Metodo encargado de abrir la ventana confirmando la eliminacion de la evaluacion
+  public AbrirModal(content, row) {
+    this.selectedEvaluacionInfoWithProgress = row;
+    this.modalService.open(content).result.then(
+      (closeResult) => {
+        //Esto realiza la acción de cerrar la ventana
+      }, (dismissReason) => {
+          if (dismissReason == 'Finish') {
+          //Si decide finalizarlo usaremos el metodo para finalizar la evaluación
+          this.EvaluationDelete(row.id);
+        }
+      })
+  }
+
   //Metodo encargado de establecer la información necesaria de la seccion en StorageData
   public GetSectionInfo(evaluationId: number, sectionId: number){
         this._sectionService.GetSectionsInfoFromSectionId(evaluationId, sectionId).subscribe(
@@ -129,7 +181,7 @@ export class PendingEvaluationTableComponent implements OnInit {
           this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
         } else {
           this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-        }
+        }  
       }
       );
 

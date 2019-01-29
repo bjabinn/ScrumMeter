@@ -23,7 +23,7 @@
     </div> -->
 
     <div id="sortedtable" *ngIf="MostrarTabla">
-      <pendingevaluation-table *ngIf="ListaDeEvaluacionesPaginada && ListaDeEvaluacionesPaginada.length > 0" [dataInput]="ListaDeEvaluacionesPaginada">
+      <pendingevaluation-table *ngIf="ListaDeEvaluacionesPaginada && ListaDeEvaluacionesPaginada.length >= 0" [ListaDeEvaluacionesPaginada]="ListaDeEvaluacionesPaginada">
         loading
       </pendingevaluation-table>
       
