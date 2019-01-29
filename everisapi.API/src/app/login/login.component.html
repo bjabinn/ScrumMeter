@@ -10,18 +10,20 @@
       <img class="corporation" src="assets/everis.png" />
     </div>
   </div> -->
+  
   <div class="row row-centered">
     <!-- <div class='col-md-3 col-lg-4 col-sm-1'></div>
     <div class='col-md-5 col-lg-3 col-sm-7'> -->
-  
+        
       <div id="login-modal" class="container">
-          <!-- <img  src="assets/logo.png" style="width: 110px; margin-left: 90px; margin-bottom: -25px;"/>  -->
+        <div class="logo-container"> <img  src="assets/logo.png" style="width: 22rem; padding-bottom: 4rem;"/> </div>
+          
           <div *ngIf="ErrorMessage!=null" class="alert alert-danger alert-login" id="danger">
               <strong>{{ErrorMessage}}</strong>
             </div>
         <div class="card-container mat-elevation-z8">
 
-          <span class="login-title">AgileMeter </span>
+          <span class="login-title">Inicia sesión </span>
           <div class="loginmodal-container">
             <!-- <h2>Iniciar Sesión</h2> -->
  
@@ -64,6 +66,7 @@
             </div>
           </div>
         </div>
+        <div class="footer">Everis {{date| date:'yyyy'}}</div>
       </div>
     
     <!-- <div class='col-md-2 col-lg-3 col-sm-1'></div> -->

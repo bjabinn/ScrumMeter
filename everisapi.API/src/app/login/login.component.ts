@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   public passwordDeUsuario: string = "";
   public Recuerdame: boolean = false;
   public enviando: boolean = false;
+  public date = new Date();
 
   constructor(private _userService: UserService,
     private _router: Router,
