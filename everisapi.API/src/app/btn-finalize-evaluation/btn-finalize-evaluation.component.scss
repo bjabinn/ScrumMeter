@@ -1,3 +1,5 @@
+@import'theme.scss';
+
 #infopro {
     border: 1px solid #99AD00;
     margin: 0 auto;
@@ -33,9 +35,12 @@
   }
 
   .custom-modal-header {
-    background: #99AD00;
+    background: linear-gradient(to right, mat-color($mat-everis, 200) , mat-color($mat-everis, 50), mat-color($mat-everis, 500),  mat-color($mat-everis, 400));
+    //background: linear-gradient(to right, #87a900, #59971c, #2a8a41, #317daf);
     color: white;
     font-weight: bold;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
   .border-curve{
     border-radius: .25rem;
