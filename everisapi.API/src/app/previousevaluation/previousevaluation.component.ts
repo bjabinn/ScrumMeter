@@ -562,7 +562,7 @@ export class PreviousevaluationComponent implements OnInit {
     let listaSectionLevels: SectionsLevel[][] = [];
     let index:number = 0;
     let colorList: string[] = ["#E74C3C", "#3498DB","#F1C40F" ,"#9B59B6", "#F39C12", "#33CCCC", "#34495E"]
-    let levelColorList : string[] = ["#ffd56440", "#5fe02840", "#16c98740",  "#00c06340", "#00c09e40", "#00b5c040"]
+    let levelColorList : string[] = ["#c1de5d40", "#37bf5940", "#0fb3d440",  "#00c06340", "#00c09e40", "#00b5c040"]
 
 
     for(var i = 0; i <  this.EvaluationsWithSectionInfo.length + 1; i++) {

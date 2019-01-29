@@ -162,13 +162,13 @@ export class PdfgeneratorComponent implements OnInit {
 
   public getLevelColorOuter  = (sc: any) : string => {
     if(sc.nivelAlcanzado == 1){
-      return "#ffd564";
+      return "#c1de5d";
     }
     else  if(sc.nivelAlcanzado == 2){
-      return "#5fe028";
+      return "#37bf59";
     }
     else  if(sc.nivelAlcanzado == 3){
-      return "#16c987";
+      return "#0fb3d4";
     }
     return "#000000"
   }
@@ -176,13 +176,13 @@ export class PdfgeneratorComponent implements OnInit {
   
   public getLevelColorInner  = (sc: any) : string => {
     if(sc.nivelAlcanzado == 1){
-      return "#ffd56430";
+      return "#c1de5d30";
     }
     else  if(sc.nivelAlcanzado == 2){
-      return "#5fe02830";
+      return "#37bf5930";
     }
     else  if(sc.nivelAlcanzado == 3){
-      return "#16c98730";
+      return "#0fb3d430";
     }
     return "#000000"
   }
