@@ -1,3 +1,4 @@
+@import 'theme.scss';
 
 table {
     width: 100%;
@@ -48,6 +49,11 @@ table {
   img.estado, img.comment, img.informe{
     width: 40px;
     height: 40px;
+  }
+
+  img.informe2{
+    width: 25px;
+    height: 25px;
   }
 
   img.edit{
@@ -119,3 +125,46 @@ table {
   .mat-column-fecha {
     width: 20%;
   }
+
+  
+.main-buttonModal{
+  width: 310px;
+  height: 36px;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  color: #FFF;
+  text-align: center;
+  // letter-spacing: 1px;
+  background: linear-gradient(50deg, mat-color($mat-everis, 50), mat-color($mat-everis, 300));
+  padding: 15px 20px;
+  // transition: all .5s ease;
+  // border-radius: 3px;
+  cursor: pointer;
+  padding-top:6px;
+  border: none;
+  
+  
+  &:hover{
+    color:mat-color($mat-everis, 50);
+    background: white;/*rgba(153, 173, 0, 0.03137254901960784);;*/
+    border: 1px solid mat-color($mat-everis, 50);
+  }
+}
+
+.modal-btns {
+  height: 50px;
+  padding-top: 11px;
+}
+
+.custom-modal-header {
+  background: linear-gradient(to right, mat-color($mat-everis, 200) , mat-color($mat-everis, 50), mat-color($mat-everis, 500),  mat-color($mat-everis, 400));
+  //background: linear-gradient(to right, #87a900, #59971c, #2a8a41, #317daf);
+  color: white;
+  font-weight: bold;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.border-curve{
+  border-radius: .25rem;
+}

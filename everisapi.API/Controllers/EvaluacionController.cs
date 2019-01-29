@@ -443,11 +443,12 @@ namespace everisapi.API.Controllers
     }
 
     /*DELETE EVALUACIONES*/
-    //Este metodo permite realizar una eliminación de una evaluacion en concreto
-    [HttpDelete("")]
-    public IActionResult DeleteEvaluaciones([FromBody] EvaluacionesWithoutRespuestasDto EvaluacionDelete)
+    //Metodo encargado de eliminar una evaluacion con Id determinado
+    [HttpPost("evaluacion/delete/")]
+     public IActionResult EvaluationDelete([FromBody] int evaluationId)
     {
-      if (EvaluacionDelete == null || _evaluacionInfoRepository.GetEvaluacion(EvaluacionDelete.Id, false) == null)
+      //Se obtiene la evaluacion a borrar desde BBDD en base a su Id
+      if (_evaluacionInfoRepository.GetEvaluationInfoFromIdEvaluation(evaluationId) == null)
       {
         return BadRequest();
       }
@@ -456,9 +457,9 @@ namespace everisapi.API.Controllers
       {
         return BadRequest(ModelState);
       }
-
-      //Comprueba que se guardo bien y lo envia
-      if (_evaluacionInfoRepository.DeleteEvaluacion(Mapper.Map<EvaluacionEntity>(EvaluacionDelete)))
+      
+      //Se elimina la evaluacion
+      if (_evaluacionInfoRepository.EvaluationDelete(evaluationId))
       {
         return Ok("La evaluación fue eliminada correctamente.");
       }

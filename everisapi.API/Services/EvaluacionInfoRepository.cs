@@ -769,10 +769,14 @@ namespace everisapi.API.Services
     }
 
 
-    //Este metodo nos permite eliminar una evaluacion en concreto
-    public bool DeleteEvaluacion(EvaluacionEntity evaluacion)
+    //Este metodo nos permite eliminar una evaluacion en concreto 
+    public bool EvaluationDelete(int evaluationId)
     {
-      _context.Evaluaciones.Remove(_context.Evaluaciones.Where(e => e == evaluacion).FirstOrDefault());
+      //Las notas de las preguntas se borran junto a las respuestas
+      _context.Respuestas.RemoveRange(_context.Respuestas.Where(e => e.EvaluacionId == evaluationId));
+      _context.NotasAsignaciones.RemoveRange(_context.NotasAsignaciones.Where(e => e.EvaluacionId == evaluationId));
+      _context.NotasSections.RemoveRange(_context.NotasSections.Where(e => e.EvaluacionId == evaluationId));
+     _context.Evaluaciones.Remove(_context.Evaluaciones.Where(e => e.Id == evaluationId).FirstOrDefault());
       return SaveChanges();
     }
 

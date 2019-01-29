@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, SimpleChanges } from '@angular/core';
 import { EvaluacionInfo } from 'app/Models/EvaluacionInfo';
 import { EvaluacionFilterInfo } from 'app/Models/EvaluacionFilterInfo';
 import { Proyecto } from 'app/Models/Proyecto';
@@ -170,6 +170,12 @@ export class PendingEvaluationComponent implements OnInit {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.EvaluacionInfoWithProgress){
+      this.GetPaginacion();
+    }
+  }
+
   //Da los datos a las diferentes listas que usaremos para las graficas
   public shareDataToChart() {
     this.ListaPuntuacion = [];
@@ -310,18 +316,7 @@ export class PendingEvaluationComponent implements OnInit {
         res => {
           this.nEvaluaciones = res.numEvals;
           this.ListaDeEvaluacionesPaginada = res.evaluacionesResult; 
-          this.Mostrar = true; 
-
-          if(this.ListaDeEvaluacionesPaginada.length > 0){        
-            this.ListaDeEvaluacionesPaginada.forEach(ev => {
-              
-            });
-
-           
-          }
-
-          
-         
+          this.Mostrar = true;
         },
         error => {
           if (error == 404) {
@@ -334,8 +329,7 @@ export class PendingEvaluationComponent implements OnInit {
             this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
           }
         });
-
-  }
+      }
 
   
 

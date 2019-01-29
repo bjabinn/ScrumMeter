@@ -14,6 +14,7 @@ import { map, tap, catchError } from 'rxjs/operators';
 import { User } from 'app/Models/User';
 import { AppComponent } from 'app/app.component';
 import { ProyectoService } from './ProyectoService';
+import { EvaluacionInfoWithProgress } from 'app/Models/EvaluacionInfoWithProgress';
 
 @Injectable()
 export class EvaluacionService {
@@ -213,6 +214,21 @@ export class EvaluacionService {
     return this._http.get(this.url + 'evaluaciones/proyecto/' + idEvaluacion + '/assessment/' + idAssessment +'/totalprogress', { headers: headers }).pipe(
       map((response: Response) => response.json()),
       catchError(this.errorHandler));
+  }
+
+  //Metodo encargado de borrar una evaluacion
+  EvaluationDelete(evaluationId: number){
+    let Token = this._appComponent.ComprobarUserYToken();
+    let params = JSON.stringify(evaluationId);
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': Token
+    });
+    return this._http.post(this.url + 'evaluaciones/evaluacion/delete/', params, { headers: headers }).pipe(
+      map(res => res),
+      catchError(this.errorHandler));
+      
+
   }
 }
 

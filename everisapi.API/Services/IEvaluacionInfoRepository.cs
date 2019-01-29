@@ -55,7 +55,7 @@ namespace everisapi.API.Services
     bool ModificarEvaluacion(EvaluacionEntity evaluacion);
 
     //Elimina una evaluacion de la base de datos
-    bool DeleteEvaluacion(EvaluacionEntity evaluacion);
+     bool EvaluationDelete(int evaluationId);
   
     //Metodo encargado de calcular el porcentaje respondido de la evaluacion
     int CalculateEvaluationProgress(int idEvaluacion,  int idAssessment);
