@@ -293,9 +293,10 @@ namespace everisapi.API.Services
     //Incluye una nueva evaluación a la base de datos
     public void IncluirEvaluacion(EvaluacionEntity evaluacion)
     {
-      _context.Add(evaluacion);
-
-
+      evaluacion.Respuestas = _context.Preguntas.Where(p => p.AsignacionEntity.SectionEntity.AssessmentId == evaluacion.AssessmentId)
+      .Select(p => new RespuestaEntity{EvaluacionId = evaluacion.Id, PreguntaId = p.Id}).ToList();
+      
+      _context.Evaluaciones.Add(evaluacion);
       this.SaveChanges();
     }
 
@@ -787,6 +788,8 @@ List<SectionConAsignacionesDto> sectionsConAsignaciones = new List<SectionConAsi
 
         // calculo de puntuaciones por seccion
 
+        
+
         List<SectionEntity> sections = _context.Sections.Where(r => r.AssessmentId ==  AssessmentId).ToList();
         foreach (var s in sections)
             {
@@ -795,6 +798,9 @@ List<SectionConAsignacionesDto> sectionsConAsignaciones = new List<SectionConAsi
                 sectionConAsignacion.SectionId = s.Id;
                 sectionConAsignacion.Nombre = s.Nombre;
                 sectionConAsignacion.Peso = s.Peso;
+                sectionConAsignacion.PesoNivel1 = s.PesoNivel1;
+                sectionConAsignacion.PesoNivel2 = s.PesoNivel2;
+                sectionConAsignacion.PesoNivel3 = s.PesoNivel3;
 
                 List<AsignacionConPreguntaNivelDto> asignacionesConPreguntaNivel = new List<AsignacionConPreguntaNivelDto>();
 
@@ -872,25 +878,35 @@ List<SectionConAsignacionesDto> sectionsConAsignaciones = new List<SectionConAsi
                 seccion.NivelAlcanzado = minLevel;
                 seccion.Puntuacion = sumaPesosAsignaciones;
 
-                 if (seccion.Puntuacion == 0 && seccion.NivelAlcanzado > 1){
+                if (seccion.Puntuacion == 0 && seccion.NivelAlcanzado > 1){
                     seccion.NivelAlcanzado = seccion.NivelAlcanzado -1;
                     seccion.Puntuacion = 100;
                 }
 
-                // SectionInfoDto sec = new SectionInfoDto();
-                // sec.Puntuacion = seccion.Puntuacion;
-                // sec.NivelAlcanzado = seccion.NivelAlcanzado;
-                // sec.Nombre = seccion.Nombre;
-                // EvaluacionInfo.SectionsInfo.Add(sec);
+                //Calculamos el Total segun los pesos de los niveles
 
-                 
-    
-                sumSections += (seccion.Puntuacion/100 + seccion.NivelAlcanzado -1)/3  * seccion.Peso;
+                if (seccion.NivelAlcanzado == 3){
+                  seccion.Puntuacion = seccion.PesoNivel1 + seccion.PesoNivel2 + (seccion.Puntuacion * ((float)seccion.PesoNivel3/100));
+                  seccion.Puntuacion = (seccion.Puntuacion * seccion.Peso) / 100;
+                }
+
+                if (seccion.NivelAlcanzado == 2){
+                  seccion.Puntuacion = seccion.PesoNivel1 + (seccion.Puntuacion * ((float)seccion.PesoNivel2/100));
+                  seccion.Puntuacion = (seccion.Puntuacion * seccion.Peso) / 100;
+                }
+
+                if (seccion.NivelAlcanzado == 1){
+                  seccion.Puntuacion = ((float)seccion.PesoNivel1/100) * seccion.Puntuacion;
+                  seccion.Puntuacion = (seccion.Puntuacion * seccion.Peso) / 100;
+                }
+
+                    sumSections += seccion.Puntuacion;
+
 
             }
-        //EvaluacionInfo.Puntuacion = sumSections;
 
-      return (float)Math.Round(sumSections, 1);
+
+     return (float)Math.Round(sumSections,1);
     }
 
     //Metodo encargado de calcular el porcentaje respondido de la evaluacion

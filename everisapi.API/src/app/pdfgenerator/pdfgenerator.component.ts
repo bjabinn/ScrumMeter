@@ -139,10 +139,32 @@ export class PdfgeneratorComponent implements OnInit {
     return "lvl"+ (minLevel -1);
   }
 
+  //Metodo encargado de calcular el valor Total segun el peso de los diferentes Niveles.
+
   public getTotalPercent = (sc: any) : number => {
     var sumSections = 0;
     sc.forEach(element => {
-      sumSections += (element.puntuacion/100 + element.nivelAlcanzado -1)/3  * element.peso;
+
+      let sectionTotalValue;
+
+      if (element.nivelAlcanzado == 1){
+        sectionTotalValue = (element.pesoNivel1/100)* element.puntuacion;
+        sectionTotalValue = (sectionTotalValue * element.peso)/100;
+
+      }
+      if (element.nivelAlcanzado == 2){
+        sectionTotalValue = element.pesoNivel1 + ((element.pesoNivel2/100)* element.puntuacion);
+        sectionTotalValue = (sectionTotalValue * element.peso)/100;
+
+      }
+
+      if (element.nivelAlcanzado == 3){
+        sectionTotalValue = element.pesoNivel1 + element.pesoNivel2 + ((element.pesoNivel3/100)* element.puntuacion);
+        sectionTotalValue = (sectionTotalValue * element.peso)/100;
+
+      }
+      sumSections += sectionTotalValue;
+
     });
 
     return sumSections;

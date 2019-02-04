@@ -21,6 +21,12 @@ namespace everisapi.API.Models
 
     public int Peso { get; set; }
 
+    public int PesoNivel1 { get; set; }
+
+    public int PesoNivel2 { get; set; }
+
+    public int PesoNivel3 { get; set; }
+
     public ICollection<AsignacionConPreguntaNivelDto> Asignaciones { get; set; }
         = new List<AsignacionConPreguntaNivelDto>();
     }
