@@ -22,5 +22,10 @@ SET PesoNivel2=25;
 UPDATE agilemeter.sections
 SET PesoNivel3=15;
 
+--Actualizamos los valores de los pesos de cada sección
+UPDATE `agilemeter`.`sections` SET `Peso`='15' WHERE `Id`='1';
+UPDATE `agilemeter`.`sections` SET `Peso`='15' WHERE `Id`='3';
+UPDATE `agilemeter`.`sections` SET `Peso`='20' WHERE `Id`='4';
+
 
 
