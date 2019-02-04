@@ -33,7 +33,7 @@
                 <input id="email" type="email" class="form-control" name="name" placeholder="Usuario" [(ngModel)]="nombreDeUsuario">             
               </div> -->
               <!-- <mat-label>Usuario</mat-label>  appearance="outline" -->
-              <input matInput type="text" placeholder="Usuario" [(ngModel)]="nombreDeUsuario">
+              <input matInput type="text" placeholder="Usuario" [(ngModel)]="nombreDeUsuario" (keydown)="TrySignUp($event)">
               <mat-icon matSuffix class="form-icon">person_outline</mat-icon>
               
             </mat-form-field>
@@ -41,7 +41,7 @@
             <mat-form-field   class="form-field">
 
               <!-- <mat-label>Contrase&ntilde;a</mat-label>  appearance="outline" -->
-              <input matInput type="password" placeholder="Contrase&ntilde;a" [(ngModel)]="passwordDeUsuario">
+              <input matInput type="password" placeholder="Contrase&ntilde;a" [(ngModel)]="passwordDeUsuario" (keydown)="TrySignUp($event)">
               <mat-icon matSuffix class="form-icon">lock_outline</mat-icon>
             </mat-form-field>
 

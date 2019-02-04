@@ -83,16 +83,18 @@ export class PreviousevaluationComponent implements OnInit {
 
   //Datos de la barras
   public barChartType: string = 'line';
-  public barChartLegend: boolean = true;
+  public barChartLegend: boolean = false;
   public AgileComplianceTotal: number = 100;
   public ListaSeccionesAgileCompliance: number[] = [];
-  public ListaPuntuacion: { label: string, backgroundColor: string, borderColor: string, data: Array<any>, fill: string, lineTension: number, pointRadius: number, pointHoverRadius: number, borderWidth: number }[] = [];
+  public ListaPuntuacion: { type: string, label: string, backgroundColor: string, borderColor: string, data: Array<any>, fill: string, lineTension: number, pointRadius: number, pointHoverRadius: number, borderWidth: number }[] = [];
   public ListaNombres: string[] = [];
   public ComplianceLevels: ComplianceLevels;
   public MaxLevelReached: number;
   public barChartOptions: any;
   public ListaAssessments : AssesmentEv[] = [];
   public selectedAssessment: AssesmentEv;
+  public legend: any;
+  public allLegendsHidden: boolean = false;
 
   //Para actualizar la grafica
   @ViewChild(BaseChartDirective) public chart: BaseChartDirective;
@@ -377,7 +379,7 @@ export class PreviousevaluationComponent implements OnInit {
 
   }
 
-  public GetChartData(filter: EvaluacionFilterInfo){ //TODO
+  public GetChartData(filter: EvaluacionFilterInfo){
     this._evaluacionService.GetEvaluationsWithSectionsInfo( this.Project.id, filter)
       .subscribe(
         res => {
@@ -553,22 +555,22 @@ export class PreviousevaluationComponent implements OnInit {
     this.GetChartData(filter);
   }
 
+
   //Da los datos a las diferentes listas que usaremos para las graficas
   public shareDataToChart() {
     this.ListaPuntuacion = [];
     this.ListaNombres = [];
     this.MaxLevelReached = 0;
     let listaSections : number[][] = [];
+    let listaGlobal : number[] = [];
     let listaSectionLevels: SectionsLevel[][] = [];
     let index:number = 0;
-    let colorList: string[] = ["#E74C3C", "#3498DB","#F1C40F" ,"#9B59B6", "#F39C12", "#33CCCC", "#34495E"]
+    let colorList: string[] = ["#E74C3C", "#3498DB","#F1C40F" ,"#9B59B6", "#ef56b4", "#33CCCC", "#F39C12",  "#34495E"]
     let levelColorList : string[] = ["#c1de5d40", "#37bf5940", "#0fb3d440",  "#00c06340", "#00c09e40", "#00b5c040"]
 
 
-    for(var i = 0; i <  this.EvaluationsWithSectionInfo.length + 1; i++) {
-      //listaSections[i] = [];
+    for(var i = 0; i <  this.EvaluationsWithSectionInfo.length; i++) { //this.EvaluationsWithSectionInfo.length + 1
       if(i <  this.EvaluationsWithSectionInfo.length){
-        //listaSectionLevels[i] = this.getSectionLevels(this.EvaluationsWithSectionInfo[i].sectionsInfo);
         let sl: Array<SectionsLevel> = new Array<SectionsLevel>();
         for(var j = 0; j < this.EvaluationsWithSectionInfo[i].sectionsInfo.length; j++) {
 
@@ -581,14 +583,9 @@ export class PreviousevaluationComponent implements OnInit {
       else{
         listaSectionLevels[i] = [];
       }
-     
-     
-      //for(var j = 0; j< this.EvaluationsWithSectionInfo.length; j++) {
-      //  listaSections[i][j] = 0;
-      //}
     }
 
-    for(var i = 0; i <  this.EvaluationsWithSectionInfo[0].sectionsInfo.length + 1; i++) {
+    for(var i = 0; i <  this.EvaluationsWithSectionInfo[0].sectionsInfo.length; i++) { //this.EvaluationsWithSectionInfo[0].sectionsInfo.length + 1
       listaSections[i] = [];
       for(var j = 0; j< this.EvaluationsWithSectionInfo.length; j++) {
         listaSections[i][j] = 0;
@@ -599,17 +596,17 @@ export class PreviousevaluationComponent implements OnInit {
 
     //Cogemos los datos a añadir
     for (var i = this.EvaluationsWithSectionInfo.length - 1; i >= 0; i--) {
-      
+      listaGlobal[i] = this.EvaluationsWithSectionInfo[i].puntuacion;
       for(var j: number = 0; j < listaSections.length; j++) {
-        if(j >= this.EvaluationsWithSectionInfo[0].sectionsInfo.length){
-          listaSections[j][index] = this.EvaluationsWithSectionInfo[i].puntuacion;
-        }
-        else{         
+        // if(j >= this.EvaluationsWithSectionInfo[0].sectionsInfo.length){
+        //   listaSections[j][index] = this.EvaluationsWithSectionInfo[i].puntuacion;
+        // }
+        // else{         
           listaSections[j][index] = listaSectionLevels[i][j].percentOverLevel + (listaSectionLevels[i][j].levelReached -1) * 100;//this.EvaluationsWithSectionInfo[i].sectionsInfo[j].respuestasCorrectas;
           if(listaSectionLevels[i][j].levelReached > this.MaxLevelReached){
             this.MaxLevelReached = listaSectionLevels[i][j].levelReached -1;
           }
-        }
+        //}
 
       }
       index++;
@@ -617,20 +614,31 @@ export class PreviousevaluationComponent implements OnInit {
       this.ListaNombres.push(pipe.transform(this.EvaluationsWithSectionInfo[i].fecha, 'dd/MM/yyyy'));
     }
 
+    this.ListaNombres.unshift("");
+    this.ListaNombres.push("");
+    listaGlobal.unshift(NaN);
+    listaGlobal.push(NaN);
+    for(var j: number = 0; j < listaSections.length; j++) {
+      listaSections[j].unshift(NaN);
+      listaSections[j].push(NaN);
+    }
 
-    for(var j: number = 0; j <  this.EvaluationsWithSectionInfo[0].sectionsInfo.length + 1; j++) {
 
-      if(j >= this.EvaluationsWithSectionInfo[0].sectionsInfo.length){
-        this.ListaPuntuacion.push({
-          data: listaSections[j], label: "Global", backgroundColor: "#2ECC71", fill: 'false', lineTension : 0.1,
-          borderColor: "#2ECC71", pointRadius: 2, pointHoverRadius: 4, borderWidth: 3});
-      }
-      else{
-        this.ListaPuntuacion.push({
+    for(var j: number = 0; j <  this.EvaluationsWithSectionInfo[0].sectionsInfo.length; j++) { //this.EvaluationsWithSectionInfo[0].sectionsInfo.length + 1
+
+      // if(j >= this.EvaluationsWithSectionInfo[0].sectionsInfo.length){
+      //   this.ListaPuntuacion.push({
+      //     data: listaSections[j], label: "Global", backgroundColor: "#2ECC71", fill: 'false', lineTension : 0.1,
+      //     borderColor: "#2ECC71", pointRadius: 2, pointHoverRadius: 4, borderWidth: 3});
+      // }
+      // else{
+        this.ListaPuntuacion.push({ type: "line",
           data: listaSections[j], label: this.EvaluationsWithSectionInfo[0].sectionsInfo[j].nombre, backgroundColor: colorList[j], fill: 'false', lineTension : 0.1,
           borderColor: colorList[j], pointRadius: 2, pointHoverRadius: 4, borderWidth: 3});
-      }
+      //}
     }
+    
+    
 
     for(var i: number = 0; i <= this.MaxLevelReached; i++) {
       let level: number[] = [];
@@ -638,12 +646,12 @@ export class PreviousevaluationComponent implements OnInit {
         level[j] = i * 100 + 100;
       }
       if(i == 0){
-        this.ListaPuntuacion.push({
+        this.ListaPuntuacion.push({ type: "line",
           data: level, label: 'aux' + i, backgroundColor: levelColorList[i], fill: 'origin', lineTension : 0.1,
           borderColor: levelColorList[i], pointRadius: 0, pointHoverRadius: 0, borderWidth: 0.1});
       }
       else{
-        this.ListaPuntuacion.push({
+        this.ListaPuntuacion.push({ type: "line",
           data: level, label: 'aux' + i, backgroundColor: levelColorList[i], fill: '-1', lineTension : 0.1,
           borderColor: levelColorList[i], pointRadius: 0, pointHoverRadius: 0, borderWidth: 0.1});
       }
@@ -655,82 +663,47 @@ export class PreviousevaluationComponent implements OnInit {
     setTimeout(() => {
 
       if (this.chart && this.chart.chart && this.chart.chart.config) {
+        this.chart.chart.config.type = "bar";
         this.chart.chart.config.data.labels = this.ListaNombres;
         this.chart.chart.config.data.datasets = this.ListaPuntuacion;
+        this.chart.chart.config.data.datasets.push({type: 'bar', yAxisID: "y-axis-1", data: listaGlobal, label: "Global", backgroundColor: "#2ECC71AA", borderColor: "#2ECC71", hoverBackgroundColor: "#2ECC71", borderWidth:"2"});
         this.chart.chart.config.data.options = this.barChartOptions;
         this.chart.chart.update();
+
+        this.legend = this.chart.chart.generateLegend();
+        //console.log(this.chart.chart.generateLegend());
       }
     }, 300);
 
   }
 
-  // private loadComplianceLevels(assessmentId: number){
-  //   this.http.get('assets/compliance_levels.json').pipe(map(res => res.json()))
-  //     .subscribe((assessments) => {
-  //       for (var a of assessments) {
-  //            if (a.assesmentId == assessmentId) {
-  //              this.ComplianceLevels = a;
-  //              this.shareDataToChart();
-  //              return;
-  //            }
-  //       }
-  //     });
-  // }
+  public toggleChartData(i: number){
+    this.chart.chart.config.data.datasets[i].hidden = !this.chart.chart.config.data.datasets[i].hidden;
 
-  // private getSectionLevels(sections: Array<SectionInfo>): Array<SectionsLevel> {
+    this.allLegendsHidden = true;
+    for(var j: number = 0; j < this.legend.length; j++) {
+      this.allLegendsHidden = this.allLegendsHidden &&  (this.chart.chart.config.data.datasets[j].hidden);
+    }
+    this.chart.chart.options.scales.yAxes[0].gridLines.display  = !this.allLegendsHidden;
+    this.chart.chart.options.scales.yAxes[1].gridLines.display = this.allLegendsHidden;
 
-  //           let ListaSectionLevels: Array<SectionsLevel> = [];
-  //           let i: number = 0;
-  //           for (var s of this.ComplianceLevels.sections) {
-  //             let section: SectionInfo = sections[i];
-  //             let levelReached: number = 0;
-  //             let percentOverLevel: number = section.respuestasCorrectas;
-  //             for (var l of s.levels) {
-  //               if (percentOverLevel > l.value && s.levels.length - 1 > levelReached) {
-  //                 percentOverLevel = percentOverLevel - l.value;
-  //                 levelReached++;
-  //               }
-  //               else {
-  //                 if(s.levels.length > levelReached && percentOverLevel < s.levels[levelReached].value){
-  //                   percentOverLevel = Math.round((percentOverLevel / s.levels[levelReached].value * 100) * 10) / 10;
-  //                 }
-  //                 else{
-  //                   percentOverLevel = 100;
-  //                 }
-  //                 const sl: SectionsLevel = { levelReached, percentOverLevel };
-  //                 ListaSectionLevels.push(sl);
-  //                 break;
-  //               }
-  //             }
-  //             i++;
-  //           }
-  //           return ListaSectionLevels;
-  // }
+    for(var j: number = 0; j < this.chart.chart.config.data.datasets.length; j++) {
+      if(this.chart.chart.config.data.datasets[j].label.includes('aux')){
+        this.chart.chart.config.data.datasets[j].hidden = this.allLegendsHidden;
+      }
+    }
 
-  // public getProjectSectionInfo(){
-    
-  //   this._sectionService.getProjectSectionInfo(this.Project.id).subscribe( //this._appComponent._storageDataService.AssessmentSelected.assessmentId
-  //     res => {
-  //       this.ListaDeSectionInfo.push(res);
-  //     },
-  //     error => {
-  //       if (error == 404) {
-  //         this.ErrorMessage = "Error: " + error + "No pudimos recoger los datos de la sección lo sentimos.";
-  //       } else if (error == 500) {
-  //         this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-  //       } else if (error == 401) {
-  //         this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-  //       } else {
-  //         this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-  //       }
-  //     }
-  //   );
- 
-    
-  // }
+    this.chart.chart.update();
+  }
+
+  public toggleGlobalData(){
+    this.chart.chart.config.data.datasets[this.chart.chart.config.data.datasets.length - 1].hidden = !this.chart.chart.config.data.datasets[this.chart.chart.config.data.datasets.length - 1].hidden;
+    this.chart.chart.update();
+  }
 
   //Opciones para la grafica
   public setBarChartOptions(){
+    var self = this;
     this.barChartOptions = {
     scaleShowVerticalLines: false,
     showLines: true,
@@ -739,14 +712,27 @@ export class PreviousevaluationComponent implements OnInit {
           filter: function(item, chart) {
               // Logic to remove a particular legend item goes here
               return !item.text.includes('aux');
-          }
-      }
+          },
+          usePointStyle: true
+      },
+     
   },
+  legendCallback: function(chart) {
+    let legend : any[] = [];
+    for (var i=0; i<chart.data.datasets.length; i++) {  
+      if(!chart.data.datasets[i].label.includes('aux') && !chart.data.datasets[i].label.includes('Global')) {  
+          legend.push({label: chart.data.datasets[i].label, color: chart.data.datasets[i].backgroundColor});
+      }
+    }
+    return legend;
+
+},
     tooltips: {
       cornerRadius: 2,
       filter: function (tooltipItem, data) {
         var label = data.datasets[tooltipItem.datasetIndex].label;
-        if (label.includes('aux')) {
+        //console.log(data.datasets[tooltipItem.datasetIndex]);
+        if (label.includes('aux') && !label.includes('Global')) {
           return false;
         } else {
           return true;
@@ -762,11 +748,23 @@ export class PreviousevaluationComponent implements OnInit {
           //   const sectionInfo = this.ListaDeSectionInfo[tooltipItem.datasetIndex][index];
           //     labels.push(sectionInfo.nombre + ': ' + sectionInfo.respuestasCorrectas + '%');
           //   }
-          let nivel: string = '%  del nivel mínimo';
+          // let nivel: string = '%  del nivel mínimo';
           //if(Number(tooltipItem.yLabel) > 100){
-            nivel = '%  del nivel ' +  Math.trunc(Number(tooltipItem.yLabel) / 100 + 1);
+            
           //}
-          return  data.datasets[tooltipItem.datasetIndex].label + ': ' + Math.round((tooltipItem.yLabel%100) * 10)/10 + nivel;
+          if(data.datasets[tooltipItem.datasetIndex].label.includes('Global')){
+            return  data.datasets[tooltipItem.datasetIndex].label + ': ' + Math.round((tooltipItem.yLabel) * 10)/10 + '%';
+          }
+          else{
+          if (Number(tooltipItem.yLabel) % 100 == 0 && Number(tooltipItem.yLabel) >= 100){
+            let nivel: string = '%  del nivel ' +  Math.trunc(Number(tooltipItem.yLabel) / 100);
+            return  data.datasets[tooltipItem.datasetIndex].label + ': 100' + nivel;
+          }
+          else{
+            let nivel: string = '%  del nivel ' +  Math.trunc(Number(tooltipItem.yLabel) / 100 + 1);
+            return  data.datasets[tooltipItem.datasetIndex].label + ': ' + Math.round((tooltipItem.yLabel%100) * 10)/10 + nivel;
+          }
+          }
         },
         // footer: function(tooltipItem, data) {
         //   return " Total" + ':     ' + tooltipItem[0].yLabel + '%';
@@ -778,6 +776,8 @@ export class PreviousevaluationComponent implements OnInit {
     },
     scales: {
       yAxes: [{
+        position: "left",
+        id: "y-axis-0",
         ticks: {
           steps: this.MaxLevelReached * 10 + 10,
           stepValue: 10,
@@ -785,28 +785,48 @@ export class PreviousevaluationComponent implements OnInit {
           max: this.MaxLevelReached * 100 + 100,
           min: 0,
           callback: function(value, index, values) {
-            if (Number(value) % 100 == 0 && Number(value) >= 100){
-              // if(Number(value) == 100){
-              //   return 'Nivel mín.';
-              // }
-              // else if(Number(value) > 100){
-              //   return 'Nivel ' + (Number(value) / 100 - 1);
-              // }
-              return 'Nivel ' + (Number(value) / 100 );
-          }
-          else
-            return Number(value)%100 + '%';
+            if(self.allLegendsHidden){
+              return "";
+            }
+            else{
+              if (Number(value) % 100 == 0 && Number(value) >= 100){
+                return 'Nivel ' + (Number(value) / 100 );
+              }
+              else{
+                return Number(value)%100 + '%';
+              }
+            }
          }
         },
         gridLines: {
-          display: true,
-          //color: '#34f6c2'
+          display: true
+        }
+      },
+      {
+        position: "right",
+        id: "y-axis-1",
+        ticks: {
+          steps: 10,
+          stepValue: 10,
+          max: 100,
+          callback: function(value, index, values) {
+            if(this.chart.chart.config.data.datasets[this.chart.chart.config.data.datasets.length - 1].hidden){
+              return "";
+            }
+            else{
+              return Number(value) + '%';
+            }
+          }
+        },
+        gridLines: {
+          display: false
         }
       }],
       xAxes: [{
         gridLines: {
-          display:false
-        }
+          display:false,
+        },
+        maxBarThickness : 40
       }]
     }
   };

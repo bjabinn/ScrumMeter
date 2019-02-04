@@ -269,6 +269,70 @@ img{
   margin-bottom: 40px;
 }
 
+.legend{
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 12px;
+  font-weight: bold;
+  width: 75%;
+  padding-left: 50px;
+}
+
+.legend-global{
+  display: flex;
+  width: 12%;
+  margin-left: 12%;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.legend-item{
+  margin-left: 20px;
+  display: flex;
+  cursor: pointer;
+  user-select: none;
+}
+
+.legend-global-item{
+  display: flex;
+  cursor: pointer;
+  user-select: none;
+}
+
+.legend-item-disabled{
+  opacity: 0.2;
+  text-decoration: line-through;
+}
+
+.legend-bullet{
+  //display: inline-flex;
+  vertical-align: middle;
+}
+
+.legend-label{
+  //display: inline-flex;
+  padding-left: 6px;
+  padding-top: 3px;
+  color: #666;
+}
+
+.legend-global-bullet{
+  //display: inline-flex;
+  vertical-align: middle;
+}
+
+.legend-global-label{
+  //display: inline-flex;
+  padding-left: 6px;
+  padding-top: 3px;
+  color: #666;
+}
+
+.legend-global-item-disabled{
+  opacity: 0.2;
+  text-decoration: line-through;
+}
+
 
 // ::ng-deep md-option{
 //   color: #63961C !important;

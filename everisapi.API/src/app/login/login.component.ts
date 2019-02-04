@@ -34,6 +34,12 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  public TrySignUp(event){
+    if(event.keyCode == 13) {
+      this.SignUp();
+    }
+  }
+
   //Mediante este metodo comprobaremos si el usuario espcificado existe o no
   //si es así sera redirigido a la pagina principal
   public SignUp() {
@@ -70,7 +76,7 @@ export class LoginComponent implements OnInit {
         },
         error => {
           //Si el servidor tiene algún tipo de problema mostraremos este error
-          if (error == 404) {
+          if (error == 401) {
             this.ErrorMessage = "El nombre de usuario o contraseña no son correctos";
           } else if (error == 500) {
             this.ErrorMessage = "Ocurrio un error en el servidor";
