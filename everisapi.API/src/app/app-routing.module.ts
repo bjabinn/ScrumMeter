@@ -13,6 +13,7 @@ import { PdfgeneratorComponent } from './pdfgenerator/pdfgenerator.component';
 import { BackOfficeComponent } from './back-office/back-office.component';
 import { UserManagementComponent } from './back-office/components/user-management/user-management.component';
 import { AddUserProjectComponent } from './back-office/components/add-user-project/add-user-project.component';
+import { TeamsManagerComponent } from './back-office/components/teams-manager/teams-manager.component';
 import { QuestionsManagerComponent } from './back-office/components/questions-manager/questions-manager.component';
 
 const appRoutes: Routes = [
@@ -24,6 +25,7 @@ const appRoutes: Routes = [
     children: [
       { path: 'usermanagement', component: UserManagementComponent },
       { path: 'adduserproject', component: AddUserProjectComponent },
+      { path: 'teamsmanager', component: TeamsManagerComponent },
       { path: 'questions', component: QuestionsManagerComponent }
     ]
   },

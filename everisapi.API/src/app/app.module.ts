@@ -37,6 +37,7 @@ import { BtnFinalizeEvaluationComponent } from './btn-finalize-evaluation/btn-fi
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
 import { SectionResultsComponent } from './pdfgenerator/section-results/section-results.component';
+import { TeamsManagerComponent } from './back-office/components/teams-manager/teams-manager.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { SectionResultsComponent } from './pdfgenerator/section-results/section-
     QuestionsManagerComponent,
     BtnFinalizeEvaluationComponent,
     SectionResultsComponent,
+    TeamsManagerComponent,
 
   ],
   imports: [

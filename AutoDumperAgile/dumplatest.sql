@@ -130,38 +130,6 @@ LOCK TABLES `evaluaciones` WRITE;
 /*!40000 ALTER TABLE `evaluaciones` DISABLE KEYS */;
 /*!40000 ALTER TABLE `evaluaciones` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = '' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `agilemeter`.`evaluaciones_AFTER_INSERT` AFTER INSERT ON `evaluaciones` FOR EACH ROW
-BEGIN
-    DECLARE done INT DEFAULT FALSE;
-    DECLARE PreId INT DEFAULT NEW.Id;
-    DECLARE ids INT;
-    DECLARE cur CURSOR FOR SELECT id FROM preguntas;
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-
-    OPEN cur;
-        ins_loop: LOOP
-            FETCH cur INTO ids;
-            IF done THEN
-                LEAVE ins_loop;
-            END IF;
-            INSERT INTO respuestas (Estado, PreguntaId, EvaluacionId) VALUES (0 , ids , PreId);
-        END LOOP;
-    CLOSE cur;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `notasasignaciones`
@@ -440,4 +408,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-15 13:47:30
+-- Dump completed on 2019-02-01  7:14:50

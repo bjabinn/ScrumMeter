@@ -293,9 +293,10 @@ namespace everisapi.API.Services
     //Incluye una nueva evaluación a la base de datos
     public void IncluirEvaluacion(EvaluacionEntity evaluacion)
     {
-      _context.Add(evaluacion);
-
-
+      evaluacion.Respuestas = _context.Preguntas.Where(p => p.AsignacionEntity.SectionEntity.AssessmentId == evaluacion.AssessmentId)
+      .Select(p => new RespuestaEntity{EvaluacionId = evaluacion.Id, PreguntaId = p.Id}).ToList();
+      
+      _context.Evaluaciones.Add(evaluacion);
       this.SaveChanges();
     }
 
