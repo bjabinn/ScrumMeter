@@ -176,6 +176,9 @@ namespace everisapi.API.Services
                 sectionConAsignacion.Nombre = s.section.Nombre;
                 sectionConAsignacion.Notas = s.notas;
                 sectionConAsignacion.Peso = s.section.Peso;
+                sectionConAsignacion.PesoNivel1 = s.section.PesoNivel1;
+                sectionConAsignacion.PesoNivel2 = s.section.PesoNivel2;
+                sectionConAsignacion.PesoNivel3 = s.section.PesoNivel3;
 
                 List<AsignacionConPreguntaNivelDto> asignacionesConPreguntaNivel = new List<AsignacionConPreguntaNivelDto>();
                 //List<AsignacionEntity> asignaciones;

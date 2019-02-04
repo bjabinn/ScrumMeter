@@ -31,5 +31,9 @@ namespace everisapi.API.Entities
         [Required]
         [MaxLength(50)]
         public int Peso { get; set; }
+
+        public int PesoNivel1 { get; set; }
+        public int PesoNivel2 { get; set; }
+        public int PesoNivel3 { get; set; }
     }
 }
