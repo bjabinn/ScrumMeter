@@ -37,7 +37,7 @@ CREATE TABLE `__efmigrationshistory` (
 
 LOCK TABLES `__efmigrationshistory` WRITE;
 /*!40000 ALTER TABLE `__efmigrationshistory` DISABLE KEYS */;
-INSERT INTO `__efmigrationshistory` VALUES ('20181023105227_AddUserProyecto','2.0.2-rtm-10011'),('20181025094247_RemoveUserRoles','2.0.2-rtm-10011'),('20181026062550_AddAssessments','2.0.2-rtm-10011'),('20181029085809_LinkAssessmentWithSections','2.0.2-rtm-10011'),('20181029103724_LinkEvaluationsWithAssessments','2.0.2-rtm-10011'),('20181113120302_AddUserNameToEvaluation','2.0.2-rtm-10011'),('20181203104813_TestProyects','2.0.2-rtm-10011'),('20181217133407_AñadirPesosASecciones','2.0.2-rtm-10011'),('20181218081534_PreguntaHabilitante','2.0.2-rtm-10011'),('20190108132133_AddLastQuestionUpdate','2.0.2-rtm-10011'),('20190109093506_PesoIntToFloat','2.0.2-rtm-10011'),('20190109135727_NivelPreguntas','2.0.2-rtm-10011');
+INSERT INTO `__efmigrationshistory` VALUES ('20181023105227_AddUserProyecto','2.0.2-rtm-10011'),('20181025094247_RemoveUserRoles','2.0.2-rtm-10011'),('20181026062550_AddAssessments','2.0.2-rtm-10011'),('20181029085809_LinkAssessmentWithSections','2.0.2-rtm-10011'),('20181029103724_LinkEvaluationsWithAssessments','2.0.2-rtm-10011'),('20181113120302_AddUserNameToEvaluation','2.0.2-rtm-10011'),('20181203104813_TestProyects','2.0.2-rtm-10011'),('20181217133407_AñadirPesosASecciones','2.0.2-rtm-10011'),('20181218081534_PreguntaHabilitante','2.0.2-rtm-10011'),('20190108132133_AddLastQuestionUpdate','2.0.2-rtm-10011'),('20190109093506_PesoIntToFloat','2.0.2-rtm-10011'),('20190109135727_NivelPreguntas','2.0.2-rtm-10011'),('20190201074324_SectionPesosNiveles','2.0.2-rtm-10011');
 /*!40000 ALTER TABLE `__efmigrationshistory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,7 +239,7 @@ CREATE TABLE `proyectos` (
   PRIMARY KEY (`Id`),
   KEY `IX_Proyectos_UserNombre` (`UserNombre`),
   CONSTRAINT `FK_Proyectos_Users_UserNombre` FOREIGN KEY (`UserNombre`) REFERENCES `users` (`Nombre`) ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,7 +248,7 @@ CREATE TABLE `proyectos` (
 
 LOCK TABLES `proyectos` WRITE;
 /*!40000 ALTER TABLE `proyectos` DISABLE KEYS */;
-INSERT INTO `proyectos` VALUES (1,'2018-07-10 00:00:00','BCA','Admin','\0'),(2,'2018-07-10 00:00:00','TESCO','Admin','\0'),(3,'2018-07-10 00:00:00','BestDay','User','\0'),(4,'2018-07-10 00:00:00','TVE','User','\0'),(5,'2018-12-18 09:16:38','Proyecto test jherrric','jherrric',''),(6,'2019-01-08 14:25:35','Proyecto test mcampong','mcampong','');
+INSERT INTO `proyectos` VALUES (1,'2018-07-10 00:00:00','BCA - Marvel','Admin','\0'),(2,'2018-07-10 00:00:00','TESCO - BlackOps','Admin','\0'),(3,'2018-07-10 00:00:00','BestDay - Hoteles','User','\0'),(4,'2018-07-10 00:00:00','RANDSTAD - Hoteles','User','\0'),(5,'2018-12-18 09:16:38','Equipo de pruebas de jherrric','jherrric',''),(6,'2019-01-08 14:25:35','Equipo de pruebas de mcampong','mcampong',''),(7,'2019-01-28 14:21:49','Equipo de pruebas de cgonzaro','cgonzaro',''),(9,'2019-01-28 15:16:36','Equipo de pruebas de marcossa','marcossa','');
 /*!40000 ALTER TABLE `proyectos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -319,6 +319,9 @@ CREATE TABLE `sections` (
   `Nombre` varchar(120) NOT NULL,
   `AssessmentId` int(11) NOT NULL DEFAULT '1',
   `Peso` int(11) NOT NULL DEFAULT '0',
+  `PesoNivel1` int(11) NOT NULL DEFAULT '0',
+  `PesoNivel2` int(11) NOT NULL DEFAULT '0',
+  `PesoNivel3` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id`),
   KEY `IX_Sections_AssessmentId` (`AssessmentId`),
   CONSTRAINT `FK_Sections_Assessment_AssessmentId` FOREIGN KEY (`AssessmentId`) REFERENCES `assessment` (`AssessmentId`) ON DELETE CASCADE
@@ -331,7 +334,7 @@ CREATE TABLE `sections` (
 
 LOCK TABLES `sections` WRITE;
 /*!40000 ALTER TABLE `sections` DISABLE KEYS */;
-INSERT INTO `sections` VALUES (1,'EQUIPO',1,20),(2,'EVENTOS',1,20),(3,' HERRAMIENTAS ',1,20),(4,'MINDSET',1,10),(5,'APLICACIÓN PRÁCTICA',1,30);
+INSERT INTO `sections` VALUES (1,'EQUIPO',1,20,60,25,15),(2,'EVENTOS',1,20,60,25,15),(3,' HERRAMIENTAS ',1,20,60,25,15),(4,'MINDSET',1,10,60,25,15),(5,'APLICACIÓN PRÁCTICA',1,30,60,25,15);
 /*!40000 ALTER TABLE `sections` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -351,7 +354,7 @@ CREATE TABLE `userproyectos` (
   KEY `IX_UserProyecto_UserNombre` (`UserNombre`),
   CONSTRAINT `FK_UserProyecto_Proyectos_ProyectoId` FOREIGN KEY (`ProyectoId`) REFERENCES `proyectos` (`Id`) ON DELETE CASCADE,
   CONSTRAINT `FK_UserProyecto_Users_UserNombre` FOREIGN KEY (`UserNombre`) REFERENCES `users` (`Nombre`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -360,7 +363,7 @@ CREATE TABLE `userproyectos` (
 
 LOCK TABLES `userproyectos` WRITE;
 /*!40000 ALTER TABLE `userproyectos` DISABLE KEYS */;
-INSERT INTO `userproyectos` VALUES (1,'Admin',1),(2,'Admin',2),(3,'Admin',3),(4,'User',1),(5,'jherrric',5),(6,'mcampong',6);
+INSERT INTO `userproyectos` VALUES (1,'Admin',1),(2,'Admin',2),(3,'Admin',3),(4,'User',1),(5,'jherrric',5),(6,'mcampong',6),(7,'cgonzaro',7),(9,'marcossa',9);
 /*!40000 ALTER TABLE `userproyectos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -387,7 +390,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('Admin','c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f',2),('jherrric','default-password',1),('mcampong','default-password',1),('Test','532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25',1),('User','b512d97e7cbf97c273e4db073bbb547aa65a84589227f8f3d9e4a72b9372a24d',1);
+INSERT INTO `users` VALUES ('Admin','c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f',2),('cgonzaro','default-password',2),('jherrric','default-password',1),('marcossa','default-password',2),('mcampong','default-password',1),('Test','532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25',1),('User','b512d97e7cbf97c273e4db073bbb547aa65a84589227f8f3d9e4a72b9372a24d',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -408,4 +411,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-01  7:14:50
+-- Dump completed on 2019-02-04 12:04:42
