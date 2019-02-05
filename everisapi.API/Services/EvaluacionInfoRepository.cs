@@ -577,13 +577,9 @@ namespace everisapi.API.Services
                 sec.NivelAlcanzado = seccion.NivelAlcanzado;
                 sec.Nombre = seccion.Nombre;
                 EvaluacionInfo.SectionsInfo.Add(sec);
-
-                 
-    
-                sumSections += (seccion.Puntuacion/100 + seccion.NivelAlcanzado -1)/3  * seccion.Peso;
-
             }
-        EvaluacionInfo.Puntuacion = sumSections;
+        
+        EvaluacionInfo.Puntuacion = (float)evaluacion.Puntuacion;
 
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
