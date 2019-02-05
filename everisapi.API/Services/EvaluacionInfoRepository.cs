@@ -525,8 +525,7 @@ namespace everisapi.API.Services
 
                 sectionsConAsignaciones.Add(sectionConAsignacion);
             }
-
-            float sumSections = 0;
+            
             foreach(SectionConAsignacionesDto seccion in sectionsConAsignaciones)
             {
                 //calculamos los niveles individuales para cada asignacion
@@ -579,7 +578,7 @@ namespace everisapi.API.Services
                 EvaluacionInfo.SectionsInfo.Add(sec);
             }
         
-        EvaluacionInfo.Puntuacion = (float)evaluacion.Puntuacion;
+        EvaluacionInfo.Puntuacion = CalculaPuntuacion(evaluacion.Id, evaluacion.AssessmentId);
 
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
