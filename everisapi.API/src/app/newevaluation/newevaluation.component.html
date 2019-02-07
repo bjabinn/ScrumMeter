@@ -129,7 +129,7 @@
                           [class.item-full-disabled]="!preguntaDada.esHabilitante && !checkHabilitante(preguntaDada)"
                           [class.item-not-selected]="(preguntaDada.respuesta.estado == 2) || (preguntaDada.respuesta.estado == 0 )"
                           [class.item-disable-no-color]="!preguntaDada.esHabilitante && !checkHabilitante(preguntaDada)"
-                          (click)="AnswerQuestion(preguntaDada,i,1)">Si</button>
+                          (click)="AnswerQuestion(preguntaDada,i,1)">Sí</button>
                       </div>
                       <div class="col p-0">
                         <button class="w-100 h-100 questions-no-btn mat-elevation-z3" 
@@ -225,7 +225,7 @@
   <ng-template #notasPreg let-cl="close" let-di="dismiss">
     <div class="modal-content">
       <div class="modal-header custom-modal-header">
-        <h5 class="modal-title">Notas Pregunta</h5> 
+        <h5 class="modal-title">Notas de la Pregunta</h5> 
         <!-- <button type="button" class="close" (click)="cl('Cerrar')">
           <span aria-hidden="true">×</span>
         </button> -->
@@ -253,7 +253,7 @@
   <ng-template #notasAsset let-cl="close" let-di="dismiss">
     <div class="modal-content">
       <div class="modal-header custom-modal-header">
-        <h5 class="modal-title">Notas de Módulo</h5> 
+        <h5 class="modal-title">Notas del Módulo</h5> 
         <!-- <button type="button" class="close" (click)="cl('Cerrar')">
           <span aria-hidden="true">×</span>
         </button> -->
@@ -281,7 +281,7 @@
   <ng-template #notasSec let-cl="close" let-di="dismiss">
     <div class="modal-content">
       <div class="modal-header custom-modal-header">
-        <h5 class="modal-title">Notas de Sección</h5> 
+        <h5 class="modal-title">Notas de la Sección</h5> 
         <!-- <button type="button" class="close" (click)="cl('Cerrar')">
           <span aria-hidden="true">×</span>
         </button> -->
