@@ -150,22 +150,12 @@ namespace everisapi.API.Services
         {
 
             List<SectionConAsignacionesDto> sectionsConAsignaciones = new List<SectionConAsignacionesDto>();
-
-            // List<SectionEntity> sections;
-            // sections = _context.Sections.Where(r => r.AssessmentId == assessmentId).ToList();
             
-             //List<SectionEntity> sections;
-            //var sections = _context.Sections
-            // .Join(_context.NotasSections, // the source table of the inner join
-            //     s => s.Id,        // Select the primary key (the first part of the "on" clause in an sql "join" statement)
-            //     n => n.SectionId,   // Select the foreign key (the second part of the "on" clause)
-            //     (s, n) => new { section = s, notas = n })          
-            //.Where(s => s.section.AssessmentId == assessmentId).ToList();
 
             var sections = from s in _context.Sections.Where( x => x.AssessmentId == assessmentId)
-                .OrderBy(x => x.Id)
                 join n in _context.NotasSections.Where( x => x.EvaluacionId == idEvaluacion) on s.Id equals n.SectionId into sn
                 from y1 in sn.DefaultIfEmpty()
+                orderby s.Id
                 select new {section = s, notas = y1.Notas};
 
 
@@ -191,9 +181,9 @@ namespace everisapi.API.Services
                 // .Where(a => a.asignacion.SectionId == s.section.Id).ToList();
 
                 var asignaciones = from a in _context.Asignaciones.Where( x => x.SectionId == s.section.Id)
-                    .OrderBy(x => x.SectionId)
                     join n in _context.NotasAsignaciones.Where( x => x.EvaluacionId == idEvaluacion) on a.Id equals n.AsignacionId into an
                     from y1 in an.DefaultIfEmpty()
+                    orderby a.Id
                     select new {asignacion = a, notas = y1.Notas};
 
 
