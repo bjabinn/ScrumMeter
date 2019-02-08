@@ -83,7 +83,6 @@ namespace everisapi.API.Controllers
 
           return Ok(UserSinProyectosResult);
         }
-
       }
       catch (Exception ex)
       {
