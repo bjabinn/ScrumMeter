@@ -21,7 +21,7 @@ namespace everisapi.API.Models
 
     public string UserNombre { get; set; }
 
-    public int progress { get; set; }
+    public float progress { get; set; }
 
     public int numQuestions { get; set; }
   }

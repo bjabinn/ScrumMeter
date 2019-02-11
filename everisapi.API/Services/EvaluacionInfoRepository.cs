@@ -634,12 +634,7 @@ namespace everisapi.API.Services
             ThenInclude(rp => rp.AsignacionEntity).
             ThenInclude(rpa => rpa.SectionEntity).            
             Where(r => r.EvaluacionId == evaluacion.Id && r.PreguntaEntity.AsignacionEntity.SectionEntity.AssessmentId == evaluacion.AssessmentId).Count(),
-          progress =  _context.Respuestas.
-            Include(r => r.PreguntaEntity).
-            ThenInclude(rp => rp.AsignacionEntity).
-            ThenInclude(rpa => rpa.SectionEntity).            
-            Where(r => r.EvaluacionId == evaluacion.Id && r.PreguntaEntity.AsignacionEntity.SectionEntity.AssessmentId == evaluacion.AssessmentId && r.Estado != 0).Count()
-        
+          progress = CalculateEvaluationProgress(evaluacion.Id, evaluacion.AssessmentId)
         };
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
@@ -905,8 +900,9 @@ List<SectionConAsignacionesDto> sectionsConAsignaciones = new List<SectionConAsi
     }
 
     //Metodo encargado de calcular el porcentaje respondido de la evaluacion
-    public int CalculateEvaluationProgress(int idEvaluation, int idAssessment)
+    public float CalculateEvaluationProgress(int idEvaluation, int idAssessment)
     {
+      float progress;
       //Id de asignaciones asociadas al actual assessment
       var assignmentId = _context.Asignaciones
         .Where(x => x.SectionEntity.AssessmentId == idAssessment)
@@ -949,7 +945,9 @@ List<SectionConAsignacionesDto> sectionsConAsignaciones = new List<SectionConAsi
                 && x.Estado != 0);
 
       //Se retorna el porcentaje progreso actual de la evaluacion
-      return (totalAnswered / totalRequired) * 100;
+      progress = ((float)totalAnswered / (float)totalRequired) * 100;
+
+      return (float)Math.Round(progress, 2);
     }
 
     //Metodo encargado generar un objeto SectionInfoDto a partir de una evaluationId

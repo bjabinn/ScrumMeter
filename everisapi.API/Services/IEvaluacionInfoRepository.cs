@@ -58,7 +58,7 @@ namespace everisapi.API.Services
      bool EvaluationDelete(int evaluationId);
   
     //Metodo encargado de calcular el porcentaje respondido de la evaluacion
-    int CalculateEvaluationProgress(int idEvaluacion,  int idAssessment);
+    float CalculateEvaluationProgress(int idEvaluacion,  int idAssessment);
 
     //Metodo encargado generar un objeto SectionInfoDto a partir de una evaluationId
     IEnumerable<SectionInfoDto> GetSectionsInfoFromEval(int idEvaluacion);
