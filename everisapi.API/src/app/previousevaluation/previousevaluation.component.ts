@@ -808,6 +808,7 @@ export class PreviousevaluationComponent implements OnInit {
         ticks: {
           steps: 10,
           stepValue: 10,
+          min: 0,
           max: 100,
           callback: function(value, index, values) {
             if(this.chart.chart.config.data.datasets[this.chart.chart.config.data.datasets.length - 1].hidden){

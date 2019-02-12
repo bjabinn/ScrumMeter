@@ -92,7 +92,7 @@ export class NewevaluationComponent implements OnInit {
           if (res != null) {
             this.ListaAsignaciones = res;
             this.NumMax = this.ListaAsignaciones.length;
-
+            
             let i = 0;
             this.pagesArray = [];
 

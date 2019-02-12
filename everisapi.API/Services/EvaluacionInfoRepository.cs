@@ -490,6 +490,9 @@ namespace everisapi.API.Services
                 sectionConAsignacion.SectionId = s.Id;
                 sectionConAsignacion.Nombre = s.Nombre;
                 sectionConAsignacion.Peso = s.Peso;
+                sectionConAsignacion.PesoNivel1 = s.PesoNivel1;
+                sectionConAsignacion.PesoNivel2 = s.PesoNivel2;
+                sectionConAsignacion.PesoNivel3 = s.PesoNivel3;
 
                 List<AsignacionConPreguntaNivelDto> asignacionesConPreguntaNivel = new List<AsignacionConPreguntaNivelDto>();
 
@@ -526,6 +529,7 @@ namespace everisapi.API.Services
                 sectionsConAsignaciones.Add(sectionConAsignacion);
             }
             
+            float sumSections = 0;
             foreach(SectionConAsignacionesDto seccion in sectionsConAsignaciones)
             {
                 //calculamos los niveles individuales para cada asignacion
@@ -576,9 +580,27 @@ namespace everisapi.API.Services
                 sec.NivelAlcanzado = seccion.NivelAlcanzado;
                 sec.Nombre = seccion.Nombre;
                 EvaluacionInfo.SectionsInfo.Add(sec);
+
+                if (seccion.NivelAlcanzado == 3){
+                  seccion.Puntuacion = seccion.PesoNivel1 + seccion.PesoNivel2 + (seccion.Puntuacion * ((float)seccion.PesoNivel3/100));
+                  seccion.Puntuacion = (seccion.Puntuacion * seccion.Peso) / 100;
+                }
+
+                if (seccion.NivelAlcanzado == 2){
+                  seccion.Puntuacion = seccion.PesoNivel1 + (seccion.Puntuacion * ((float)seccion.PesoNivel2/100));
+                  seccion.Puntuacion = (seccion.Puntuacion * seccion.Peso) / 100;
+                }
+
+                if (seccion.NivelAlcanzado == 1){
+                  seccion.Puntuacion = ((float)seccion.PesoNivel1/100) * seccion.Puntuacion;
+                  seccion.Puntuacion = (seccion.Puntuacion * seccion.Peso) / 100;
+                }
+
+                    sumSections += seccion.Puntuacion;
             }
         
-        EvaluacionInfo.Puntuacion = CalculaPuntuacion(evaluacion.Id, evaluacion.AssessmentId);
+        EvaluacionInfo.Puntuacion = (float)Math.Round(sumSections, 1);
+
 
         //Añade el objeto en la lista
         EvaluacionesInformativas.Add(EvaluacionInfo);
