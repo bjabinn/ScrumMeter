@@ -83,7 +83,6 @@ namespace everisapi.API.Controllers
 
           return Ok(UserSinProyectosResult);
         }
-
       }
       catch (Exception ex)
       {
@@ -167,37 +166,26 @@ namespace everisapi.API.Controllers
       //Si los datos son validos los guardara
       if (UsuarioUpdate == null)
       {
-      
         return BadRequest();
       }
 
       if (!ModelState.IsValid)
       {
-      
         return BadRequest(ModelState);
       }
-      
-      //Encriptamos la contraseña
-      // using (var sha256 = SHA256.Create())
-      // {
-      //   // Le damos la contraseña
-      //   var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(UsuarioUpdate.Password));
-      //   // Recogemos el hash como string
-      //   var hash = BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
-      //   // Y se lo damos 
-      //   UsuarioUpdate.Password = hash;
-      // }
 
-      //UsuarioUpdate.Password = "";
+      UserEntity userEntity= new UserEntity{
+        Nombre = UsuarioUpdate.Nombre,
+        RoleId = UsuarioUpdate.Role.Id
+        };
+
       //Comprueba que se guardo bien y lo envia
-      if (_userInfoRepository.AlterUserRole(Mapper.Map<UserEntity>(UsuarioUpdate)))
+      if (_userInfoRepository.AlterUserRole(userEntity))
       {
-
         return Ok("El usuario fue modificado correctamente.");
       }
       else
       {
-      
         return BadRequest();
       }
     }

@@ -52,6 +52,16 @@ export class PendingEvaluationTableComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.LoadDataSource();
+  }
+  
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.ListaDeEvaluacionesPaginada){
+      this.LoadDataSource();
+    }
+  }
+  
+  private LoadDataSource(){
     this.dataSource = new MatTableDataSource(this.ListaDeEvaluacionesPaginada);
     this.dataSource.sort= this.sort;
     this.dataSource.paginator = this.paginator;
@@ -66,12 +76,6 @@ export class PendingEvaluationTableComponent implements OnInit {
       ||  ((date.getDate()<10?"0":"")+date.getDate()+"/"+(date.getMonth()<10?"0":"")+(date.getMonth()+1)+"/"+date.getFullYear()).includes(filter)
       ;
    };
-  }
-  
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.ListaDeEvaluacionesPaginada){
-      this.dataSource = this.ListaDeEvaluacionesPaginada;
-    }
   }
 
   applyFilter(filterValue: string){

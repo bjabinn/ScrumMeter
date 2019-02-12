@@ -27,7 +27,7 @@
     <!--  Progreso -->
     <ng-container matColumnDef="progress">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Progreso</th>
-      <td mat-cell *matCellDef="let row">{{(row.progress/row.numQuestions * 100).toFixed(1)}} %</td>
+      <td mat-cell *matCellDef="let row">{{row.progress}} %</td>
     </ng-container>
  
     <!--  Informe -->
@@ -35,10 +35,10 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Acciones</th>
       <td mat-cell *matCellDef="let row">
         <button class="transparente" (click)="ContinueEvaluation(row)">
-          <img class="informe" src="assets/continue.png" title="Continuar evaluacion" />
+          <img class="informe" src="assets/continue.png" title="Continuar evaluación" />
         </button>
         <button class="transparente" (click)="AbrirModal(content, row)">
-          <img class="informe" src="assets/delete.png" title="Descartar evaluacion" />
+          <img class="informe" src="assets/delete.png" title="Descartar evaluación" />
         </button>
       </td>
     </ng-container>

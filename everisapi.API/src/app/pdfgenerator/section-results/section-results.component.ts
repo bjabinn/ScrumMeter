@@ -48,6 +48,8 @@ export class SectionResultsComponent implements OnInit {
   public checkRespuestaCorrecta(row): string {
     let classString: string;
     let respuestaString: string = this.displayRespuesta(row);
+    if (respuestaString == "Sí"){
+      respuestaString = "Si"}
 
     //Si (habilitante)
     if (row.correcta == null) {
@@ -67,7 +69,7 @@ export class SectionResultsComponent implements OnInit {
       if (respuestaString == row.correcta) {
         classString = "respuesta-correcta";
       } else {
-        //No contestada
+                //No contestada
         if (row.estado == 0) {
           classString = "respuesta-no-contestada";
         } else {
@@ -85,7 +87,7 @@ export class SectionResultsComponent implements OnInit {
         respuesta = "NC";
         break
       case 1:
-        respuesta = "Si";
+        respuesta = "Sí";
         break;
       case 2:
         respuesta = "No";
@@ -100,10 +102,10 @@ export class SectionResultsComponent implements OnInit {
   //Metodo encargado de gestionar las notas de las secciones y modulos
   DisplayNotes(noteText: string): string{
     noteText = noteText || null;
-
+    
     var returnedText = "No hay notas añadidas";
     if (noteText != null){
-      returnedText = "Notas: " + noteText;
+      returnedText = noteText;
     }
     
     return returnedText;
@@ -115,7 +117,7 @@ export class SectionResultsComponent implements OnInit {
 
     var returnedText = "";
     if (noteText != null){
-      returnedText = "Notas: " + noteText;
+      returnedText = noteText;
     }
     
     return returnedText;
