@@ -22,17 +22,19 @@ th.mat-header-cell {
   
   /* height: 40px; */
 }
-::ng-deep  .mat-sort-header-container  {
-  display: inline-flex !important;
+
+::ng-deep.mat-sort-header-container  {
+  display: flex !important;
   cursor: pointer;
   //align-items: center;
-  justify-content: left;
+  justify-content: center;
 }
 
 td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
   border-bottom-width: 1px;
   border-bottom-style: solid;
   font-size: 12px;
+  text-align: center;
 }
 
 mat-cell:first-child, mat-footer-cell:first-child, mat-header-cell:first-child {

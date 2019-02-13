@@ -17,6 +17,17 @@ namespace everisapi.API.Entities
         [MaxLength(50)]
         public string Nombre { get; set; }
 
+        [MaxLength(50)]
+        public string TeamName { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string OfficeName { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string UnityName { get; set; }
+
         [Required]
         [DataType(DataType.Date)]
         public DateTime Fecha { get; set; }
@@ -30,6 +41,8 @@ namespace everisapi.API.Entities
         //Mediante esta Foreign Key estamos relacionando AsignacionEntity con su Id
         [ForeignKey("UserNombre")]
         public UserEntity UserEntity { get; set; }
+
+        public int ProjectSize { get; set; }
 
         [Required]
         public bool TestProject { get; set;}

@@ -107,6 +107,17 @@ export class ProyectoService {
       catchError(this.errorHandler));
   }
 
+  //Devuelve un listado con todos los proyectos dados de alta en el sistema para BackOffice
+  GetAllProjects() {
+    let Token = this._appComponent.ComprobarUserYToken();
+    let headers = new Headers({
+      'Authorization': Token
+    });
+    return this._http.get(this.url + 'users/allprojects', { headers: headers }).pipe(
+      map((response: Response) => response.json()),
+      catchError(this.errorHandler));
+  }
+
   //Este metodo devuelve todos los permisos de un usuario
   getRolesUsuario() {
     let Token = this._appComponent.ComprobarUserYToken();

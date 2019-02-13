@@ -74,6 +74,12 @@ namespace everisapi.API.Services
       return _context.Proyectos.Where(p => p.TestProject == false || p.UserNombre == userNombre).OrderBy(p => p.Nombre).ToList();
     }
 
+    //Devuelve un listado con todos los proyectos dados de alta en el sistema
+    public IEnumerable<ProyectoEntity> GetAllProjects()
+    {
+      return _context.Proyectos.ToList();
+    }
+
     public IEnumerable<AssessmentEntity> GetAllAssessments(){
       return _context.Assessment.OrderBy(a => a.AssessmentName).ToList();
     }

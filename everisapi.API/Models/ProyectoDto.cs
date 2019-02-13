@@ -11,6 +11,14 @@ namespace everisapi.API.Models
 
     public string Nombre { get; set; }
 
+    public string teamName { get; set; }
+
+    public string officeName { get; set; }
+
+    public string unityName { get; set; }
+
+    public int projectSize { get; set; }
+
     public DateTime Fecha { get; set; }
 
     public int numFinishedEvals  { get; set; }

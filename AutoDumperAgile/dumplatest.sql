@@ -236,6 +236,10 @@ CREATE TABLE `proyectos` (
   `Nombre` varchar(50) NOT NULL,
   `UserNombre` varchar(127) DEFAULT NULL,
   `TestProject` bit(1) NOT NULL DEFAULT b'0',
+  `OfficeName` varchar(50) NOT NULL,
+  `UnityName` varchar(50) NOT NULL,
+  `TeamName` varchar(50) DEFAULT NULL,
+  `ProjectSize` int(3) NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `IX_Proyectos_UserNombre` (`UserNombre`),
   CONSTRAINT `FK_Proyectos_Users_UserNombre` FOREIGN KEY (`UserNombre`) REFERENCES `users` (`Nombre`) ON DELETE NO ACTION
@@ -248,7 +252,7 @@ CREATE TABLE `proyectos` (
 
 LOCK TABLES `proyectos` WRITE;
 /*!40000 ALTER TABLE `proyectos` DISABLE KEYS */;
-INSERT INTO `proyectos` VALUES (1,'2018-07-10 00:00:00','BCA - Marvel','Admin','\0'),(2,'2018-07-10 00:00:00','TESCO - BlackOps','Admin','\0'),(3,'2018-07-10 00:00:00','BestDay - Hoteles','User','\0'),(4,'2018-07-10 00:00:00','RANDSTAD - Hoteles','User','\0'),(5,'2018-12-18 09:16:38','Equipo de pruebas de jherrric','jherrric',''),(6,'2019-01-08 14:25:35','Equipo de pruebas de mcampong','mcampong',''),(7,'2019-01-28 14:21:49','Equipo de pruebas de cgonzaro','cgonzaro',''),(9,'2019-01-28 15:16:36','Equipo de pruebas de marcossa','marcossa','');
+INSERT INTO `proyectos` VALUES (1,'2018-07-10 00:00:00','BCA','Admin','\0','','','Marvel',0),(2,'2018-07-10 00:00:00','TESCO','Admin','\0','','','BlackOps',0),(3,'2018-07-10 00:00:00','BestDay','User','\0','','','Hoteles',0),(4,'2018-07-10 00:00:00','RANDSTAD','User','\0','','','Hoteles',0),(5,'2018-12-18 09:16:38','Equipo de pruebas de jherrric','jherrric','','','',NULL,0),(6,'2019-01-08 14:25:35','Equipo de pruebas de mcampong','mcampong','','','',NULL,0),(7,'2019-01-28 14:21:49','Equipo de pruebas de cgonzaro','cgonzaro','','','',NULL,0),(9,'2019-01-28 15:16:36','Equipo de pruebas de marcossa','marcossa','','','',NULL,0);
 /*!40000 ALTER TABLE `proyectos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -411,4 +415,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-04 12:04:42
+-- Dump completed on 2019-02-13  7:49:03
