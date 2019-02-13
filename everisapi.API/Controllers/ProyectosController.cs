@@ -49,14 +49,14 @@ namespace everisapi.API.Controllers
       }
     }
 
-    //Devuelve un listado con todos los proyectos dados de alta en el sistema
-    [HttpGet("allprojects")]
-    public IActionResult GetAllProjects()
+    //Devuelve un listado con todos los proyectos dados de alta en el sistema que no sean de pruebas de los usuarios
+    [HttpGet("allnottestprojects")]
+    public IActionResult GetAllNotTestProjects()
     {
       try
       {
-        //Recogemos una lista de proyecto del usuario
-        var projects = _usersInfoRepository.GetAllProjects();
+        //Recogemos una lista de los proyectos
+        var projects = _usersInfoRepository.GetAllNotTestProjects();
 
         //Transformamos la lista anterior en una nueva con los datos que necesitamos
         //Ya que otros son relevantes

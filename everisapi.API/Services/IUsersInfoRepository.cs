@@ -33,8 +33,8 @@ namespace everisapi.API.Services
     //Devuelve todos los proyectos de todos los usuarios
     IEnumerable<ProyectoEntity> GetFullProyectos(string userNombre);
 
-    //Devuelve un listado con todos los proyectos dados de alta en el sistema
-    IEnumerable<ProyectoEntity> GetAllProjects();
+    //Devuelve un listado con todos los proyectos dados de alta en el sistema que no sean de pruebas de usuarios
+    IEnumerable<ProyectoEntity> GetAllNotTestProjects();
 
     //Devuelve todos los assessments disponibles para todos los usuarios
     IEnumerable<AssessmentEntity> GetAllAssessments();

@@ -107,13 +107,13 @@ export class ProyectoService {
       catchError(this.errorHandler));
   }
 
-  //Devuelve un listado con todos los proyectos dados de alta en el sistema para BackOffice
-  GetAllProjects() {
+  //Devuelve un listado con todos los proyectos dados de alta en el sistema que no pertenezca al grupo de pruebas de los usuarios
+  GetAllNotTestProjects() {
     let Token = this._appComponent.ComprobarUserYToken();
     let headers = new Headers({
       'Authorization': Token
     });
-    return this._http.get(this.url + 'users/allprojects', { headers: headers }).pipe(
+    return this._http.get(this.url + 'users/allnottestprojects', { headers: headers }).pipe(
       map((response: Response) => response.json()),
       catchError(this.errorHandler));
   }

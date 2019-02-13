@@ -22,7 +22,7 @@ export class TeamsManagerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this._proyectoService.GetAllProjects().subscribe(
+    this._proyectoService.GetAllNotTestProjects().subscribe(
       res => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.sort= this.sort;
