@@ -41,7 +41,7 @@ namespace everisapi.API.Services
         foreach (ProyectoEntity pe in proyectosE){
           ProyectoDto p = new ProyectoDto();
           p.Id = pe.Id;
-          p.Nombre = pe.Nombre;
+          p.Nombre = pe.TestProject ? pe.Nombre : String.Concat(pe.Nombre, " - " , pe.TeamName);
           p.Fecha = pe.Fecha;
           p.numFinishedEvals = _context.Evaluaciones.Where(e => e.ProyectoId == pe.Id && e.Estado).Count();
           p.numPendingEvals = _context.Evaluaciones.Where(e => e.ProyectoId == pe.Id && !e.Estado).Count();
