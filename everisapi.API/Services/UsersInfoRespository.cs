@@ -219,6 +219,7 @@ namespace everisapi.API.Services
       proyecto.Fecha = System.DateTime.Now;
       proyecto.Nombre = string.Format("Equipo de pruebas de {0}",userNombre);
       proyecto.UserNombre = userNombre;
+      proyecto.ProjectSize = 1;
       proyecto.TestProject = true; 
       //Creamos el nuevo proyecto test
       _context.Proyectos.Add(proyecto);

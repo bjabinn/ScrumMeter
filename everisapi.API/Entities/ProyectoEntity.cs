@@ -20,11 +20,9 @@ namespace everisapi.API.Entities
         [MaxLength(50)]
         public string TeamName { get; set; }
 
-        [Required]
         [MaxLength(50)]
         public string OfficeName { get; set; }
 
-        [Required]
         [MaxLength(50)]
         public string UnityName { get; set; }
 
