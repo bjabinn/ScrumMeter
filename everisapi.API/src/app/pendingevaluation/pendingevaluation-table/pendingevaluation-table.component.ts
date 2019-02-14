@@ -10,6 +10,7 @@ import { AssignationService } from 'app/services/AssignationService';
 import { Evaluacion } from 'app/Models/Evaluacion';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { PendingEvaluationComponent } from '../pendingevaluation.component';
+import { SectionInfo } from 'app/Models/SectionInfo';
 
 
 
@@ -36,6 +37,9 @@ export class PendingEvaluationTableComponent implements OnInit {
   userRole: string;
   evaluationProgress : number;
   selectedEvaluacionInfoWithProgress;
+  public ListaDeDatos: Array<SectionInfo> = [];
+  public Evaluacion: Evaluacion = null;
+  public sectionId: number;
   //expandedElement: Evaluacion;
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['fecha', 'userNombre', 'assessmentName', 'progress', 'actions'];
@@ -147,34 +151,40 @@ export class PendingEvaluationTableComponent implements OnInit {
         }
       })
   }
+  // Metodo encargado de establecer la información necesaria sobre las secciones en el StorageData y redirigir a la siguiente vista
+  public GetAllSections(evaluationId: number, assessmentId: number){
+          this._sectionService.getSectionInfo(evaluationId, assessmentId).subscribe(
+            res => {
+              this.ListaDeDatos = res;
+              this._appComponent._storageDataService.Sections = this.ListaDeDatos;
+              this._appComponent._storageDataService.SectionSelectedInfo = this.ListaDeDatos.filter(x => x.id == this.sectionId)[0];
 
-  //Metodo encargado de establecer la información necesaria de la seccion en StorageData
-  public GetSectionInfo(evaluationId: number, sectionId: number){
-        this._sectionService.GetSectionsInfoFromSectionId(evaluationId, sectionId).subscribe(
-      res => {
-        this._appComponent._storageDataService.SectionSelectedInfo = res;
-        this._router.navigate(['/nuevaevaluacion']);  
-      },
-      error => {
-        if (error == 404) {
-          this.ErrorMessage = "Error: " + error + " No se pudo encontrar la sección solicitada.";
-        } else if (error == 500) {
-          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
-        } else if (error == 401) {
-          this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
-        } else {
-          this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              //Se establece la siguiente sección validando si es la ultima
+              this._appComponent._storageDataService.nextSection = (this.sectionId) != this.ListaDeDatos.length ? this.ListaDeDatos[this.sectionId] : null;
+              this._router.navigate(['/nuevaevaluacion']); 
+
+            },
+            error => {
+              if (error == 404) {
+                this.ErrorMessage = "Error: " + error + " No pudimos encontrar información de las secciones para esta evaluación.";
+              } else if (error == 500) {
+                this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              } else if (error == 401) {
+                this.ErrorMessage = "Error: " + error + " El usuario es incorrecto o no tiene permisos, intente introducir su usuario nuevamente.";
+              } else {
+                this.ErrorMessage = "Error: " + error + " Ocurrio un error en el servidor, contacte con el servicio técnico.";
+              }
+            }
+          );
         }
-      }
-      );
-  }
 
   //Metodo encargado de establecer la información de la asignacion en StorageData
   public GetAssignation(evaluationId: number){
     this._assignationService.AssignationLastQuestionUpdated(evaluationId).subscribe(
       res => {
         this._appComponent._storageDataService.currentAssignation = res;
-        this.GetSectionInfo(evaluationId, res.sectionId);
+        this.sectionId = res.sectionId;
+        this.GetAllSections(evaluationId, this._appComponent._storageDataService.AssessmentSelected.assessmentId);
       },
       error => {
         if (error == 404) {
