@@ -3,31 +3,31 @@
     <div>
       <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort aria-label="Elements">
         <!-- oficina  -->
-        <ng-container matColumnDef="office">
+        <ng-container matColumnDef="officeName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Oficina</th>
           <td mat-cell *matCellDef="let row">{{row.officeName}}</td>
         </ng-container>
           
         <!-- unidad  -->
-        <ng-container matColumnDef="unity">
+        <ng-container matColumnDef="unityName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Unidad</th>
           <td mat-cell *matCellDef="let row">{{row.unityName}}</td>
         </ng-container>
 
         <!-- proyecto  -->
-        <ng-container matColumnDef="project">
+        <ng-container matColumnDef="nombre">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Proyecto</th>
           <td mat-cell *matCellDef="let row">{{row.nombre}}</td>
         </ng-container>
         
         <!-- equipo  -->
-        <ng-container matColumnDef="team">
+        <ng-container matColumnDef="teamName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Equipo</th>
           <td mat-cell *matCellDef="let row">{{row.teamName}}</td>
         </ng-container>
 
         <!-- tamaño  -->
-        <ng-container matColumnDef="size">
+        <ng-container matColumnDef="projectSize">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Tamaño</th>
           <td mat-cell *matCellDef="let row">{{row.projectSize}}</td>
         </ng-container>

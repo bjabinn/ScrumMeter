@@ -13,8 +13,8 @@ export class TeamsManagerComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   public ErrorMessage: string = null;
-  dataSource;
-  displayedColumns = ['office', 'unity', 'project', "team", "size"];
+  dataSource: MatTableDataSource<any>;
+  displayedColumns = ['officeName', 'unityName', 'nombre', "teamName", "projectSize"];  
   encapsulation: ViewEncapsulation.None
 
   constructor(
