@@ -15,26 +15,14 @@ mat-cell {
   justify-content: center !important;
 }
 
-th.mat-header-cell {
+.mat-header-cell {
   font-weight: bold !important;
   font-size: 12px !important;
   color: #222222;
-  
-  /* height: 40px; */
-}
-
-::ng-deep.mat-sort-header-container  {
-  display: flex !important;
+  display: flex;
   cursor: pointer;
   //align-items: center;
   justify-content: center;
-}
-
-td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  font-size: 12px;
-  text-align: center;
 }
 
 mat-cell:first-child, mat-footer-cell:first-child, mat-header-cell:first-child {
