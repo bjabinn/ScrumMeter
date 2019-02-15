@@ -81,16 +81,15 @@
         </button> -->
       </div>
       <div class="modal-body">
-        <p>Hay una evaluación pendiente del {{_appComponent._storageDataService.Evaluacion.fecha | date:'dd/MM/yyyy'}}.</p>
-        <p>¿Desea empezar una nueva evaluación? </p>
+        <p>Este equipo tiene evaluaciones pendientes, ¿Qué desea hacer?</p>
       </div>
       <div class="container-fluid p-3 bt-1">
         <div class="row p-0">
           <div class="col">
-              <button type="button" class="main-button mat-elevation-z4 w-100 modal-btns border-curve" (click)="di('Nueva')">Aceptar</button>
+              <button type="button" class="main-button mat-elevation-z4 w-100 modal-btns border-curve" (click)="di('Nueva')">Nueva evaluación</button>
           </div>
           <div class="col">
-              <button type="button" class="secondary-button mat-elevation-z4 w-100 modal-btns border-curve" (click)="cl('Cerrar')">Cancelar</button>
+              <button type="button" class="secondary-button mat-elevation-z4 w-100 modal-btns border-curve" (click)="di('EvaluacionesPendientes')">Ver evaluaciones pendientes</button>
           </div>
         </div>
       </div>

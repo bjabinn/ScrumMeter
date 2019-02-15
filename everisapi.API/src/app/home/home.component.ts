@@ -359,8 +359,8 @@ export class HomeComponent implements OnInit {
                   (closeResult) => {
                   }, (dismissReason) => {
                     //Si selecciona continuar cargara la valuación que no termino
-                    if (dismissReason == 'Continuar') {
-                      this._router.navigate(['/menunuevaevaluacion']);
+                    if (dismissReason == 'EvaluacionesPendientes') {
+                      this.EvaluacionesPendientes();
                     } else if (dismissReason == 'Nueva') {
                       //Crea una nueva evaluacion
                       //this.FinishEvaluation(); //termina la evaluacion
