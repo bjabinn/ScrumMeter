@@ -1,15 +1,15 @@
 --Se agregan nuevas columnas a la tabla
 ALTER TABLE agilemeter.proyectos
-ADD OfficeName varchar(50) NOT NULL;
+ADD OfficeName varchar(50);
 
 ALTER TABLE agilemeter.proyectos
-ADD UnityName varchar(50) NOT NULL;
+ADD UnityName varchar(50);
 
 ALTER TABLE agilemeter.proyectos
 ADD TeamName varchar(50);
 
 ALTER TABLE agilemeter.proyectos
-ADD ProjectSize int(3) NOT NULL;
+ADD ProjectSize int(3);
 
 UPDATE agilemeter.proyectos 
 SET TeamName = 'Marvel',
