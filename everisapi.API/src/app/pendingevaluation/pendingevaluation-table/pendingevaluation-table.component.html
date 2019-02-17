@@ -1,8 +1,8 @@
-<mat-form-field>
+<mat-form-field class = "ml-5">
   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
 </mat-form-field>
 
-<div class="mat-elevation-z8 example-container">
+<div class="table-container">
   <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort aria-label="Elements">
 
     <!-- Fecha  -->

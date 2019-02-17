@@ -9,8 +9,12 @@
 
 <div class="container">
     <app-breadcrumb></app-breadcrumb>
-  <h2>Evaluaciones pendientes del equipo {{Project.nombre}}</h2>
-  <div [ngClass]="('' + (!Mostrar ? 'disabled' : ''))">
+    <div class="ng-card-box p-2 pt-4 br-2 mat-elevation-z5">
+        <div class="row">
+            <div class="col ml-5 mt-4">
+              <h3>Evaluaciones pendientes</h3>
+            </div>
+          </div>
 
 
     <!-- <div class="botonesTablaOGrafica">
@@ -21,6 +25,10 @@
             <img [class.button-disabled]="!MostrarGrafica" src="assets/chart.png" title="Ver gráfica" />
           </button>         
     </div> -->
+
+    <div *ngIf="!ListaDeEvaluacionesPaginada" class="loading mt-4">
+        <app-loading></app-loading>
+    </div>
 
     <div id="sortedtable" *ngIf="MostrarTabla">
       <pendingevaluation-table *ngIf="ListaDeEvaluacionesPaginada && ListaDeEvaluacionesPaginada.length >= 0" [ListaDeEvaluacionesPaginada]="ListaDeEvaluacionesPaginada">
