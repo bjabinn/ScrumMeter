@@ -8,7 +8,8 @@
     </div>
   </div>
 
-  <div class="pt-5 container" [ngClass]="('' + (Deshabilitar ? 'disabled' : ''))" *ngIf="InfoAsignacion.preguntas !=  null">
+  <div class="container" [ngClass]="('' + (Deshabilitar ? 'disabled' : ''))" *ngIf="InfoAsignacion.preguntas !=  null">
+      <app-breadcrumb></app-breadcrumb>
     <!-- <div class="row m-0" hidden>
       <div class="col-xs-12 col-sm-2 col-md-1 offset-md-2 p-0">
         <div class="main-button rounded-back-btn position-relative" title="Volver a secciones" (click)="NextPreviousButton(0)">
@@ -130,8 +131,43 @@
             </div> -->
             <!-- End of module title  -->
 
+            <!-- Start of pagination -->
+            <div class="row dots m-4 ">
+              <div class="col">
+                <div class="d-flex justify-content-center">
+                  <div class="position-relative">
+                    <ul class="d-flex justify-content-center">
+                      <li *ngFor="let page of pagesArray; let i = index" [class.current]="i==PageNow-1"><a title="{{ListaAsignaciones[i].nombre}}">x</a></li>
+                     
+                    </ul>
+                    <i class="material-icons pointer b-f-buttons position-absolute back-btn" [ngClass]="{'disabled': PageNow == 1}"
+                      (click)="NextPreviousButton(2)" [attr.title]="PageNow == 1 ? '': 'Módulo anterior: '+ListaAsignaciones[PageNow-1].nombre">
+                     <img class="dots-icon" src="assets/round_navigate_before.png">
+                    </i>
 
-            <div class="container-fluid p-0 pt-4 pt-4 px-5 pb-0">
+                    <i class="material-icons pointer b-f-buttons position-absolute next-btn" [ngClass]="{'disabled': PageNow == NumMax}"
+                      (click)="NextPreviousButton(1)" [attr.title]="PageNow == NumMax ? '': 'Siguiente módulo: '+ListaAsignaciones[PageNow].nombre">
+                      <img class="dots-icon" src="assets/round_navigate_next.png">
+                    </i>
+
+                    <i *ngIf="nextSection != null" class="material-icons pointer b-f-buttons position-absolute next-sec-btn"
+                      (click)="redirectToNextSection()" title="Siguiente sección: {{nextSection.nombre}}" >
+                      <img class="dots-icon" src="assets/round_navigate_next_double.png">
+                    </i>
+
+                    <i *ngIf="prevSection != null" class="material-icons pointer b-f-buttons position-absolute back-sec-btn" 
+                      (click)="redirectToPrevSection()" title="Sección anterior: {{prevSection.nombre}}">
+                      <img class="dots-icon" src="assets/round_navigate_before_double.png">
+                    </i>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End of pagination -->
+
+
+            <div class="container-fluid p-0 pt-0 px-5 pb-0">
               <!-- Inicio preguntas  -->
               <div class="questions-box mt-1">
                 <div class="row m-0" [class.mb-3]="i == (InfoAsignacion.preguntas.length-1)" id="preguntas{{i}}" *ngFor="let preguntaDada of InfoAsignacion.preguntas; let i = index">
@@ -213,18 +249,29 @@
                   <div class="d-flex justify-content-center">
                     <div class="position-relative">
                       <ul class="d-flex justify-content-center">
-                        <li *ngFor="let page of pagesArray; let i = index" [class.current]="i==PageNow-1"><a>x</a></li>
+                        <li *ngFor="let page of pagesArray; let i = index" [class.current]="i==PageNow-1" ><a title="{{ListaAsignaciones[i].nombre}}">x</a></li>
                        
                       </ul>
                       <i class="material-icons pointer b-f-buttons position-absolute back-btn" [ngClass]="{'disabled': PageNow == 1}"
-                        (click)="NextPreviousButton(2)">
-                        arrow_back_ios
+                      (click)="NextPreviousButton(2)" [attr.title]="PageNow == 1 ? '': 'Módulo anterior: '+ListaAsignaciones[PageNow-1].nombre">
+                        <img class="dots-icon" src="assets/round_navigate_before.png">
                       </i>
-  
+
                       <i class="material-icons pointer b-f-buttons position-absolute next-btn" [ngClass]="{'disabled': PageNow == NumMax}"
-                        (click)="NextPreviousButton(1)">
-                        arrow_forward_ios
+                      (click)="NextPreviousButton(1)" [attr.title]="PageNow == NumMax ? '': 'Siguiente módulo: '+ListaAsignaciones[PageNow].nombre">
+                        <img class="dots-icon" src="assets/round_navigate_next.png">
                       </i>
+
+                      <i *ngIf="nextSection != null" class="material-icons pointer b-f-buttons position-absolute next-sec-btn"
+                        (click)="redirectToNextSection()" title="Siguiente sección: {{nextSection.nombre}}" >
+                        <img class="dots-icon" src="assets/round_navigate_next_double.png">
+                      </i>
+
+                      <i *ngIf="prevSection != null" class="material-icons pointer b-f-buttons position-absolute back-sec-btn" 
+                        (click)="redirectToPrevSection()" title="Sección anterior: {{prevSection.nombre}}">
+                        <img class="dots-icon" src="assets/round_navigate_before_double.png">
+                      </i>
+
                     </div>
                   </div>
                 </div>
@@ -234,11 +281,11 @@
 
             <div class="row m-0 mt-3 centered">
                 <div class="col-1" >
-                    <div class="secondary-button rounded-btn next-section-box" title="Volver a secciones" (click)="NextPreviousButton(0)">
+                    <!-- <div class="secondary-button rounded-btn next-section-box" title="Volver a secciones" (click)="NextPreviousButton(0)">
                         <mat-icon class="next-section-icon">
                             keyboard_return       
                           </mat-icon>
-                      </div>
+                      </div> -->
                 </div>
                 <div class="col-3" >
                     <app-btn-finalize-evaluation 
@@ -248,14 +295,14 @@
                     </app-btn-finalize-evaluation>
                   </div>
                   <div class="col-1" >
-                  <div *ngIf="PageNow == NumMax">
+                  <!-- <div *ngIf="PageNow == NumMax">
                       <div *ngIf="nextSection != null" class="secondary-button rounded-btn next-section-box" title="Siguiente sección: {{nextSection.nombre}}"
                         (click)="redirectToNextSection()">
                         <mat-icon class="next-section-icon">
                             arrow_forward                                        
                         </mat-icon>
                       </div>
-                  </div>
+                  </div> -->
                 </div>
             </div>
               

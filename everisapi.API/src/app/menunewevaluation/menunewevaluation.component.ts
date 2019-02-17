@@ -63,6 +63,13 @@ export class MenunewevaluationComponent implements OnInit {
     this.UserSelected = this._proyectoService.UsuarioLogeado;
     this.MostrarInfo = false;
 
+    if(this.Evaluacion != null){
+      //this._appComponent.pushBreadcrumb(this.ProjectSelected.nombre, null);
+      //this._appComponent.pushBreadcrumb(this.Evaluacion.assessmentName, null);
+      this._appComponent.pushBreadcrumb("Secciones", "/evaluationsections");
+    }
+    
+
     //Recogemos todos los datos
     if (this.Evaluacion != null && this.Evaluacion != undefined) {
       this._sectionService.getSectionInfo(this.Evaluacion.id,this._appComponent._storageDataService.AssessmentSelected.assessmentId).subscribe(
@@ -105,8 +112,9 @@ export class MenunewevaluationComponent implements OnInit {
   public RedirectToAsignaciones(SectionSeleccionada: SectionInfo, index:number) {
     this._appComponent._storageDataService.SectionSelectedInfo = SectionSeleccionada;
     this._appComponent._storageDataService.nextSection = (index+1) != this.ListaDeDatos.length ? this.ListaDeDatos[index+1] : null;
+    this._appComponent._storageDataService.prevSection = (index-1) != -1 ? this.ListaDeDatos[index-1] : null;
 
-    this._router.navigate(['/nuevaevaluacion']);
+    this._router.navigate(['/evaluationquestions']);
   }
 
   //Volver a la pagina principal

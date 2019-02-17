@@ -55,54 +55,55 @@ namespace everisapi.API.Services
           UserNombre = evaluation.UserNombre,
           NotasEvaluacion = evaluation.NotasEvaluacion,
           NotasObjetivos = evaluation.NotasObjetivos,
-          AssessmentId = evaluation.AssessmentId
+          AssessmentId = evaluation.AssessmentId,
+          Puntuacion = (float)evaluation.Puntuacion
         };
 
-        if (evaluation.Estado == false)
-        {
-          EvaluacionInfo.Puntuacion = CalculaPuntuacion(evaluation.Id,  evaluation.AssessmentId);
-        }
-        else
-        {
-          EvaluacionInfo.Puntuacion = (float)evaluation.Puntuacion;
-        }
+        // if (evaluation.Estado == false)
+        // {
+        //   EvaluacionInfo.Puntuacion = CalculaPuntuacion(evaluation.Id,  evaluation.AssessmentId);
+        // }
+        // else
+        // {
+        //   EvaluacionInfo.Puntuacion = (float)evaluation.Puntuacion;
+        // }
 
-        if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluation.Id && r.Notas != null && r.Notas != "").Count())
-        {
-          EvaluacionInfo.FlagNotasAsig = true;
-        }
-        else
-        {
-          EvaluacionInfo.FlagNotasAsig = false;
+        // if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluation.Id && r.Notas != null && r.Notas != "").Count())
+        // {
+        //   EvaluacionInfo.FlagNotasAsig = true;
+        // }
+        // else
+        // {
+        //   EvaluacionInfo.FlagNotasAsig = false;
 
-        }
+        // }
 
-        if (0 < _context.NotasSections.Where(r => r.EvaluacionId == evaluation.Id && r.Notas != null && r.Notas != "").Count())
-        {
-          EvaluacionInfo.FlagNotasSec = true;
-        }
-        else
-        {
-          EvaluacionInfo.FlagNotasSec = false;
+        // if (0 < _context.NotasSections.Where(r => r.EvaluacionId == evaluation.Id && r.Notas != null && r.Notas != "").Count())
+        // {
+        //   EvaluacionInfo.FlagNotasSec = true;
+        // }
+        // else
+        // {
+        //   EvaluacionInfo.FlagNotasSec = false;
 
-        }
+        // }
 
-        var listaev = _context.Evaluaciones.Where(r => r.ProyectoId == evaluation.ProyectoId && r.Estado == true).ToList();
-        double suma = 0;
+        // var listaev = _context.Evaluaciones.Where(r => r.ProyectoId == evaluation.ProyectoId && r.Estado == true).ToList();
+        // double suma = 0;
    
-        foreach(var ev in listaev)
-        {
-          suma += ev.Puntuacion;
-        }
+        // foreach(var ev in listaev)
+        // {
+        //   suma += ev.Puntuacion;
+        // }
 
-        if (listaev.Count > 0)
-        {
-          //EvaluacionInfo.Media = suma / listaev.Count;
-        }
-        else
-        {
-          EvaluacionInfo.Media = -1;
-        }
+        // if (listaev.Count > 0)
+        // {
+        //   //EvaluacionInfo.Media = suma / listaev.Count;
+        // }
+        // else
+        // {
+        //   EvaluacionInfo.Media = -1;
+        // }
       
       return EvaluacionInfo;
     }
@@ -368,56 +369,57 @@ namespace everisapi.API.Services
           NotasEvaluacion = evaluacion.NotasEvaluacion,
           NotasObjetivos = evaluacion.NotasObjetivos,
           AssessmentName = evaluacion.Assessment.AssessmentName,
-          AssessmentId = evaluacion.AssessmentId
+          AssessmentId = evaluacion.AssessmentId,
+          Puntuacion = (float)evaluacion.Puntuacion
         };
 
 
         //if(evaluacion.Estado == false)
         //{
-          EvaluacionInfo.Puntuacion = CalculaPuntuacion(evaluacion.Id, evaluacion.AssessmentId);
+          //EvaluacionInfo.Puntuacion = CalculaPuntuacion(evaluacion.Id, evaluacion.AssessmentId);
         //}
         // else
         // {
         //   EvaluacionInfo.Puntuacion = evaluacion.Puntuacion;
         // }
 
-        if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
-        {
-          EvaluacionInfo.FlagNotasAsig = true;
-        }
-        else
-        {
-          EvaluacionInfo.FlagNotasAsig = false;
+        // if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        // {
+        //   EvaluacionInfo.FlagNotasAsig = true;
+        // }
+        // else
+        // {
+        //   EvaluacionInfo.FlagNotasAsig = false;
 
-        }
+        // }
 
 
-        if (0 < _context.NotasSections.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
-        {
-          EvaluacionInfo.FlagNotasSec = true;
-        }
-        else
-        {
-          EvaluacionInfo.FlagNotasSec = false;
+        // if (0 < _context.NotasSections.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())
+        // {
+        //   EvaluacionInfo.FlagNotasSec = true;
+        // }
+        // else
+        // {
+        //   EvaluacionInfo.FlagNotasSec = false;
 
-        }
+        // }
 
-        var listaev = _context.Evaluaciones.Where(r => r.ProyectoId == evaluacion.ProyectoId && r.Estado == true).ToList();
-        double suma = 0;
+        // var listaev = _context.Evaluaciones.Where(r => r.ProyectoId == evaluacion.ProyectoId && r.Estado == true).ToList();
+        // double suma = 0;
 
-        foreach (var ev in listaev)
-        {
-          suma += ev.Puntuacion;
-        }
+        // foreach (var ev in listaev)
+        // {
+        //   suma += ev.Puntuacion;
+        // }
 
-        if (listaev.Count > 0)
-        {
-          EvaluacionInfo.Media = (float)suma / listaev.Count;
-        }
-        else
-        {
-          EvaluacionInfo.Media = -1;
-        }
+        // if (listaev.Count > 0)
+        // {
+        //   EvaluacionInfo.Media = (float)suma / listaev.Count;
+        // }
+        // else
+        // {
+        //   EvaluacionInfo.Media = -1;
+        // }
 
 
         //Añade el objeto en la lista
@@ -709,17 +711,18 @@ namespace everisapi.API.Services
           NotasEvaluacion = evaluacion.NotasEvaluacion,
           NotasObjetivos = evaluacion.NotasObjetivos,
           AssessmentName = evaluacion.Assessment.AssessmentName,
-          AssessmentId = evaluacion.AssessmentId
+          AssessmentId = evaluacion.AssessmentId,
+          Puntuacion = (float)evaluacion.Puntuacion
         };
 
-        if (evaluacion.Estado == false)
-        {
-          EvaluacionInfo.Puntuacion = CalculaPuntuacion(evaluacion.Id, evaluacion.AssessmentId);
-        }
-        else
-        {
-          EvaluacionInfo.Puntuacion = (float)evaluacion.Puntuacion;
-        }
+        // if (evaluacion.Estado == false)
+        // {
+        //   EvaluacionInfo.Puntuacion = CalculaPuntuacion(evaluacion.Id, evaluacion.AssessmentId);
+        // }
+        // else
+        // {
+        //   EvaluacionInfo.Puntuacion = (float)evaluacion.Puntuacion;
+        // }
 
 
         if (0 < _context.NotasAsignaciones.Where(r => r.EvaluacionId == evaluacion.Id && r.Notas != null && r.Notas != "").Count())

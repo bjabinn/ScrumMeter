@@ -163,6 +163,9 @@ export class PreviousevaluationComponent implements OnInit {
         //this.Restablecer();
       });
 
+      this._appComponent.pushBreadcrumb("Evaluaciones finalizadas", "/finishedevaluations");
+      this._appComponent.pushBreadcrumb(this._appComponent._storageDataService.UserProjectSelected.nombre, null);
+
     if (this.Project.fecha != null) {
       //Para que no de error en modo development
       setTimeout(() => {
@@ -286,8 +289,13 @@ export class PreviousevaluationComponent implements OnInit {
  
   //Guarda los datos en el storage y cambia de ruta hacia la generación de grafica
   public SaveDataToPDF(evaluacion: EvaluacionInfo) {
-    this._appComponent._storageDataService.EvaluacionToPDF = evaluacion;    
-    this._router.navigate(['/pdfgenerator']);
+    this._appComponent._storageDataService.EvaluacionToPDF = evaluacion;  
+    
+    this._appComponent.pushBreadcrumb(evaluacion.assessmentName, null);
+    var pipe = new DatePipe('en-US');
+    this._appComponent.pushBreadcrumb(pipe.transform(evaluacion.fecha, 'dd/MM/yyyy'), null);
+    this._appComponent.pushBreadcrumb("Resultados", "/evaluationresults");  
+    this._router.navigate(['/evaluationresults']);
   }
 
   //Filtra por evaluaciones completas completas o ninguna
@@ -402,9 +410,9 @@ export class PreviousevaluationComponent implements OnInit {
 
   public ExportToExcel(){
     let workbook = new Workbook();
-    let worksheet = workbook.addWorksheet('Evaluaciones anteriores');
+    let worksheet = workbook.addWorksheet('Evaluaciones finalizadas');
 
-    let titleRow = worksheet.addRow(['Evaluaciones anteriores del equipo ' +  this.Project.nombre]);
+    let titleRow = worksheet.addRow(['Evaluaciones finalizadas del equipo ' +  this.Project.nombre]);
     titleRow.font = { name: 'Arial', family: 4, size: 16, bold: true }
     worksheet.addRow([]);
 
@@ -436,7 +444,7 @@ export class PreviousevaluationComponent implements OnInit {
 
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      fs.saveAs(blob, 'Evaluaciones_anteriores_'+  this.Project.nombre+'.xlsx');
+      fs.saveAs(blob, 'Evaluaciones_finalizadas_'+  this.Project.nombre+'.xlsx');
     })
   }
 

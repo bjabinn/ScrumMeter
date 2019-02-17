@@ -675,7 +675,12 @@ hr.textopdf {
 .circle-progress-container{
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   align-items: baseline;
+}
+
+.circle-progress{
+  //display: flex;
 }
 
 .notas-container {
@@ -694,8 +699,8 @@ hr.textopdf {
   overflow: hidden;
  
   margin-top:30px;
-  margin-left: 10%;
-  margin-right: 10%;
+  //margin-left: 10%;
+  //margin-right: 10%;
   
 }
 
@@ -711,8 +716,8 @@ hr.textopdf {
   // justify-content: center;
   // align-content: center;
   //width: 80%;
-  padding-left: 10%;
-  padding-right: 10%;
+  //padding-left: 10%;
+  //padding-right: 10%;
   margin-top: 40px;
 }
 
@@ -758,4 +763,28 @@ hr.textopdf {
 .botonPreg, .botonComents, .botonExcel{
   margin:0px;
   cursor: default;
+}
+
+.transition-animation {
+  -webkit-transition: all .8s ease !important;
+  -moz-transition: all .8s ease !important;
+  -ms-transition: all .8s ease !important;
+  -o-transition: all .8s ease !important;
+  transition: all .8s ease !important;
+}
+
+.ng-card-box{
+  // box-shadow: 0 2px 2px rgba(10, 16, 20, 0.24), 0 0 2px rgba(10, 16, 20, 0.12);
+  min-height: 200px;
+  border-left: 4px solid mat-color($mat-everis, 50);
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+  border-top: 1px solid #dadadac4;
+  @extend .transition-animation;
+}
+
+.loading {
+  position: fixed;
+  margin-top: 15%;
+  margin-right: 5%;
 }

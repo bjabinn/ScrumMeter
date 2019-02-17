@@ -29,11 +29,11 @@ const appRoutes: Routes = [
       { path: 'questions', component: QuestionsManagerComponent }
     ]
   },
-  { path: 'menunuevaevaluacion', component: MenunewevaluationComponent },
-  { path: 'nuevaevaluacion', component: NewevaluationComponent },
-  { path: 'pdfgenerator', component: PdfgeneratorComponent },
-  { path: 'evaluacionprevia', component: PreviousevaluationComponent },
-  { path: 'evaluacionpendiente', component: PendingEvaluationComponent },
+  { path: 'evaluationsections', component: MenunewevaluationComponent },
+  { path: 'evaluationquestions', component: NewevaluationComponent },
+  { path: 'evaluationresults', component: PdfgeneratorComponent },
+  { path: 'finishedevaluations', component: PreviousevaluationComponent },
+  { path: 'pendingevaluations', component: PendingEvaluationComponent },
   { path: '**', component: LoginComponent }
 
 ];

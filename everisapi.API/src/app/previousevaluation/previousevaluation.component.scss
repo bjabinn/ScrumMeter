@@ -1,3 +1,13 @@
+@import 'theme.scss';
+
+.transition-animation {
+  -webkit-transition: all .8s ease !important;
+  -moz-transition: all .8s ease !important;
+  -ms-transition: all .8s ease !important;
+  -o-transition: all .8s ease !important;
+  transition: all .8s ease !important;
+}
+
 .loading {
   position: fixed;
   margin-top: 15%;
@@ -243,7 +253,7 @@ img{
 
 .botonesTablaOGrafica{
   // float: right;
-  margin-bottom: -55px;
+  margin-bottom: -70px;
   margin-left: 89%;
   display: flex;
 }
@@ -253,7 +263,8 @@ img{
 // }
 
 .panelGrafica{
-  padding-top: 15px;
+  //padding-top: 15px;
+  margin-top: -1rem;
 }
 
 .button-disabled{
@@ -331,6 +342,16 @@ img{
 .legend-global-item-disabled{
   opacity: 0.2;
   text-decoration: line-through;
+}
+
+.ng-card-box{
+  // box-shadow: 0 2px 2px rgba(10, 16, 20, 0.24), 0 0 2px rgba(10, 16, 20, 0.12);
+  min-height: 200px;
+  border-left: 4px solid mat-color($mat-everis, 50);
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+  border-top: 1px solid #dadadac4;
+  @extend .transition-animation;
 }
 
 

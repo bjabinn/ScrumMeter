@@ -42,6 +42,7 @@ export class NewevaluationComponent implements OnInit {
   public anadeNota: string = null;
   public pagesArray: number[];
   public nextSection: SectionInfo = null;
+  public prevSection: SectionInfo = null;
   public changedQuestion: number;
   public changedAnswer: number;
 
@@ -66,6 +67,7 @@ export class NewevaluationComponent implements OnInit {
     this.PageNow = 1;
     this.SectionSelected = this._appComponent._storageDataService.SectionSelectedInfo;
     this.nextSection = this._appComponent._storageDataService.nextSection;
+    this.prevSection = this._appComponent._storageDataService.prevSection;
     this.AreaAsignada = this._appComponent._storageDataService.currentAssignation;
     //Recogemos el proyecto y el usuario si no coincide alguno lo redirigiremos
     this.Project = this._appComponent._storageDataService.UserProjectSelected;
@@ -84,6 +86,10 @@ export class NewevaluationComponent implements OnInit {
     }
 
     this.MostrarInfo = true;
+
+    if(this.Evaluation != null){
+      this._appComponent.pushBreadcrumb("Preguntas", "/evaluationquestions");
+    }
 
     //Recoge todas las asignaciones de la section por id
     if (this.Evaluation != null && this.Evaluation != undefined && this.SectionSelected != null && this.SectionSelected != undefined) {
@@ -164,6 +170,28 @@ export class NewevaluationComponent implements OnInit {
     this._appComponent._storageDataService.SectionSelectedInfo = this.nextSection;
     
     let index = this._appComponent._storageDataService.Sections.indexOf(this.nextSection);
+
+    this._appComponent._storageDataService.nextSection = (index + 1) != this._appComponent._storageDataService.Sections.length
+      ? this._appComponent._storageDataService.Sections[index + 1]
+      : null;
+
+      this._appComponent._storageDataService.prevSection = (index - 1) != -1
+      ? this._appComponent._storageDataService.Sections[index - 1]
+      : null;
+
+      //console.log( this._appComponent._storageDataService.prevSection);
+
+    this.InitialiseComponent();
+  }
+
+  public redirectToPrevSection() {
+    this._appComponent._storageDataService.SectionSelectedInfo = this.prevSection;
+    
+    let index = this._appComponent._storageDataService.Sections.indexOf(this.prevSection);
+
+    this._appComponent._storageDataService.prevSection = (index - 1) != -1
+      ? this._appComponent._storageDataService.Sections[index - 1]
+      : null;
 
     this._appComponent._storageDataService.nextSection = (index + 1) != this._appComponent._storageDataService.Sections.length
       ? this._appComponent._storageDataService.Sections[index + 1]

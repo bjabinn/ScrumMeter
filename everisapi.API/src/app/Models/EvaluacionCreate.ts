@@ -3,6 +3,7 @@ export class EvaluacionCreate {
     public estado: boolean,
     public proyectoid: number,
     public userNombre: string,
-    public assessmentId : number
+    public assessmentId : number,
+    public assesmentName: string
   ) { }
 }

@@ -11,6 +11,7 @@ import { Evaluacion } from 'app/Models/Evaluacion';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { PendingEvaluationComponent } from '../pendingevaluation.component';
 import { SectionInfo } from 'app/Models/SectionInfo';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -96,7 +97,8 @@ export class PendingEvaluationTableComponent implements OnInit {
         this._evaluacionService.getEvaluacion(evaluation.id).subscribe(
       res => {
         this._appComponent._storageDataService.Evaluacion = res;
-        this._appComponent._storageDataService.AssessmentSelected = {'assessmentId': evaluation.assessmentId, 'assessmentName': undefined};
+        this._appComponent._storageDataService.Evaluacion.assessmentName = evaluation.assessmentName;
+        this._appComponent._storageDataService.AssessmentSelected = {'assessmentId': evaluation.assessmentId, 'assessmentName': evaluation.assessmentName};
         this.GetAssignation(evaluation.id);
       },
       error => {
@@ -160,8 +162,17 @@ export class PendingEvaluationTableComponent implements OnInit {
               this._appComponent._storageDataService.SectionSelectedInfo = this.ListaDeDatos.filter(x => x.id == this.sectionId)[0];
 
               //Se establece la siguiente sección validando si es la ultima
-              this._appComponent._storageDataService.nextSection = (this.sectionId) != this.ListaDeDatos.length ? this.ListaDeDatos[this.sectionId] : null;
-              this._router.navigate(['/nuevaevaluacion']); 
+              let index = this.ListaDeDatos.indexOf(this._appComponent._storageDataService.SectionSelectedInfo);
+              this._appComponent._storageDataService.nextSection = index != this.ListaDeDatos.length ? this.ListaDeDatos[index+1] : null;
+              this._appComponent._storageDataService.prevSection = index != -1 ? this.ListaDeDatos[index-1] : null;
+
+              //this._appComponent.pushBreadcrumb(this._appComponent._storageDataService.UserProjectSelected.nombre, null);
+              this._appComponent.pushBreadcrumb(this._appComponent._storageDataService.Evaluacion.assessmentName, null);
+              var pipe = new DatePipe('en-US');
+              this._appComponent.pushBreadcrumb(pipe.transform(this._appComponent._storageDataService.Evaluacion.fecha, 'dd/MM/yyyy'), null);
+              this._appComponent.pushBreadcrumb("Secciones", "/evaluationsections");
+
+              this._router.navigate(['/evaluationquestions']); 
 
             },
             error => {

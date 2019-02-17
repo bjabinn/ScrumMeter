@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'app/Models/User';
 import { Role } from 'app/Models/Role';
 import { Proyecto } from 'app/Models/Proyecto';
@@ -11,6 +11,7 @@ import { Evaluacion } from 'app/Models/Evaluacion';
 import { EvaluacionCreate } from 'app/Models/EvaluacionCreate';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Assessment } from '../Models/Assessment';
+import { BreadcrumbComponent } from 'app/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-home',
@@ -47,6 +48,10 @@ export class HomeComponent implements OnInit {
       this._router.navigate(['/login']);
     }
     //console.log(this._proyectoService.UserLongName);
+
+    this._appComponent.popBreadcrumb(0);
+    this._appComponent.pushBreadcrumb("Home", "/home");
+    //console.log(this._breadcrumb.breadcrumbList);
 
     this.getUserRole();
 
@@ -98,6 +103,7 @@ export class HomeComponent implements OnInit {
     });
 
   }
+
 
   public GetAssessments(): any {
     this._proyectoService.getAllAssessments().subscribe(
@@ -257,14 +263,19 @@ export class HomeComponent implements OnInit {
   //Este metodo crea una nueva evaluación y la manda para guardarla en la base de datos
   public GuardarEvaluacion() {
 
-    var NuevaEvaluacion: EvaluacionCreate = { 'estado': false, 'proyectoid': this.ProyectoSeleccionado.id, 'userNombre': this._proyectoService.UsuarioLogeado, 'assessmentId': this.AssessmentSelected.assessmentId };    // console.log("assessmeeeent", this.AssessmentSelected);
+    var NuevaEvaluacion: EvaluacionCreate = { 'estado': false, 'proyectoid': this.ProyectoSeleccionado.id, 'userNombre': this._proyectoService.UsuarioLogeado, 'assessmentId': this.AssessmentSelected.assessmentId, 'assesmentName': this.AssessmentSelected.assessmentName };    // console.log("assessmeeeent", this.AssessmentSelected);
     // console.log(NuevaEvaluacion);
     
     this._evaluacionService.addEvaluacion(NuevaEvaluacion).subscribe(
       res => {
         this._appComponent._storageDataService.Evaluacion = res;
+        this._appComponent._storageDataService.Evaluacion.assessmentName = this.AssessmentSelected.assessmentName;
         this.SendingInfo = false;
-        this._router.navigate(['/menunuevaevaluacion']);
+
+        this._appComponent.pushBreadcrumb(this._appComponent._storageDataService.UserProjectSelected.nombre, null);
+        this._appComponent.pushBreadcrumb(this._appComponent._storageDataService.Evaluacion.assessmentName, null);
+        this._appComponent.pushBreadcrumb("Nueva evaluación", null);
+        this._router.navigate(['/evaluationsections']);
       },
       error => {
         if (error == 404) {
@@ -287,7 +298,7 @@ export class HomeComponent implements OnInit {
   //Este metodo consulta las evaluaciones anteriores de este proyecto si esta seleccionado y existe
   public EvaluacionesAnteriores() {
     if (this.SeeAllProjects || this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
-      this._router.navigate(['/evaluacionprevia']);
+      this._router.navigate(['/finishedevaluations']);
     } else {
       this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
       setTimeout(()=>{
@@ -300,7 +311,7 @@ export class HomeComponent implements OnInit {
   //Este metodo consulta las evaluaciones anteriores de este proyecto si esta seleccionado y existe
   public EvaluacionesPendientes() {
     if (this.SeeAllProjects || this.ProyectoSeleccionado != null && this.ProyectoSeleccionado != undefined) {
-      this._router.navigate(['/evaluacionpendiente']);
+      this._router.navigate(['/pendingevaluations']);
     } else {
       this.ErrorMessage = "Seleccione un proyecto para realizar esta acción.";
       setTimeout(()=>{
@@ -360,7 +371,7 @@ export class HomeComponent implements OnInit {
                   }, (dismissReason) => {
                     //Si selecciona continuar cargara la valuación que no termino
                     if (dismissReason == 'Continuar') {
-                      this._router.navigate(['/menunuevaevaluacion']);
+                      this._router.navigate(['/evaluationsections']);
                     } else if (dismissReason == 'Nueva') {
                       //Crea una nueva evaluacion
                       //this.FinishEvaluation(); //termina la evaluacion
@@ -386,7 +397,7 @@ export class HomeComponent implements OnInit {
 
   //Para seguir con la evaluacion seleccionada
   public continuarEvaluacion() {
-    this._router.navigate(['/menunuevaevaluacion']);
+    this._router.navigate(['/evaluationsections']);
   }
 
   public getUserRole(){

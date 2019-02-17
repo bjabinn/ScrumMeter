@@ -8,7 +8,7 @@
 </div>
 
 <div class="container">
-
+    <app-breadcrumb></app-breadcrumb>
   <h2>Evaluaciones pendientes del equipo {{Project.nombre}}</h2>
   <div [ngClass]="('' + (!Mostrar ? 'disabled' : ''))">
 
@@ -30,7 +30,7 @@
     </div>
 
     <!--Grafica-->
-    <div class="container-grafica" [hidden]="!MostrarGrafica">
+    <!-- <div class="container-grafica" [hidden]="!MostrarGrafica">
         <mat-form-field>
             <mat-select [(value)]="selectedAssessment" placeholder="Assessment" (selectionChange)="changeChartAssessment($event)">
                 <mat-option *ngFor="let a of ListaAssessments" [value]="a">{{a.name}} </mat-option>
@@ -47,7 +47,7 @@
               [colors]="chartColors"></canvas>
     </div>
     </div>
-    </div>
+    </div> -->
 
     <!-- <div class="wrapper" *ngIf="NumMax > 1">
       <button type="button" class="btn btn-success cambiar" (click)="NextPreviousButton(false)">Anterior</button>

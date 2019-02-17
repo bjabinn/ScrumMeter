@@ -33,8 +33,10 @@ export class StorageDataService {
   public RoleAdmin: boolean;
   public Role: string;
   public nextSection : SectionInfo = null;
+  public prevSection : SectionInfo = null;
   public Sections: SectionInfo[] = [];
   public currentAssignation: Asignacion = { 'id': 0, 'nombre': "undefined" };
+  public breadcrumbList: Array<any> = [];
 
 
   public GetToken() {

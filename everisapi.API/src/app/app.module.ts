@@ -38,6 +38,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
 import { SectionResultsComponent } from './pdfgenerator/section-results/section-results.component';
 import { TeamsManagerComponent } from './back-office/components/teams-manager/teams-manager.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { TeamsManagerComponent } from './back-office/components/teams-manager/te
     BtnFinalizeEvaluationComponent,
     SectionResultsComponent,
     TeamsManagerComponent,
+    BreadcrumbComponent,
 
   ],
   imports: [
@@ -84,7 +86,8 @@ import { TeamsManagerComponent } from './back-office/components/teams-manager/te
     NgCircleProgressModule,
     MatExpansionModule,
     MatCheckboxModule,
-    MatIconModule
+    MatIconModule,
+
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

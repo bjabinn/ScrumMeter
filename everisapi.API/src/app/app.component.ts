@@ -69,6 +69,27 @@ export class AppComponent {
     this.AssessmentName = assessmentName;
   }
 
+
+  public pushBreadcrumb(_name : string, _path:string){
+    var bc = this._storageDataService.breadcrumbList.find(x => x.name == _name && x.path == _path)
+
+    if(bc != null){
+      let index: number = this._storageDataService.breadcrumbList.indexOf(bc);
+      this.popBreadcrumb(index);
+    }
+    this._storageDataService.breadcrumbList.push({name: _name, path: _path});
+  }
+
+  public popBreadcrumb(index: number){
+    let length: number = this._storageDataService.breadcrumbList.length;
+    for(var i = index; i <  length ; i++){
+      this._storageDataService.breadcrumbList.pop();
+    }   
+  }
+
+  public getBreadcrumb(index: number) : any{
+    return this._storageDataService.breadcrumbList[index];
+  }
 }
 
 /* Suerte XD */

@@ -119,3 +119,21 @@ table {
   .mat-column-fecha {
     width: 20%;
   }
+
+  .table-container{
+    //margin-top: -1rem;
+  }
+
+  .transparente {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    //overflow: hidden;
+    outline: none;
+    width: 40px;
+  }
+  
+  img{
+    height:32px;
+  }

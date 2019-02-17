@@ -1,4 +1,4 @@
-<div class="espacio">
+<div >
   <div *ngIf="(ErrorMessage != null || ErrorMessage != undefined )" class="alert alert-danger" id="danger">
     <strong>{{ErrorMessage}}</strong>
   </div>
@@ -8,12 +8,16 @@
 </div>
 
 <div class="container">
-
-  <h2>Evaluaciones del equipo {{Project.nombre}}</h2>
-  <div [ngClass]="('' + (!Mostrar ? 'disabled' : ''))">
-
+    <app-breadcrumb></app-breadcrumb>
+  <!-- <h2>Evaluaciones del equipo {{Project.nombre}}</h2> -->
+  <div class="ng-card-box p-2 pt-4 br-2 mat-elevation-z5">
+      <div class="row">
+          <div class="col ml-5 mb-3 mt-4">
+            <h3>Evaluaciones finalizadas</h3>
+          </div>
+        </div>
     
-    <div class="row" hidden>
+    <!-- <div class="row" hidden>
       <div class="panel panel-primary filterable todo">
         <div class="panel-heading todo">
           <div class="loading" *ngIf="!Mostrar">
@@ -138,12 +142,10 @@
         </table>
 
       </div>
-    </div>
+    </div> -->
 
     <div class="botonesTablaOGrafica">
-        <button class="transparente botonExcel" (click)="ExportToExcel()">
-            <img [class.button-disabled]="!ListaDeEvaluacionesPaginada || ListaDeEvaluacionesPaginada.length == 0" src="assets/excel.png" title="Exportar a Excel" />
-          </button>
+        
         <button class="transparente botonTabla" (click)="MostrarGrafica = false; MostrarTabla = true">
             <img [class.button-disabled]="!MostrarTabla" src="assets/table.png" title="Ver tabla" />
           </button>
@@ -152,7 +154,11 @@
           </button>         
     </div>
 
-    <div id="sortedtable" *ngIf="MostrarTabla">
+    <div *ngIf="!ListaDeEvaluacionesPaginada" class="loading mt-5">
+        <app-loading></app-loading>
+    </div>
+
+    <div id="sortedtable" *ngIf="MostrarTabla && ListaDeEvaluacionesPaginada">
       <sorted-table *ngIf="ListaDeEvaluacionesPaginada && ListaDeEvaluacionesPaginada.length > 0" [dataInput]="ListaDeEvaluacionesPaginada">
         loading
       </sorted-table>
@@ -161,12 +167,12 @@
 
     <!--Grafica-->
     <div class="container-grafica" [hidden]="!MostrarGrafica">
-        <mat-form-field>
+        <mat-form-field class = "mt-3 ml-5">
             <mat-select [(value)]="selectedAssessment" placeholder="Assessment" (selectionChange)="changeChartAssessment()">
                 <mat-option *ngFor="let a of ListaAssessments" [value]="a">{{a.name}} </mat-option>
               </mat-select>
             </mat-form-field>
-    <div class="mat-elevation-z8 panelGrafica">
+    <div class="panelGrafica">
     <div id="Grafica" *ngIf="ListaPuntuacion && ListaPuntuacion.length > 0" class="mx-auto">
         <div class="row" >
             <div class="legend" >

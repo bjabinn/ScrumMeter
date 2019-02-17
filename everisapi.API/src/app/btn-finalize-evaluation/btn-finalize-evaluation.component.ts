@@ -7,6 +7,7 @@ import { SectionInfo } from 'app/Models/SectionInfo';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from '../app.component';
 import { Proyecto } from 'app/Models/Proyecto';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-btn-finalize-evaluation',
@@ -115,7 +116,16 @@ export class BtnFinalizeEvaluationComponent {
     this._evaluacionService.GetEvaluationInfoFromIdEvaluation(idEvaluation).subscribe(
       res => {
         this._appComponent._storageDataService.EvaluacionToPDF = res;    
-        this._router.navigate(['/pdfgenerator']);
+        //TODO
+        this._appComponent.popBreadcrumb(1);
+        this._appComponent.pushBreadcrumb("Evaluaciones finalizadas", "/finishedevaluations");
+        this._appComponent.pushBreadcrumb(this._appComponent._storageDataService.UserProjectSelected.nombre, null);
+        this._appComponent.pushBreadcrumb(this.evaluacion.assessmentName, null);
+        var pipe = new DatePipe('en-US');
+        this._appComponent.pushBreadcrumb(pipe.transform(res.fecha, 'dd/MM/yyyy'), null);
+        this._appComponent.pushBreadcrumb("Resultados", "/evaluationresults"); 
+
+        this._router.navigate(['/evaluationresults']);
       },
       error => {
         if (error == 404) {

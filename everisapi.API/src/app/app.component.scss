@@ -265,7 +265,13 @@ background-size:100% 3px ;
   margin-top: 7px !important;
 }
 
+.col-centered{
+  display: flex;
+  justify-content: center;
+}
+
 .logo-container{
+ 
   width: 14rem;
-  margin-top: -1rem;
+  margin-top: -1.25rem;
 }

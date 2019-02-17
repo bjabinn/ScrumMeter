@@ -1,13 +1,14 @@
 <div class="corregir position-relative">
-  <div class="position-absolute error-msg">
+  <div class="position-absolute error-msg" hidden>
     <div class="alert alert-danger" [ngClass]="{'fadeOut':!fadeInError, 'fadeIn':ErrorMessage?.length>0 && fadeInError}" id="danger">
       <strong>{{ErrorMessage}}</strong>
     </div>
   </div>
 
   <div *ngIf="MostrarInfo">
-
-    <div class="pt-5 container">
+  
+    <div class="container">
+      <app-breadcrumb></app-breadcrumb>
       <div class="row ng-card-box p-5 br-2 mat-elevation-z5">
         <div class="col" id="proyectSelectorContainer">
           <div class="row">
