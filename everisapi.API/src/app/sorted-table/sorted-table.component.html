@@ -2,7 +2,7 @@
   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
 </mat-form-field>
 <button class="transparente botonExcel" (click)="prevEval.ExportToExcel()">
-    <img [class.button-disabled]="!ListaDeEvaluacionesPaginada || ListaDeEvaluacionesPaginada.length == 0" src="assets/excel.png" title="Exportar a Excel" />
+    <img [class.button-disabled]="!prevEval.ListaDeEvaluacionesPaginada || prevEval.ListaDeEvaluacionesPaginada.length == 0" src="assets/excel.png" title="Exportar a Excel" />
   </button>
 
 <div class="table-container">

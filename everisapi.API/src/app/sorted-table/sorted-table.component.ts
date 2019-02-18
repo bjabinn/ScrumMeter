@@ -76,7 +76,7 @@ export class SortedTableComponent implements OnInit {
   }
   
   constructor(
-    private prevEval: PreviousevaluationComponent,
+    public prevEval: PreviousevaluationComponent,
     private _appComponent: AppComponent
     ){
     }
