@@ -199,6 +199,7 @@ namespace everisapi.API.Services
                     List<RespuestaEntity> preguntas = new List<RespuestaEntity>();
                     preguntas = _context.Respuestas.
                     Include(r => r.PreguntaEntity).Where(p => p.EvaluacionId == idEvaluacion && p.PreguntaEntity.AsignacionId == a.asignacion.Id).ToList();
+                    preguntas = preguntas.OrderBy(x => x.PreguntaEntity.Id).ToList();
 
                      foreach (RespuestaEntity p in preguntas)
                      {
