@@ -7,12 +7,12 @@
       {{anadeNota}}
     </div>
 
-    <div *ngIf="cargar">
+    <!-- <div *ngIf="cargar">
       <app-loading></app-loading>
-    </div>
+    </div> -->
   </div>
 
-  <div *ngIf="ListaDeDatos.length != 0" class="container">
+  <div class="container">
       <app-breadcrumb></app-breadcrumb>
       <div class="ng-card-box p-5 br-2 mat-elevation-z5">
     <!-- <div class="row m-0">
@@ -25,6 +25,10 @@
       <div class="col">
         <h3>Secciones de evaluación</h3>
       </div>
+    </div>
+
+    <div *ngIf="ListaDeDatos == 0" class="loading mt-4">
+        <app-loading></app-loading>
     </div>
 
     <div class="row mt-0" *ngFor="let dato of ListaDeDatos; let i = index" id="bajar">
@@ -71,7 +75,7 @@
 
     </div>
 
-    <div class="row m-0 mt-3 centered">
+    <div class="row m-0 mt-3 centered" *ngIf="ListaDeDatos != 0">
         <!-- <div class="col-3"></div> -->
         <!-- <div class="col-6 p-0"> -->
           <app-btn-finalize-evaluation [evaluacion]="Evaluacion"></app-btn-finalize-evaluation>
@@ -80,9 +84,9 @@
     </div>
   </div>
 </div>
-  <div *ngIf="ListaDeDatos.length == 0">
+  <!-- <div *ngIf="ListaDeDatos.length == 0">
     <app-loading></app-loading>
-  </div>
+  </div> -->
 
   <ng-template #notas let-cl="close" let-di="dismiss">
     <div class="modal-content mat-elevation-z8 border-0">

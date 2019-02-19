@@ -674,7 +674,7 @@ export class PreviousevaluationComponent implements OnInit {
         this.chart.chart.config.type = "bar";
         this.chart.chart.config.data.labels = this.ListaNombres;
         this.chart.chart.config.data.datasets = this.ListaPuntuacion;
-        this.chart.chart.config.data.datasets.push({type: 'bar', yAxisID: "y-axis-1", data: listaGlobal.reverse(), label: "Global", backgroundColor: "#2ECC71AA", borderColor: "#2ECC71", hoverBackgroundColor: "#2ECC71", borderWidth:"2"});
+        this.chart.chart.config.data.datasets.push({type: 'bar', yAxisID: "y-axis-1", data: listaGlobal.reverse(), label: "Global", backgroundColor: "#2ECC71AA", borderColor: "#2ECC71", hoverBackgroundColor: "#2ECC71", borderWidth:"2", hidden:"true"});
         this.chart.chart.config.data.options = this.barChartOptions;
         this.chart.chart.update();
 
