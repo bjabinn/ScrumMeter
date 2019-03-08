@@ -1,0 +1,29 @@
+version: '3.4'
+ 
+services:
+# Token microservice
+agilemeter:
+image: agilemeter
+build:
+context: ./everisapi.API
+dockerfile: ./Dockerfile
+links:
+- agiledatabase:agiledatabase
+container_name: agilemeter
+hostname: agilemeter
+ports:
+- "60406:60406"
+ 
+# MySql
+agiledatabase:
+image: agiledatabase
+build:
+context: ./AutoDumperAgile
+dockerfile: ./Dockerfile
+ports:
+- "3306:3306"
+container_name: agiledatabase
+hostname: agiledatabase
+volumes:
+- /var/lib/mysql
+restart: always
