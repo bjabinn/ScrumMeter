@@ -221,6 +221,9 @@ namespace everisapi.API.Services
       proyecto.UserNombre = userNombre;
       proyecto.ProjectSize = 1;
       proyecto.TestProject = true; 
+      proyecto.OfficeName = "";
+      proyecto.TeamName = "";
+      proyecto.UnityName = "";
       //Creamos el nuevo proyecto test
       _context.Proyectos.Add(proyecto);
       SaveChanges();
