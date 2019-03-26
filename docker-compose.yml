@@ -1,29 +1,58 @@
 version: '3.4'
  
 services:
-# Token microservice
-agilemeter:
-image: agilemeter
-build:
-context: ./everisapi.API
-dockerfile: ./Dockerfile
-links:
-- agiledatabase:agiledatabase
-container_name: agilemeter
-hostname: agilemeter
-ports:
-- "60406:60406"
+# Front
+  agilemeterfront:
+    image: agilemeterfront
+    build: 
+      context: ./front
+      dockerfile: Dockerfile
+#    networks:
+#      - AgilemeterNetwork
+    container_name: agilemeterfront
+    hostname: agilemeterfront
+    ports:
+      - "4200:4200"
+ 
+# API
+  agilemeter:
+    image: agilemeter
+    build: 
+      context: ./everisapi.API
+      dockerfile: Dockerfile
+#    networks:
+#      - AgilemeterNetwork
+    depends_on:
+      - agiledatabase
+    links:
+      - agiledatabase:database
+    container_name: agilemeter
+    hostname: agilemeter
+    ports:
+      - "60406:60406"
+
  
 # MySql
-agiledatabase:
-image: agiledatabase
-build:
-context: ./AutoDumperAgile
-dockerfile: ./Dockerfile
-ports:
-- "3306:3306"
-container_name: agiledatabase
-hostname: agiledatabase
-volumes:
-- /var/lib/mysql
-restart: always
+  agiledatabase:
+    image: agiledatabase
+    build: 
+      context: ./AutoDumperAgile
+      dockerfile: Dockerfile
+#    networks:
+#      - AgilemeterNetwork
+    ports:
+      - "3306:3306"
+    container_name: agiledatabase
+    hostname: agiledatabase
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_USER: root
+      MYSQL_PASSWORD:
+      MYSQL_DATABASE: agilemeter
+    volumes:
+      - /var/lib/mysql
+    restart: always
+
+#networks:
+#  AgilemeterNetwork:
+#    driver: bridge
