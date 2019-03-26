@@ -1,6 +1,6 @@
-# Define the base image for the docker image
 FROM node:9.6.1
-
+#ENV HTTP_PROXY "http://10.0.8.102:8080"
+#ENV HTTPS_PROXY "http://10.0.8.102:8080"
 # create & set working directory
 RUN mkdir /app
 WORKDIR /app

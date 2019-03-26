@@ -261,6 +261,7 @@ __pycache__/
 *.pyc
 /everisapi.API/Properties/PublishProfiles
 /everisapi.API/wwwroot
+/front/wwwroot
 
 #VisualCode Settings
 .vscode
