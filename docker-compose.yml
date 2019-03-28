@@ -1,6 +1,28 @@
 version: '3.4'
  
 services:
+
+# MySql
+  agiledatabase:
+    image: agiledatabase
+    build: 
+      context: ./AutoDumperAgile
+      dockerfile: Dockerfile
+#    networks:
+#      - AgilemeterNetwork
+    ports:
+      - "3306:3306"
+    container_name: agiledatabase
+    hostname: agiledatabase
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_USER: root
+      MYSQL_PASSWORD:
+      MYSQL_DATABASE: agilemeter
+    volumes:
+      - mysql:/var/lib/mysql
+    restart: always
+
 # Front
   agilemeterfront:
     image: agilemeterfront
@@ -31,27 +53,9 @@ services:
     ports:
       - "60406:60406"
 
- 
-# MySql
-  agiledatabase:
-    image: agiledatabase
-    build: 
-      context: ./AutoDumperAgile
-      dockerfile: Dockerfile
-#    networks:
-#      - AgilemeterNetwork
-    ports:
-      - "3306:3306"
-    container_name: agiledatabase
-    hostname: agiledatabase
-    environment:
-      MYSQL_ROOT_PASSWORD:
-      MYSQL_USER: root
-      MYSQL_PASSWORD:
-      MYSQL_DATABASE: agilemeter
-    volumes:
-      - /var/lib/mysql
-    restart: always
+volumes:
+  mysql:
+
 
 #networks:
 #  AgilemeterNetwork:

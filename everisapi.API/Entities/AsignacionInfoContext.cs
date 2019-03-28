@@ -16,7 +16,7 @@ namespace everisapi.API.Entities
             : base(options)
         {
             //Esto lo utilizamos para crear la migración
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
             //Este metodo es utilizado para utilizar la migración una vez creado el contexto
             //Database.Migrate();
         }
