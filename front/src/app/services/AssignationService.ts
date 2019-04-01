@@ -17,7 +17,7 @@ export class AssignationService {
     private _appComponent: AppComponent,
     private _proyectoService: ProyectoService) {
 
-    if (isDevMode()) {
+    /*if (isDevMode()) {
       this.url = "http://localhost:60406/api/";
     } else {
       var loc = window.location.href;
@@ -27,7 +27,8 @@ export class AssignationService {
       }
 
       this.url = loc.substring(0, index) + "/api/";
-    }
+    }*/
+    this.url = window.location.protocol+"//"+ window.location.hostname + ":60406/api/";
   }
 
   //Devuelve la asignacion de la ultima pregunta cuya respuesta haya sido modificada o respondida

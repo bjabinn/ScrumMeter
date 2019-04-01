@@ -18,4 +18,4 @@ RUN npm install
 EXPOSE 4200
 
 # start app (ng server), then prepare the listening port, and host; and then declare the file watching poll period
-CMD ng serve --port 4200 --host 0.0.0.0 --poll 1
+CMD ng serve --port 4200 --host 0.0.0.0 --disableHostCheck true

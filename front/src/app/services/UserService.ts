@@ -6,12 +6,11 @@ import { Injectable, Inject, isDevMode } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 
-
-
 import { User } from 'app/Models/User';
 import { AppComponent } from 'app/app.component';
 import { UserWithRole } from 'app/Models/UserWithRole';
 import { UserProject } from 'app/Models/UserProject';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UserService {
@@ -21,7 +20,7 @@ export class UserService {
 
   constructor(private _http: Http,
     private _appComponent: AppComponent) {
-    if (isDevMode()) {
+      /*if (!environment.production) {
       this.url = "http://localhost:60406/api/";
     } else {
       var loc = window.location.href;
@@ -31,7 +30,9 @@ export class UserService {
       }
 
       this.url = loc.substring(0, index) + "/api/";
-    }
+    }*/
+
+    this.url = window.location.protocol+"//"+ window.location.hostname + ":60406/api/";
   }
 
   //Este metodo recoge todos los usuarios de la base de datos

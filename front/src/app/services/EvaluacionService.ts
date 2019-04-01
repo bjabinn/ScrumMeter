@@ -26,7 +26,7 @@ export class EvaluacionService {
     private _appComponent: AppComponent,
     private _proyectoService: ProyectoService) {
 
-    if (isDevMode()) {
+    /*if (isDevMode()) {
       this.url = "http://localhost:60406/api/";
     } else {
       var loc = window.location.href;
@@ -36,8 +36,8 @@ export class EvaluacionService {
       }
 
       this.url = loc.substring(0, index) + "/api/";
-    }
-
+    }*/
+    this.url = window.location.protocol+"//"+ window.location.hostname + ":60406/api/";
 
   }
 

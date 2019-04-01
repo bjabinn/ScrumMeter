@@ -20,7 +20,7 @@ export class ProyectoService {
   constructor(private _http: Http,
     private _appComponent: AppComponent) {
 
-    if (isDevMode()) {
+    /*if (isDevMode()) {
       this.url = "http://localhost:60406/api/";
     } else {
       var loc = window.location.href;
@@ -30,7 +30,8 @@ export class ProyectoService {
       }
 
       this.url = loc.substring(0, index) + "/api/";
-    }
+    }*/
+    this.url = window.location.protocol+"//"+ window.location.hostname + ":60406/api/";
 
 
   }
