@@ -4,8 +4,8 @@ FROM debian:stretch-slim
 RUN groupadd -r mysql && useradd -r -g mysql mysql
 
 RUN apt-get update --allow-unauthenticated && apt-get install -y --no-install-recommends gnupg dirmngr && rm -rf /var/lib/apt/lists/*
-ENV http_proxy http://10.0.8.102:8080
-ENV https_proxy http://10.0.8.102:8080
+#ENV http_proxy http://10.0.8.102:8080
+#ENV https_proxy http://10.0.8.102:8080
 ENV MYSQL_ALLOW_EMPTY_PASSWORD true
 ENV MYSQL_DATABASE agilemeter
 
@@ -81,6 +81,7 @@ VOLUME /var/lib/mysql
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY dumplatest.sql /docker-entrypoint-initdb.d
 RUN ln -s usr/local/bin/docker-entrypoint.sh  /entrypoint.sh
+RUN chmod +x entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
 EXPOSE 3306
 CMD ["mysqld" , "--lower-case-table-names=1"]
