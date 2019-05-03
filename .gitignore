@@ -266,3 +266,5 @@ __pycache__/
 #VisualCode Settings
 .vscode
 AutoDumperAgile/Dockerfile
+everisapi.API/appsettings.json
+AutoDumperAgile/Dockerfile - copia
