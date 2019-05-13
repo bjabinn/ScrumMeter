@@ -155,7 +155,7 @@ CREATE TABLE `linea` (
 
 LOCK TABLES `linea` WRITE;
 /*!40000 ALTER TABLE `linea` DISABLE KEYS */;
-INSERT INTO `linea` VALUES (1,'L. TESCO',6),(2,'L. BigData',2),(3,'L. CHAFEA',2),(4,'L. Herramientas',3),(5,'GESTOROT',4),(6,'PGECADIS',4),(7,'DES BMW SA3',5),(8,'DES BID',6);
+INSERT INTO `linea` VALUES (1,'Linea de Prueba',1),(2,'L. BigData',2),(3,'L. CHAFEA',2),(4,'L. Herramientas',3),(5,'GESTOROT',4),(6,'PGECADIS',4),(7,'DES BMW SA3',5),(8,'DES BID',6);
 /*!40000 ALTER TABLE `linea` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,7 +239,7 @@ CREATE TABLE `oficina` (
 
 LOCK TABLES `oficina` WRITE;
 /*!40000 ALTER TABLE `oficina` DISABLE KEYS */;
-INSERT INTO `oficina` VALUES (1,'Madrid'),(2,'Murcia'),(3,'Alicante'),(4,'Salamanca'),(5,'Lisboa'),(6,'Sevilla');
+INSERT INTO `oficina` VALUES (1,'Oficina de Prueba'),(2,'Murcia'),(3,'Alicante'),(4,'Salamanca'),(5,'Lisboa'),(6,'Sevilla');
 /*!40000 ALTER TABLE `oficina` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -426,7 +426,7 @@ CREATE TABLE `unidad` (
 
 LOCK TABLES `unidad` WRITE;
 /*!40000 ALTER TABLE `unidad` DISABLE KEYS */;
-INSERT INTO `unidad` VALUES (1,1,'Centers'),(2,2,'Centers'),(3,3,'Centers'),(4,4,'Centers'),(5,5,'Centers'),(6,6,'Centers');
+INSERT INTO `unidad` VALUES (1,1,'Unidad de Prueba'),(2,2,'Centers'),(3,3,'Centers'),(4,4,'Centers'),(5,5,'Centers'),(6,6,'Centers');
 /*!40000 ALTER TABLE `unidad` ENABLE KEYS */;
 UNLOCK TABLES;
 
