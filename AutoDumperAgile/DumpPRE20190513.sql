@@ -4,7 +4,7 @@ USE `agilemeter`;
 --
 -- Host: 127.0.0.1    Database: agilemeter
 -- ------------------------------------------------------
--- Server version	5.7.26
+-- Server version	5.7.24
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -133,33 +133,6 @@ INSERT INTO `evaluaciones` VALUES (1,'\0','2019-01-28 14:21:57',NULL,NULL,7,0,1,
 UNLOCK TABLES;
 
 --
--- Table structure for table `linea`
---
-
-DROP TABLE IF EXISTS `linea`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `linea` (
-  `LineaId` int(11) NOT NULL AUTO_INCREMENT,
-  `LineaNombre` varchar(50) NOT NULL,
-  `UnidadId` int(11) NOT NULL,
-  PRIMARY KEY (`LineaId`),
-  KEY `IX_Linea_UnidadId` (`UnidadId`),
-  CONSTRAINT `FK_Linea_Unidad_UnidadId` FOREIGN KEY (`UnidadId`) REFERENCES `unidad` (`UnidadId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `linea`
---
-
-LOCK TABLES `linea` WRITE;
-/*!40000 ALTER TABLE `linea` DISABLE KEYS */;
-INSERT INTO `linea` VALUES (1,'L. TESCO',6),(2,'L. BigData',2),(3,'L. CHAFEA',2),(4,'L. Herramientas',3),(5,'GESTOROT',4),(6,'PGECADIS',4),(7,'DES BMW SA3',5),(8,'DES BID',6);
-/*!40000 ALTER TABLE `linea` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `notasasignaciones`
 --
 
@@ -176,7 +149,7 @@ CREATE TABLE `notasasignaciones` (
   KEY `IX_NotasAsignaciones_EvaluacionId` (`EvaluacionId`),
   CONSTRAINT `FK_NotasAsignaciones_Asignaciones_AsignacionId` FOREIGN KEY (`AsignacionId`) REFERENCES `asignaciones` (`Id`) ON DELETE CASCADE,
   CONSTRAINT `FK_NotasAsignaciones_Evaluaciones_EvaluacionId` FOREIGN KEY (`EvaluacionId`) REFERENCES `evaluaciones` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +179,7 @@ CREATE TABLE `notassections` (
   KEY `IX_NotasSections_SectionId` (`SectionId`),
   CONSTRAINT `FK_NotasSections_Evaluaciones_EvaluacionId` FOREIGN KEY (`EvaluacionId`) REFERENCES `evaluaciones` (`Id`) ON DELETE CASCADE,
   CONSTRAINT `FK_NotasSections_Sections_SectionId` FOREIGN KEY (`SectionId`) REFERENCES `sections` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -217,30 +190,6 @@ LOCK TABLES `notassections` WRITE;
 /*!40000 ALTER TABLE `notassections` DISABLE KEYS */;
 INSERT INTO `notassections` VALUES (2,24,'Aquí se incluyó una nota de la sección Equipo',1),(3,23,'Aquí se incluyó una nota de la sección Equipo',1),(4,22,'Aquí se incluyó una nota de la sección Equipo',1),(7,24,NULL,5),(9,30,'Esto es una nota introducida por el usuario',1),(10,31,'Esto es una nota introducida por el usuario',1),(11,33,'Esto es una nota introducida por el usuario',1),(12,34,'Esto es una nota introducida por el usuario',1),(15,32,'Esto es una nota introducida por el usuario',1),(16,20,'Esto es una nota introducida por el usuario',1),(17,42,'El cliente es bastante inmaduro en temas de Agile.\nEl SM que es quien tiene que poner las normas no lo hace y por tanto la Aplicación práctica es casi imposible',5);
 /*!40000 ALTER TABLE `notassections` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `oficina`
---
-
-DROP TABLE IF EXISTS `oficina`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `oficina` (
-  `OficinaId` int(11) NOT NULL AUTO_INCREMENT,
-  `OficinaNombre` varchar(50) NOT NULL,
-  PRIMARY KEY (`OficinaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `oficina`
---
-
-LOCK TABLES `oficina` WRITE;
-/*!40000 ALTER TABLE `oficina` DISABLE KEYS */;
-INSERT INTO `oficina` VALUES (1,'Madrid'),(2,'Murcia'),(3,'Alicante'),(4,'Salamanca'),(5,'Lisboa'),(6,'Sevilla');
-/*!40000 ALTER TABLE `oficina` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -290,18 +239,8 @@ CREATE TABLE `proyectos` (
   `Nombre` varchar(50) NOT NULL,
   `UserNombre` varchar(127) DEFAULT NULL,
   `TestProject` bit(1) NOT NULL DEFAULT b'0',
-  `ProjectSize` int(11) NOT NULL DEFAULT '0',
-  `LineaId` int(11) NOT NULL DEFAULT '0',
-  `OficinaId` int(11) NOT NULL DEFAULT '0',
-  `UnidadId` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id`),
   KEY `IX_Proyectos_UserNombre` (`UserNombre`),
-  KEY `FK_Proyectos_Linea_LineaId` (`LineaId`),
-  KEY `FK_Proyectos_Oficina_OficinaId` (`OficinaId`),
-  KEY `FK_Proyectos_Unidad_UnidadId` (`UnidadId`),
-  CONSTRAINT `FK_Proyectos_Linea_LineaId` FOREIGN KEY (`LineaId`) REFERENCES `linea` (`LineaId`),
-  CONSTRAINT `FK_Proyectos_Oficina_OficinaId` FOREIGN KEY (`OficinaId`) REFERENCES `oficina` (`OficinaId`),
-  CONSTRAINT `FK_Proyectos_Unidad_UnidadId` FOREIGN KEY (`UnidadId`) REFERENCES `unidad` (`UnidadId`),
   CONSTRAINT `FK_Proyectos_Users_UserNombre` FOREIGN KEY (`UserNombre`) REFERENCES `users` (`Nombre`) ON DELETE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -312,7 +251,7 @@ CREATE TABLE `proyectos` (
 
 LOCK TABLES `proyectos` WRITE;
 /*!40000 ALTER TABLE `proyectos` DISABLE KEYS */;
-INSERT INTO `proyectos` VALUES (1,'2018-07-10 00:00:00','BCA - Marvel','Admin','\0',0,0,0,0),(2,'2018-07-10 00:00:00','TESCO - BlackOps','Admin','\0',0,0,0,0),(3,'2018-07-10 00:00:00','BestDay - Hoteles','User','\0',0,0,0,0),(4,'2018-07-10 00:00:00','RANDSTAD - Hoteles','User','\0',0,0,0,0),(5,'2018-12-18 09:16:38','Equipo de pruebas de jherrric','jherrric','',0,0,0,0),(6,'2019-01-08 14:25:35','Equipo de pruebas de mcampong','mcampong','',0,0,0,0),(7,'2019-01-28 14:21:49','Equipo de pruebas de cgonzaro','cgonzaro','',0,0,0,0),(8,'2019-01-28 14:43:13','Equipo de pruebas de fvellari','fvellari','',0,0,0,0),(9,'2019-01-28 15:16:36','Equipo de pruebas de marcossa','marcossa','',0,0,0,0),(10,'2019-01-31 09:16:34','Proyecto test acornago','acornago','',0,0,0,0),(11,'2019-02-14 11:20:22','Equipo de pruebas de jgadeado','jgadeado','',0,0,0,0),(12,'2019-02-21 18:15:38','Equipo de pruebas de jgalvezj','jgalvezj','',0,0,0,0),(13,'2019-02-21 18:15:38','DES BigData UK','Admin','\0',7,2,2,2),(14,'2019-02-21 18:15:38','DES BigData Zurich','Admin','\0',15,2,2,2),(15,'2019-02-21 18:15:38','DES CHAFEA','Admin','\0',11,3,2,2),(16,'2019-02-21 18:15:38','AM CTS','Admin','\0',6,4,3,3),(17,'2019-02-21 18:15:38','DISDOCT','Admin','\0',0,0,0,0),(18,'2019-02-21 18:15:38','GESTOROT','Admin','\0',6,5,4,4),(19,'2019-02-21 18:15:38','PGECADIS','Admin','\0',0,6,4,4),(20,'2019-02-21 18:15:38','DES BMW SA3','Admin','\0',0,7,5,5),(21,'2019-02-21 18:15:38','DES BID','Admin','\0',0,8,6,6),(22,'2019-03-15 11:05:32','Equipo de pruebas de jbeltrma','jbeltrma','',0,0,0,0),(23,'2019-03-28 09:52:42','Equipo de pruebas de agiampas','agiampas','',0,0,0,0);
+INSERT INTO `proyectos` VALUES (1,'2018-07-10 00:00:00','BCA - Marvel','Admin','\0'),(2,'2018-07-10 00:00:00','TESCO - BlackOps','Admin','\0'),(3,'2018-07-10 00:00:00','BestDay - Hoteles','User','\0'),(4,'2018-07-10 00:00:00','RANDSTAD - Hoteles','User','\0'),(5,'2018-12-18 09:16:38','Equipo de pruebas de jherrric','jherrric',''),(6,'2019-01-08 14:25:35','Equipo de pruebas de mcampong','mcampong',''),(7,'2019-01-28 14:21:49','Equipo de pruebas de cgonzaro','cgonzaro',''),(8,'2019-01-28 14:43:13','Equipo de pruebas de fvellari','fvellari',''),(9,'2019-01-28 15:16:36','Equipo de pruebas de marcossa','marcossa',''),(10,'2019-01-31 09:16:34','Proyecto test acornago','acornago',''),(11,'2019-02-14 11:20:22','Equipo de pruebas de jgadeado','jgadeado',''),(12,'2019-02-21 18:15:38','Equipo de pruebas de jgalvezj','jgalvezj',''),(13,'2019-02-21 18:15:38','DES BigData UK','Admin','\0'),(14,'2019-02-21 18:15:38','DES BigData Zurich','Admin','\0'),(15,'2019-02-21 18:15:38','DES CHAFEA','Admin','\0'),(16,'2019-02-21 18:15:38','AM CTS','Admin','\0'),(17,'2019-02-21 18:15:38','DISDOCT','Admin','\0'),(18,'2019-02-21 18:15:38','GESTOROT','Admin','\0'),(19,'2019-02-21 18:15:38','PGECADIS','Admin','\0'),(20,'2019-02-21 18:15:38','DES BMW SA3','Admin','\0'),(21,'2019-02-21 18:15:38','DES BID','Admin','\0'),(22,'2019-03-15 11:05:32','Equipo de pruebas de jbeltrma','jbeltrma',''),(23,'2019-03-28 09:52:42','Equipo de pruebas de agiampas','agiampas','');
 /*!40000 ALTER TABLE `proyectos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -404,33 +343,6 @@ INSERT INTO `sections` VALUES (1,'EQUIPO',1,15,60,25,15),(2,'EVENTOS',1,20,60,25
 UNLOCK TABLES;
 
 --
--- Table structure for table `unidad`
---
-
-DROP TABLE IF EXISTS `unidad`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `unidad` (
-  `UnidadId` int(11) NOT NULL AUTO_INCREMENT,
-  `OficinaId` int(11) NOT NULL,
-  `UnidadNombre` varchar(50) NOT NULL,
-  PRIMARY KEY (`UnidadId`),
-  KEY `IX_Unidad_OficinaId` (`OficinaId`),
-  CONSTRAINT `FK_Unidad_Oficina_OficinaId` FOREIGN KEY (`OficinaId`) REFERENCES `oficina` (`OficinaId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `unidad`
---
-
-LOCK TABLES `unidad` WRITE;
-/*!40000 ALTER TABLE `unidad` DISABLE KEYS */;
-INSERT INTO `unidad` VALUES (1,1,'Centers'),(2,2,'Centers'),(3,3,'Centers'),(4,4,'Centers'),(5,5,'Centers'),(6,6,'Centers');
-/*!40000 ALTER TABLE `unidad` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `userproyectos`
 --
 
@@ -482,7 +394,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('acornago','default-password',1),('Admin','c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f',2),('agiampas','default-password',1),('cgonzaro','default-password',2),('fvellari','default-password',2),('jbeltrma','default-password',2),('jgadeado','default-password',1),('jgalvezj','default-password',1),('jherrric','default-password',1),('marcossa','default-password',2),('mcampong','default-password',1),('Test','532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25',1),('User','b512d97e7cbf97c273e4db073bbb547aa65a84589227f8f3d9e4a72b9372a24d',1);
+INSERT INTO `users` VALUES ('acornago','default-password',1),('Admin','c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f',2),('agiampas','default-password',1),('cgonzaro','default-password',2),('fvellari','default-password',1),('jbeltrma','default-password',2),('jgadeado','default-password',1),('jgalvezj','default-password',1),('jherrric','default-password',1),('marcossa','default-password',2),('mcampong','default-password',1),('Test','532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25',1),('User','b512d97e7cbf97c273e4db073bbb547aa65a84589227f8f3d9e4a72b9372a24d',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -503,4 +415,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-13 11:05:20
+-- Dump completed on 2019-05-13 10:21:34
